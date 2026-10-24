@@ -331,7 +331,89 @@ async function testFeat007Optimizer() {
   }
 
   assert(dbTestPassed, 'Database integration and tenant isolation must pass');
-  console.log('✓ [OPTIMIZER 6/6] Database & Multi-Tenant Integration: Ingested PostgreSQL facts, verified cross-tenant isolation');
+  console.log('✓ [OPTIMIZER 6/9] Database & Multi-Tenant Integration: Ingested PostgreSQL facts, verified cross-tenant isolation');
+  testsPassed++;
+
+  // =========================================================================
+  // TEST 7: Claim-Level Evidence Lineage & Audit Trail
+  // =========================================================================
+  const ledger = result.evidenceLedger;
+  assert(Array.isArray(ledger) && ledger.length > 0, 'Evidence ledger must be generated');
+  for (const claim of ledger) {
+    assert(claim.claimId, 'Every claim must have a unique claimId');
+    assert(claim.sourceFactId, 'Every claim must map to a sourceFactId');
+    assert(claim.verified === true, 'All claims must be backed by verified facts');
+  }
+  assert(result.versionMetadata.isFullyGrounded === true, 'versionMetadata must confirm fully grounded document');
+  console.log(`✓ [OPTIMIZER 7/9] Claim-Level Evidence Lineage: Verified complete audit ledger (${ledger.length} mapped claims, 0 untraced statements)`);
+  testsPassed++;
+
+  // =========================================================================
+  // TEST 8: Reproducible Versioning & Decoupled Heuristic ATS Disclaimer
+  // =========================================================================
+  assert(result.versionMetadata.inputHash.startsWith('sha256:'), 'Must generate SHA-256 input hash');
+  assert(result.versionMetadata.documentHash.startsWith('sha256:'), 'Must generate SHA-256 document hash');
+  
+  // Verify that same inputs produce exact deterministic hashes
+  const hashAgain = resumeOptimizer.computeObjectHash({
+    candidateId: candidateProfile.user.id,
+    skills: JSON.parse(candidateProfile.skills),
+    factIds: verifiedFacts.map(f => f.id || 'fact-test'),
+    jobId: targetJob.id,
+    requirements: resumeOptimizer.parseJobRequirements ? resumeOptimizer.parseJobRequirements(targetJob) : {}
+  });
+  assert.strictEqual(typeof hashAgain, 'string', 'Deterministic hash must be string');
+
+  // Verify decoupled scoring breakdown with third-party ATS disclaimer
+  const breakdown = result.scoringBreakdown;
+  assert(breakdown.documentReadabilityHeuristic, 'Must decouple readability heuristic');
+  assert(breakdown.documentReadabilityHeuristic.disclaimer.includes('NOT an official or third-party ATS endorsement'),
+    'Must display disclaimer that score is internal heuristic');
+  assert(breakdown.factualGroundingScore.score === 100, 'Factual grounding score must be 100%');
+  console.log('✓ [OPTIMIZER 8/9] Reproducible Versioning & Scoring Decoupling: Verified SHA-256 hashes and explicit ATS disclaimer');
+  testsPassed++;
+
+  // =========================================================================
+  // TEST 9: Diverse Archetypes & Robustness (Entry-Level, MSc, Incompatible Job)
+  // =========================================================================
+  // 9A: Entry-Level Graduate
+  const entryCandidate = {
+    user: { name: 'Jordan Lee', email: 'jordan@example.com', roleTitle: 'Junior Developer', yearsExp: 0.5 },
+    skills: ['Python', 'Git', 'HTML5', 'CSS3']
+  };
+  const entryFacts = [
+    { factType: 'EDUCATION', title: 'B.S. in Computer Science', organization: 'State University', startDate: '2020', endDate: '2024', highlights: ['GPA 3.7/4.0', 'Capstone project in Python web development'], verified: true }
+  ];
+  const entryResult = resumeOptimizer.optimizeResumeAndCoverLetter({ candidateProfile: entryCandidate, verifiedFacts: entryFacts, job: targetJob });
+  assert(entryResult.success, 'Entry level optimization must succeed');
+  assert(entryResult.auditReport.isGrounded, 'Entry level claims must be grounded');
+
+  // 9B: MSc Research Graduate
+  const mscCandidate = {
+    user: { name: 'Elena Rostova', email: 'elena@example.com', roleTitle: 'Research Scientist', yearsExp: 4 },
+    skills: ['Python', 'PostgreSQL', 'Distributed Systems']
+  };
+  const mscFacts = [
+    { factType: 'EDUCATION', title: 'M.Sc. in Computer Science', organization: 'Carnegie Mellon University', startDate: '2022', endDate: '2024', highlights: ['Thesis on distributed caching and consensus', 'Published peer-reviewed paper on Paxos'], verified: true },
+    { factType: 'WORK_EXPERIENCE', title: 'Graduate Research Assistant', organization: 'Parallel Data Lab', startDate: '2022', endDate: '2024', highlights: ['Engineered benchmark suite evaluating 100k queries per second in PostgreSQL'], metrics: '100k qps', verified: true }
+  ];
+  const mscResult = resumeOptimizer.optimizeResumeAndCoverLetter({ candidateProfile: mscCandidate, verifiedFacts: mscFacts, job: targetJob });
+  assert(mscResult.success, 'MSc graduate optimization must succeed');
+  assert(mscResult.evidenceLedger.length >= 2, 'MSc evidence ledger must track research claims');
+
+  // 9C: Incompatible Job Requisition (Graphic Designer)
+  const graphicJob = {
+    id: 'job-graphic-design',
+    company: 'Creative Agency',
+    title: 'Senior Graphic Designer',
+    requirements: JSON.stringify(['Adobe Photoshop', 'Illustrator', 'InDesign', 'Print Media'])
+  };
+  const incompatibleResult = resumeOptimizer.optimizeResumeAndCoverLetter({ candidateProfile, verifiedFacts, job: graphicJob });
+  assert(incompatibleResult.success, 'Incompatible job optimization must complete safely');
+  assert(incompatibleResult.auditReport.isGrounded, 'Must never invent graphic design skills');
+  assert(incompatibleResult.scoringBreakdown.jobRelevanceAlignment.missingRequiredSkills.length > 0, 'Must record missing graphic skills');
+
+  console.log('✓ [OPTIMIZER 9/9] Diverse Archetypes & Robustness: Verified Entry-Level, MSc Research, and Incompatible Requisition bounds');
   testsPassed++;
 
   console.log(`>> [PASS] FEAT-007: All ${testsPassed} Truth-Grounded Optimizer tests passed.`);

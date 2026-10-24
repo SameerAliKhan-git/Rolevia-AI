@@ -16,6 +16,7 @@ const billing = require('./billing');
 const jobCrawler = require('./jobCrawler');
 const jobMatcher = require('./jobMatcher');
 const resumeOptimizer = require('./resumeOptimizer');
+const resumeWorkspace = require('./resumeWorkspace');
 
 const PORT = process.env.PORT || 3000;
 const STORE_PATH = path.join(__dirname, 'database', 'store.json');
@@ -327,6 +328,12 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(400);
         res.end(JSON.stringify({ success: false, error: 'candidateProfileId or candidate + job payload required' }));
       } catch (err) {
+        if (err.message && (err.message.includes('Tenant boundary violation') || err.message.includes('access denied'))) {
+          console.warn(`[SECURITY AUDIT] Tenant boundary violation blocked in /api/v1/jobs/match: ${err.message}`);
+          res.writeHead(403);
+          res.end(JSON.stringify({ success: false, error: 'Forbidden: Access denied across tenant boundaries' }));
+          return;
+        }
         res.writeHead(500);
         res.end(JSON.stringify({ success: false, error: err.message }));
       }
@@ -376,10 +383,107 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(400);
         res.end(JSON.stringify({ success: false, error: 'candidateProfileId + jobId or candidateProfile + job payload required' }));
       } catch (err) {
+        if (err.message && (err.message.includes('Tenant boundary violation') || err.message.includes('access denied'))) {
+          console.warn(`[SECURITY AUDIT] Tenant boundary violation blocked in /api/v1/resumes/optimize: ${err.message}`);
+          res.writeHead(403);
+          res.end(JSON.stringify({ success: false, error: 'Forbidden: Access denied across tenant boundaries' }));
+          return;
+        }
         const statusCode = err.name === 'HallucinationViolationError' ? 422 : 500;
         res.writeHead(statusCode);
         res.end(JSON.stringify({ success: false, error: err.message, violations: err.violations }));
       }
+      return;
+    }
+
+    // POST /api/v1/workspace/resume/diff (FEAT-008 Interactive Diff & Optimization Workspace)
+    if (pathname === '/api/v1/workspace/resume/diff' && method === 'POST') {
+      try {
+        const body = await parseBody(req);
+        let candidateProfile = body.candidateProfile;
+        let verifiedFacts = body.verifiedFacts || [];
+        let job = body.job;
+
+        if (body.candidateProfileId && !candidateProfile) {
+          const loaded = await prisma.candidateProfile.findUnique({
+            where: { id: body.candidateProfileId },
+            include: { user: true, facts: true }
+          });
+          if (loaded) {
+            candidateProfile = loaded;
+            verifiedFacts = loaded.facts.filter(f => f.verified !== false);
+          }
+        }
+
+        if (body.jobId && !job) {
+          job = await prisma.job.findUnique({ where: { id: body.jobId } });
+        }
+
+        if (!candidateProfile || !job) {
+          res.writeHead(400);
+          res.end(JSON.stringify({ success: false, error: 'candidateProfile/candidateProfileId and job/jobId required' }));
+          return;
+        }
+
+        const workspace = resumeWorkspace.buildOptimizationWorkspace({
+          candidateProfile,
+          verifiedFacts,
+          job,
+          options: body.options || {}
+        });
+
+        res.writeHead(200);
+        res.end(JSON.stringify({ success: true, workspace }));
+      } catch (err) {
+        res.writeHead(500);
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+      return;
+    }
+
+    // POST /api/v1/workspace/resume/approve (FEAT-008 Candidate Cryptographic Approval Gate)
+    if (pathname === '/api/v1/workspace/resume/approve' && method === 'POST') {
+      try {
+        const body = await parseBody(req);
+        const result = resumeWorkspace.applyCandidateWorkspaceDecisions({
+          workspaceId: body.workspaceId,
+          decisions: body.decisions || {},
+          customEdits: body.customEdits || {},
+          candidateSecret: body.candidateSecret || 'rolevia-approval-gate-secret',
+          approvedBy: body.approvedBy || (db.user ? db.user.name : 'Candidate')
+        });
+
+        // If an associated application exists in state or DB, advance its status to DIFF_APPROVED
+        if (body.applicationId) {
+          const app = db.applications.find(a => a.id === body.applicationId);
+          if (app) {
+            app.status = 'DIFF_APPROVED';
+            app.resumeStatus = 'Ready';
+            app.approvalSignature = result.approvalRecord.approvalSignature;
+            saveDB();
+            broadcastSSE('application:updated', { application: app });
+          }
+        }
+
+        res.writeHead(200);
+        res.end(JSON.stringify({ success: true, ...result }));
+      } catch (err) {
+        const statusCode = err.name === 'HallucinationViolationError' ? 422 : 500;
+        res.writeHead(statusCode);
+        res.end(JSON.stringify({ success: false, error: err.message, violations: err.violations }));
+      }
+      return;
+    }
+
+    // GET /api/v1/workspace/resume/versions (FEAT-008 Version History)
+    if (pathname === '/api/v1/workspace/resume/versions' && method === 'GET') {
+      const parsedUrl = url.parse(req.url, true);
+      const versions = resumeWorkspace.getWorkspaceVersions(
+        parsedUrl.query.candidateProfileId,
+        parsedUrl.query.jobId
+      );
+      res.writeHead(200);
+      res.end(JSON.stringify({ success: true, count: versions.length, versions }));
       return;
     }
 

@@ -122,6 +122,8 @@ function parseJobRequirements(job) {
     } catch {
       reqList = job.requirements.split(/[,;\n]/).map(s => s.trim()).filter(Boolean);
     }
+  } else if (job.description && typeof job.description === 'string') {
+    reqList = job.description.split(/\n+/).map(s => s.trim()).filter(Boolean);
   }
 
   const requiredSkills = new Set();
@@ -131,6 +133,7 @@ function parseJobRequirements(job) {
   let remoteAllowed = false;
   let explicitOnsiteLocation = null;
   let requiredDegreeRank = 0;
+  let requiredDiscipline = null;
 
   const loc = (job.location || '').toLowerCase();
   const jType = (job.jobType || '').toLowerCase();
@@ -169,13 +172,25 @@ function parseJobRequirements(job) {
       sponsorshipExplicitlyOffered = true;
     }
 
-    // Check degree requirements
+    // Check degree requirements and disciplines
     if (lower.includes('phd') || lower.includes('doctorate')) {
       requiredDegreeRank = Math.max(requiredDegreeRank, 4);
     } else if (lower.includes('master') || lower.includes('msc') || lower.includes('m.s.')) {
       requiredDegreeRank = Math.max(requiredDegreeRank, 3);
-    } else if (lower.includes('bachelor') || lower.includes('bsc') || lower.includes('b.s.') || lower.includes('b.tech') || lower.includes('degree in computer')) {
+    } else if (lower.includes('bachelor') || lower.includes('bsc') || lower.includes('b.s.') || lower.includes('b.tech') || lower.includes('degree in')) {
       requiredDegreeRank = Math.max(requiredDegreeRank, 2);
+    }
+
+    const commonDisciplines = [
+      'computer science', 'software engineering', 'electrical engineering', 'computer engineering',
+      'information technology', 'data science', 'mathematics', 'statistics', 'physics',
+      'mechanical engineering', 'nursing', 'law', 'accounting', 'finance'
+    ];
+    for (const disc of commonDisciplines) {
+      if (lower.includes(disc)) {
+        requiredDiscipline = disc;
+        break;
+      }
     }
 
     // Check preferred vs required
@@ -233,7 +248,8 @@ function parseJobRequirements(job) {
     sponsorshipExplicitlyOffered,
     remoteAllowed,
     explicitOnsiteLocation,
-    requiredDegreeRank
+    requiredDegreeRank,
+    requiredDiscipline
   };
 }
 
@@ -302,7 +318,8 @@ function computeJobMatch(candidate, job) {
     sponsorshipExplicitlyOffered,
     remoteAllowed,
     explicitOnsiteLocation,
-    requiredDegreeRank
+    requiredDegreeRank,
+    requiredDiscipline
   } = parseJobRequirements(job);
 
   const candidateSkills = extractCandidateSkills(candidate);
@@ -443,14 +460,29 @@ function computeJobMatch(candidate, job) {
     };
   }
 
-  // 1D. Degree Equivalence Evaluation
-  const candDegreeRank = getDegreeRank(candidate.education || candidate.bachelors || '');
+  // 1D. Degree Equivalence and Required Discipline Evaluation
+  const candEduStr = (candidate.education || candidate.bachelors || '').toLowerCase();
+  const candDegreeRank = getDegreeRank(candEduStr);
+
   if (requiredDegreeRank > 0) {
-    if (candDegreeRank >= requiredDegreeRank) {
+    const meetsLevel = candDegreeRank >= requiredDegreeRank;
+    const hasDisciplineReq = Boolean(requiredDiscipline);
+    const meetsDiscipline = hasDisciplineReq ? candEduStr.includes(requiredDiscipline.toLowerCase()) : true;
+
+    if (meetsLevel && meetsDiscipline) {
       eligibility.details.degree = {
         status: 'ELIGIBLE',
-        note: 'Candidate degree meets or exceeds required educational level'
+        note: hasDisciplineReq
+          ? `Candidate holds qualifying ${candDegreeRank >= 3 ? 'advanced ' : ''}degree in ${requiredDiscipline}`
+          : 'Candidate degree meets or exceeds required educational level'
       };
+    } else if (meetsLevel && !meetsDiscipline) {
+      // Rolevia AI Refinement: Master's does NOT blindly satisfy strict specialized discipline requirements
+      eligibility.details.degree = {
+        status: 'NEEDS_VERIFICATION',
+        note: `Candidate meets required degree level, but role specifically specifies '${requiredDiscipline}'; discipline accreditation and coursework equivalence requires verification`
+      };
+      eligibility.reasons.push(eligibility.details.degree.note);
     } else if (candDegreeRank === requiredDegreeRank - 1) {
       eligibility.details.degree = {
         status: 'NEEDS_VERIFICATION',
