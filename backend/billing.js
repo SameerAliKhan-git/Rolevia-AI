@@ -1,14 +1,23 @@
-// Rolevia AI · Cryptographic Payment Verification & Balanced Credit Journal Engine (FEAT-004)
-// Implements HMAC-SHA256 timing-safe verification, webhook replay protection, and atomic credit holds/commits/releases/quarantining.
+// Rolevia AI · Cryptographic Payment Verification & Balanced Credit Journal Engine (FEAT-004 Hardened)
+// Implements constant-time HMAC-SHA256 signature verification, webhook idempotency, atomic credit transactions,
+// and strict negative-balance prevention at the database boundary.
 
 const crypto = require('node:crypto');
 const prisma = require('./db');
 
 const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || 'rolevia_ai_rzp_mock_secret_key_884920';
 
+class InsufficientCreditsError extends Error {
+  constructor(message = 'Insufficient credits to reserve application') {
+    super(message);
+    this.name = 'InsufficientCreditsError';
+    this.statusCode = 402;
+  }
+}
+
 /**
  * Verify Razorpay payment signature using timing-safe HMAC-SHA256 comparison
- * Guards against timing attacks, length mismatch exceptions, and malformed hex strings
+ * Resists timing attacks, length mismatch exceptions, and malformed hex strings
  */
 function verifyPaymentSignature(orderId, paymentId, signature, secret = RAZORPAY_KEY_SECRET) {
   if (!orderId || !paymentId || !signature || typeof signature !== 'string') {
@@ -25,7 +34,6 @@ function verifyPaymentSignature(orderId, paymentId, signature, secret = RAZORPAY
     const expectedBuf = Buffer.from(expectedSignature, 'utf8');
     const actualBuf = Buffer.from(signature, 'utf8');
 
-    // Constant-time length check
     if (expectedBuf.length !== actualBuf.length) {
       return false;
     }
@@ -44,7 +52,6 @@ async function processWebhookEvent({ rawBody, signature, eventId, eventType, sec
     return { valid: false, error: 'Missing required webhook parameters' };
   }
 
-  // 1. Signature Verification
   const expectedSignature = crypto
     .createHmac('sha256', secret)
     .update(rawBody)
@@ -57,16 +64,14 @@ async function processWebhookEvent({ rawBody, signature, eventId, eventType, sec
     return { valid: false, error: 'Invalid webhook signature' };
   }
 
-  // 2. Replay & Duplicate Webhook Protection
   const existing = await prisma.processedWebhookEvent.findUnique({
     where: { eventId }
   });
 
   if (existing) {
-    return { valid: true, duplicate: true, message: 'Event already processed (Idempotent)' };
+    return { valid: true, duplicate: true, message: 'Event already processed (Idempotent replay protection)' };
   }
 
-  // Record newly processed webhook event
   await prisma.processedWebhookEvent.create({
     data: {
       eventId,
@@ -89,7 +94,6 @@ async function grantCredits({ tenantId, userId, amount, referenceType = 'SUBSCRI
   const key = idempotencyKey || `grant-${userId}-${Date.now()}-${crypto.randomBytes(4).toString('hex')}`;
 
   return prisma.$transaction(async (tx) => {
-    // Check if idempotency key already applied
     const existingEntry = await tx.creditJournal.findUnique({
       where: { idempotencyKey: key }
     });
@@ -131,12 +135,12 @@ async function grantCredits({ tenantId, userId, amount, referenceType = 'SUBSCRI
 
 /**
  * Credit Accounting: Reserve credit for an application attempt (APPLICATION_HOLD)
+ * Enforces strict database-level negative balance prevention
  */
 async function reserveCreditForApplication({ tenantId, userId, applicationId, requisitionId }) {
   const key = `hold-${applicationId}-${userId}`;
 
   return prisma.$transaction(async (tx) => {
-    // Prevent double-holds
     const existingHold = await tx.creditJournal.findUnique({
       where: { idempotencyKey: key }
     });
@@ -144,19 +148,21 @@ async function reserveCreditForApplication({ tenantId, userId, applicationId, re
       return { success: true, holdAlreadyActive: true, balance: existingHold.balanceAfter };
     }
 
-    const user = await tx.user.findUnique({ where: { id: userId } });
-    if (!user) throw new Error('User not found');
+    // Atomic conditional decrement with PostgreSQL row-level lock
+    const updatedCount = await tx.$executeRaw`
+      UPDATE "User"
+      SET "credits" = "credits" - 1
+      WHERE "id" = ${userId} AND "credits" >= 1
+    `;
 
-    if (user.credits < 1) {
-      throw new Error('Insufficient application credits');
+    if (updatedCount === 0) {
+      const u = await tx.user.findUnique({ where: { id: userId } });
+      const currentBal = u ? u.credits : 0;
+      throw new InsufficientCreditsError(`Cannot reserve credit: available balance is ${currentBal}`);
     }
 
-    const newBalance = user.credits - 1;
-
-    await tx.user.update({
-      where: { id: userId },
-      data: { credits: newBalance }
-    });
+    const user = await tx.user.findUnique({ where: { id: userId } });
+    const newBalance = user.credits;
 
     const entry = await tx.creditJournal.create({
       data: {
@@ -171,7 +177,6 @@ async function reserveCreditForApplication({ tenantId, userId, applicationId, re
       }
     });
 
-    // Update application state
     await tx.application.update({
       where: { id: applicationId },
       data: { status: 'EXECUTING' }
@@ -207,7 +212,7 @@ async function commitCreditForApplication({ tenantId, userId, applicationId, con
         tenantId,
         userId,
         entryType: 'APPLICATION_COMMIT',
-        amount: 0, // balance was already decremented during hold
+        amount: 0, // balance was decremented during hold
         balanceAfter: user.credits,
         idempotencyKey: key,
         referenceType: 'APPLICATION',
@@ -291,8 +296,6 @@ async function quarantineOutcomeUnknown({ tenantId, userId, applicationId, reaso
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) throw new Error('User not found');
 
-  // Lock application in OUTCOME_UNKNOWN status
-  // Credit remains in hold state. No automated duplicate submissions allowed.
   const updatedApp = await prisma.application.update({
     where: { id: applicationId },
     data: {
@@ -316,6 +319,7 @@ async function quarantineOutcomeUnknown({ tenantId, userId, applicationId, reaso
 }
 
 module.exports = {
+  InsufficientCreditsError,
   verifyPaymentSignature,
   processWebhookEvent,
   grantCredits,

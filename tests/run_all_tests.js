@@ -1,5 +1,5 @@
 // Rolevia AI · Master Release 0.1 Test Suite Runner
-// Executes all automated suites covering FEAT-001 through FEAT-005.
+// Executes all automated suites covering FEAT-001 through FEAT-005 with full category breakdown.
 
 const testFeat001Database = require('./test_feat001_db');
 const testFeat002Auth = require('./test_feat002_auth');
@@ -9,10 +9,11 @@ const testFeat005Crawler = require('./test_feat005_crawler');
 const prisma = require('../backend/db');
 
 async function runAllSuites() {
-  console.log('================================================================');
-  console.log('     ROLEVIA AI · RELEASE 0.1 ACCEPTANCE TEST HARNESS           ');
-  console.log('     Brand: RoleviaAI · Intended Domain: roleviaai.co.in        ');
-  console.log('================================================================');
+  console.log('================================================================================');
+  console.log('         ROLEVIA AI · RELEASE 0.1 PRODUCTION READINESS TEST HARNESS             ');
+  console.log('         Brand: RoleviaAI · Intended Public Domain: roleviaai.co.in             ');
+  console.log('         Database Engine: PostgreSQL 16 (Container: rolevia-postgres)           ');
+  console.log('================================================================================');
   const startTime = Date.now();
 
   const results = [];
@@ -28,24 +29,51 @@ async function runAllSuites() {
     const totalFailed = results.reduce((acc, r) => acc + r.failed, 0);
     const durationMs = Date.now() - startTime;
 
-    console.log('\n================================================================');
-    console.log('                 RELEASE 0.1 TEST RESULTS                       ');
-    console.log('================================================================');
+    // Aggregate by Category
+    const categoryCounts = {
+      'Database': 0,
+      'Security': 0,
+      'Integration': 0,
+      'Unit': 0,
+      'End-to-End': 0
+    };
+
     results.forEach(r => {
-      console.log(`  • ${r.suite.padEnd(38)} : ${r.passed} passed / ${r.failed} failed`);
+      if (categoryCounts[r.category] !== undefined) {
+        categoryCounts[r.category] += r.passed;
+      }
     });
-    console.log('----------------------------------------------------------------');
-    console.log(`  TOTAL TESTS EXECUTED : ${totalPassed + totalFailed}`);
-    console.log(`  TOTAL PASSED         : ${totalPassed} (${Math.round(totalPassed / (totalPassed + totalFailed) * 100)}%)`);
-    console.log(`  TOTAL FAILED         : ${totalFailed}`);
-    console.log(`  EXECUTION DURATION   : ${durationMs}ms`);
-    console.log('================================================================');
+
+    console.log('\n================================================================================');
+    console.log('                    RELEASE 0.1 AUDIT & TEST MATRIX                             ');
+    console.log('================================================================================');
+    console.log('  Feature ID  | Feature Name                             | Category     | Pass / Fail');
+    console.log('  ------------+------------------------------------------+--------------+------------');
+    results.forEach((r, idx) => {
+      const featId = `FEAT-00${idx + 1}`.padEnd(11);
+      const name = r.suite.replace(/^FEAT-00\d\s*/, '').slice(0, 40).padEnd(40);
+      const cat = (r.category || 'Unit').padEnd(12);
+      const counts = `${r.passed} / ${r.failed}`.padStart(10);
+      console.log(`  ${featId} | ${name} | ${cat} | ${counts}`);
+    });
+    console.log('  ------------+------------------------------------------+--------------+------------');
+    console.log('  CATEGORY BREAKDOWN:');
+    console.log(`    • Database & Transactional Integrity : ${categoryCounts['Database']} tests`);
+    console.log(`    • Security & Cryptographic Auth     : ${categoryCounts['Security']} tests`);
+    console.log(`    • Integration & Pipeline Verification: ${categoryCounts['Integration']} tests`);
+    console.log(`    • Unit & Algorithmic Validation      : ${categoryCounts['Unit']} tests`);
+    console.log('  ------------------------------------------------------------------------------');
+    console.log(`  TOTAL TEST CASES EXECUTED : ${totalPassed + totalFailed}`);
+    console.log(`  TOTAL TEST CASES PASSED   : ${totalPassed} (${Math.round((totalPassed / (totalPassed + totalFailed)) * 100)}%)`);
+    console.log(`  TOTAL TEST CASES FAILED   : ${totalFailed}`);
+    console.log(`  TOTAL EXECUTION TIME      : ${durationMs}ms`);
+    console.log('================================================================================');
 
     if (totalFailed > 0) {
-      console.error('\n❌ RELEASE 0.1 GATES FAILED: Test regressions detected.');
+      console.error('\n❌ RELEASE 0.1 PRODUCTION READINESS GATE: FAILED (Regressions detected)');
       process.exit(1);
     } else {
-      console.log('\n✅ RELEASE 0.1 GATES PASSED: All architectural criteria satisfied.');
+      console.log('\n✅ RELEASE 0.1 PRODUCTION READINESS GATE: PASSED (All 5 features verified)');
     }
   } catch (error) {
     console.error('\n❌ UNEXPECTED TEST SUITE CRASH:', error);

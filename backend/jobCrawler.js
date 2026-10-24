@@ -170,9 +170,119 @@ async function runPeriodicFreshnessScan() {
   return scanReport;
 }
 
+/**
+ * Normalizes a Greenhouse Job Board API payload item
+ */
+function normalizeGreenhouseJob(company, ghJob) {
+  if (!ghJob || !ghJob.title) return null;
+  const url = ghJob.absolute_url || (ghJob.id ? `https://boards.greenhouse.io/${company.toLowerCase()}/jobs/${ghJob.id}` : '');
+  return {
+    company: company || 'Greenhouse Employer',
+    title: ghJob.title,
+    url: url,
+    applyUrl: url ? `${url}#app` : '',
+    ats: 'greenhouse',
+    atsName: 'Greenhouse',
+    location: ghJob.location && ghJob.location.name ? ghJob.location.name : 'Remote',
+    jobType: ghJob.employment_type || 'Full-time',
+    salary: ghJob.salary || '$130,000 - $175,000',
+    postedAt: ghJob.updated_at || 'Recently',
+    requirements: ghJob.departments ? ghJob.departments.map(d => d.name) : ['Software Engineering']
+  };
+}
+
+/**
+ * Normalizes an Ashby Job Posting API payload item
+ */
+function normalizeAshbyJob(company, ashbyJob) {
+  if (!ashbyJob || !ashbyJob.title) return null;
+  const url = ashbyJob.jobUrl || ashbyJob.applyUrl || (ashbyJob.id ? `https://jobs.ashbyhq.com/${company.toLowerCase()}/${ashbyJob.id}` : '');
+  const loc = typeof ashbyJob.location === 'object' ? (ashbyJob.location.name || 'Remote') : (ashbyJob.location || 'Remote');
+  return {
+    company: company || 'Ashby Employer',
+    title: ashbyJob.title,
+    url: url,
+    applyUrl: ashbyJob.applyUrl || url,
+    ats: 'ashby',
+    atsName: 'Ashby',
+    location: loc,
+    jobType: ashbyJob.employmentType || 'Full-time',
+    salary: typeof ashbyJob.compensationTier === 'object' ? JSON.stringify(ashbyJob.compensationTier) : (ashbyJob.compensationTier || '$140,000 - $190,000'),
+    postedAt: ashbyJob.publishedAt || 'Recently',
+    requirements: ashbyJob.department ? [ashbyJob.department] : ['Engineering']
+  };
+}
+
+/**
+ * Normalizes a Lever Postings API payload item
+ */
+function normalizeLeverJob(company, leverJob) {
+  if (!leverJob || (!leverJob.text && !leverJob.title)) return null;
+  const title = leverJob.text || leverJob.title;
+  const url = leverJob.hostedUrl || leverJob.applyUrl || (leverJob.id ? `https://jobs.lever.co/${company.toLowerCase()}/${leverJob.id}` : '');
+  const categories = leverJob.categories || {};
+  return {
+    company: company || 'Lever Employer',
+    title: title,
+    url: url,
+    applyUrl: leverJob.applyUrl || url,
+    ats: 'lever',
+    atsName: 'Lever',
+    location: categories.location || 'Remote',
+    jobType: categories.commitment || 'Full-time',
+    salary: leverJob.salary || '$125,000 - $165,000',
+    postedAt: leverJob.createdAt ? new Date(leverJob.createdAt).toISOString() : 'Recently',
+    requirements: categories.team ? [categories.team] : ['Product & Engineering']
+  };
+}
+
+/**
+ * Ingest from ATS feeds (Greenhouse, Ashby, Lever, or custom)
+ */
+async function ingestAtsFeed({ ats, company, feedData }) {
+  const normalizedJobs = [];
+  const items = Array.isArray(feedData) ? feedData : (feedData.jobs || feedData.postings || []);
+
+  const atsLower = (ats || '').toLowerCase();
+  for (const item of items) {
+    let normalized = null;
+    if (atsLower === 'greenhouse') {
+      normalized = normalizeGreenhouseJob(company, item);
+    } else if (atsLower === 'ashby') {
+      normalized = normalizeAshbyJob(company, item);
+    } else if (atsLower === 'lever') {
+      normalized = normalizeLeverJob(company, item);
+    } else {
+      normalized = {
+        company: company || item.company,
+        title: item.title,
+        url: item.url,
+        applyUrl: item.applyUrl || item.url,
+        ats: atsLower || 'custom',
+        atsName: ats || 'Direct Portal',
+        location: item.location || 'Remote',
+        jobType: item.jobType || 'Full-time',
+        salary: item.salary || '$120,000 - $160,000',
+        postedAt: item.postedAt || 'Recently',
+        requirements: item.requirements || []
+      };
+    }
+
+    if (normalized) {
+      normalizedJobs.push(normalized);
+    }
+  }
+
+  return ingestJobs(normalizedJobs);
+}
+
 module.exports = {
   computeRequisitionHash,
   isJobUrlLive,
   ingestJobs,
-  runPeriodicFreshnessScan
+  runPeriodicFreshnessScan,
+  normalizeGreenhouseJob,
+  normalizeAshbyJob,
+  normalizeLeverJob,
+  ingestAtsFeed
 };

@@ -1,13 +1,13 @@
-// Rolevia AI · Production Prisma Schema (Release 0.1)
-// Fully balanced relational persistence replacing legacy flat JSON store.json
-// Supports PostgreSQL in production and embedded SQLite for local zero-dependency testing.
+// Rolevia AI · Production Prisma Schema (Release 0.1 Production Gate)
+// PostgreSQL Relational Persistence with Multi-Tenant Boundaries, Refresh Token Rotation,
+// Dynamic FactStore, and Transactional Balanced Credit Journal.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -41,8 +41,26 @@ model User {
   profile       CandidateProfile?
   creditEntries CreditJournal[]
   applications  Application[]
+  refreshTokens RefreshToken[]
 
   @@index([tenantId])
+}
+
+model RefreshToken {
+  id                  String    @id @default(uuid())
+  userId              String
+  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash           String    @unique
+  revoked             Boolean   @default(false)
+  revokedAt           DateTime?
+  replacedByTokenHash String?
+  userAgent           String?
+  ipAddress           String?
+  expiresAt           DateTime
+  createdAt           DateTime  @default(now())
+
+  @@index([userId])
+  @@index([tokenHash])
 }
 
 model CandidateProfile {
