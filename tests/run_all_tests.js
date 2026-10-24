@@ -12,6 +12,7 @@ const testNegativePaths = require('./test_negative_paths');
 const testFeat006Matcher = require('./test_feat006_matcher');
 const testFeat007Optimizer = require('./test_feat007_optimizer');
 const testFeat008Workspace = require('./test_feat008_workspace');
+const testFeat008SecurityAndUX = require('./test_feat008_security_ux');
 const prisma = require('../backend/db');
 
 async function runAllSuites() {
@@ -34,6 +35,7 @@ async function runAllSuites() {
     results.push(await testFeat006Matcher());
     results.push(await testFeat007Optimizer());
     results.push(await testFeat008Workspace());
+    results.push(await testFeat008SecurityAndUX());
     results.push(await testE2EUserJourney());
     results.push(await testNegativePaths());
 

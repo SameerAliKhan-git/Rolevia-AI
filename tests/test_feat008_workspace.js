@@ -251,9 +251,9 @@ Minimum 5+ years experience designing mission-critical financial systems.`
     assert.strictEqual(record.status, 'DIFF_APPROVED', 'Approval record status must be DIFF_APPROVED');
 
     // Verification of signature validity
-    const expectedPayload = `${approved.approvedMarkdown}|${wsFresh3.jobId}|${wsFresh3.candidateProfileId}|${record.timestamp}`;
-    const expectedSig = crypto.createHmac('sha256', secretKey).update(expectedPayload).digest('hex');
-    assert.strictEqual(record.approvalSignature, expectedSig, 'Cryptographic signature must match HMAC-SHA256 of payload');
+    const sigCheck = resumeWorkspace.verifyApprovalSignature(record, secretKey, approved.approvedMarkdown);
+    assert.strictEqual(sigCheck.valid, true, 'Cryptographic signature must pass verifyApprovalSignature');
+    assert(record.expiresAt, 'Approval record must contain expiration date');
 
     console.log('✓ [CRYPTO SIGN-OFF] HMAC-SHA256: Candidate cryptographic approval signature validated');
     passed++;

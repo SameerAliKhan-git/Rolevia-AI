@@ -399,43 +399,95 @@ const server = http.createServer(async (req, res) => {
     // POST /api/v1/workspace/resume/diff (FEAT-008 Interactive Diff & Optimization Workspace)
     if (pathname === '/api/v1/workspace/resume/diff' && method === 'POST') {
       try {
-        const body = await parseBody(req);
-        let candidateProfile = body.candidateProfile;
-        let verifiedFacts = body.verifiedFacts || [];
-        let job = body.job;
+        // Enforce Server-Side Authenticated Session
+        const authResult = await auth.authenticateRequest(req);
+        if (!authResult.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: authResult.error || 'Authentication required for workspace access' }));
+          return;
+        }
 
-        if (body.candidateProfileId && !candidateProfile) {
-          const loaded = await prisma.candidateProfile.findUnique({
-            where: { id: body.candidateProfileId },
-            include: { user: true, facts: true }
-          });
-          if (loaded) {
-            candidateProfile = loaded;
-            verifiedFacts = loaded.facts.filter(f => f.verified !== false);
+        const userId = authResult.user.id;
+        const tenantId = authResult.tenantId;
+        const body = await parseBody(req);
+
+        // Strictly load candidate profile and verified FactStore from PostgreSQL for authenticated user
+        // Never trust client-supplied candidate profile or verified flags
+        let candidateProfile = await prisma.candidateProfile.findUnique({
+          where: { userId },
+          include: { user: true, facts: true }
+        });
+
+        if (!candidateProfile) {
+          // Fallback if candidate profile id is explicitly passed, verifying tenant and user ownership
+          if (body.candidateProfileId) {
+            candidateProfile = await prisma.candidateProfile.findUnique({
+              where: { id: body.candidateProfileId },
+              include: { user: true, facts: true }
+            });
+            if (candidateProfile && (candidateProfile.userId !== userId || candidateProfile.user.tenantId !== tenantId)) {
+              console.warn(`[SECURITY AUDIT] Blocked cross-tenant or unauthorized profile access by user ${userId}`);
+              res.writeHead(403, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ success: false, error: 'Forbidden: Cannot access candidate profile across user or tenant boundaries' }));
+              return;
+            }
           }
         }
 
-        if (body.jobId && !job) {
-          job = await prisma.job.findUnique({ where: { id: body.jobId } });
+        if (!candidateProfile) {
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Candidate profile not found for authenticated session' }));
+          return;
         }
 
-        if (!candidateProfile || !job) {
-          res.writeHead(400);
-          res.end(JSON.stringify({ success: false, error: 'candidateProfile/candidateProfileId and job/jobId required' }));
+        const verifiedFacts = (candidateProfile.facts || []).filter(f => f.verified !== false);
+
+        // Load Job Requisition
+        const jobId = body.jobId || (body.job && body.job.id);
+        let job = null;
+        if (jobId) {
+          job = await prisma.job.findUnique({ where: { id: jobId } });
+        }
+        if (!job && body.job) {
+          job = body.job;
+        }
+
+        if (!job) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Valid target job requisition (jobId) required' }));
           return;
+        }
+
+        // Verify application ownership if applicationId provided
+        if (body.applicationId) {
+          const app = await prisma.application.findUnique({ where: { id: body.applicationId } });
+          if (app && (app.userId !== userId || app.tenantId !== tenantId)) {
+            console.warn(`[SECURITY AUDIT] Cross-tenant application access blocked: ${body.applicationId}`);
+            res.writeHead(403, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Forbidden: Access denied to application' }));
+            return;
+          }
         }
 
         const workspace = resumeWorkspace.buildOptimizationWorkspace({
           candidateProfile,
           verifiedFacts,
           job,
-          options: body.options || {}
+          options: body.options || {},
+          userId,
+          tenantId,
+          applicationId: body.applicationId || null
         });
 
-        res.writeHead(200);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, workspace }));
       } catch (err) {
-        res.writeHead(500);
+        if (err.name === 'HallucinationViolationError') {
+          res.writeHead(422, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: err.message, violations: err.violations, code: 'HALLUCINATION_VIOLATION' }));
+          return;
+        }
+        res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: false, error: err.message }));
       }
       return;
@@ -444,18 +496,60 @@ const server = http.createServer(async (req, res) => {
     // POST /api/v1/workspace/resume/approve (FEAT-008 Candidate Cryptographic Approval Gate)
     if (pathname === '/api/v1/workspace/resume/approve' && method === 'POST') {
       try {
+        const authResult = await auth.authenticateRequest(req);
+        if (!authResult.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: authResult.error || 'Authentication required for document approval' }));
+          return;
+        }
+
+        const userId = authResult.user.id;
+        const tenantId = authResult.tenantId;
         const body = await parseBody(req);
+
+        let workspace = resumeWorkspace.workspaceVersionRegistry.get(body.workspaceId);
+        if (!workspace && body.workspaceId) {
+          workspace = await resumeWorkspace.loadWorkspaceSession(body.workspaceId);
+        }
+
+        if (!workspace) {
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: `Workspace session '${body.workspaceId}' not found or expired` }));
+          return;
+        }
+
+        // Verify Workspace Ownership: User and tenant must match authenticated session
+        if (workspace.userId !== userId || workspace.tenantId !== tenantId) {
+          console.warn(`[SECURITY AUDIT] Cross-tenant approval attempt blocked: user ${userId} on workspace ${body.workspaceId}`);
+          res.writeHead(403, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Forbidden: Cannot approve workspace belonging to another user or tenant' }));
+          return;
+        }
+
+        // Verify application ownership if applicationId provided
+        const appId = body.applicationId || workspace.applicationId;
+        if (appId) {
+          const app = await prisma.application.findUnique({ where: { id: appId } });
+          if (app && (app.userId !== userId || app.tenantId !== tenantId)) {
+            console.warn(`[SECURITY AUDIT] Cross-tenant application approval blocked: ${appId}`);
+            res.writeHead(403, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Forbidden: Access denied to application' }));
+            return;
+          }
+        }
+
         const result = resumeWorkspace.applyCandidateWorkspaceDecisions({
           workspaceId: body.workspaceId,
           decisions: body.decisions || {},
           customEdits: body.customEdits || {},
-          candidateSecret: body.candidateSecret || 'rolevia-approval-gate-secret',
-          approvedBy: body.approvedBy || (db.user ? db.user.name : 'Candidate')
+          candidateSecret: body.candidateSecret || 'rolevia-candidate-approval-gate',
+          approvedBy: authResult.user.name || 'Candidate',
+          applicationId: appId
         });
 
-        // If an associated application exists in state or DB, advance its status to DIFF_APPROVED
-        if (body.applicationId) {
-          const app = db.applications.find(a => a.id === body.applicationId);
+        // Update in-memory state and PostgreSQL
+        if (appId) {
+          const app = db.applications.find(a => a.id === appId);
           if (app) {
             app.status = 'DIFF_APPROVED';
             app.resumeStatus = 'Ready';
@@ -465,25 +559,113 @@ const server = http.createServer(async (req, res) => {
           }
         }
 
-        res.writeHead(200);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, ...result }));
       } catch (err) {
-        const statusCode = err.name === 'HallucinationViolationError' ? 422 : 500;
-        res.writeHead(statusCode);
-        res.end(JSON.stringify({ success: false, error: err.message, violations: err.violations }));
+        if (err.name === 'HallucinationViolationError') {
+          res.writeHead(422, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: err.message, violations: err.violations, code: 'HALLUCINATION_VIOLATION' }));
+          return;
+        }
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+      return;
+    }
+
+    // POST /api/v1/workspace/resume/invalidate (FEAT-008 Invalidation on Mutation)
+    if (pathname === '/api/v1/workspace/resume/invalidate' && method === 'POST') {
+      try {
+        const authResult = await auth.authenticateRequest(req);
+        if (!authResult.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Authentication required' }));
+          return;
+        }
+
+        const body = await parseBody(req);
+        const workspace = resumeWorkspace.workspaceVersionRegistry.get(body.workspaceId);
+        if (workspace && (workspace.userId !== authResult.user.id || workspace.tenantId !== authResult.tenantId)) {
+          res.writeHead(403, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Forbidden' }));
+          return;
+        }
+
+        const invalidated = resumeWorkspace.invalidateWorkspaceApproval(body.workspaceId, body.reason || 'MANUAL_REVOCATION');
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, invalidated }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
       }
       return;
     }
 
     // GET /api/v1/workspace/resume/versions (FEAT-008 Version History)
     if (pathname === '/api/v1/workspace/resume/versions' && method === 'GET') {
+      const authResult = await auth.authenticateRequest(req);
+      if (!authResult.authenticated) {
+        res.writeHead(401, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Authentication required to view version history' }));
+        return;
+      }
+
       const parsedUrl = url.parse(req.url, true);
       const versions = resumeWorkspace.getWorkspaceVersions(
-        parsedUrl.query.candidateProfileId,
+        authResult.user.id,
         parsedUrl.query.jobId
       );
-      res.writeHead(200);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ success: true, count: versions.length, versions }));
+      return;
+    }
+
+    // GET /api/v1/workspace/resume/export (FEAT-008 Real PDF and DOCX Exporter)
+    if (pathname === '/api/v1/workspace/resume/export' && method === 'GET') {
+      try {
+        const authResult = await auth.authenticateRequest(req);
+        if (!authResult.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Authentication required for document export' }));
+          return;
+        }
+
+        const parsedUrl = url.parse(req.url, true);
+        const workspaceId = parsedUrl.query.workspaceId;
+        const format = (parsedUrl.query.format || 'pdf').toLowerCase();
+
+        let workspace = resumeWorkspace.workspaceVersionRegistry.get(workspaceId);
+        if (!workspace && workspaceId) {
+          workspace = await resumeWorkspace.loadWorkspaceSession(workspaceId);
+        }
+
+        if (!workspace) {
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: `Workspace '${workspaceId}' not found` }));
+          return;
+        }
+
+        if (workspace.userId !== authResult.user.id || workspace.tenantId !== authResult.tenantId) {
+          res.writeHead(403, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Forbidden: Access denied to exported document' }));
+          return;
+        }
+
+        const exportResult = await resumeWorkspace.exportWorkspaceBinaryDocument({
+          workspaceId,
+          format
+        });
+
+        res.writeHead(200, {
+          'Content-Type': exportResult.contentType,
+          'Content-Disposition': `attachment; filename="${exportResult.filename}"`,
+          'Content-Length': exportResult.buffer.length
+        });
+        res.end(exportResult.buffer);
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
       return;
     }
 
@@ -527,12 +709,12 @@ const server = http.createServer(async (req, res) => {
           {
             role: `Python Developer Intern · Mantarang Edtech LLP (Tailored for ${job.company})`,
             del: 'Built backend services and database models for attendance tracking.',
-            add: `Architected modular Flask & PostgreSQL microservices aligned with ${job.company}'s requirements (${(job.requirements || []).slice(0, 3).join(', ')}); reduced latency by 35% and enforced 99.9% JWT security.`
+            add: `Developed modular Flask & PostgreSQL backend services for attendance tracking, aligning schema structures with ${job.company}'s requirements (${(job.requirements || []).slice(0, 3).join(', ')}).`
           },
           {
             role: `Full-Stack Developer · NGO Web Application`,
             del: 'Developed responsive user interfaces and backend routes using React and Node.js.',
-            add: `Engineered high-concurrency Node.js/Express & Prisma ORM backends; built 25+ RESTful endpoints tested against ${job.atsName} ATS parsing algorithms with 98/100 compliance.`
+            add: `Developed responsive user interfaces and RESTful backend routes using React and Node.js for community organization operations.`
           }
         ],
         receipt: {

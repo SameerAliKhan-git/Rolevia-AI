@@ -63,9 +63,98 @@ function computeObjectHash(obj) {
 }
 
 /**
+ * Semantic Claim-Level Evidence Validation
+ * Ensures that references to sourceFactId do NOT introduce unsupported metrics,
+ * security SLAs, causal guarantees, or responsibility inflation.
+ */
+function validateSemanticClaimAssertions(claimText, sourceFact) {
+  const violations = [];
+  if (!claimText || !sourceFact) return violations;
+
+  let sourceHighlights = [];
+  if (Array.isArray(sourceFact.highlights)) {
+    sourceHighlights = sourceFact.highlights;
+  } else if (typeof sourceFact.highlights === 'string') {
+    try { sourceHighlights = JSON.parse(sourceFact.highlights); } catch { sourceHighlights = [sourceFact.highlights]; }
+  }
+  const sourceCorpus = [
+    sourceFact.title || '',
+    sourceFact.organization || '',
+    ...(sourceHighlights || []),
+    sourceFact.metrics || ''
+  ].join(' ').toLowerCase();
+
+  // 1. Metric / Quantified Assertions: percentages, currency, throughput numbers
+  const claimMetrics = extractMetricTokens(claimText);
+  for (const metric of claimMetrics) {
+    const normMetric = metric.toLowerCase().trim();
+    if (!sourceCorpus.includes(normMetric)) {
+      violations.push({
+        type: 'UNGROUNDED_METRIC_ASSERTION',
+        claim: claimText,
+        sourceFactId: sourceFact.id,
+        metric,
+        reason: `Claim asserts metric '${metric}' which is not present in source fact [${sourceFact.organization || sourceFact.title}]. Verified source only records: '${sourceHighlights.join('; ')}'.`
+      });
+    }
+  }
+
+  // 2. High-Assurance Security & Compliance Claims
+  const securityRegex = /\b(?:99\.\d+%|zero-trust|soc\s*2|hipaa|iso\s*27001|pci-dss|security\s*compliance|jwt\s*security)\b/gi;
+  const securityMatches = claimText.match(securityRegex) || [];
+  for (const secClaim of securityMatches) {
+    if (!sourceCorpus.includes(secClaim.toLowerCase())) {
+      violations.push({
+        type: 'UNSUPPORTED_SECURITY_GUARANTEE',
+        claim: claimText,
+        sourceFactId: sourceFact.id,
+        securityAssertion: secClaim,
+        reason: `Claim asserts high-assurance security guarantee '${secClaim}' without grounding in source fact [${sourceFact.organization || sourceFact.title}].`
+      });
+    }
+  }
+
+  // 3. Causal Improvement & Impact Assertions (e.g. reduced latency by, saved X hours)
+  const causalRegex = /\b(?:reduced|reducing|slashed|slashing|increased|increasing|boosted|boosting|saved|saving|eliminat(?:ed|ing))\s*(?:by\s+)?(?:[\w\s]{0,20})?(?:latency|cost|overhead|hours|downtime|spending|turnaround)\b/gi;
+  const causalMatches = claimText.match(causalRegex) || [];
+  for (const causal of causalMatches) {
+    const lowerCausal = causal.toLowerCase();
+    const keyNoun = lowerCausal.split(/\s+/).pop();
+    if (!sourceCorpus.includes(keyNoun)) {
+      violations.push({
+        type: 'UNGROUNDED_CAUSAL_CLAIM',
+        claim: claimText,
+        sourceFactId: sourceFact.id,
+        causalAssertion: causal,
+        reason: `Claim asserts unverified causal impact '${causal}' not substantiated by source fact [${sourceFact.organization || sourceFact.title}].`
+      });
+    }
+  }
+
+  // 4. Role & Responsibility Inflation (e.g. Intern claimed as Principal/Architect)
+  const sourceTitleLower = (sourceFact.title || '').toLowerCase();
+  const isInternOrJunior = /\b(?:intern|junior|trainee|apprentice|assistant)\b/.test(sourceTitleLower);
+  if (isInternOrJunior) {
+    const inflatedRegex = /\b(?:architected|lead\s+architect|principal|director|head\s+of|chief)\b/i;
+    const inflatedMatch = claimText.match(inflatedRegex);
+    if (inflatedMatch && !sourceCorpus.includes(inflatedMatch[0].toLowerCase())) {
+      violations.push({
+        type: 'RESPONSIBILITY_INFLATION',
+        claim: claimText,
+        sourceFactId: sourceFact.id,
+        inflatedRole: inflatedMatch[0],
+        reason: `Responsibility inflation detected: Verified role is '${sourceFact.title}', but claim asserts '${inflatedMatch[0]}'.`
+      });
+    }
+  }
+
+  return violations;
+}
+
+/**
  * Zero-Hallucination Assertion: Claim-Level & Entity-Level Verification
  * Scans generated document against candidate's verified ground-truth bundle and claim ledger.
- * If ANY statement lacks verified source evidence or claims unverified metrics/skills, throws HallucinationViolationError.
+ * If ANY statement lacks verified source evidence or claims unverified metrics/skills/assertions, throws HallucinationViolationError.
  */
 function verifyTruthGrounding(generatedText, verifiedBundle, evidenceLedger = []) {
   const violations = [];
@@ -75,12 +164,14 @@ function verifyTruthGrounding(generatedText, verifiedBundle, evidenceLedger = []
     verifiedMetrics = [],
     verifiedTitles = [],
     rawFactText = '',
-    verifiedFactIds = new Set()
+    verifiedFactIds = new Set(),
+    facts = []
   } = verifiedBundle;
 
   const normalizedVerifiedSkills = new Set(verifiedSkills.map(s => normalizeSkill(s)));
+  const factsMap = new Map((facts || []).map(f => [f.id, f]));
 
-  // 1. Audit Claim Ledger: Ensure every claim links to a verified FactStore entity
+  // 1. Audit Claim Ledger: Ensure every claim links to a verified FactStore entity & passes semantic assertion checks
   if (evidenceLedger && evidenceLedger.length > 0) {
     for (const claim of evidenceLedger) {
       if (!claim.sourceFactId) {
@@ -96,6 +187,13 @@ function verifyTruthGrounding(generatedText, verifiedBundle, evidenceLedger = []
           sourceFactId: claim.sourceFactId,
           reason: `Claim references unverified or nonexistent FactStore ID '${claim.sourceFactId}'.`
         });
+      } else {
+        // Semantic Claim Validation: Fact exists, but do assertions match the source fact content?
+        const sourceFact = factsMap.get(claim.sourceFactId);
+        if (sourceFact) {
+          const semanticViolations = validateSemanticClaimAssertions(claim.claimText, sourceFact);
+          violations.push(...semanticViolations);
+        }
       }
     }
   }
@@ -422,7 +520,8 @@ function optimizeResumeAndCoverLetter({ candidateProfile, verifiedFacts = [], jo
     verifiedMetrics,
     verifiedTitles,
     rawFactText,
-    verifiedFactIds
+    verifiedFactIds,
+    facts: validFacts
   };
 
   // Strip target job title and company from audited candidate text so job subject lines are not misattributed as candidate claims
@@ -577,6 +676,7 @@ module.exports = {
   HallucinationViolationError,
   extractMetricTokens,
   extractMentionedSkills,
+  validateSemanticClaimAssertions,
   verifyTruthGrounding,
   optimizeResumeAndCoverLetter,
   optimizeForJob,
