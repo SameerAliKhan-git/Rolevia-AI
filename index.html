@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rolevia AI · Your Career, Intelligently Accelerated</title>
+  <meta name="description" content="AI-Powered Job Discovery, Resume Optimization & Application Automation Platform.">
+  
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Centralized Brand Configuration -->
+  <script src="brand.config.js"></script>
+
+  <!-- Claymorphism Design System -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Razorpay Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="ts-header ts-container">
+    <div class="ts-header-inner">
+      <!-- Brand -->
+      <a href="#" class="ts-brand" onclick="switchNav('dashboard'); return false;">
+        <div class="ts-brand-logo" style="background:linear-gradient(135deg, #1e5240, #14382c); color:#fff;">R</div>
+        <span style="font-weight:900; letter-spacing:-0.02em;">Rolevia<span style="color:#d97706; margin-left:1px;">AI</span></span>
+        <span class="clay-badge clay-badge-orange" style="font-size:10.5px; padding:3px 8px;">
+          RELEASE 0.1
+        </span>
+      </a>
+
+      <!-- Navigation Pill Selector -->
+      <nav class="ts-nav-pill-group">
+        <button id="nav-dashboard" class="ts-nav-pill-btn active" onclick="switchNav('dashboard')">
+          <span>⚡ Auto-Pilot</span>
+        </button>
+        <button id="nav-tracker" class="ts-nav-pill-btn" onclick="switchNav('tracker')">
+          <span>📊 Pipeline</span>
+        </button>
+        <button id="nav-inbox" class="ts-nav-pill-btn" onclick="switchNav('inbox')">
+          <span>📬 AI Inbox</span>
+          <span class="clay-badge clay-badge-orange" style="font-size:9px; padding:1px 5px;">2</span>
+        </button>
+        <button id="nav-profile" class="ts-nav-pill-btn" onclick="switchNav('profile')">
+          <span>👤 Candidate</span>
+        </button>
+        <button id="nav-billing" class="ts-nav-pill-btn" onclick="switchNav('billing')">
+          <span>💳 Billing</span>
+        </button>
+        <button id="nav-settings" class="ts-nav-pill-btn" onclick="switchNav('settings')">
+          <span>⚙️ Engine</span>
+        </button>
+      </nav>
+
+      <!-- Candidate Account & Credits -->
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="clay-badge clay-badge-dark" style="padding:6px 14px;">
+          <span class="ts-pulse-dot"></span>
+          <span id="user-credits-val" style="font-size:12px; font-weight:800;">499 credits</span>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick="switchNav('profile')">
+          <div style="width:40px; height:40px; border-radius:50%; background:linear-gradient(145deg, #1e5240, #14382c); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; box-shadow:var(--clay-depth-sm); border:2px solid #fff;">
+            SK
+          </div>
+          <div style="display:none; @media(min-width:768px){display:block;}">
+            <div style="font-size:13px; font-weight:800; color:#171d26;">Sameer Ali Khan</div>
+            <div style="font-size:11px; color:#525d6d; font-weight:600;">Pro Auto-Pilot Plan</div>
+          </div>
+        </div>
+
+        <button class="clay-btn clay-btn-danger" style="padding:6px 14px; font-size:12px; display:inline-flex; align-items:center; gap:5px;" onclick="promptLogout()" title="Sign out of Rolevia AI session">
+          🚪 Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Canvas Container -->
+  <main class="ts-container" style="padding-bottom:80px;">
+
+    <!-- ================= VIEW 1: AUTOPILOT DASHBOARD ================= -->
+    <div id="view-dashboard">
+      
+      <!-- SaaS Cockpit Control Banner -->
+      <section class="ts-cockpit-banner">
+        <div class="ts-cockpit-grid">
+          <div>
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:6px;">
+              <span id="autopilot-status-pill" class="clay-badge clay-badge-green" style="font-size:11px;">
+                <span class="ts-pulse-dot"></span> AUTO-PILOT RUNNING
+              </span>
+              <span style="font-size:12px; color:#8895a7;">Schedule: 09:00 - 18:00 EST · US Residential Clean IP Pool</span>
+            </div>
+            <div id="agent-runner-step" style="font-size:17px; font-weight:800; color:#f8fafc; letter-spacing:-0.01em;">
+              GitLab: Connecting to Greenhouse ATS portal at https://job-boards.greenhouse.io/gitlab/jobs/8704363002…
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:16px;">
+            <div class="ts-runner-cylinder">
+              <div id="agent-runner-prog" class="ts-runner-fill" style="width:72%;"></div>
+            </div>
+            <button class="clay-btn clay-btn-surface" style="padding:7px 16px; font-size:12px;" onclick="openTerminalModal()">
+              ⚡ SSE Log
+            </button>
+            <button id="autopilot-toggle-btn" class="clay-btn clay-btn-ember" style="padding:7px 18px; font-size:12px;" onclick="toggleAutoPilot()">
+              Pause Auto-Pilot
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tactile Clay Metrics Deck -->
+      <section class="ts-metrics-deck">
+        <div class="ts-metric-card">
+          <div style="font-size:11.5px; font-weight:800; color:#8895a7; text-transform:uppercase; letter-spacing:0.04em;">Applications Sent</div>
+          <div id="tracker-applied-count" class="ts-metric-val">49</div>
+          <span class="clay-badge clay-badge-green" style="font-size:11px;">↑ 7 sent today</span>
+        </div>
+
+        <div class="ts-metric-card">
+          <div style="font-size:11.5px; font-weight:800; color:#8895a7; text-transform:uppercase; letter-spacing:0.04em;">Screen-Through Rate</div>
+          <div class="ts-metric-val" style="color:#2563eb;">54%</div>
+          <span class="clay-badge clay-badge-blue" style="font-size:11px;">26 recruiter views</span>
+        </div>
+
+        <div class="ts-metric-card">
+          <div style="font-size:11.5px; font-weight:800; color:#8895a7; text-transform:uppercase; letter-spacing:0.04em;">Recruiter Replies</div>
+          <div class="ts-metric-val" style="color:#e0601e;">9</div>
+          <span class="clay-badge clay-badge-orange" style="font-size:11px;">2 pending in inbox</span>
+        </div>
+
+        <div class="ts-metric-card">
+          <div style="font-size:11.5px; font-weight:800; color:#8895a7; text-transform:uppercase; letter-spacing:0.04em;">Interviews Booked</div>
+          <div class="ts-metric-val" style="color:#7c3aed;">4</div>
+          <span class="clay-badge clay-badge-purple" style="font-size:11px;">Stripe, Linear, Anthropic</span>
+        </div>
+
+        <div class="ts-metric-card">
+          <div style="font-size:11.5px; font-weight:800; color:#8895a7; text-transform:uppercase; letter-spacing:0.04em;">ATS Parse Score</div>
+          <div class="ts-metric-val" style="color:#10b981;">98%</div>
+          <span class="clay-badge clay-badge-green" style="font-size:11px;">✓ 55+ ATS engines</span>
+        </div>
+      </section>
+
+      <!-- STAGE 1: FIND (Job Recommendations) -->
+      <section style="margin-bottom:44px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:16px; flex-wrap:wrap; gap:16px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <span class="clay-badge clay-badge-green" style="font-size:11px;">STAGE 1: FIND</span>
+              <span class="clay-badge clay-badge-dark" style="font-size:10.5px;">✓ 1,358 Global Portals Connected</span>
+              <span class="clay-badge clay-badge-orange" style="font-size:10.5px;">Workday · Ashby · Greenhouse · Lever</span>
+            </div>
+            <h2 style="font-size:22px; font-weight:800; color:#171d26;">High-Fit Autonomous Global Matches</h2>
+            <p style="font-size:13.5px; color:#525d6d; margin-top:2px;">
+              Verified live jobs across 1,358 company career portals matched to Sameer’s Python, Flask, Node.js, and React skillset.
+            </p>
+          </div>
+
+          <!-- Currency Switcher -->
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:11.5px; font-weight:700; color:#8895a7;">CURRENCY:</span>
+            <div class="clay-tabs-pill" style="padding:4px;">
+              <button id="curr-btn-dual" class="clay-tab-item active" style="padding:5px 12px; font-size:11.5px;" onclick="setCurrency('dual', this)">Dual ($ / ₹)</button>
+              <button id="curr-btn-usd" class="clay-tab-item" style="padding:5px 12px; font-size:11.5px;" onclick="setCurrency('usd', this)">USD ($)</button>
+              <button id="curr-btn-inr" class="clay-tab-item" style="padding:5px 12px; font-size:11.5px;" onclick="setCurrency('inr', this)">INR (₹)</button>
+              <button id="curr-btn-eur" class="clay-tab-item" style="padding:5px 12px; font-size:11.5px;" onclick="setCurrency('eur', this)">EUR (€)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Bar: Category Tabs & Selectors -->
+        <div class="clay-card-flat" style="padding:14px 18px; margin-bottom:20px; display:flex; flex-direction:column; gap:12px;">
+          <!-- Row 1: Company Category Filter Tabs -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <div class="clay-tabs-pill">
+              <button class="clay-tab-item active cat-tab" onclick="setCategoryFilter('all', this)">🌐 All Employers (1,358)</button>
+              <button class="clay-tab-item cat-tab" onclick="setCategoryFilter('startup', this)">🦄 High-Growth Startups (434)</button>
+              <button class="clay-tab-item cat-tab" onclick="setCategoryFilter('product', this)">🏢 Product Giants (500)</button>
+              <button class="clay-tab-item cat-tab" onclick="setCategoryFilter('service', this)">💼 Enterprise Services (424)</button>
+            </div>
+
+            <!-- Search box -->
+            <div style="display:flex; gap:10px; flex:1; max-width:320px;">
+              <input type="text" id="job-search-input" placeholder="Search title, skills, or company…" class="clay-input" oninput="handleJobSearch(this.value)">
+            </div>
+          </div>
+
+          <!-- Row 2: Secondary Filters (ATS Engine & Region / Location) -->
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; border-top:1px solid rgba(180,170,155,0.25); padding-top:10px;">
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <span style="font-size:11.5px; font-weight:700; color:#525d6d;">ATS ENGINE:</span>
+              <div style="display:inline-flex; gap:6px;">
+                <button class="clay-btn clay-btn-surface ats-pill active" style="padding:4px 10px; font-size:11px;" onclick="setAtsFilter('all', this)">All ATS</button>
+                <button class="clay-btn clay-btn-surface ats-pill" style="padding:4px 10px; font-size:11px;" onclick="setAtsFilter('ashby', this)">⚡ Ashby</button>
+                <button class="clay-btn clay-btn-surface ats-pill" style="padding:4px 10px; font-size:11px;" onclick="setAtsFilter('workday', this)">🏢 Workday</button>
+                <button class="clay-btn clay-btn-surface ats-pill" style="padding:4px 10px; font-size:11px;" onclick="setAtsFilter('greenhouse', this)">🌱 Greenhouse</button>
+              </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <span style="font-size:11.5px; font-weight:700; color:#525d6d;">REGION:</span>
+              <div style="display:inline-flex; gap:6px;">
+                <button class="clay-btn clay-btn-surface region-pill active" style="padding:4px 10px; font-size:11px;" onclick="setRegionFilter('all', this)">All Regions</button>
+                <button class="clay-btn clay-btn-surface region-pill" style="padding:4px 10px; font-size:11px;" onclick="setRegionFilter('global', this)">🌍 Remote (Global)</button>
+                <button class="clay-btn clay-btn-surface region-pill" style="padding:4px 10px; font-size:11px;" onclick="setRegionFilter('us', this)">🇺🇸 US / Canada (Visa)</button>
+                <button class="clay-btn clay-btn-surface region-pill" style="padding:4px 10px; font-size:11px;" onclick="setRegionFilter('emea', this)">🇪🇺 Europe & UK</button>
+                <button class="clay-btn clay-btn-surface region-pill" style="padding:4px 10px; font-size:11px;" onclick="setRegionFilter('apac', this)">🇮🇳 India & APAC</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="matches-grid" class="ts-matches-grid">
+          <!-- Rendered dynamically via renderMatches() -->
+        </div>
+      </section>
+
+      <!-- STAGE 2 & 3: PREP & APPLY (Applications Table) -->
+      <section>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:12px; flex-wrap:wrap; gap:16px;">
+          <div>
+            <span class="clay-badge clay-badge-blue" style="font-size:11px; margin-bottom:4px;">STAGE 2 & 3: PREP & APPLY</span>
+            <h2 style="font-size:20px; font-weight:800; color:#171d26;">Active Applications & Audit Trail</h2>
+            <p style="font-size:13px; color:#525d6d; margin-top:2px;">
+              Click any application to inspect tailored bullet rewrites, generated cover letters, and verified submission receipts.
+            </p>
+          </div>
+
+          <!-- Filter Pill Tabs -->
+          <div class="clay-tabs-pill">
+            <button class="clay-tab-item active" onclick="filterApplications('All', this)">All (49)</button>
+            <button class="clay-tab-item" onclick="filterApplications('In flight', this)">In flight</button>
+            <button class="clay-tab-item" onclick="filterApplications('Needs you', this)">Needs you</button>
+            <button class="clay-tab-item" onclick="filterApplications('Submitted', this)">Submitted (47)</button>
+          </div>
+        </div>
+
+        <div class="ts-table-wrapper">
+          <table class="ts-clay-table">
+            <thead>
+              <tr>
+                <th>Company & Target Position</th>
+                <th>Tailored Résumé</th>
+                <th>Cover Letter</th>
+                <th>Application State</th>
+                <th style="text-align:right;">Dispatched</th>
+              </tr>
+            </thead>
+            <tbody id="applications-tbody">
+              <!-- Rendered dynamically via renderApplicationsTable() -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= VIEW 2: PIPELINE TRACKER (KANBAN) ================= -->
+    <div id="view-tracker" style="display:none;">
+      <div style="margin-bottom:24px;">
+        <span class="clay-badge clay-badge-purple" style="font-size:11px; margin-bottom:4px;">STAGE 4: TRACK</span>
+        <h1 style="font-size:24px; font-weight:800; color:#171d26;">Autonomous Application Pipeline</h1>
+        <p style="font-size:13.5px; color:#525d6d; margin-top:2px;">
+          Synchronizing states across Workday, Greenhouse, Ashby, and Lever career portals.
+        </p>
+      </div>
+
+      <div id="kanban-board" class="ts-kanban-board">
+        <!-- Rendered dynamically via renderKanban() in app.js -->
+      </div>
+    </div>
+
+    <!-- ================= VIEW 3: AI RECRUITER INBOX ================= -->
+    <div id="view-inbox" style="display:none;">
+      <div style="margin-bottom:24px;">
+        <span class="clay-badge clay-badge-orange" style="font-size:11px; margin-bottom:4px;">AI PROXY INBOX</span>
+        <h1 style="font-size:24px; font-weight:800; color:#171d26;">Recruiter Outreach & Auto-Scheduler</h1>
+        <p style="font-size:13.5px; color:#525d6d; margin-top:2px;">
+          Rolevia AI intercepts recruiter responses, categorizes interviews, and drafts human-sounding replies for one-click approval.
+        </p>
+      </div>
+
+      <div id="inbox-list" class="ts-inbox-deck">
+        <!-- Rendered dynamically via renderInbox() in app.js -->
+      </div>
+    </div>
+
+    <!-- ================= VIEW 4: CANDIDATE PROFILE ================= -->
+    <div id="view-profile" style="display:none;">
+      <div style="margin-bottom:24px;">
+        <span class="clay-badge clay-badge-green" style="font-size:11px; margin-bottom:4px;">CANDIDATE SOURCE OF TRUTH</span>
+        <h1 style="font-size:24px; font-weight:800; color:#171d26;">Candidate Master Profile</h1>
+        <p style="font-size:13.5px; color:#525d6d; margin-top:2px;">
+          Parsed directly from <code>Sameer_Ali_Khan_Resume.pdf</code> to auto-populate Workday/Greenhouse applications and generate tailored variations.
+        </p>
+      </div>
+
+      <div id="profile-content">
+        <!-- Rendered dynamically via renderProfile() in app.js -->
+      </div>
+    </div>
+
+    <!-- ================= VIEW 5: SUBSCRIPTION & BILLING ================= -->
+    <div id="view-billing" style="display:none;">
+      <div style="margin-bottom:24px;">
+        <span class="clay-badge clay-badge-blue" style="font-size:11px; margin-bottom:4px;">SAAS SUBSCRIPTION HUB</span>
+        <h1 style="font-size:24px; font-weight:800; color:#171d26;">Subscription & Usage Quota</h1>
+        <p style="font-size:13.5px; color:#525d6d; margin-top:2px;">
+          Manage your active tier, application dispatch quotas, invoices, and payment methods.
+        </p>
+      </div>
+
+      <div id="billing-content">
+        <!-- Rendered dynamically via renderBilling() in app.js -->
+      </div>
+    </div>
+
+    <!-- ================= VIEW 6: AUTOMATION ENGINE SETTINGS ================= -->
+    <div id="view-settings" style="display:none;">
+      <div style="margin-bottom:24px;">
+        <span class="clay-badge clay-badge-dark" style="font-size:11px; margin-bottom:4px;">ENGINE CONFIGURATION</span>
+        <h1 style="font-size:24px; font-weight:800; color:#171d26;">Automation & ATS Policies</h1>
+        <p style="font-size:13.5px; color:#525d6d; margin-top:2px;">
+          Configure daily execution throttling, proxy IP pools, blacklisted companies, and custom screening prompts.
+        </p>
+      </div>
+
+      <div id="settings-content">
+        <!-- Rendered dynamically via renderSettings() in app.js -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ================= CLAYMORPHIC MODALS ================= -->
+
+  <!-- 1. Diff Review Modal -->
+  <div id="diff-modal" class="ts-modal-overlay">
+    <div class="ts-modal-dialog">
+      <div class="ts-modal-header">
+        <h3 id="diff-modal-title" style="font-size:17px; font-weight:800; color:#171d26;">Tailored Résumé Review</h3>
+        <button class="ts-modal-close" onclick="closeModal('diff-modal')">×</button>
+      </div>
+      <div id="diff-modal-body" class="ts-modal-body">
+        <!-- Rendered dynamically via openDiffModal() in app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Submission Receipt Modal -->
+  <div id="receipt-modal" class="ts-modal-overlay">
+    <div class="ts-modal-dialog" style="max-width:720px;">
+      <div class="ts-modal-header">
+        <h3 id="receipt-modal-title" style="font-size:17px; font-weight:800; color:#171d26;">Verified ATS Submission Receipt</h3>
+        <button class="ts-modal-close" onclick="closeModal('receipt-modal')">×</button>
+      </div>
+      <div id="receipt-modal-body" class="ts-modal-body">
+        <!-- Rendered dynamically via openReceiptModal() in app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Terminal / SSE Transmit Stream Modal -->
+  <div id="terminal-modal" class="ts-modal-overlay">
+    <div class="ts-modal-dialog" style="max-width:760px; background:#0d1218; color:#c9d1d9;">
+      <div class="ts-modal-header" style="border-bottom-color:rgba(255,255,255,0.1);">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="ts-pulse-dot" style="background:#3fb950; box-shadow:0 0 10px #3fb950;"></span>
+          <h3 style="font-size:14px; font-weight:800; color:#f0f6fc; font-family:'Geist Mono', monospace;">
+            /__transmit/events · Channel: users:sameer_ali_khan:executions
+          </h3>
+        </div>
+        <button class="ts-modal-close" style="background:rgba(255,255,255,0.1); color:#fff;" onclick="closeModal('terminal-modal')">×</button>
+      </div>
+      <div class="ts-modal-body" style="padding:20px;">
+        <div class="ts-terminal-box">
+          <div style="display:flex; gap:12px; margin-bottom:4px;">
+            <span style="color:#8b949e;">[11:30:01]</span>
+            <span style="color:#c9d1d9;">Connected to Transmit SSE stream at http://localhost:3000/__transmit/events</span>
+          </div>
+          <div style="display:flex; gap:12px; margin-bottom:4px;">
+            <span style="color:#8b949e;">[11:30:02]</span>
+            <span style="color:#c9d1d9;">Channel subscribed: <code>users:sameer_ali_khan:executions</code></span>
+          </div>
+          <div style="display:flex; gap:12px; margin-bottom:4px;">
+            <span style="color:#8b949e;">[11:30:05]</span>
+            <span style="color:#c9d1d9;">[Runner] Active target: Atlassian (Role: Full Stack Software Engineer)</span>
+          </div>
+          <div style="display:flex; gap:12px; margin-bottom:4px;">
+            <span style="color:#8b949e;">[11:30:06]</span>
+            <span style="color:#c9d1d9;">[ATS Detector] Identified ATS Engine: <strong>Workday</strong> (regex pattern: myworkdayjobs\.com)</span>
+          </div>
+          <div style="display:flex; gap:12px; margin-bottom:4px;">
+            <span style="color:#8b949e;">[11:30:09]</span>
+            <span style="color:#c9d1d9;">[Prep] Extracted 4 core requirements: Python / Flask, Node.js, React, PostgreSQL</span>
+          </div>
+          <div style="display:flex; gap:12px; margin-bottom:4px;">
+            <span style="color:#8b949e;">[11:30:12]</span>
+            <span style="color:#c9d1d9;">[LLM Tailoring] Generated tailored bullet diff for Mantarang Edtech LLP & NGO Web App</span>
+          </div>
+          <div style="display:flex; gap:12px; margin-bottom:4px;">
+            <span style="color:#8b949e;">[11:30:14]</span>
+            <span style="color:#3fb950; font-weight:700;">[ATS Check] Parsed score: 98/100 (Clean single-column, standard semantic headers)</span>
+          </div>
+          <div style="display:flex; gap:12px; margin-bottom:4px;">
+            <span style="color:#8b949e;">[11:30:18]</span>
+            <span style="color:#c9d1d9;">[Auto-Fill] Injected candidate fields: Sameer Ali Khan, sammysameerkhan007@gmail.com, +91-7382898751</span>
+          </div>
+          <div style="display:flex; gap:12px; margin-bottom:4px;">
+            <span style="color:#8b949e;">[11:30:22]</span>
+            <span style="color:#3fb950; font-weight:700;">✓ [Submitted] Form dispatched. Confirmation receipt generated.</span>
+          </div>
+        </div>
+
+        <div style="margin-top:16px; text-align:right;">
+          <button class="clay-btn clay-btn-surface" style="color:#fff; background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); font-size:12px;" onclick="closeModal('terminal-modal')">
+            Close Stream Log
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Logout Confirmation Modal -->
+  <div id="logout-modal" class="ts-modal-overlay">
+    <div class="ts-modal-dialog" style="max-width:480px; text-align:center;">
+      <div class="ts-modal-header" style="justify-content:center; border-bottom:none; padding-bottom:0;">
+        <div style="width:56px; height:56px; border-radius:50%; background:rgba(239, 68, 68, 0.12); color:#dc2626; display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto; box-shadow:var(--clay-depth-sm);">
+          🚪
+        </div>
+      </div>
+      <div class="ts-modal-body" style="padding-top:14px;">
+        <h3 style="font-size:20px; font-weight:800; color:#171d26;">Sign Out of Rolevia AI?</h3>
+        <p style="font-size:13.5px; color:#525d6d; line-height:1.5; margin-top:8px;">
+          Active auto-pilot cloud workers dispatched from your account will pause. All verified Workday, Ashby, and Greenhouse receipts remain securely backed up.
+        </p>
+
+        <div class="clay-inset-well" style="padding:14px; margin-top:16px; text-align:left; font-size:12.5px; color:#171d26;">
+          <div>👤 Candidate: <strong>Sameer Ali Khan</strong></div>
+          <div style="margin-top:4px;">💳 Plan: <strong>Power Auto-Pilot</strong> (4,500 Quota)</div>
+          <div style="margin-top:4px;">📊 Dispatched: <strong>50 Applications</strong></div>
+        </div>
+
+        <div style="margin-top:24px; display:flex; justify-content:center; gap:12px;">
+          <button class="clay-btn clay-btn-surface" style="padding:9px 22px; font-size:13px;" onclick="closeModal('logout-modal')">
+            Stay Signed In
+          </button>
+          <button class="clay-btn clay-btn-danger" style="padding:9px 24px; font-size:13px;" onclick="confirmLogout()">
+            Yes, Sign Out
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Edit Candidate Profile Modal -->
+  <div id="edit-profile-modal" class="ts-modal-overlay">
+    <div class="ts-modal-dialog" style="max-width:680px;">
+      <div class="ts-modal-header">
+        <h3 style="font-size:17px; font-weight:800; color:#171d26;">Edit Candidate Master Profile</h3>
+        <button class="ts-modal-close" onclick="closeModal('edit-profile-modal')">×</button>
+      </div>
+      <div class="ts-modal-body" style="padding:24px;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+          <div>
+            <label style="font-size:12px; font-weight:700; color:#525d6d;">Full Name</label>
+            <input type="text" id="edit-name" class="clay-input" style="margin-top:4px;" value="Sameer Ali Khan">
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:700; color:#525d6d;">Target Role Title</label>
+            <input type="text" id="edit-role-title" class="clay-input" style="margin-top:4px;" value="Full Stack Engineer (Python / React / Node.js)">
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+          <div>
+            <label style="font-size:12px; font-weight:700; color:#525d6d;">Email Address</label>
+            <input type="email" id="edit-email" class="clay-input" style="margin-top:4px;" value="sammysameerkhan007@gmail.com">
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:700; color:#525d6d;">Phone Number</label>
+            <input type="text" id="edit-phone" class="clay-input" style="margin-top:4px;" value="+91-7382898751">
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <label style="font-size:12px; font-weight:700; color:#525d6d;">Location</label>
+          <input type="text" id="edit-location" class="clay-input" style="margin-top:4px;" value="Hyderabad, Telangana, India">
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <label style="font-size:12px; font-weight:700; color:#525d6d;">Master's Degree Education</label>
+          <input type="text" id="edit-education" class="clay-input" style="margin-top:4px;" value="Master of Science (M.Sc) - Computer Science, Osmania University (Expected Aug 2026)">
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+          <div>
+            <label style="font-size:12px; font-weight:700; color:#525d6d;">LinkedIn URL</label>
+            <input type="url" id="edit-linkedin" class="clay-input" style="margin-top:4px;" value="https://www.linkedin.com/in/sameeralikhan1/">
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:700; color:#525d6d;">GitHub URL</label>
+            <input type="url" id="edit-github" class="clay-input" style="margin-top:4px;" value="https://github.com/SameerAliKhan-git">
+          </div>
+        </div>
+
+        <div style="margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; background:#ebe6dc; padding:12px 18px; border-radius:14px;">
+          <div>
+            <div style="font-size:13px; font-weight:700; color:#171d26;">Require Visa Sponsorship (H-1B / US / EU)</div>
+            <div style="font-size:11.5px; color:#525d6d;">Ensures Workday/Greenhouse ATS auto-selects appropriate sponsorship answers</div>
+          </div>
+          <input type="checkbox" id="edit-sponsorship" checked style="width:20px; height:20px; accent-color:#1e5240;">
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+          <button class="clay-btn clay-btn-surface" onclick="closeModal('edit-profile-modal')">Cancel</button>
+          <button class="clay-btn clay-btn-forest" onclick="saveCandidateProfile()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Client Script -->
+  <script src="app.js"></script>
+</body>
+</html>

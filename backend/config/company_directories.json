@@ -1,0 +1,5440 @@
+{
+  "service": [
+    {
+      "name": "Accenture",
+      "website": "https://www.accenture.com"
+    },
+    {
+      "name": "Tata Consultancy Services (TCS)",
+      "website": "https://www.tcs.com"
+    },
+    {
+      "name": "Infosys",
+      "website": "https://www.infosys.com"
+    },
+    {
+      "name": "Wipro",
+      "website": "https://www.wipro.com"
+    },
+    {
+      "name": "HCL Technologies",
+      "website": "https://www.hcltech.com"
+    },
+    {
+      "name": "Cognizant",
+      "website": "https://www.cognizant.com"
+    },
+    {
+      "name": "Capgemini",
+      "website": "https://www.capgemini.com"
+    },
+    {
+      "name": "IBM",
+      "website": "https://www.ibm.com"
+    },
+    {
+      "name": "Deloitte (consulting & tech)",
+      "website": "https://www.deloitte.com"
+    },
+    {
+      "name": "PwC (consulting & tech)",
+      "website": "https://www.pwc.com"
+    },
+    {
+      "name": "EY (Ernst & Young)",
+      "website": "https://www.ey.com"
+    },
+    {
+      "name": "KPMG",
+      "website": "https://home.kpmg"
+    },
+    {
+      "name": "NTT DATA",
+      "website": "https://www.nttdata.com"
+    },
+    {
+      "name": "Tech Mahindra",
+      "website": "https://www.techmahindra.com"
+    },
+    {
+      "name": "LTIMindtree (LTI / Mindtree merged)",
+      "website": "https://www.ltimindtree.com"
+    },
+    {
+      "name": "Mphasis",
+      "website": "https://www.mphasis.com"
+    },
+    {
+      "name": "Hexaware Technologies",
+      "website": "https://hexaware.com"
+    },
+    {
+      "name": "Mindtree",
+      "website": "https://www.mindtree.com"
+    },
+    {
+      "name": "Persistent Systems",
+      "website": "https://www.persistent.com"
+    },
+    {
+      "name": "Birlasoft",
+      "website": "https://www.birlasoft.com"
+    },
+    {
+      "name": "Sonata Software",
+      "website": "https://www.sonata-software.com"
+    },
+    {
+      "name": "Cyient",
+      "website": "https://www.cyient.com"
+    },
+    {
+      "name": "NIIT Technologies (now NIIT)",
+      "website": "https://www.niit.com"
+    },
+    {
+      "name": "Oracle (services/consulting)",
+      "website": "https://www.oracle.com"
+    },
+    {
+      "name": "CGI",
+      "website": "https://www.cgi.com"
+    },
+    {
+      "name": "Atos",
+      "website": "https://atos.net"
+    },
+    {
+      "name": "Fujitsu",
+      "website": "https://www.fujitsu.com"
+    },
+    {
+      "name": "DXC Technology",
+      "website": "https://www.dxc.com"
+    },
+    {
+      "name": "WNS Global Services",
+      "website": "https://www.wns.com"
+    },
+    {
+      "name": "EXL Service",
+      "website": "https://www.exlservice.com"
+    },
+    {
+      "name": "Virtusa",
+      "website": "https://www.virtusa.com"
+    },
+    {
+      "name": "UST",
+      "website": "https://www.ust.com"
+    },
+    {
+      "name": "Sopra Steria",
+      "website": "https://www.soprasteria.com"
+    },
+    {
+      "name": "Zensar Technologies",
+      "website": "https://www.zensar.com"
+    },
+    {
+      "name": "GlobalLogic",
+      "website": "https://www.globallogic.com"
+    },
+    {
+      "name": "Cigniti",
+      "website": "https://www.cigniti.com"
+    },
+    {
+      "name": "Ness Digital Engineering",
+      "website": "https://www.ness.com"
+    },
+    {
+      "name": "ThoughtWorks",
+      "website": "https://www.thoughtworks.com"
+    },
+    {
+      "name": "Luxoft (part of DXC)",
+      "website": "https://www.luxoft.com"
+    },
+    {
+      "name": "Coforge (formerly NIIT Tech spin/related)",
+      "website": "https://www.coforge.com"
+    },
+    {
+      "name": "Sutherland Global Services",
+      "website": "https://www.sutherlandglobal.com"
+    },
+    {
+      "name": "TietoEVRY",
+      "website": "https://www.tietoevry.com"
+    },
+    {
+      "name": "KPIT Technologies",
+      "website": "https://www.kpit.com"
+    },
+    {
+      "name": "Happiest Minds Technologies",
+      "website": "https://www.happyminds.com"
+    },
+    {
+      "name": "Mastek",
+      "website": "https://www.mastek.com"
+    },
+    {
+      "name": "eClerx",
+      "website": "https://www.eclerx.com"
+    },
+    {
+      "name": "Firstsource Solutions",
+      "website": "https://www.firstsource.com"
+    },
+    {
+      "name": "Hinduja Global Solutions (HGS)",
+      "website": "https://www.teamhgs.com"
+    },
+    {
+      "name": "Concentrix",
+      "website": "https://www.concentrix.com"
+    },
+    {
+      "name": "Nagarro",
+      "website": "https://www.nagarro.com"
+    },
+    {
+      "name": "Zifo RnD Solutions",
+      "website": "https://www.zifo.com"
+    },
+    {
+      "name": "Brookfield Global Relocations",
+      "website": "https://www.brookfieldgrs.com"
+    },
+    {
+      "name": "Altran (part of Capgemini)",
+      "website": "https://www.altran.com"
+    },
+    {
+      "name": "U-blox",
+      "website": "https://www.u-blox.com"
+    },
+    {
+      "name": "L&T Technology Services",
+      "website": "https://www.ltts.com"
+    },
+    {
+      "name": "Techwave Consulting",
+      "website": "https://www.techwave.net"
+    },
+    {
+      "name": "Expleo Group",
+      "website": "https://www.expleo.com"
+    },
+    {
+      "name": "NTT DATA Services",
+      "website": "https://www.nttdata.com"
+    },
+    {
+      "name": "UST Global",
+      "website": "https://www.ust.com"
+    },
+    {
+      "name": "Coforge",
+      "website": "https://www.coforge.com"
+    },
+    {
+      "name": "Genpact",
+      "website": "https://www.genpact.com"
+    },
+    {
+      "name": "Microland",
+      "website": "https://www.microland.com"
+    },
+    {
+      "name": "Intellect Design Arena",
+      "website": "https://www.intellectdesign.com"
+    },
+    {
+      "name": "Sapiens International Corporation",
+      "website": "https://www.sapiens.com"
+    },
+    {
+      "name": "EPAM Systems",
+      "website": "https://www.epam.com"
+    },
+    {
+      "name": "Luxoft",
+      "website": "https://www.luxoft.com"
+    },
+    {
+      "name": "Software AG",
+      "website": "https://www.softwareag.com"
+    },
+    {
+      "name": "N‑iX",
+      "website": "https://www.n‑ix.com"
+    },
+    {
+      "name": "Globant",
+      "website": "https://www.globant.com"
+    },
+    {
+      "name": "Softvision (Globant)",
+      "website": "https://www.globant.com"
+    },
+    {
+      "name": "Altimetrik",
+      "website": "https://www.altimetrik.com"
+    },
+    {
+      "name": "iGate",
+      "website": "https://www.capgemini.com"
+    },
+    {
+      "name": "Atos Syntel",
+      "website": "https://www.atos.net"
+    },
+    {
+      "name": "U‑blox",
+      "website": "https://www.u‑blox.com"
+    },
+    {
+      "name": "Fractal Analytics",
+      "website": "https://www.fractal.ai"
+    },
+    {
+      "name": "QA Infotech",
+      "website": "https://www.qainfotech.com"
+    },
+    {
+      "name": "SoftServe",
+      "website": "https://www.softserveinc.com"
+    },
+    {
+      "name": "Hinduja Global Solutions",
+      "website": "https://www.teamhgs.com"
+    },
+    {
+      "name": "Intelliswift Software",
+      "website": "https://www.intelliswift.com"
+    },
+    {
+      "name": "Oracle Financial Services Software Ltd.",
+      "website": "https://www.oracle.com/financial‑services/"
+    },
+    {
+      "name": "Cybage Software",
+      "website": "https://www.cybage.com"
+    },
+    {
+      "name": "Intellect Design Arena Ltd.",
+      "website": "https://www.intellectdesign.com"
+    },
+    {
+      "name": "Sapiens International Corporation Ltd.",
+      "website": "https://www.sapiens.com"
+    },
+    {
+      "name": "QA‑Infotech",
+      "website": "https://www.qainfotech.com"
+    },
+    {
+      "name": "Kellton Tech",
+      "website": "https://www.kelltontech.com"
+    },
+    {
+      "name": "Cybage",
+      "website": "https://www.cybage.com"
+    },
+    {
+      "name": "Polaris Consulting & Services Ltd.",
+      "website": "https://www.polarisconsulting.com"
+    },
+    {
+      "name": "Xpanxion",
+      "website": "https://www.xpanxion.com"
+    },
+    {
+      "name": "Trigent Software",
+      "website": "https://www.trigent.com"
+    },
+    {
+      "name": "Datamatics Global Services",
+      "website": "https://www.datamatics.com"
+    },
+    {
+      "name": "Infogain",
+      "website": "https://www.infogain.com"
+    },
+    {
+      "name": "CSS Corp",
+      "website": "https://www.csscorp.com"
+    },
+    {
+      "name": "Softtech Engineers Ltd.",
+      "website": "https://www.softtech-eng.com"
+    },
+    {
+      "name": "R Systems International Ltd.",
+      "website": "https://www.rsystems.com"
+    },
+    {
+      "name": "3i InfoTech",
+      "website": "https://www.3i‑infotech.com"
+    },
+    {
+      "name": "Cambrio",
+      "website": "https://www.cambrio.com"
+    },
+    {
+      "name": "Icertis (services & consulting)",
+      "website": "https://www.icertis.com"
+    },
+    {
+      "name": "SoftVision",
+      "website": "https://www.globant.com/softvision"
+    },
+    {
+      "name": "Intact Digital (IT services)",
+      "website": "https://www.intactdigital.com"
+    },
+    {
+      "name": "Aricent Technologies",
+      "website": "https://www.altran.com/aricent"
+    },
+    {
+      "name": "Zensar",
+      "website": "https://www.zensar.com"
+    },
+    {
+      "name": "SoftBank Engineering Services",
+      "website": "https://www.softbank.com"
+    },
+    {
+      "name": "PixelCrayons",
+      "website": "https://www.pixelcrayons.com"
+    },
+    {
+      "name": "iCertis",
+      "website": "https://www.icertis.com"
+    },
+    {
+      "name": "Intact Digital",
+      "website": "https://www.intactdigital.com"
+    },
+    {
+      "name": "ValueCoders",
+      "website": "https://www.valuecoders.com"
+    },
+    {
+      "name": "Master Infotech",
+      "website": "https://www.masterinfotech.com"
+    },
+    {
+      "name": "Finoit",
+      "website": "https://www.finoit.com"
+    },
+    {
+      "name": "InData Labs",
+      "website": "https://www.indatalabs.com"
+    },
+    {
+      "name": "iCreativez",
+      "website": "https://www.icreativez.com"
+    },
+    {
+      "name": "Devout Tech Consultants",
+      "website": "https://www.devouttech.com"
+    },
+    {
+      "name": "Digital Bharat Agency",
+      "website": "https://www.digitalbharatagency.com"
+    },
+    {
+      "name": "Netcracker Technology",
+      "website": "https://www.netcracker.com"
+    },
+    {
+      "name": "Sutherland Providers",
+      "website": "https://www.sutherlandglobal.com"
+    },
+    {
+      "name": "Optimizely Consulting Services",
+      "website": "https://www.optimizely.com/consulting"
+    },
+    {
+      "name": "iTech US",
+      "website": "https://www.itechus.com"
+    },
+    {
+      "name": "Altran",
+      "website": "https://www.altran.com"
+    },
+    {
+      "name": "QA Tech Services",
+      "website": "https://www.qatechservices.com"
+    },
+    {
+      "name": "CoreLogic",
+      "website": "https://www.corelogic.com"
+    },
+    {
+      "name": "Luxoft",
+      "website": "https://www.luxoft.com"
+    },
+    {
+      "name": "Infostretch Corporation",
+      "website": "https://www.infostretch.com"
+    },
+    {
+      "name": "DataArt",
+      "website": "https://www.dataart.com"
+    },
+    {
+      "name": "Ness Digital‡Engineering",
+      "website": "https://www.ness.com"
+    },
+    {
+      "name": "Netronome",
+      "website": "https://www.netronome.com"
+    },
+    {
+      "name": "MediaAgility Consulting",
+      "website": "https://www.mediaagility.com"
+    },
+    {
+      "name": "YASH Technologies",
+      "website": "https://www.yash.com"
+    },
+    {
+      "name": "Sutherland Global Service",
+      "website": "https://www.sutherlandglobal.com"
+    },
+    {
+      "name": "TechAhead",
+      "website": "https://www.techaheadcorp.com"
+    },
+    {
+      "name": "Xicom Technologies",
+      "website": "https://www.xicom.biz"
+    },
+    {
+      "name": "The NineHertz",
+      "website": "https://www.theninehertz.com"
+    },
+    {
+      "name": "Radixweb",
+      "website": "https://www.radixweb.com"
+    },
+    {
+      "name": "OnGraph Technologies",
+      "website": "https://www.ongraph.com"
+    },
+    {
+      "name": "Algoworks",
+      "website": "https://www.algoworks.com"
+    },
+    {
+      "name": "AppInventiv",
+      "website": "https://www.appinventiv.com"
+    },
+    {
+      "name": "Mobisoft Infotech",
+      "website": "https://www.mobisoftinfotech.com"
+    },
+    {
+      "name": "Fingent",
+      "website": "https://www.fingent.com"
+    },
+    {
+      "name": "i2k2 Networks",
+      "website": "https://www.i2k2.com"
+    },
+    {
+      "name": "Affirma",
+      "website": "https://www.affirma.com"
+    },
+    {
+      "name": "Dotsquares",
+      "website": "https://www.dotsquares.com"
+    },
+    {
+      "name": "TraceLink",
+      "website": "https://www.tracelink.com"
+    },
+    {
+      "name": "MTOAG Technologies",
+      "website": "https://www.mtoag.com"
+    },
+    {
+      "name": "Aufait Technologies",
+      "website": "https://www.aufait.com"
+    },
+    {
+      "name": "QUEST Global",
+      "website": "https://www.quest-global.com"
+    },
+    {
+      "name": "Rishabh Software",
+      "website": "https://www.rishabhsoft.com"
+    },
+    {
+      "name": "Excellent WebWorld",
+      "website": "https://www.excellentwebworld.com"
+    },
+    {
+      "name": "Ibexlabs",
+      "website": "https://www.ibexlabs.com"
+    },
+    {
+      "name": "Girikon",
+      "website": "https://www.girikon.com"
+    },
+    {
+      "name": "Wavicle Data Solutions",
+      "website": "https://www.wavicle.com"
+    },
+    {
+      "name": "Euphoric Thought Technologies",
+      "website": "https://www.euphorictech.com"
+    },
+    {
+      "name": "Simform",
+      "website": "https://www.simform.com"
+    },
+    {
+      "name": "Ray Business Technologies",
+      "website": "https://www.raybiztech.com"
+    },
+    {
+      "name": "Quytech",
+      "website": "https://www.quytech.com"
+    },
+    {
+      "name": "Concetto Labs",
+      "website": "https://www.concettolabs.com"
+    },
+    {
+      "name": "Salt Technologies",
+      "website": "https://www.salttech.co"
+    },
+    {
+      "name": "eSparkBiz",
+      "website": "https://www.esparkinfo.com"
+    },
+    {
+      "name": "Grazitti Interactive",
+      "website": "https://www.grazitti.com"
+    },
+    {
+      "name": "Avisoft",
+      "website": "https://www.avisoft.com"
+    },
+    {
+      "name": "Cyber Infrastructure (CIS)",
+      "website": "https://www.cisin.com"
+    },
+    {
+      "name": "TatvaSoft",
+      "website": "https://www.tatvasoft.com"
+    },
+    {
+      "name": "WHMCS Global Services",
+      "website": "https://www.whmcsglobal.com"
+    },
+    {
+      "name": "Crowe",
+      "website": "https://www.crowe.com"
+    },
+    {
+      "name": "Grant Thornton",
+      "website": "https://www.grantthornton.global"
+    },
+    {
+      "name": "PKF International",
+      "website": "https://www.pkf.com"
+    },
+    {
+      "name": "Crowe (Tech Services)",
+      "website": "https://www.crowe.com"
+    },
+    {
+      "name": "Grant Thornton (Tech & Consulting)",
+      "website": "https://www.grantthornton.global"
+    },
+    {
+      "name": "PKF International (IT Consulting)",
+      "website": "https://www.pkf.com"
+    },
+    {
+      "name": "Computools",
+      "website": "https://www.computools.com"
+    },
+    {
+      "name": "Yondu",
+      "website": "https://www.yondu.com"
+    },
+    {
+      "name": "SoftwareONE",
+      "website": "https://www.softwareone.com"
+    },
+    {
+      "name": "Pythian",
+      "website": "https://www.pythian.com"
+    },
+    {
+      "name": "Softchoice",
+      "website": "https://www.softchoice.com"
+    },
+    {
+      "name": "Zones",
+      "website": "https://www.zones.com"
+    },
+    {
+      "name": "Optiv",
+      "website": "https://www.optiv.com"
+    },
+    {
+      "name": "ELEKS",
+      "website": "https://www.eleks.com"
+    },
+    {
+      "name": "Appnovation",
+      "website": "https://www.appnovation.com"
+    },
+    {
+      "name": "Itransition",
+      "website": "https://www.itransition.com"
+    },
+    {
+      "name": "Altran Technologies",
+      "website": "https://www.altran.com"
+    },
+    {
+      "name": "CGI Inc.",
+      "website": "https://www.cgi.com"
+    },
+    {
+      "name": "Atos SE",
+      "website": "https://www.atos.net"
+    },
+    {
+      "name": "NTT DATA Corporation",
+      "website": "https://www.nttdata.com"
+    },
+    {
+      "name": "Tech Mahindra Ltd.",
+      "website": "https://www.techmahindra.com"
+    },
+    {
+      "name": "Fujitsu Ltd.",
+      "website": "https://www.fujitsu.com"
+    },
+    {
+      "name": "Hitachi Ltd.",
+      "website": "https://www.hitachi.com"
+    },
+    {
+      "name": "Siemens AG (Digital Services)",
+      "website": "https://www.siemens.com"
+    },
+    {
+      "name": "Oracle Corporation (Services)",
+      "website": "https://www.oracle.com"
+    },
+    {
+      "name": "Hewlett Packard Enterprise (Services)",
+      "website": "https://www.hpe.com"
+    },
+    {
+      "name": "Dell Technologies (Services)",
+      "website": "https://www.dell.com"
+    },
+    {
+      "name": "SAP SE (Services/Consulting)",
+      "website": "https://www.sap.com"
+    },
+    {
+      "name": "Salesforce (Services & Consulting)",
+      "website": "https://www.salesforce.com"
+    },
+    {
+      "name": "Cognizant Technology Solutions (Services)",
+      "website": "https://www.cognizant.com"
+    },
+    {
+      "name": "Veritas Technologies (Consulting/Services)",
+      "website": "https://www.veritas.com"
+    },
+    {
+      "name": "Wipro Limited",
+      "website": "https://www.wipro.com"
+    },
+    {
+      "name": "Infosys Limited",
+      "website": "https://www.infosys.com"
+    },
+    {
+      "name": "Accenture plc",
+      "website": "https://www.accenture.com"
+    },
+    {
+      "name": "Booz Allen Hamilton (Consulting/Services)",
+      "website": "https://www.boozallen.com"
+    },
+    {
+      "name": "Capgemini SE",
+      "website": "https://www.capgemini.com"
+    },
+    {
+      "name": "Slalom Consulting",
+      "website": "https://www.slalom.com"
+    },
+    {
+      "name": "Publicis Sapient",
+      "website": "https://www.publicissapient.com"
+    },
+    {
+      "name": "Protiviti (Consulting/Tech Services)",
+      "website": "https://www.protiviti.com"
+    },
+    {
+      "name": "Gartner Inc. (Advisory & Technology Services)",
+      "website": "https://www.gartner.com"
+    },
+    {
+      "name": "McKinsey & Company (Technology Services)",
+      "website": "https://www.mckinsey.com"
+    },
+    {
+      "name": "Boston Consulting Group (BCG) – Technology Services",
+      "website": "https://www.bcg.com"
+    },
+    {
+      "name": "Deloitte Consulting LLP (Services)",
+      "website": "https://www.deloitte.com"
+    },
+    {
+      "name": "EY (Ernst & Young) Global Services",
+      "website": "https://www.ey.com"
+    },
+    {
+      "name": "KPMG Advisory Services",
+      "website": "https://home.kpmg"
+    },
+    {
+      "name": "Alight Solutions",
+      "website": "https://www.alight.com"
+    },
+    {
+      "name": "Avalara (Consulting & Tax Services)",
+      "website": "https://www.avalara.com"
+    },
+    {
+      "name": "UXRTECH (Services)",
+      "website": "https://www.uxrtech.com"
+    },
+    {
+      "name": "ThoughtWorks Inc.",
+      "website": "https://www.thoughtworks.com"
+    },
+    {
+      "name": "Globant SA",
+      "website": "https://www.globant.com"
+    },
+    {
+      "name": "EPAM Systems Inc.",
+      "website": "https://www.epam.com"
+    },
+    {
+      "name": "Luxoft (a DXC company)",
+      "website": "https://www.luxoft.com"
+    },
+    {
+      "name": "SoftServe Inc.",
+      "website": "https://www.softserveinc.com"
+    },
+    {
+      "name": "DataArt Inc.",
+      "website": "https://www.dataart.com"
+    },
+    {
+      "name": "Appnovation Technologies",
+      "website": "https://www.appnovation.com"
+    },
+    {
+      "name": "SoftwareONE Group",
+      "website": "https://www.softwareone.com"
+    },
+    {
+      "name": "Pythian Group Inc.",
+      "website": "https://www.pythian.com"
+    },
+    {
+      "name": "Softchoice Corporation",
+      "website": "https://www.softchoice.com"
+    },
+    {
+      "name": "Zones LLC",
+      "website": "https://www.zones.com"
+    },
+    {
+      "name": "Optiv Security Inc.",
+      "website": "https://www.optiv.com"
+    },
+    {
+      "name": "ELEKS – Global Services & Solutions",
+      "website": "https://www.eleks.com"
+    },
+    {
+      "name": "Itransition Group",
+      "website": "https://www.itransition.com"
+    },
+    {
+      "name": "Tata Elxsi",
+      "website": "https://www.tataelxsi.com"
+    },
+    {
+      "name": "L&T Technology Services (LTTS)",
+      "website": "https://www.ltts.com"
+    },
+    {
+      "name": "Finoit Technologies",
+      "website": "https://www.finoit.com"
+    },
+    {
+      "name": "AppInventiv Technologies",
+      "website": "https://www.appinventiv.com"
+    },
+    {
+      "name": "Fingent (India)",
+      "website": "https://www.fingent.com"
+    },
+    {
+      "name": "Saltt Tech",
+      "website": "https://www.salttech.co"
+    },
+    {
+      "name": "Synoptek (India operations)",
+      "website": "https://www.synoptek.com"
+    },
+    {
+      "name": "Wavicle Data Solutions (India)",
+      "website": "https://www.wavicle.com"
+    },
+    {
+      "name": "3i Infotech Ltd",
+      "website": "https://www.3i-infotech.com"
+    },
+    {
+      "name": "R Systems International Ltd",
+      "website": "https://www.rsystems.com"
+    },
+    {
+      "name": "Infinite Computer Solutions",
+      "website": "https://www.infinite.com"
+    },
+    {
+      "name": "Kellton Tech Solutions",
+      "website": "https://www.kellton.com"
+    },
+    {
+      "name": "Cybage Software Pvt Ltd",
+      "website": "https://www.cybage.com"
+    },
+    {
+      "name": "Incedo Inc",
+      "website": "https://www.incedoinc.com"
+    },
+    {
+      "name": "Indium Software",
+      "website": "https://www.indiumsoftware.com"
+    },
+    {
+      "name": "Aspire Systems",
+      "website": "https://www.aspiresys.com"
+    },
+    {
+      "name": "Fission Labs",
+      "website": "https://www.fissionlabs.com"
+    },
+    {
+      "name": "RapidValue Solutions",
+      "website": "https://www.rapidvaluesolutions.com"
+    },
+    {
+      "name": "Nous Infosystems",
+      "website": "https://www.nousinfosystems.com"
+    },
+    {
+      "name": "ITC Infotech",
+      "website": "https://www.itcinfotech.com"
+    },
+    {
+      "name": "Harman Connected Services",
+      "website": "https://services.harman.com"
+    },
+    {
+      "name": "Robosoft Technologies",
+      "website": "https://www.robosoftin.com"
+    },
+    {
+      "name": "Brillio Technologies",
+      "website": "https://www.brillio.com"
+    },
+    {
+      "name": "Zinnov Management Consulting",
+      "website": "https://zinnov.com"
+    },
+    {
+      "name": "Sonata Software Ltd",
+      "website": "https://www.sonata-software.com"
+    },
+    {
+      "name": "Coforge Ltd",
+      "website": "https://www.coforge.com"
+    },
+    {
+      "name": "Birlasoft Ltd",
+      "website": "https://www.birlasoft.com"
+    },
+    {
+      "name": "Clover Infotech",
+      "website": "https://www.cloverinfotech.com"
+    },
+    {
+      "name": "Newgen Software Technologies",
+      "website": "https://www.newgensoft.com"
+    },
+    {
+      "name": "Majesco",
+      "website": "https://www.majesco.com"
+    },
+    {
+      "name": "Xoriant",
+      "website": "https://www.xoriant.com"
+    },
+    {
+      "name": "Allerin Tech",
+      "website": "https://www.allerin.com"
+    },
+    {
+      "name": "Nagarro India",
+      "website": "https://www.nagarro.com"
+    },
+    {
+      "name": "Innominds",
+      "website": "https://www.innominds.com"
+    },
+    {
+      "name": "Mobinius Technologies",
+      "website": "https://www.mobinius.com"
+    },
+    {
+      "name": "Saviant Consulting",
+      "website": "https://www.saviantconsulting.com"
+    },
+    {
+      "name": "Searce",
+      "website": "https://www.searce.com"
+    },
+    {
+      "name": "Blazeclan Technologies",
+      "website": "https://www.blazeclan.com"
+    },
+    {
+      "name": "CloudThat Technologies",
+      "website": "https://www.cloudthat.com"
+    },
+    {
+      "name": "Envestnet Yodlee",
+      "website": "https://www.yodlee.com"
+    },
+    {
+      "name": "MetricStream",
+      "website": "https://www.metricstream.com"
+    },
+    {
+      "name": "Cyient Ltd",
+      "website": "https://www.cyient.com"
+    },
+    {
+      "name": "VVDN Technologies",
+      "website": "https://www.vvdntech.com"
+    },
+    {
+      "name": "Sasken Technologies",
+      "website": "https://www.sasken.com"
+    },
+    {
+      "name": "Infogain India",
+      "website": "https://www.infogain.com"
+    },
+    {
+      "name": "Happiest Technologies",
+      "website": "https://www.happiestminds.com"
+    },
+    {
+      "name": "Encora Digital",
+      "website": "https://www.encora.com"
+    },
+    {
+      "name": "Qburst Technologies",
+      "website": "https://www.qburst.com"
+    },
+    {
+      "name": "SourceFuse",
+      "website": "https://www.sourcefuse.com"
+    },
+    {
+      "name": "Tismo Technology Solutions",
+      "website": "https://www.tismotech.com"
+    },
+    {
+      "name": "iLink Digital",
+      "website": "https://www.ilink-digital.com"
+    },
+    {
+      "name": "Yethi Consulting",
+      "website": "https://www.yethi.in"
+    },
+    {
+      "name": "Aujas Cybersecurity",
+      "website": "https://www.aujas.com"
+    },
+    {
+      "name": "WinWire Technologies",
+      "website": "https://www.winwire.com"
+    },
+    {
+      "name": "Cygnet Infotech",
+      "website": "https://www.cygnet-infotech.com"
+    },
+    {
+      "name": "Evoke Technologies",
+      "website": "https://www.evoketechnologies.com"
+    },
+    {
+      "name": "Indus Net Technologies",
+      "website": "https://www.indusnet.co.in"
+    },
+    {
+      "name": "Encora Technologies",
+      "website": "https://www.encora.com"
+    },
+    {
+      "name": "Sensiple Software Solutions",
+      "website": "https://www.sensiple.com"
+    },
+    {
+      "name": "iNautix Technologies",
+      "website": "https://www.bnymellon.com/in/en/inautix.html"
+    },
+    {
+      "name": "Object Edge",
+      "website": "https://www.objectedge.com"
+    },
+    {
+      "name": "eNoah iSolutions",
+      "website": "https://www.enoahisolution.com"
+    },
+    {
+      "name": "Algoscale Technologies",
+      "website": "https://www.algoscale.com"
+    },
+    {
+      "name": "Ilink Systems",
+      "website": "https://www.ilink-systems.com"
+    },
+    {
+      "name": "Qapitol QA",
+      "website": "https://www.qapitol.com"
+    },
+    {
+      "name": "Experion Technologies",
+      "website": "https://www.experionglobal.com"
+    },
+    {
+      "name": "Nitor Infotech",
+      "website": "https://www.nitorinfotech.com"
+    },
+    {
+      "name": "Infobahn Softworld",
+      "website": "https://www.infobahnsw.com"
+    },
+    {
+      "name": "Mindtree (LTIMindtree)",
+      "website": "https://www.ltimindtree.com"
+    },
+    {
+      "name": "Mastek Ltd",
+      "website": "https://www.mastek.com"
+    },
+    {
+      "name": "VLink Inc",
+      "website": "https://www.vlinkinfo.com"
+    },
+    {
+      "name": "Appstrail Technology",
+      "website": "https://www.appstrail.com"
+    },
+    {
+      "name": "eInfochips",
+      "website": "https://www.einfochips.com"
+    },
+    {
+      "name": "GAVS Technologies",
+      "website": "https://www.gavstech.com"
+    },
+    {
+      "name": "Altimetrik India",
+      "website": "https://www.altimetrik.com"
+    },
+    {
+      "name": "Harman Connected India",
+      "website": "https://services.harman.com"
+    },
+    {
+      "name": "Zymr",
+      "website": "https://www.zymr.com"
+    },
+    {
+      "name": "Tibil Solutions",
+      "website": "https://www.tibilsolutions.com"
+    },
+    {
+      "name": "BluePi Consulting",
+      "website": "https://www.bluepiit.com"
+    },
+    {
+      "name": "RapidOps",
+      "website": "https://www.rapidops.com"
+    },
+    {
+      "name": "Daffodil Software",
+      "website": "https://www.daffodilsw.com"
+    },
+    {
+      "name": "Appventurez",
+      "website": "https://www.appventurez.com"
+    },
+    {
+      "name": "MindBowser Infosolutions",
+      "website": "https://www.mindbowser.com"
+    },
+    {
+      "name": "Clarion Technologies",
+      "website": "https://www.clariontech.com"
+    },
+    {
+      "name": "ValueLabs",
+      "website": "https://www.valuelabs.com"
+    },
+    {
+      "name": "ToTheNew",
+      "website": "https://www.tothenew.com"
+    },
+    {
+      "name": "Coditas",
+      "website": "https://www.coditas.com"
+    },
+    {
+      "name": "Srijan Technologies",
+      "website": "https://www.srijan.net"
+    },
+    {
+      "name": "Softura",
+      "website": "https://www.softura.com"
+    },
+    {
+      "name": "Gateway Group",
+      "website": "https://www.gatewaygroup.com"
+    },
+    {
+      "name": "KCS Technologies",
+      "website": "https://www.kcsglobal.com"
+    },
+    {
+      "name": "KnackForge",
+      "website": "https://www.knackforge.com"
+    },
+    {
+      "name": "NDimensionZ",
+      "website": "https://www.ndz.co.in"
+    },
+    {
+      "name": "OpenXcell",
+      "website": "https://www.openxcell.com"
+    },
+    {
+      "name": "Space-O Technologies",
+      "website": "https://www.spaceo.com"
+    },
+    {
+      "name": "Peerbits",
+      "website": "https://www.peerbits.com"
+    },
+    {
+      "name": "Technostacks Infotech",
+      "website": "https://www.technostacks.com"
+    },
+    {
+      "name": "Crest Data Systems",
+      "website": "https://www.crestdatasys.com"
+    },
+    {
+      "name": "Saviant Tech",
+      "website": "https://www.saviantconsulting.com"
+    },
+    {
+      "name": "Zymr Inc",
+      "website": "https://www.zymr.com"
+    },
+    {
+      "name": "SPEC India",
+      "website": "https://www.spec-india.com"
+    },
+    {
+      "name": "Bacancy Technology",
+      "website": "https://www.bacancytechnology.com"
+    },
+    {
+      "name": "Innostax Software Labs",
+      "website": "https://www.innostax.com"
+    },
+    {
+      "name": "AppitSimple Infotek (CallHippo)",
+      "website": "https://www.appitsimple.com"
+    },
+    {
+      "name": "NetWeb Software",
+      "website": "https://www.netwebsoft.com"
+    },
+    {
+      "name": "IndiaNIC Infotech",
+      "website": "https://www.indianic.com"
+    },
+    {
+      "name": "WeblineIndia",
+      "website": "https://www.weblineindia.com"
+    },
+    {
+      "name": "Systematix Infotech",
+      "website": "https://www.systematixinfotech.com"
+    },
+    {
+      "name": "Aegis Soft Tech",
+      "website": "https://www.aegissofttech.com"
+    },
+    {
+      "name": "Multidots",
+      "website": "https://www.multidots.com"
+    },
+    {
+      "name": "Simform India",
+      "website": "https://www.simform.com"
+    },
+    {
+      "name": "Azilen Technologies",
+      "website": "https://www.azilen.com"
+    },
+    {
+      "name": "Rapidops Solutions",
+      "website": "https://www.rapidops.com"
+    },
+    {
+      "name": "MindInventory",
+      "website": "https://www.mindinventory.com"
+    },
+    {
+      "name": "Zealous System",
+      "website": "https://www.zealoussystem.com"
+    },
+    {
+      "name": "Narola Infotech",
+      "website": "https://www.narolainfotech.com"
+    },
+    {
+      "name": "Hidden Brains Infotech",
+      "website": "https://www.hiddenbrains.com"
+    },
+    {
+      "name": "iCreative Technologies",
+      "website": "https://www.icreativetechnologies.com"
+    },
+    {
+      "name": "Intuz",
+      "website": "https://www.intuz.com"
+    },
+    {
+      "name": "DRC Systems",
+      "website": "https://www.drcsystems.com"
+    },
+    {
+      "name": "WebOccult Technologies",
+      "website": "https://www.weboccult.com"
+    },
+    {
+      "name": "Crest Infosystems",
+      "website": "https://www.crestinfosystems.com"
+    },
+    {
+      "name": "Innowrap Technologies",
+      "website": "https://www.innowrap.com"
+    },
+    {
+      "name": "Technource",
+      "website": "https://www.technource.com"
+    },
+    {
+      "name": "Prompt Softech",
+      "website": "https://www.promptsoftech.com"
+    },
+    {
+      "name": "Perception System",
+      "website": "https://www.perceptionsystem.com"
+    },
+    {
+      "name": "Softpulse Infotech",
+      "website": "https://www.softpulseinfotech.com"
+    },
+    {
+      "name": "Brainvire Infotech",
+      "website": "https://www.brainvire.com"
+    },
+    {
+      "name": "Arka Softwares",
+      "website": "https://www.arkasoftwares.com"
+    },
+    {
+      "name": "RipenApps Technologies",
+      "website": "https://www.ripenapps.com"
+    },
+    {
+      "name": "Hyperlink InfoSystem",
+      "website": "https://www.hyperlinkinfosystem.com"
+    },
+    {
+      "name": "Codewave Technologies",
+      "website": "https://www.codewave.com"
+    },
+    {
+      "name": "GoodWorkLabs",
+      "website": "https://www.goodworklabs.com"
+    },
+    {
+      "name": "T‑Systems (Germany)",
+      "website": "https://www.t-systems.com"
+    },
+    {
+      "name": "Netguru (Poland)",
+      "website": "https://www.netguru.com"
+    },
+    {
+      "name": "Valtech (France)",
+      "website": "https://www.valtech.com"
+    },
+    {
+      "name": "Logicalis (UK)",
+      "website": "https://www.logicalis.com"
+    },
+    {
+      "name": "Bechtle AG (Germany)",
+      "website": "https://www.bechtle.com"
+    },
+    {
+      "name": "Inetum (France)",
+      "website": "https://www.inetum.com"
+    },
+    {
+      "name": "Alten Group (France)",
+      "website": "https://www.alten.com"
+    },
+    {
+      "name": "Atea ASA (Norway)",
+      "website": "https://www.atea.com"
+    },
+    {
+      "name": "NNIT (Denmark)",
+      "website": "https://www.nnit.com"
+    },
+    {
+      "name": "Capita PLC (UK)",
+      "website": "https://www.capita.com"
+    },
+    {
+      "name": "Wavestone (France)",
+      "website": "https://www.wavestone.com"
+    },
+    {
+      "name": "Modis (Global)",
+      "website": "https://www.experis.com"
+    },
+    {
+      "name": "Kyndryl (USA)",
+      "website": "https://www.kyndryl.com"
+    },
+    {
+      "name": "Leidos (USA)",
+      "website": "https://www.leidos.com"
+    },
+    {
+      "name": "SAIC (USA)",
+      "website": "https://www.saic.com"
+    },
+    {
+      "name": "Endava (UK)",
+      "website": "https://www.endava.com"
+    },
+    {
+      "name": "Intellias (Ukraine)",
+      "website": "https://www.intellias.com"
+    },
+    {
+      "name": "Sigma Software (Ukraine)",
+      "website": "https://www.sigma.software"
+    },
+    {
+      "name": "Ciklum (Global)",
+      "website": "https://www.ciklum.com"
+    },
+    {
+      "name": "Netcompany Group (Denmark)",
+      "website": "https://www.netcompany.com"
+    },
+    {
+      "name": "T‑Systems",
+      "website": "https://www.t-systems.com"
+    },
+    {
+      "name": "Netguru",
+      "website": "https://www.netguru.com"
+    },
+    {
+      "name": "Valtech",
+      "website": "https://www.valtech.com"
+    },
+    {
+      "name": "Logicalis",
+      "website": "https://www.logicalis.com"
+    },
+    {
+      "name": "Bechtle AG",
+      "website": "https://www.bechtle.com"
+    },
+    {
+      "name": "Inetum",
+      "website": "https://www.inetum.com"
+    },
+    {
+      "name": "Alten Group",
+      "website": "https://www.alten.com"
+    },
+    {
+      "name": "Atea ASA",
+      "website": "https://www.atea.com"
+    },
+    {
+      "name": "NNIT",
+      "website": "https://www.nnit.com"
+    },
+    {
+      "name": "Capita PLC",
+      "website": "https://www.capita.com"
+    },
+    {
+      "name": "Wavestone",
+      "website": "https://www.wavestone.com"
+    },
+    {
+      "name": "Endava",
+      "website": "https://www.endava.com"
+    },
+    {
+      "name": "Intellias",
+      "website": "https://www.intellias.com"
+    },
+    {
+      "name": "Andersen",
+      "website": "https://www.andersenlab.com"
+    },
+    {
+      "name": "Sigma Software",
+      "website": "https://www.sigma.software"
+    },
+    {
+      "name": "Ciklum",
+      "website": "https://www.ciklum.com"
+    },
+    {
+      "name": "MentorMate",
+      "website": "https://www.mentormate.com"
+    },
+    {
+      "name": "Netcompany Group",
+      "website": "https://www.netcompany.com"
+    },
+    {
+      "name": "Oxagile",
+      "website": "https://www.oxagile.com"
+    },
+    {
+      "name": "Innowise Group",
+      "website": "https://www.innowise-group.com"
+    },
+    {
+      "name": "Artezio",
+      "website": "https://www.artezio.com"
+    },
+    {
+      "name": "Diceus",
+      "website": "https://diceus.com"
+    },
+    {
+      "name": "Yalantis",
+      "website": "https://yalantis.com"
+    },
+    {
+      "name": "Netronome",
+      "website": "https://www.netronome.com"
+    },
+    {
+      "name": "Herjavec Group",
+      "website": "https://www.herjavecgroup.com"
+    },
+    {
+      "name": "Altoros",
+      "website": "https://www.altoros.com"
+    },
+    {
+      "name": "Software Mind S.A.",
+      "website": "https://www.softwaremind.pl"
+    },
+    {
+      "name": "Bouvet ASA",
+      "website": "https://www.bouvet.no"
+    },
+    {
+      "name": "Castellum Inc",
+      "website": "https://www.castellum.com"
+    },
+    {
+      "name": "Grid Dynamics Holdings Inc",
+      "website": "https://www.griddynamics.com"
+    },
+    {
+      "name": "Netweb Software",
+      "website": "https://www.netwebsoft.com"
+    },
+    {
+      "name": "Multidots",
+      "website": "https://www.multidots.com"
+    },
+    {
+      "name": "Zealous System",
+      "website": "https://www.zealoussystem.com"
+    },
+    {
+      "name": "Narola Infotech",
+      "website": "https://www.narolainfotech.com"
+    },
+    {
+      "name": "Hidden Brains Infotech",
+      "website": "https://www.hiddenbrains.com"
+    },
+    {
+      "name": "iCreative Technologies",
+      "website": "https://www.icreativetechnologies.com"
+    },
+    {
+      "name": "Intuz",
+      "website": "https://www.intuz.com"
+    },
+    {
+      "name": "DRC Systems",
+      "website": "https://www.drcsystems.com"
+    },
+    {
+      "name": "WebOccult Technologies",
+      "website": "https://www.weboccult.com"
+    },
+    {
+      "name": "Crest Infosystems",
+      "website": "https://www.crestinfosystems.com"
+    },
+    {
+      "name": "Prompt Softech",
+      "website": "https://www.promptsoftech.com"
+    },
+    {
+      "name": "Endava",
+      "website": "https://www.endava.com"
+    },
+    {
+      "name": "Netguru",
+      "website": "https://www.netguru.com"
+    },
+    {
+      "name": "Valtech",
+      "website": "https://www.valtech.com"
+    },
+    {
+      "name": "Logicalis",
+      "website": "https://www.logicalis.com"
+    },
+    {
+      "name": "Bechtle AG",
+      "website": "https://www.bechtle.com"
+    },
+    {
+      "name": "Inetum",
+      "website": "https://www.inetum.com"
+    },
+    {
+      "name": "Alten Group",
+      "website": "https://www.alten.com"
+    },
+    {
+      "name": "Motherson Technology",
+      "website": "https://www.mothersontechnology.com/"
+    }
+  ],
+  "product": [
+    {
+      "name": "Adobe",
+      "website": "https://www.adobe.com"
+    },
+    {
+      "name": "Atlassian",
+      "website": "https://www.atlassian.com"
+    },
+    {
+      "name": "Salesforce",
+      "website": "https://www.salesforce.com"
+    },
+    {
+      "name": "ServiceNow",
+      "website": "https://www.servicenow.com"
+    },
+    {
+      "name": "VMware",
+      "website": "https://www.vmware.com"
+    },
+    {
+      "name": "Intuit",
+      "website": "https://www.intuit.com"
+    },
+    {
+      "name": "SAP",
+      "website": "https://www.sap.com"
+    },
+    {
+      "name": "Oracle",
+      "website": "https://www.oracle.com"
+    },
+    {
+      "name": "Cisco",
+      "website": "https://www.cisco.com"
+    },
+    {
+      "name": "Dropbox",
+      "website": "https://www.dropbox.com"
+    },
+    {
+      "name": "Zoom Video",
+      "website": "https://zoom.us"
+    },
+    {
+      "name": "Slack Technologies",
+      "website": "https://slack.com"
+    },
+    {
+      "name": "Twilio",
+      "website": "https://www.twilio.com"
+    },
+    {
+      "name": "Stripe",
+      "website": "https://stripe.com"
+    },
+    {
+      "name": "Square (Block Inc.)",
+      "website": "https://squareup.com"
+    },
+    {
+      "name": "Shopify",
+      "website": "https://www.shopify.com"
+    },
+    {
+      "name": "HubSpot",
+      "website": "https://www.hubspot.com"
+    },
+    {
+      "name": "Asana",
+      "website": "https://asana.com"
+    },
+    {
+      "name": "Workday",
+      "website": "https://www.workday.com"
+    },
+    {
+      "name": "GitHub",
+      "website": "https://github.com"
+    },
+    {
+      "name": "GitLab",
+      "website": "https://about.gitlab.com"
+    },
+    {
+      "name": "Bitbucket",
+      "website": "https://bitbucket.org"
+    },
+    {
+      "name": "DigitalOcean",
+      "website": "https://www.digitalocean.com"
+    },
+    {
+      "name": "MongoDB",
+      "website": "https://www.mongodb.com"
+    },
+    {
+      "name": "Elastic",
+      "website": "https://www.elastic.co"
+    },
+    {
+      "name": "Datadog",
+      "website": "https://www.datadoghq.com"
+    },
+    {
+      "name": "Splunk",
+      "website": "https://www.splunk.com"
+    },
+    {
+      "name": "New Relic",
+      "website": "https://newrelic.com"
+    },
+    {
+      "name": "PagerDuty",
+      "website": "https://www.pagerduty.com"
+    },
+    {
+      "name": "Fastly",
+      "website": "https://www.fastly.com"
+    },
+    {
+      "name": "Tableau Software",
+      "website": "https://www.tableau.com"
+    },
+    {
+      "name": "Qlik",
+      "website": "https://www.qlik.com"
+    },
+    {
+      "name": "Sisense",
+      "website": "https://www.sisense.com"
+    },
+    {
+      "name": "TIBCO Software",
+      "website": "https://www.tibco.com"
+    },
+    {
+      "name": "MuleSoft",
+      "website": "https://www.mulesoft.com"
+    },
+    {
+      "name": "Zapier",
+      "website": "https://zapier.com"
+    },
+    {
+      "name": "Segment",
+      "website": "https://segment.com"
+    },
+    {
+      "name": "Hotjar",
+      "website": "https://www.hotjar.com"
+    },
+    {
+      "name": "Crazy Egg",
+      "website": "https://www.crazyegg.com"
+    },
+    {
+      "name": "Optimizely",
+      "website": "https://www.optimizely.com"
+    },
+    {
+      "name": "VWO",
+      "website": "https://vwo.com"
+    },
+    {
+      "name": "Unbounce",
+      "website": "https://unbounce.com"
+    },
+    {
+      "name": "Instapage",
+      "website": "https://instapage.com"
+    },
+    {
+      "name": "Leadpages",
+      "website": "https://www.leadpages.com"
+    },
+    {
+      "name": "Mailchimp",
+      "website": "https://mailchimp.com"
+    },
+    {
+      "name": "Constant Contact",
+      "website": "https://www.constantcontact.com"
+    },
+    {
+      "name": "SendGrid",
+      "website": "https://sendgrid.com"
+    },
+    {
+      "name": "Campaign Monitor",
+      "website": "https://www.campaignmonitor.com"
+    },
+    {
+      "name": "ActiveCampaign",
+      "website": "https://www.activecampaign.com"
+    },
+    {
+      "name": "ConvertKit",
+      "website": "https://convertkit.com"
+    },
+    {
+      "name": "AWeber",
+      "website": "https://www.aweber.com"
+    },
+    {
+      "name": "GetResponse",
+      "website": "https://www.getresponse.com"
+    },
+    {
+      "name": "Drip",
+      "website": "https://www.drip.com"
+    },
+    {
+      "name": "Klaviyo",
+      "website": "https://www.klaviyo.com"
+    },
+    {
+      "name": "Omnisend",
+      "website": "https://www.omnisend.com"
+    },
+    {
+      "name": "Moosend",
+      "website": "https://moosend.com"
+    },
+    {
+      "name": "Benchmark Email",
+      "website": "https://www.benchmarkemail.com"
+    },
+    {
+      "name": "MailerLite",
+      "website": "https://www.mailerlite.com"
+    },
+    {
+      "name": "Sendinblue",
+      "website": "https://www.sendinblue.com"
+    },
+    {
+      "name": "Coda",
+      "website": "https://coda.io"
+    },
+    {
+      "name": "Airtable",
+      "website": "https://airtable.com"
+    },
+    {
+      "name": "Trello",
+      "website": "https://trello.com"
+    },
+    {
+      "name": "Basecamp",
+      "website": "https://basecamp.com"
+    },
+    {
+      "name": "Wrike",
+      "website": "https://www.wrike.com"
+    },
+    {
+      "name": "Proofhub",
+      "website": "https://www.proofhub.com"
+    },
+    {
+      "name": "Teamwork",
+      "website": "https://www.teamwork.com"
+    },
+    {
+      "name": "Smartsheet",
+      "website": "https://www.smartsheet.com"
+    },
+    {
+      "name": "Workzone",
+      "website": "https://www.workzone.com"
+    },
+    {
+      "name": "Scoro",
+      "website": "https://www.scoro.com"
+    },
+    {
+      "name": "Clarizen",
+      "website": "https://www.clarizen.com"
+    },
+    {
+      "name": "Mavenlink",
+      "website": "https://www.mavenlink.com"
+    },
+    {
+      "name": "LiquidPlanner",
+      "website": "https://www.liquidplanner.com"
+    },
+    {
+      "name": "ProjectManager.com",
+      "website": "https://www.projectmanager.com"
+    },
+    {
+      "name": "TeamGantt",
+      "website": "https://www.teamgantt.com"
+    },
+    {
+      "name": "GanttPRO",
+      "website": "https://ganttpro.com"
+    },
+    {
+      "name": "Zoho Projects",
+      "website": "https://www.zoho.com/projects"
+    },
+    {
+      "name": "Microsoft Project",
+      "website": "https://www.microsoft.com/project"
+    },
+    {
+      "name": "Jira Software",
+      "website": "https://www.atlassian.com/software/jira"
+    },
+    {
+      "name": "VersionOne",
+      "website": "https://www.versionone.com"
+    },
+    {
+      "name": "Cloudflare",
+      "website": "https://www.cloudflare.com"
+    },
+    {
+      "name": "Snowflake",
+      "website": "https://www.snowflake.com"
+    },
+    {
+      "name": "Databricks",
+      "website": "https://www.databricks.com"
+    },
+    {
+      "name": "Confluent",
+      "website": "https://www.confluent.io"
+    },
+    {
+      "name": "Redis Labs",
+      "website": "https://redis.com"
+    },
+    {
+      "name": "Couchbase",
+      "website": "https://www.couchbase.com"
+    },
+    {
+      "name": "Cloudera",
+      "website": "https://www.cloudera.com"
+    },
+    {
+      "name": "Hortonworks",
+      "website": "https://www.hortonworks.com"
+    },
+    {
+      "name": "Informatica",
+      "website": "https://www.informatica.com"
+    },
+    {
+      "name": "Tableau",
+      "website": "https://www.tableau.com"
+    },
+    {
+      "name": "Looker (Google)",
+      "website": "https://looker.com"
+    },
+    {
+      "name": "Alteryx",
+      "website": "https://www.alteryx.com"
+    },
+    {
+      "name": "Talend",
+      "website": "https://www.talend.com"
+    },
+    {
+      "name": "Segment (Twilio)",
+      "website": "https://segment.com"
+    },
+    {
+      "name": "Fivetran",
+      "website": "https://www.fivetran.com"
+    },
+    {
+      "name": "Domo",
+      "website": "https://www.domo.com"
+    },
+    {
+      "name": "ThoughtSpot",
+      "website": "https://www.thoughtspot.com"
+    },
+    {
+      "name": "Amplitude",
+      "website": "https://amplitude.com"
+    },
+    {
+      "name": "Mixpanel",
+      "website": "https://mixpanel.com"
+    },
+    {
+      "name": "Heap Analytics",
+      "website": "https://heap.io"
+    },
+    {
+      "name": "Algolia",
+      "website": "https://www.algolia.com"
+    },
+    {
+      "name": "Segment.io",
+      "website": "https://segment.com"
+    },
+    {
+      "name": "Auth0",
+      "website": "https://auth0.com"
+    },
+    {
+      "name": "Okta",
+      "website": "https://www.okta.com"
+    },
+    {
+      "name": "Duo Security (Cisco)",
+      "website": "https://duo.com"
+    },
+    {
+      "name": "HashiCorp",
+      "website": "https://www.hashicorp.com"
+    },
+    {
+      "name": "Terraform (HashiCorp)",
+      "website": "https://www.terraform.io"
+    },
+    {
+      "name": "Ansible (Red Hat)",
+      "website": "https://www.ansible.com"
+    },
+    {
+      "name": "Chef Software",
+      "website": "https://www.chef.io"
+    },
+    {
+      "name": "Puppet Labs",
+      "website": "https://puppet.com"
+    },
+    {
+      "name": "Jenkins (CloudBees)",
+      "website": "https://www.jenkins.io"
+    },
+    {
+      "name": "CircleCI",
+      "website": "https://circleci.com"
+    },
+    {
+      "name": "TravisCI",
+      "website": "https://travis-ci.org"
+    },
+    {
+      "name": "Semaphore",
+      "website": "https://semaphoreci.com"
+    },
+    {
+      "name": "Netlify",
+      "website": "https://www.netlify.com"
+    },
+    {
+      "name": "Vercel",
+      "website": "https://vercel.com"
+    },
+    {
+      "name": "Heroku (Salesforce)",
+      "website": "https://www.heroku.com"
+    },
+    {
+      "name": "Render",
+      "website": "https://render.com"
+    },
+    {
+      "name": "Fly.io",
+      "website": "https://fly.io"
+    },
+    {
+      "name": "Supabase",
+      "website": "https://supabase.com"
+    },
+    {
+      "name": "Appwrite",
+      "website": "https://appwrite.io"
+    },
+    {
+      "name": "Firebase (Google)",
+      "website": "https://firebase.google.com"
+    },
+    {
+      "name": "NetApp",
+      "website": "https://www.netapp.com"
+    },
+    {
+      "name": "Rubrik",
+      "website": "https://www.rubrik.com"
+    },
+    {
+      "name": "Cohesity",
+      "website": "https://www.cohesity.com"
+    },
+    {
+      "name": "Veeam Software",
+      "website": "https://www.veeam.com"
+    },
+    {
+      "name": "Zscaler",
+      "website": "https://www.zscaler.com"
+    },
+    {
+      "name": "Palo Alto Networks",
+      "website": "https://www.paloaltonetworks.com"
+    },
+    {
+      "name": "Fortinet",
+      "website": "https://www.fortinet.com"
+    },
+    {
+      "name": "CrowdStrike",
+      "website": "https://www.crowdstrike.com"
+    },
+    {
+      "name": "SentinelOne",
+      "website": "https://www.sentinelone.com"
+    },
+    {
+      "name": "Snyk",
+      "website": "https://snyk.io"
+    },
+    {
+      "name": "Tenable",
+      "website": "https://www.tenable.com"
+    },
+    {
+      "name": "Rapid7",
+      "website": "https://www.rapid7.com"
+    },
+    {
+      "name": "Lookout",
+      "website": "https://www.lookout.com"
+    },
+    {
+      "name": "Elastic Security",
+      "website": "https://www.elastic.co/security"
+    },
+    {
+      "name": "Ping Identity",
+      "website": "https://www.pingidentity.com"
+    },
+    {
+      "name": "Splashtop",
+      "website": "https://www.splashtop.com"
+    },
+    {
+      "name": "TeamViewer",
+      "website": "https://www.teamviewer.com"
+    },
+    {
+      "name": "LogMeIn",
+      "website": "https://www.logmein.com"
+    },
+    {
+      "name": "ZoomInfo",
+      "website": "https://www.zoominfo.com"
+    },
+    {
+      "name": "G2",
+      "website": "https://www.g2.com"
+    },
+    {
+      "name": "Capterra",
+      "website": "https://www.capterra.com"
+    },
+    {
+      "name": "Crunchbase",
+      "website": "https://www.crunchbase.com"
+    },
+    {
+      "name": "PitchBook",
+      "website": "https://pitchbook.com"
+    },
+    {
+      "name": "Intercom",
+      "website": "https://www.intercom.com"
+    },
+    {
+      "name": "Drift",
+      "website": "https://www.drift.com"
+    },
+    {
+      "name": "Crisp",
+      "website": "https://crisp.chat"
+    },
+    {
+      "name": "Zendesk",
+      "website": "https://www.zendesk.com"
+    },
+    {
+      "name": "Freshdesk (Freshworks)",
+      "website": "https://freshdesk.com"
+    },
+    {
+      "name": "HelpScout",
+      "website": "https://www.helpscout.com"
+    },
+    {
+      "name": "Kayako",
+      "website": "https://www.kayako.com"
+    },
+    {
+      "name": "Zoho",
+      "website": "https://www.zoho.com"
+    },
+    {
+      "name": "Recurly",
+      "website": "https://recurly.com"
+    },
+    {
+      "name": "Baremetrics",
+      "website": "https://baremetrics.com"
+    },
+    {
+      "name": "ProfitWell",
+      "website": "https://www.profitwell.com"
+    },
+    {
+      "name": "Paddle",
+      "website": "https://www.paddle.com"
+    },
+    {
+      "name": "FastSpring",
+      "website": "https://fastspring.com"
+    },
+    {
+      "name": "Gumroad",
+      "website": "https://gumroad.com"
+    },
+    {
+      "name": "Lemon Squeezy",
+      "website": "https://lemonsqueezy.com"
+    },
+    {
+      "name": "Webflow",
+      "website": "https://webflow.com"
+    },
+    {
+      "name": "Framer",
+      "website": "https://www.framer.com"
+    },
+    {
+      "name": "Wix",
+      "website": "https://www.wix.com"
+    },
+    {
+      "name": "Squarespace",
+      "website": "https://www.squarespace.com"
+    },
+    {
+      "name": "Canva",
+      "website": "https://www.canva.com"
+    },
+    {
+      "name": "Figma",
+      "website": "https://www.figma.com"
+    },
+    {
+      "name": "InVision",
+      "website": "https://www.invisionapp.com"
+    },
+    {
+      "name": "Marvel App",
+      "website": "https://marvelapp.com"
+    },
+    {
+      "name": "Sketch",
+      "website": "https://www.sketch.com"
+    },
+    {
+      "name": "Proto.io",
+      "website": "https://proto.io"
+    },
+    {
+      "name": "Balsamiq",
+      "website": "https://balsamiq.com"
+    },
+    {
+      "name": "Lucidchart",
+      "website": "https://www.lucidchart.com"
+    },
+    {
+      "name": "Miro",
+      "website": "https://miro.com"
+    },
+    {
+      "name": "Whimsical",
+      "website": "https://whimsical.com"
+    },
+    {
+      "name": "Notion",
+      "website": "https://www.notion.so"
+    },
+    {
+      "name": "Evernote",
+      "website": "https://evernote.com"
+    },
+    {
+      "name": "ClickUp",
+      "website": "https://clickup.com"
+    },
+    {
+      "name": "Monday.com",
+      "website": "https://monday.com"
+    },
+    {
+      "name": "Trello (Atlassian)",
+      "website": "https://trello.com"
+    },
+    {
+      "name": "Bentley Systems",
+      "website": "https://www.bentley.com"
+    },
+    {
+      "name": "Endava",
+      "website": "https://www.endava.com"
+    },
+    {
+      "name": "Hyland Software",
+      "website": "https://www.hyland.com"
+    },
+    {
+      "name": "Vendasta",
+      "website": "https://www.vendasta.com"
+    },
+    {
+      "name": "Odoo",
+      "website": "https://www.odoo.com"
+    },
+    {
+      "name": "Creatio",
+      "website": "https://www.creatio.com"
+    },
+    {
+      "name": "Piano.io",
+      "website": "https://www.piano.io"
+    },
+    {
+      "name": "Jivox",
+      "website": "https://www.jivox.com"
+    },
+    {
+      "name": "Pantheon",
+      "website": "https://pantheon.io"
+    },
+    {
+      "name": "Phreesia",
+      "website": "https://www.phreesia.com"
+    },
+    {
+      "name": "Tebra",
+      "website": "https://www.tebra.com"
+    },
+    {
+      "name": "Majesco",
+      "website": "https://www.majesco.com"
+    },
+    {
+      "name": "Vistex",
+      "website": "https://www.vistex.com"
+    },
+    {
+      "name": "Kaseya",
+      "website": "https://www.kaseya.com"
+    },
+    {
+      "name": "DocuSign",
+      "website": "https://www.docusign.com"
+    },
+    {
+      "name": "Manhattan Associates",
+      "website": "https://www.manh.com"
+    },
+    {
+      "name": "WiseTech Global",
+      "website": "https://www.wisetechglobal.com"
+    },
+    {
+      "name": "Kingsoft Office",
+      "website": "https://www.kingsoft.com"
+    },
+    {
+      "name": "Hithink RoyalFlush",
+      "website": "http://www.royalflush.com.cn"
+    },
+    {
+      "name": "Appian",
+      "website": "https://www.appian.com"
+    },
+    {
+      "name": "Mendix",
+      "website": "https://www.mendix.com"
+    },
+    {
+      "name": "Pegasystems",
+      "website": "https://www.pega.com"
+    },
+    {
+      "name": "Nintex",
+      "website": "https://www.nintex.com"
+    },
+    {
+      "name": "OutSystems",
+      "website": "https://www.outsystems.com"
+    },
+    {
+      "name": "LambdaTest",
+      "website": "https://www.lambdatest.com"
+    },
+    {
+      "name": "Sauce Labs",
+      "website": "https://saucelabs.com"
+    },
+    {
+      "name": "Ranorex",
+      "website": "https://www.ranorex.com"
+    },
+    {
+      "name": "Zoho Corporation",
+      "website": "https://www.zoho.com"
+    },
+    {
+      "name": "Freshworks",
+      "website": "https://www.freshworks.com"
+    },
+    {
+      "name": "Postman",
+      "website": "https://www.postman.com"
+    },
+    {
+      "name": "BrowserStack",
+      "website": "https://www.browserstack.com"
+    },
+    {
+      "name": "Razorpay",
+      "website": "https://razorpay.com"
+    },
+    {
+      "name": "Chargebee",
+      "website": "https://www.chargebee.com"
+    },
+    {
+      "name": "CleverTap",
+      "website": "https://clevertap.com"
+    },
+    {
+      "name": "MoEngage",
+      "website": "https://www.moengage.com"
+    },
+    {
+      "name": "Wingify",
+      "website": "https://www.wingify.com"
+    },
+    {
+      "name": "VWO (by Wingify)",
+      "website": "https://vwo.com"
+    },
+    {
+      "name": "Kissflow",
+      "website": "https://kissflow.com"
+    },
+    {
+      "name": "GreytHR",
+      "website": "https://www.greythr.com"
+    },
+    {
+      "name": "Icertis",
+      "website": "https://www.icertis.com"
+    },
+    {
+      "name": "Darwinbox",
+      "website": "https://darwinbox.com"
+    },
+    {
+      "name": "Eka Software",
+      "website": "https://www.eka.com"
+    },
+    {
+      "name": "Zycus",
+      "website": "https://www.zycus.com"
+    },
+    {
+      "name": "Netcore Cloud",
+      "website": "https://netcorecloud.com"
+    },
+    {
+      "name": "Capillary Tech",
+      "website": "https://www.capillarytech.com"
+    },
+    {
+      "name": "Uniphore",
+      "website": "https://www.uniphore.com"
+    },
+    {
+      "name": "Druva",
+      "website": "https://www.druva.com"
+    },
+    {
+      "name": "Innovaccer",
+      "website": "https://www.innovaccer.com"
+    },
+    {
+      "name": "Mindgate Solutions",
+      "website": "https://www.mindgate.in"
+    },
+    {
+      "name": "NowFloats",
+      "website": "https://www.nowfloats.com"
+    },
+    {
+      "name": "Ozonetel",
+      "website": "https://ozonetel.com"
+    },
+    {
+      "name": "Leadsquared",
+      "website": "https://www.leadsquared.com"
+    },
+    {
+      "name": "Whatfix",
+      "website": "https://whatfix.com"
+    },
+    {
+      "name": "Facilio",
+      "website": "https://facilio.com"
+    },
+    {
+      "name": "Exotel",
+      "website": "https://exotel.com"
+    },
+    {
+      "name": "HackerRank",
+      "website": "https://www.hackerrank.com"
+    },
+    {
+      "name": "HackerEarth",
+      "website": "https://www.hackerearth.com"
+    },
+    {
+      "name": "InterviewBit",
+      "website": "https://www.interviewbit.com"
+    },
+    {
+      "name": "Relevel (by Unacademy)",
+      "website": "https://relevel.com"
+    },
+    {
+      "name": "Quizizz",
+      "website": "https://quizizz.com"
+    },
+    {
+      "name": "Classplus",
+      "website": "https://classplusapp.com"
+    },
+    {
+      "name": "Teachmint",
+      "website": "https://www.teachmint.com"
+    },
+    {
+      "name": "Turing",
+      "website": "https://www.turing.com"
+    },
+    {
+      "name": "Hevo Data",
+      "website": "https://hevodata.com"
+    },
+    {
+      "name": "Talview",
+      "website": "https://www.talview.com"
+    },
+    {
+      "name": "Paytm (Product side)",
+      "website": "https://paytm.com"
+    },
+    {
+      "name": "Zerodha",
+      "website": "https://zerodha.com"
+    },
+    {
+      "name": "Clear (formerly ClearTax)",
+      "website": "https://cleartax.in"
+    },
+    {
+      "name": "Delhivery (tech side)",
+      "website": "https://www.delhivery.com"
+    },
+    {
+      "name": "Swiggy Genie (tech team)",
+      "website": "https://www.swiggy.com"
+    },
+    {
+      "name": "BigBasket (tech)",
+      "website": "https://www.bigbasket.com"
+    },
+    {
+      "name": "Practo",
+      "website": "https://www.practo.com"
+    },
+    {
+      "name": "Yellow Messenger",
+      "website": "https://yellowmessenger.com"
+    },
+    {
+      "name": "Sprinto",
+      "website": "https://sprinto.com"
+    },
+    {
+      "name": "Lucidity",
+      "website": "https://lucidity.cloud"
+    },
+    {
+      "name": "GrowthX",
+      "website": "https://growthx.club"
+    },
+    {
+      "name": "Wiingy",
+      "website": "https://wiingy.com"
+    },
+    {
+      "name": "SourceBae",
+      "website": "https://sourcebae.com"
+    },
+    {
+      "name": "BiofuelCircle",
+      "website": "https://biofuelcircle.com"
+    },
+    {
+      "name": "Battery Smart",
+      "website": "https://www.batterysmart.in"
+    },
+    {
+      "name": "Poshn",
+      "website": "https://poshn.in"
+    },
+    {
+      "name": "Fyllo",
+      "website": "https://www.fyllo.in"
+    },
+    {
+      "name": "Cropin",
+      "website": "https://www.cropin.com"
+    },
+    {
+      "name": "Groww",
+      "website": "https://groww.in"
+    },
+    {
+      "name": "Flipkart",
+      "website": "https://www.flipkartcareers.com/"
+    },
+    {
+      "name": "Upstox",
+      "website": "https://upstox.com"
+    },
+    {
+      "name": "Smallcase",
+      "website": "https://www.smallcase.com"
+    },
+    {
+      "name": "CoinSwitch",
+      "website": "https://coinswitch.co"
+    },
+    {
+      "name": "CoinDCX",
+      "website": "https://coindcx.com"
+    },
+    {
+      "name": "BharatPe",
+      "website": "https://bharatpe.com"
+    },
+    {
+      "name": "PhonePe",
+      "website": "https://www.phonepe.com"
+    },
+    {
+      "name": "MobiKwik",
+      "website": "https://www.mobikwik.com"
+    },
+    {
+      "name": "Growfin",
+      "website": "https://www.growfin.ai"
+    },
+    {
+      "name": "CredAvenue",
+      "website": "https://www.yubi.in"
+    },
+    {
+      "name": "Zolve",
+      "website": "https://zolve.com"
+    },
+    {
+      "name": "ClearTax",
+      "website": "https://cleartax.in"
+    },
+    {
+      "name": "OKCredit",
+      "website": "https://okcredit.in"
+    },
+    {
+      "name": "Khatabook",
+      "website": "https://khatabook.com"
+    },
+    {
+      "name": "Instoried",
+      "website": "https://www.instoried.com"
+    },
+    {
+      "name": "Locus.sh",
+      "website": "https://locus.sh"
+    },
+    {
+      "name": "Shipsy",
+      "website": "https://shipsy.io"
+    },
+    {
+      "name": "FarEye",
+      "website": "https://fareye.com"
+    },
+    {
+      "name": "Delhivery",
+      "website": "https://www.delhivery.com"
+    },
+    {
+      "name": "Porter",
+      "website": "https://porter.in"
+    },
+    {
+      "name": "Dunzo",
+      "website": "https://www.dunzo.com"
+    },
+    {
+      "name": "Swiggy Genie",
+      "website": "https://www.swiggy.com"
+    },
+    {
+      "name": "Zepto",
+      "website": "https://www.zepto.com"
+    },
+    {
+      "name": "BigBasket",
+      "website": "https://www.bigbasket.com"
+    },
+    {
+      "name": "1mg",
+      "website": "https://www.1mg.com"
+    },
+    {
+      "name": "Pharmeasy",
+      "website": "https://pharmeasy.in"
+    },
+    {
+      "name": "HealthifyMe",
+      "website": "https://www.healthifyme.com"
+    },
+    {
+      "name": "Traya Health",
+      "website": "https://traya.health"
+    },
+    {
+      "name": "Ekincare",
+      "website": "https://www.ekincare.com"
+    },
+    {
+      "name": "BeatO",
+      "website": "https://www.beatoapp.com"
+    },
+    {
+      "name": "NirogStreet",
+      "website": "https://nirogstreet.com"
+    },
+    {
+      "name": "MediBuddy",
+      "website": "https://www.medibuddy.in"
+    },
+    {
+      "name": "Stylumia",
+      "website": "https://www.stylumia.ai"
+    },
+    {
+      "name": "Agara Labs",
+      "website": "https://www.agara.ai"
+    },
+    {
+      "name": "Observe.AI",
+      "website": "https://www.observe.ai"
+    },
+    {
+      "name": "Yellow.ai",
+      "website": "https://yellow.ai"
+    },
+    {
+      "name": "Avaamo",
+      "website": "https://www.avaamo.com"
+    },
+    {
+      "name": "Fractal Analytics",
+      "website": "https://fractal.ai"
+    },
+    {
+      "name": "Mad Street Den",
+      "website": "https://www.madstreetden.com"
+    },
+    {
+      "name": "SigTuple",
+      "website": "https://www.sigtuple.com"
+    },
+    {
+      "name": "Entropik Tech",
+      "website": "https://www.entropik.io"
+    },
+    {
+      "name": "Arya.ai",
+      "website": "https://arya.ai"
+    },
+    {
+      "name": "Vahan.ai",
+      "website": "https://vahan.ai"
+    },
+    {
+      "name": "Skill-Lync",
+      "website": "https://skill-lync.com"
+    },
+    {
+      "name": "Scaler",
+      "website": "https://www.scaler.com"
+    },
+    {
+      "name": "Masai School",
+      "website": "https://www.masaischool.com"
+    },
+    {
+      "name": "Coding Ninjas",
+      "website": "https://www.codingninjas.com"
+    },
+    {
+      "name": "PrepInsta",
+      "website": "https://prepinsta.com"
+    },
+    {
+      "name": "WhiteHat Jr",
+      "website": "https://whitehatjr.com"
+    },
+    {
+      "name": "Vedantu",
+      "website": "https://www.vedantu.com"
+    },
+    {
+      "name": "BYJUS",
+      "website": "https://byjus.com"
+    },
+    {
+      "name": "Unacademy",
+      "website": "https://unacademy.com"
+    },
+    {
+      "name": "Testbook",
+      "website": "https://testbook.com"
+    },
+    {
+      "name": "Doubtnut",
+      "website": "https://www.doubtnut.com"
+    },
+    {
+      "name": "Niki.ai",
+      "website": "https://www.niki.ai"
+    },
+    {
+      "name": "Instamojo",
+      "website": "https://www.instamojo.com"
+    },
+    {
+      "name": "Pine Labs",
+      "website": "https://www.pinelabs.com"
+    },
+    {
+      "name": "Paytm",
+      "website": "https://paytm.com"
+    },
+    {
+      "name": "Giva",
+      "website": "giva.co"
+    },
+    {
+      "name": "Swiggy",
+      "website": "swiggy.com"
+    },
+    {
+      "name": "Licious",
+      "website": "licious.in"
+    },
+    {
+      "name": "UrbanClap",
+      "website": "urbancompany.com"
+    },
+    {
+      "name": "Cred",
+      "website": "cred.club"
+    },
+    {
+      "name": "ZestMoney",
+      "website": "zestmoney.in"
+    },
+    {
+      "name": "CoinSwitch Kuber",
+      "website": "coinswitch.co"
+    },
+    {
+      "name": "Finbox",
+      "website": "finbox.in"
+    },
+    {
+      "name": "Meesho",
+      "website": "meesho.com"
+    },
+    {
+      "name": "Voylla",
+      "website": "voylla.com"
+    },
+    {
+      "name": "Digit Insurance",
+      "website": "digit.in"
+    },
+    {
+      "name": "Roposo",
+      "website": "roposo.com"
+    },
+    {
+      "name": "Shiprocket",
+      "website": "shiprocket.in"
+    },
+    {
+      "name": "Shuttl",
+      "website": "shuttl.com"
+    },
+    {
+      "name": "TruckSuvidha",
+      "website": "trucksuvidha.com"
+    },
+    {
+      "name": "MilkBasket",
+      "website": "milkbasket.com"
+    },
+    {
+      "name": "Quikr",
+      "website": "quikr.com"
+    },
+    {
+      "name": "Housejoy",
+      "website": "housejoy.in"
+    },
+    {
+      "name": "Nykaa",
+      "website": "nykaa.com"
+    },
+    {
+      "name": "RazorpayX",
+      "website": "razorpayx.com"
+    },
+    {
+      "name": "Phool",
+      "website": "phool.co"
+    },
+    {
+      "name": "Medinfi",
+      "website": "medinfi.com"
+    },
+    {
+      "name": "Turtlemint",
+      "website": "turtlemint.com"
+    },
+    {
+      "name": "Flyrobe",
+      "website": "flyrobe.com"
+    },
+    {
+      "name": "Truebil",
+      "website": "truebil.com"
+    },
+    {
+      "name": "Sprinklr",
+      "website": "sprinklr.com"
+    },
+    {
+      "name": "Redseer",
+      "website": "redseer.com"
+    },
+    {
+      "name": "InMobi",
+      "website": "inmobi.com"
+    },
+    {
+      "name": "Chumbak",
+      "website": "chumbak.com"
+    },
+    {
+      "name": "Urban Ladder",
+      "website": "urbanladder.com"
+    },
+    {
+      "name": "Apna",
+      "website": "apna.co"
+    },
+    {
+      "name": "Innov8",
+      "website": "innov8.work"
+    },
+    {
+      "name": "Acko Insurance",
+      "website": "acko.com"
+    },
+    {
+      "name": "LeapFinance",
+      "website": "leapfinance.com"
+    },
+    {
+      "name": "Fynd",
+      "website": "fynd.com"
+    },
+    {
+      "name": "ShopClues",
+      "website": "shopclues.com"
+    },
+    {
+      "name": "Locus",
+      "website": "locus.sh"
+    },
+    {
+      "name": "Qure.ai",
+      "website": "qure.ai"
+    },
+    {
+      "name": "Applause",
+      "website": "applause.com"
+    },
+    {
+      "name": "Buddy4Study",
+      "website": "buddy4study.com"
+    },
+    {
+      "name": "Truecaller",
+      "website": "truecaller.com"
+    },
+    {
+      "name": "Zomato",
+      "website": "zomato.com"
+    },
+    {
+      "name": "Agara",
+      "website": "agara.ai"
+    },
+    {
+      "name": "CometChat",
+      "website": "cometchat.com"
+    },
+    {
+      "name": "MyGate",
+      "website": "mygate.com"
+    },
+    {
+      "name": "Bugclipper",
+      "website": "bugclipper.com"
+    },
+    {
+      "name": "FlyNow",
+      "website": "flynow.co"
+    },
+    {
+      "name": "Plenitude",
+      "website": "plenitude.com"
+    },
+    {
+      "name": "Livspace",
+      "website": "livspace.com"
+    },
+    {
+      "name": "Xoxoday",
+      "website": "xoxoday.com"
+    },
+    {
+      "name": "OneDirect",
+      "website": "onedirect.in"
+    },
+    {
+      "name": "Helpshift",
+      "website": "helpshift.com"
+    },
+    {
+      "name": "OYO Rooms",
+      "website": "oyorooms.com"
+    },
+    {
+      "name": "Daraz",
+      "website": "daraz.com"
+    },
+    {
+      "name": "Paytm Payments",
+      "website": "paytm.com"
+    },
+    {
+      "name": "Vogo",
+      "website": "vogo.in"
+    },
+    {
+      "name": "GetMyUni",
+      "website": "getmyuni.com"
+    },
+    {
+      "name": "UpGrad",
+      "website": "upgrad.com"
+    },
+    {
+      "name": "EdgeVerve",
+      "website": "edgeverve.com"
+    },
+    {
+      "name": "Bounce",
+      "website": "bouncein.com"
+    },
+    {
+      "name": "FindMyCar",
+      "website": "findmycar.in"
+    },
+    {
+      "name": "Railyatri",
+      "website": "railyatri.in"
+    },
+    {
+      "name": "Ola",
+      "website": "olaelectric.com"
+    },
+    {
+      "name": "Byju’s",
+      "website": "byjus.com"
+    },
+    {
+      "name": "Bira 91",
+      "website": "bira91.com"
+    },
+    {
+      "name": "Grofers",
+      "website": "grofers.com"
+    },
+    {
+      "name": "MeowBox",
+      "website": "meowbox.com"
+    },
+    {
+      "name": "AgraTech",
+      "website": "agratech.com"
+    },
+    {
+      "name": "Koo",
+      "website": "kooapp.com"
+    },
+    {
+      "name": "Tracxn",
+      "website": "tracxn.com"
+    },
+    {
+      "name": "Rentomojo",
+      "website": "rentomojo.com"
+    },
+    {
+      "name": "CloudCherry",
+      "website": "cloudcherry.com"
+    },
+    {
+      "name": "Blyk",
+      "website": "blyk.com"
+    },
+    {
+      "name": "ShipBob",
+      "website": "shipbob.com"
+    },
+    {
+      "name": "MamaEarth",
+      "website": "mamaearth.in"
+    },
+    {
+      "name": "Veer Robotics",
+      "website": "veerrobotics.com"
+    },
+    {
+      "name": "Dream11",
+      "website": "dream11.com"
+    },
+    {
+      "name": "Loco",
+      "website": "loco.gg"
+    },
+    {
+      "name": "FunPlus",
+      "website": "funplus.com"
+    },
+    {
+      "name": "Games24x7",
+      "website": "games24x7.com"
+    },
+    {
+      "name": "Zapr",
+      "website": "zapr.in"
+    },
+    {
+      "name": "Indiamart",
+      "website": "indiamart.com"
+    },
+    {
+      "name": "Jio",
+      "website": "jio.com"
+    },
+    {
+      "name": "Hike Messenger",
+      "website": "hike.in"
+    },
+    {
+      "name": "PolicyBazaar",
+      "website": "policybazaar.com"
+    },
+    {
+      "name": "Cleartrip",
+      "website": "cleartrip.com"
+    },
+    {
+      "name": "Blynk",
+      "website": "blynk.io"
+    },
+    {
+      "name": "Wishbook",
+      "website": "wishbook.io"
+    },
+    {
+      "name": "Gamezop",
+      "website": "gamezop.com"
+    },
+    {
+      "name": "Cashify",
+      "website": "cashify.in"
+    },
+    {
+      "name": "Easyrewardz",
+      "website": "easyrewardz.com"
+    },
+    {
+      "name": "SpiceJet",
+      "website": "spicejet.com"
+    },
+    {
+      "name": "Manthan",
+      "website": "manthan.com"
+    },
+    {
+      "name": "Zipgo",
+      "website": "zipgo.in"
+    },
+    {
+      "name": "Rivigo",
+      "website": "rivigo.com"
+    },
+    {
+      "name": "Treebo",
+      "website": "treebo.com"
+    },
+    {
+      "name": "Townscript",
+      "website": "townscript.com"
+    },
+    {
+      "name": "Cashkaro",
+      "website": "cashkaro.com"
+    },
+    {
+      "name": "Scripbox",
+      "website": "scripbox.com"
+    },
+    {
+      "name": "Wishfin",
+      "website": "wishfin.com"
+    },
+    {
+      "name": "Gamepind",
+      "website": "gamepind.com"
+    },
+    {
+      "name": "MoneyTap",
+      "website": "moneytap.com"
+    },
+    {
+      "name": "Deliveroo",
+      "website": "deliveroo.com"
+    },
+    {
+      "name": "Fittr",
+      "website": "fittr.com"
+    },
+    {
+      "name": "Pinduoduo",
+      "website": "pinduoduo.com"
+    },
+    {
+      "name": "BookMyShow",
+      "website": "bookmyshow.com"
+    },
+    {
+      "name": "BookMyFlight",
+      "website": "bookmyflight.com"
+    },
+    {
+      "name": "HealthKart",
+      "website": "healthkart.com"
+    },
+    {
+      "name": "GameFlare",
+      "website": "gameflare.com"
+    },
+    {
+      "name": "Booking.com",
+      "website": "booking.com"
+    },
+    {
+      "name": "Expedia",
+      "website": "expedia.com"
+    },
+    {
+      "name": "AirBnB",
+      "website": "airbnb.com"
+    },
+    {
+      "name": "TripAdvisor",
+      "website": "tripadvisor.com"
+    },
+    {
+      "name": "Kayak",
+      "website": "kayak.com"
+    },
+    {
+      "name": "Agoda",
+      "website": "agoda.com"
+    },
+    {
+      "name": "Trivago",
+      "website": "trivago.com"
+    },
+    {
+      "name": "Skyscanner",
+      "website": "skyscanner.com"
+    },
+    {
+      "name": "HotelTonight",
+      "website": "hoteltonight.com"
+    },
+    {
+      "name": "Hopper",
+      "website": "hopper.com"
+    },
+    {
+      "name": "Roomkey",
+      "website": "roomkey.com"
+    },
+    {
+      "name": "Traveloka",
+      "website": "traveloka.com"
+    },
+    {
+      "name": "Priceline",
+      "website": "priceline.com"
+    },
+    {
+      "name": "Orbitz",
+      "website": "orbitz.com"
+    },
+    {
+      "name": "Booking Holdings",
+      "website": "bookingholdings.com"
+    },
+    {
+      "name": "Airfarewatchdog",
+      "website": "airfarewatchdog.com"
+    },
+    {
+      "name": "CheapOair",
+      "website": "cheapoair.com"
+    },
+    {
+      "name": "Lastminute.com",
+      "website": "lastminute.com"
+    },
+    {
+      "name": "Trvl Counter",
+      "website": "trvlcounter.com"
+    },
+    {
+      "name": "Vayeca",
+      "website": "vayeca.com"
+    },
+    {
+      "name": "Wanderu",
+      "website": "wanderu.com"
+    },
+    {
+      "name": "Apple",
+      "website": "apple.com"
+    },
+    {
+      "name": "Google",
+      "website": "google.com"
+    },
+    {
+      "name": "Microsoft",
+      "website": "microsoft.com"
+    },
+    {
+      "name": "Amazon",
+      "website": "amazon.com"
+    },
+    {
+      "name": "Tesla",
+      "website": "tesla.com"
+    },
+    {
+      "name": "Facebook (Meta)",
+      "website": "facebook.com"
+    },
+    {
+      "name": "Netflix",
+      "website": "netflix.com"
+    },
+    {
+      "name": "Zoom",
+      "website": "zoom.us"
+    },
+    {
+      "name": "PayPal",
+      "website": "paypal.com"
+    },
+    {
+      "name": "Twitter",
+      "website": "twitter.com"
+    },
+    {
+      "name": "Uber",
+      "website": "uber.com"
+    },
+    {
+      "name": "Spotify",
+      "website": "spotify.com"
+    },
+    {
+      "name": "Pinterest",
+      "website": "pinterest.com"
+    },
+    {
+      "name": "Slack",
+      "website": "slack.com"
+    },
+    {
+      "name": "Snapchat",
+      "website": "snapchat.com"
+    },
+    {
+      "name": "Square",
+      "website": "square.com"
+    },
+    {
+      "name": "LinkedIn",
+      "website": "linkedin.com"
+    },
+    {
+      "name": "Sony Interactive Entertainment",
+      "website": "https://www.playstation.com"
+    },
+    {
+      "name": "Tencent Games",
+      "website": "https://www.tencentgames.com"
+    },
+    {
+      "name": "Mobile Premier League (MPL)",
+      "website": "https://www.mpl.live"
+    },
+    {
+      "name": "Nazara Technologies",
+      "website": "https://www.nazara.com"
+    },
+    {
+      "name": "Zupee",
+      "website": "https://www.zupee.com"
+    },
+    {
+      "name": "WinZO",
+      "website": "https://www.winzogames.com"
+    },
+    {
+      "name": "Rooter",
+      "website": "https://www.rooter.gg"
+    },
+    {
+      "name": "Gameberry Labs",
+      "website": "https://www.gameberrylabs.com"
+    },
+    {
+      "name": "JetSynthesys",
+      "website": "https://www.jetsynthesys.com"
+    },
+    {
+      "name": "FanFight",
+      "website": "https://fanfight.com"
+    },
+    {
+      "name": "Paytm First Games",
+      "website": "https://paytmfirstgames.com"
+    },
+    {
+      "name": "Fantain",
+      "website": "https://www.fantain.com"
+    },
+    {
+      "name": "RummyCircle (by Games24x7)",
+      "website": "https://www.rummycircle.com"
+    },
+    {
+      "name": "A23 (Ace2Three)",
+      "website": "https://www.a23.com"
+    },
+    {
+      "name": "PokerBaazi",
+      "website": "https://www.pokerbaazi.com"
+    },
+    {
+      "name": "JPMorgan Chase",
+      "website": "https://www.jpmorganchase.com"
+    },
+    {
+      "name": "Goldman Sachs",
+      "website": "https://www.goldmansachs.com"
+    },
+    {
+      "name": "Morgan Stanley",
+      "website": "https://www.morganstanley.com"
+    },
+    {
+      "name": "Citibank",
+      "website": "https://www.citigroup.com"
+    },
+    {
+      "name": "Bank of America",
+      "website": "https://www.bankofamerica.com"
+    },
+    {
+      "name": "Wells Fargo",
+      "website": "https://www.wellsfargo.com"
+    },
+    {
+      "name": "HSBC",
+      "website": "https://www.hsbc.com"
+    },
+    {
+      "name": "Barclays",
+      "website": "https://home.barclays"
+    },
+    {
+      "name": "Deutsche Bank",
+      "website": "https://www.db.com"
+    },
+    {
+      "name": "BNP Paribas",
+      "website": "https://group.bnpparibas"
+    },
+    {
+      "name": "ICICI Bank",
+      "website": "https://www.icicibank.com"
+    },
+    {
+      "name": "HDFC Bank",
+      "website": "https://www.hdfcbank.com"
+    },
+    {
+      "name": "Axis Bank",
+      "website": "https://www.axisbank.com"
+    },
+    {
+      "name": "Kotak Mahindra Bank",
+      "website": "https://www.kotak.com"
+    },
+    {
+      "name": "Paytm Payments Bank",
+      "website": "https://www.paytmbank.com"
+    },
+    {
+      "name": "Yes Bank",
+      "website": "https://www.yesbank.in"
+    },
+    {
+      "name": "IDFC FIRST Bank",
+      "website": "https://www.idfcfirstbank.com"
+    },
+    {
+      "name": "IndusInd Bank",
+      "website": "https://www.indusind.com"
+    }
+  ],
+  "startup": [
+    {
+      "name": "Flipkart",
+      "website": "https://www.flipkartcareers.com"
+    },
+    {
+      "name": "Razorpay",
+      "website": "https://razorpay.com/jobs"
+    },
+    {
+      "name": "Meesho",
+      "website": "https://careers.meesho.com"
+    },
+    {
+      "name": "Swiggy",
+      "website": "https://careers.swiggy.com"
+    },
+    {
+      "name": "Zomato",
+      "website": "https://www.zomato.com/careers"
+    },
+    {
+      "name": "CRED",
+      "website": "https://careers.cred.club"
+    },
+    {
+      "name": "Groww",
+      "website": "https://groww.in/careers"
+    },
+    {
+      "name": "PhonePe",
+      "website": "https://www.phonepe.com/careers"
+    },
+    {
+      "name": "Paytm",
+      "website": "https://paytm.com/careers"
+    },
+    {
+      "name": "Ola",
+      "website": "https://www.olacabs.com/careers"
+    },
+    {
+      "name": "Udaan",
+      "website": "https://careers.udaan.com"
+    },
+    {
+      "name": "Dream11",
+      "website": "https://www.dream11.com/careers"
+    },
+    {
+      "name": "Byju’s",
+      "website": "https://byjus.com/careers"
+    },
+    {
+      "name": "Freshworks",
+      "website": "https://www.freshworks.com/company/careers"
+    },
+    {
+      "name": "Postman",
+      "website": "https://www.postman.com/company/careers"
+    },
+    {
+      "name": "BrowserStack",
+      "website": "https://www.browserstack.com/careers"
+    },
+    {
+      "name": "Chargebee",
+      "website": "https://www.chargebee.com/careers"
+    },
+    {
+      "name": "InMobi",
+      "website": "https://www.inmobi.com/company/careers"
+    },
+    {
+      "name": "Zoho",
+      "website": "https://www.zoho.com/careers"
+    },
+    {
+      "name": "MakeMyTrip",
+      "website": "https://careers.makemytrip.com"
+    },
+    {
+      "name": "Atlassian",
+      "website": "https://www.atlassian.com/company/careers"
+    },
+    {
+      "name": "Wise",
+      "website": "https://www.wise.jobs"
+    },
+    {
+      "name": "Revolut",
+      "website": "https://www.revolut.com/careers"
+    },
+    {
+      "name": "Monzo",
+      "website": "https://monzo.com/careers"
+    },
+    {
+      "name": "Starling Bank",
+      "website": "https://www.starlingbank.com/careers"
+    },
+    {
+      "name": "Deliveroo",
+      "website": "https://careers.deliveroo.co.uk"
+    },
+    {
+      "name": "Ocado Technology",
+      "website": "https://careers.ocadogroup.com"
+    },
+    {
+      "name": "Checkout.com",
+      "website": "https://www.checkout.com/careers"
+    },
+    {
+      "name": "SumUp",
+      "website": "https://sumup.com/careers"
+    },
+    {
+      "name": "Thought Machine",
+      "website": "https://www.thoughtmachine.net/careers"
+    },
+    {
+      "name": "Stripe",
+      "website": "https://stripe.com/jobs"
+    },
+    {
+      "name": "Airbnb",
+      "website": "https://careers.airbnb.com"
+    },
+    {
+      "name": "Uber",
+      "website": "https://www.uber.com/careers"
+    },
+    {
+      "name": "Netflix",
+      "website": "https://jobs.netflix.com"
+    },
+    {
+      "name": "Spotify",
+      "website": "https://www.lifeatspotify.com"
+    },
+    {
+      "name": "Canva",
+      "website": "https://www.canva.com/careers"
+    },
+    {
+      "name": "Notion",
+      "website": "https://www.notion.so/careers"
+    },
+    {
+      "name": "Figma",
+      "website": "https://www.figma.com/careers"
+    },
+    {
+      "name": "Snowflake",
+      "website": "https://careers.snowflake.com"
+    },
+    {
+      "name": "Databricks",
+      "website": "https://www.databricks.com/company/careers"
+    },
+    {
+      "name": "Rippling",
+      "website": "https://www.rippling.com/careers"
+    },
+    {
+      "name": "Plaid",
+      "website": "https://plaid.com/careers"
+    },
+    {
+      "name": "Brex",
+      "website": "https://www.brex.com/careers"
+    },
+    {
+      "name": "Gojek",
+      "website": "https://www.gojek.com/careers"
+    },
+    {
+      "name": "Grab",
+      "website": "https://grab.careers"
+    },
+    {
+      "name": "Tokopedia",
+      "website": "https://www.tokopedia.com/careers"
+    },
+    {
+      "name": "Shopee",
+      "website": "https://careers.shopee.sg"
+    },
+    {
+      "name": "Nubank",
+      "website": "https://nubank.com.br/careers"
+    },
+    {
+      "name": "Klarna",
+      "website": "https://www.klarna.com/careers"
+    },
+    {
+      "name": "Bolt",
+      "website": "https://bolt.eu/en/careers"
+    },
+    {
+      "name": "PayU",
+      "website": "https://corporate.payu.com/careers"
+    },
+    {
+      "name": "Pine Labs",
+      "website": "https://www.pinelabs.com/careers"
+    },
+    {
+      "name": "PolicyBazaar",
+      "website": "https://www.policybazaar.com/careers"
+    },
+    {
+      "name": "NoBroker",
+      "website": "https://www.nobroker.in/careers"
+    },
+    {
+      "name": "Delhivery",
+      "website": "https://www.delhivery.com/careers"
+    },
+    {
+      "name": "Lenskart",
+      "website": "https://hiring.lenskart.com"
+    },
+    {
+      "name": "Urban Company",
+      "website": "https://careers.urbancompany.com"
+    },
+    {
+      "name": "Acko",
+      "website": "https://www.acko.com/careers"
+    },
+    {
+      "name": "ShareChat",
+      "website": "https://careers.sharechat.com"
+    },
+    {
+      "name": "Myntra",
+      "website": "https://careers.myntra.com"
+    },
+    {
+      "name": "BookMyShow",
+      "website": "https://in.bookmyshow.com/careers"
+    },
+    {
+      "name": "BigBasket",
+      "website": "https://www.bigbasket.com/careers"
+    },
+    {
+      "name": "Games24x7",
+      "website": "https://www.games24x7.com/careers"
+    },
+    {
+      "name": "Zerodha",
+      "website": "https://zerodha.com/careers"
+    },
+    {
+      "name": "Upstox",
+      "website": "https://upstox.com/careers"
+    },
+    {
+      "name": "CoinSwitch",
+      "website": "https://careers.coinswitch.co"
+    },
+    {
+      "name": "Slice",
+      "website": "https://sliceit.com/careers"
+    },
+    {
+      "name": "Jupiter",
+      "website": "https://jobs.lever.co/jupiter"
+    },
+    {
+      "name": "Porter",
+      "website": "https://porter.in/careers"
+    },
+    {
+      "name": "Unacademy",
+      "website": "https://unacademy.com/careers"
+    },
+    {
+      "name": "Hotstar",
+      "website": "https://jobs.disneycareers.com"
+    },
+    {
+      "name": "Twilio",
+      "website": "https://www.twilio.com/company/jobs"
+    },
+    {
+      "name": "Cloudflare",
+      "website": "https://www.cloudflare.com/careers"
+    },
+    {
+      "name": "GitHub",
+      "website": "https://github.careers"
+    },
+    {
+      "name": "HashiCorp",
+      "website": "https://www.hashicorp.com/careers"
+    },
+    {
+      "name": "Elastic",
+      "website": "https://www.elastic.co/careers"
+    },
+    {
+      "name": "MongoDB",
+      "website": "https://www.mongodb.com/careers"
+    },
+    {
+      "name": "Confluent",
+      "website": "https://www.confluent.io/careers"
+    },
+    {
+      "name": "Okta",
+      "website": "https://www.okta.com/company/careers"
+    },
+    {
+      "name": "ServiceNow",
+      "website": "https://www.servicenow.com/careers"
+    },
+    {
+      "name": "Palantir",
+      "website": "https://www.palantir.com/careers"
+    },
+    {
+      "name": "Shopify",
+      "website": "https://www.shopify.com/careers"
+    },
+    {
+      "name": "Squarespace",
+      "website": "https://www.squarespace.com/careers"
+    },
+    {
+      "name": "Reddit",
+      "website": "https://www.redditinc.com/careers"
+    },
+    {
+      "name": "Discord",
+      "website": "https://discord.com/careers"
+    },
+    {
+      "name": "Zoom",
+      "website": "https://careers.zoom.us"
+    },
+    {
+      "name": "Asana",
+      "website": "https://asana.com/jobs"
+    },
+    {
+      "name": "Monday.com",
+      "website": "https://monday.com/careers"
+    },
+    {
+      "name": "Intercom",
+      "website": "https://www.intercom.com/careers"
+    },
+    {
+      "name": "Segment",
+      "website": "https://segment.com/careers"
+    },
+    {
+      "name": "Amplitude",
+      "website": "https://www.amplitude.com/careers"
+    },
+    {
+      "name": "Mixpanel",
+      "website": "https://mixpanel.com/careers"
+    },
+    {
+      "name": "Gusto",
+      "website": "https://gusto.com/about/careers"
+    },
+    {
+      "name": "Instacart",
+      "website": "https://careers.instacart.com"
+    },
+    {
+      "name": "DoorDash",
+      "website": "https://careers.doordash.com"
+    },
+    {
+      "name": "Robinhood",
+      "website": "https://careers.robinhood.com"
+    },
+    {
+      "name": "Coinbase",
+      "website": "https://www.coinbase.com/careers"
+    },
+    {
+      "name": "Lyft",
+      "website": "https://www.lyft.com/careers"
+    },
+    {
+      "name": "Wayfair",
+      "website": "https://www.wayfair.com/careers"
+    },
+    {
+      "name": "Zalando",
+      "website": "https://jobs.zalando.com"
+    },
+    {
+      "name": "Flipspaces",
+      "website": "https://www.flipspaces.com/careers"
+    },
+    {
+      "name": "InVideo",
+      "website": "https://invideo.io/careers"
+    },
+    {
+      "name": "ClearTax",
+      "website": "https://cleartax.in/careers"
+    },
+    {
+      "name": "Hasura",
+      "website": "https://hasura.io/careers"
+    },
+    {
+      "name": "Zeta",
+      "website": "https://careers.zeta.tech"
+    },
+    {
+      "name": "Rupeek",
+      "website": "https://www.rupeek.com/careers"
+    },
+    {
+      "name": "Fampay",
+      "website": "https://fampay.in/careers"
+    },
+    {
+      "name": "GoCardless",
+      "website": "https://gocardless.com/careers"
+    },
+    {
+      "name": "Zilch",
+      "website": "https://careers.payzilch.com"
+    },
+    {
+      "name": "Curve",
+      "website": "https://www.curve.com/careers"
+    },
+    {
+      "name": "Tractable",
+      "website": "https://tractable.ai/careers"
+    },
+    {
+      "name": "Darktrace",
+      "website": "https://www.darktrace.com/careers"
+    },
+    {
+      "name": "Graphcore",
+      "website": "https://www.graphcore.ai/careers"
+    },
+    {
+      "name": "Skyscanner",
+      "website": "https://www.skyscanner.net/careers"
+    },
+    {
+      "name": "Hopin",
+      "website": "https://hopin.com/careers"
+    },
+    {
+      "name": "Vercel",
+      "website": "https://vercel.com/careers"
+    },
+    {
+      "name": "Supabase",
+      "website": "https://supabase.com/careers"
+    },
+    {
+      "name": "Netlify",
+      "website": "https://www.netlify.com/careers"
+    },
+    {
+      "name": "Clerk",
+      "website": "https://clerk.com/careers"
+    },
+    {
+      "name": "Linear",
+      "website": "https://linear.app/careers"
+    },
+    {
+      "name": "Retool",
+      "website": "https://retool.com/careers"
+    },
+    {
+      "name": "Algolia",
+      "website": "https://www.algolia.com/careers"
+    },
+    {
+      "name": "Snyk",
+      "website": "https://snyk.io/careers"
+    },
+    {
+      "name": "Cockroach Labs",
+      "website": "https://www.cockroachlabs.com/careers"
+    },
+    {
+      "name": "DigitalOcean",
+      "website": "https://www.digitalocean.com/careers"
+    },
+    {
+      "name": "Scale AI",
+      "website": "https://scale.com/careers"
+    },
+    {
+      "name": "OpenSea",
+      "website": "https://opensea.io/careers"
+    },
+    {
+      "name": "Chainalysis",
+      "website": "https://www.chainalysis.com/careers"
+    },
+    {
+      "name": "Ramp",
+      "website": "https://ramp.com/careers"
+    },
+    {
+      "name": "Flexport",
+      "website": "https://www.flexport.com/careers"
+    },
+    {
+      "name": "Faire",
+      "website": "https://www.faire.com/careers"
+    },
+    {
+      "name": "Gong",
+      "website": "https://www.gong.io/careers"
+    },
+    {
+      "name": "Outreach",
+      "website": "https://www.outreach.io/company/careers"
+    },
+    {
+      "name": "Snowplow",
+      "website": "https://snowplow.io/careers"
+    },
+    {
+      "name": "Contentful",
+      "website": "https://www.contentful.com/careers"
+    },
+    {
+      "name": "Elastic Path",
+      "website": "https://www.elasticpath.com/careers"
+    },
+    {
+      "name": "Twilio Segment",
+      "website": "https://segment.com/careers"
+    },
+    {
+      "name": "Zapier",
+      "website": "https://zapier.com/jobs"
+    },
+    {
+      "name": "Airtable",
+      "website": "https://airtable.com/careers"
+    },
+    {
+      "name": "Webflow",
+      "website": "https://webflow.com/careers"
+    },
+    {
+      "name": "Coda",
+      "website": "https://coda.io/careers"
+    },
+    {
+      "name": "Miro",
+      "website": "https://miro.com/careers"
+    },
+    {
+      "name": "Typeform",
+      "website": "https://www.typeform.com/careers"
+    },
+    {
+      "name": "BrowserStack India",
+      "website": "https://www.browserstack.com/careers"
+    },
+    {
+      "name": "Gupshup",
+      "website": "https://www.gupshup.io/careers"
+    },
+    {
+      "name": "Yellow.ai",
+      "website": "https://yellow.ai/careers"
+    },
+    {
+      "name": "Innovaccer",
+      "website": "https://innovaccer.com/careers"
+    },
+    {
+      "name": "SigTuple",
+      "website": "https://www.sigtuple.com/careers"
+    },
+    {
+      "name": "Ather Energy",
+      "website": "https://www.atherenergy.com/careers"
+    },
+    {
+      "name": "OYO",
+      "website": "https://www.oyorooms.com/careers"
+    },
+    {
+      "name": "Practo",
+      "website": "https://www.practo.com/company/careers"
+    },
+    {
+      "name": "Dunzo",
+      "website": "https://www.dunzo.com/careers"
+    },
+    {
+      "name": "Magicpin",
+      "website": "https://magicpin.in/jobs"
+    },
+    {
+      "name": "Truecaller",
+      "website": "https://careers.truecaller.com"
+    },
+    {
+      "name": "Dream Sports",
+      "website": "https://dreamsports.group/careers"
+    },
+    {
+      "name": "Nykaa",
+      "website": "https://careers.nykaa.com"
+    },
+    {
+      "name": "FirstCry",
+      "website": "https://firstcry.com/careers"
+    },
+    {
+      "name": "Meesho Tech",
+      "website": "https://careers.meesho.com"
+    },
+    {
+      "name": "Cleartrip",
+      "website": "https://careers.cleartrip.com"
+    },
+    {
+      "name": "Druva",
+      "website": "https://www.druva.com/about/careers"
+    },
+    {
+      "name": "Icertis",
+      "website": "https://www.icertis.com/careers"
+    },
+    {
+      "name": "OfBusiness",
+      "website": "https://ofbusiness.com/careers"
+    },
+    {
+      "name": "RazorpayX",
+      "website": "https://razorpay.com/jobs"
+    },
+    {
+      "name": "WiseTech Global",
+      "website": "https://www.wisetechglobal.com/careers"
+    },
+    {
+      "name": "Trulioo",
+      "website": "https://www.trulioo.com/careers"
+    },
+    {
+      "name": "Checkout UK",
+      "website": "https://www.checkout.com/careers"
+    },
+    {
+      "name": "Zopa",
+      "website": "https://www.zopa.com/careers"
+    },
+    {
+      "name": "Babylon Health",
+      "website": "https://www.babylonhealth.com/careers"
+    },
+    {
+      "name": "Cazoo",
+      "website": "https://careers.cazoo.co.uk"
+    },
+    {
+      "name": "Bulb",
+      "website": "https://bulb.co.uk/careers"
+    },
+    {
+      "name": "Deliveroo Tech",
+      "website": "https://careers.deliveroo.co.uk"
+    },
+    {
+      "name": "Wise Platform",
+      "website": "https://www.wise.jobs"
+    },
+    {
+      "name": "Zettle",
+      "website": "https://www.zettle.com/careers"
+    },
+    {
+      "name": "Fiverr",
+      "website": "https://www.fiverr.com/jobs"
+    },
+    {
+      "name": "Upwork",
+      "website": "https://www.upwork.com/careers"
+    },
+    {
+      "name": "Toptal",
+      "website": "https://www.toptal.com/careers"
+    },
+    {
+      "name": "Deel",
+      "website": "https://www.deel.com/careers"
+    },
+    {
+      "name": "Remote",
+      "website": "https://remote.com/careers"
+    },
+    {
+      "name": "Calendly",
+      "website": "https://calendly.com/careers"
+    },
+    {
+      "name": "GitLab",
+      "website": "https://about.gitlab.com/jobs"
+    },
+    {
+      "name": "Automattic",
+      "website": "https://automattic.com/work-with-us"
+    },
+    {
+      "name": "DuckDuckGo",
+      "website": "https://duckduckgo.com/hiring"
+    },
+    {
+      "name": "Basecamp",
+      "website": "https://basecamp.com/jobs"
+    },
+    {
+      "name": "37signals",
+      "website": "https://37signals.com/jobs"
+    },
+    {
+      "name": "Stripe India",
+      "website": "https://stripe.com/jobs"
+    },
+    {
+      "name": "CloudKitchen",
+      "website": "https://careers.cloudkitchens.com"
+    },
+    {
+      "name": "Compass",
+      "website": "https://www.compass.com/careers"
+    },
+    {
+      "name": "Opendoor",
+      "website": "https://www.opendoor.com/careers"
+    },
+    {
+      "name": "Affirm",
+      "website": "https://www.affirm.com/careers"
+    },
+    {
+      "name": "SoFi",
+      "website": "https://www.sofi.com/careers"
+    },
+    {
+      "name": "Plaid India",
+      "website": "https://plaid.com/careers"
+    },
+    {
+      "name": "Nuro",
+      "website": "https://www.nuro.ai/careers"
+    },
+    {
+      "name": "Waymo",
+      "website": "https://waymo.com/careers"
+    },
+    {
+      "name": "Rivigo",
+      "website": "https://rivigo.com/careers"
+    },
+    {
+      "name": "Licious",
+      "website": "https://www.licious.in/careers"
+    },
+    {
+      "name": "Cars24",
+      "website": "https://www.cars24.com/careers"
+    },
+    {
+      "name": "Spinny",
+      "website": "https://spinny.com/careers"
+    },
+    {
+      "name": "Snapdeal",
+      "website": "https://careers.snapdeal.com"
+    },
+    {
+      "name": "Pepperfry",
+      "website": "https://www.pepperfry.com/careers"
+    },
+    {
+      "name": "Tata 1mg",
+      "website": "https://www.1mg.com/jobs"
+    },
+    {
+      "name": "PharmEasy",
+      "website": "https://pharmeasy.in/careers"
+    },
+    {
+      "name": "Moglix",
+      "website": "https://www.moglix.com/careers"
+    },
+    {
+      "name": "Infra.Market",
+      "website": "https://infra.market/careers"
+    },
+    {
+      "name": "Browserless",
+      "website": "https://www.browserless.io/careers"
+    },
+    {
+      "name": "Railwaymen",
+      "website": "https://www.railwaymen.org/careers"
+    },
+    {
+      "name": "Vymo",
+      "website": "https://vymo.com/careers"
+    },
+    {
+      "name": "Whatfix",
+      "website": "https://whatfix.com/careers"
+    },
+    {
+      "name": "MindTickle",
+      "website": "https://www.mindtickle.com/careers"
+    },
+    {
+      "name": "HighRadius",
+      "website": "https://www.highradius.com/careers"
+    },
+    {
+      "name": "Vedantu",
+      "website": "https://www.vedantu.com/careers"
+    },
+    {
+      "name": "Toppr",
+      "website": "https://www.toppr.com/careers"
+    },
+    {
+      "name": "Newton School",
+      "website": "https://www.newtonschool.co/careers"
+    },
+    {
+      "name": "Masai School",
+      "website": "https://www.masaischool.com/careers"
+    },
+    {
+      "name": "GoDaddy",
+      "website": "https://careers.godaddy.com"
+    },
+    {
+      "name": "HubSpot",
+      "website": "https://www.hubspot.com/careers"
+    },
+    {
+      "name": "Zendesk",
+      "website": "https://www.zendesk.com/jobs"
+    },
+    {
+      "name": "FreshBooks",
+      "website": "https://www.freshbooks.com/careers"
+    },
+    {
+      "name": "Xero",
+      "website": "https://www.xero.com/careers"
+    },
+    {
+      "name": "GitKraken",
+      "website": "https://www.gitkraken.com/careers"
+    },
+    {
+      "name": "CircleCI",
+      "website": "https://circleci.com/careers"
+    },
+    {
+      "name": "Travis CI",
+      "website": "https://travis-ci.com/careers"
+    },
+    {
+      "name": "Fastly",
+      "website": "https://www.fastly.com/about/careers"
+    },
+    {
+      "name": "Akamai",
+      "website": "https://www.akamai.com/careers"
+    },
+    {
+      "name": "Unity",
+      "website": "https://careers.unity.com"
+    },
+    {
+      "name": "Epic Games",
+      "website": "https://www.epicgames.com/site/en-US/careers"
+    },
+    {
+      "name": "Riot Games",
+      "website": "https://www.riotgames.com/careers"
+    },
+    {
+      "name": "Valve",
+      "website": "https://www.valvesoftware.com/en/jobs"
+    },
+    {
+      "name": "Roblox",
+      "website": "https://careers.roblox.com"
+    },
+    {
+      "name": "Coursera",
+      "website": "https://careers.coursera.org"
+    },
+    {
+      "name": "Udemy",
+      "website": "https://about.udemy.com/careers"
+    },
+    {
+      "name": "Khan Academy",
+      "website": "https://www.khanacademy.org/careers"
+    },
+    {
+      "name": "Duolingo",
+      "website": "https://careers.duolingo.com"
+    },
+    {
+      "name": "Bytedance",
+      "website": "https://jobs.bytedance.com"
+    },
+    {
+      "name": "TikTok",
+      "website": "https://careers.tiktok.com"
+    },
+    {
+      "name": "Pinterest",
+      "website": "https://www.pinterestcareers.com"
+    },
+    {
+      "name": "Quora",
+      "website": "https://www.quora.com/careers"
+    },
+    {
+      "name": "Medium",
+      "website": "https://medium.com/jobs"
+    },
+    {
+      "name": "Substack",
+      "website": "https://substack.com/jobs"
+    },
+    {
+      "name": "Ghost",
+      "website": "https://ghost.org/about/#careers"
+    },
+    {
+      "name": "Hashnode",
+      "website": "https://hashnode.com/careers"
+    },
+    {
+      "name": "Dev.to",
+      "website": "https://dev.to/careers"
+    },
+    {
+      "name": "CodeSandbox",
+      "website": "https://codesandbox.io/careers"
+    },
+    {
+      "name": "Glitch",
+      "website": "https://glitch.com/careers"
+    },
+    {
+      "name": "Zerodha Tech",
+      "website": "https://zerodha.tech/careers"
+    },
+    {
+      "name": "Smallcase",
+      "website": "https://smallcase.com/careers"
+    },
+    {
+      "name": "Groww Tech",
+      "website": "https://groww.in/careers"
+    },
+    {
+      "name": "Open Financial Technologies",
+      "website": "https://open.money/careers"
+    },
+    {
+      "name": "Cashfree",
+      "website": "https://www.cashfree.com/careers"
+    },
+    {
+      "name": "Setu",
+      "website": "https://setu.co/careers"
+    },
+    {
+      "name": "Juspay",
+      "website": "https://juspay.in/careers"
+    },
+    {
+      "name": "CreditBee",
+      "website": "https://creditbee.in/careers"
+    },
+    {
+      "name": "Lendingkart",
+      "website": "https://www.lendingkart.com/careers"
+    },
+    {
+      "name": "Perfios",
+      "website": "https://perfios.com/careers"
+    },
+    {
+      "name": "GoDigit",
+      "website": "https://www.godigit.com/careers"
+    },
+    {
+      "name": "PolicyBazaar Tech",
+      "website": "https://careers.policybazaar.com"
+    },
+    {
+      "name": "Navi",
+      "website": "https://navi.com/careers"
+    },
+    {
+      "name": "Yubi",
+      "website": "https://www.go-yubi.com/careers"
+    },
+    {
+      "name": "Avaamo",
+      "website": "https://avaamo.ai/careers"
+    },
+    {
+      "name": "Uniphore",
+      "website": "https://www.uniphore.com/careers"
+    },
+    {
+      "name": "Observe.ai",
+      "website": "https://www.observe.ai/careers"
+    },
+    {
+      "name": "ChargePoint",
+      "website": "https://www.chargepoint.com/about/careers"
+    },
+    {
+      "name": "Rivian Software",
+      "website": "https://rivian.com/careers"
+    },
+    {
+      "name": "Zoox",
+      "website": "https://zoox.com/careers"
+    },
+    {
+      "name": "Cruise",
+      "website": "https://www.getcruise.com/careers"
+    },
+    {
+      "name": "Aurora Innovation",
+      "website": "https://aurora.tech/careers"
+    },
+    {
+      "name": "Datadog",
+      "website": "https://www.datadoghq.com/careers"
+    },
+    {
+      "name": "New Relic",
+      "website": "https://newrelic.com/careers"
+    },
+    {
+      "name": "Splunk",
+      "website": "https://www.splunk.com/en_us/careers.html"
+    },
+    {
+      "name": "PagerDuty",
+      "website": "https://www.pagerduty.com/careers"
+    },
+    {
+      "name": "Sentry",
+      "website": "https://sentry.io/careers"
+    },
+    {
+      "name": "PostHog",
+      "website": "https://posthog.com/careers"
+    },
+    {
+      "name": "ClickHouse",
+      "website": "https://clickhouse.com/careers"
+    },
+    {
+      "name": "SingleStore",
+      "website": "https://www.singlestore.com/careers"
+    },
+    {
+      "name": "PlanetScale",
+      "website": "https://planetscale.com/careers"
+    },
+    {
+      "name": "Neon",
+      "website": "https://neon.tech/careers"
+    },
+    {
+      "name": "Temporal",
+      "website": "https://temporal.io/careers"
+    },
+    {
+      "name": "Pulumi",
+      "website": "https://www.pulumi.com/careers"
+    },
+    {
+      "name": "Grafana Labs",
+      "website": "https://grafana.com/about/careers"
+    },
+    {
+      "name": "Red Hat",
+      "website": "https://www.redhat.com/en/jobs"
+    },
+    {
+      "name": "Canonical",
+      "website": "https://canonical.com/careers"
+    },
+    {
+      "name": "Elastic Cloud",
+      "website": "https://www.elastic.co/careers"
+    },
+    {
+      "name": "VMware Tanzu",
+      "website": "https://careers.vmware.com"
+    },
+    {
+      "name": "Digital Turbine",
+      "website": "https://www.digitalturbine.com/careers"
+    },
+    {
+      "name": "AppLovin",
+      "website": "https://www.applovin.com/careers"
+    },
+    {
+      "name": "IronSource",
+      "website": "https://www.is.com/careers"
+    },
+    {
+      "name": "Adjust",
+      "website": "https://www.adjust.com/company/careers"
+    },
+    {
+      "name": "Branch",
+      "website": "https://branch.io/careers"
+    },
+    {
+      "name": "Instabase",
+      "website": "https://www.instabase.com/careers"
+    },
+    {
+      "name": "ScaleGrid",
+      "website": "https://scalegrid.io/careers"
+    },
+    {
+      "name": "Zscaler",
+      "website": "https://www.zscaler.com/careers"
+    },
+    {
+      "name": "Palo Alto Networks",
+      "website": "https://jobs.paloaltonetworks.com"
+    },
+    {
+      "name": "CrowdStrike",
+      "website": "https://www.crowdstrike.com/careers"
+    },
+    {
+      "name": "SentinelOne",
+      "website": "https://www.sentinelone.com/careers"
+    },
+    {
+      "name": "Zetwerk",
+      "website": "https://www.zetwerk.com/careers"
+    },
+    {
+      "name": "DealShare",
+      "website": "https://dealshare.in/careers"
+    },
+    {
+      "name": "Blinkit",
+      "website": "https://blinkit.com/careers"
+    },
+    {
+      "name": "Zepto",
+      "website": "https://zepto.tech/careers"
+    },
+    {
+      "name": "Country Delight",
+      "website": "https://countrydelight.in/careers"
+    },
+    {
+      "name": "Rupeezy",
+      "website": "https://rupeezy.in/careers"
+    },
+    {
+      "name": "KreditBee",
+      "website": "https://kreditbee.in/careers"
+    },
+    {
+      "name": "EarlySalary",
+      "website": "https://fibe.in/careers"
+    },
+    {
+      "name": "Fi Money",
+      "website": "https://fi.money/careers"
+    },
+    {
+      "name": "Ninjacart",
+      "website": "https://ninjacart.com/careers"
+    },
+    {
+      "name": "WayCool",
+      "website": "https://waycool.in/careers"
+    },
+    {
+      "name": "Shadowfax",
+      "website": "https://shadowfax.in/careers"
+    },
+    {
+      "name": "Loadshare",
+      "website": "https://loadshare.net/careers"
+    },
+    {
+      "name": "Rapido",
+      "website": "https://rapido.bike/careers"
+    },
+    {
+      "name": "Bounce",
+      "website": "https://bounce.bike/careers"
+    },
+    {
+      "name": "Ather Grid",
+      "website": "https://www.atherenergy.com/careers"
+    },
+    {
+      "name": "Blue Tokai",
+      "website": "https://bluetokaicoffee.com/pages/careers"
+    },
+    {
+      "name": "Wakefit",
+      "website": "https://wakefit.co/careers"
+    },
+    {
+      "name": "Boat",
+      "website": "https://www.boat-lifestyle.com/pages/careers"
+    },
+    {
+      "name": "Mamaearth",
+      "website": "https://honasa.in/careers"
+    },
+    {
+      "name": "Nykaa Tech",
+      "website": "https://careers.nykaa.com"
+    },
+    {
+      "name": "Urban Ladder",
+      "website": "https://www.urbanladder.com/careers"
+    },
+    {
+      "name": "Pepperfry Tech",
+      "website": "https://www.pepperfry.com/careers"
+    },
+    {
+      "name": "Inshorts",
+      "website": "https://inshorts.com/careers"
+    },
+    {
+      "name": "Dailyhunt",
+      "website": "https://careers.dailyhunt.com"
+    },
+    {
+      "name": "Josh Talks",
+      "website": "https://joshtalks.com/careers"
+    },
+    {
+      "name": "WhiteHat Jr",
+      "website": "https://whitehatjr.com/careers"
+    },
+    {
+      "name": "Scaler",
+      "website": "https://www.scaler.com/careers"
+    },
+    {
+      "name": "UpGrad",
+      "website": "https://www.upgrad.com/careers"
+    },
+    {
+      "name": "Simpl",
+      "website": "https://getsimpl.com/careers"
+    },
+    {
+      "name": "Paytm Insider",
+      "website": "https://insider.in/careers"
+    },
+    {
+      "name": "Ixigo",
+      "website": "https://www.ixigo.com/careers"
+    },
+    {
+      "name": "EaseMyTrip",
+      "website": "https://www.easemytrip.com/careers.html"
+    },
+    {
+      "name": "Goibibo",
+      "website": "https://careers.goibibo.com"
+    },
+    {
+      "name": "Ola Electric",
+      "website": "https://olaelectric.com/careers"
+    },
+    {
+      "name": "Acko Tech",
+      "website": "https://www.acko.com/careers"
+    },
+    {
+      "name": "Digit Insurance",
+      "website": "https://www.godigit.com/careers"
+    },
+    {
+      "name": "IndMoney",
+      "website": "https://www.indmoney.com/careers"
+    },
+    {
+      "name": "Khatabook",
+      "website": "https://khatabook.com/careers"
+    },
+    {
+      "name": "OkCredit",
+      "website": "https://okcredit.in/careers"
+    },
+    {
+      "name": "MobiKwik",
+      "website": "https://www.mobikwik.com/careers"
+    },
+    {
+      "name": "Freecharge",
+      "website": "https://careers.freecharge.in"
+    },
+    {
+      "name": "Paytm Payments Bank",
+      "website": "https://paytm.com/careers"
+    },
+    {
+      "name": "Ola Krutrim",
+      "website": "https://olakrutrim.com/careers"
+    },
+    {
+      "name": "Sarvam AI",
+      "website": "https://sarvam.ai/careers"
+    },
+    {
+      "name": "Krutrim",
+      "website": "https://olakrutrim.com/careers"
+    },
+    {
+      "name": "Pepper Content",
+      "website": "https://www.peppercontent.io/careers"
+    },
+    {
+      "name": "Pepper Cloud",
+      "website": "https://peppercloud.com/careers"
+    },
+    {
+      "name": "Postman India",
+      "website": "https://www.postman.com/company/careers"
+    },
+    {
+      "name": "Facilio",
+      "website": "https://facilio.com/careers"
+    },
+    {
+      "name": "Airmeet",
+      "website": "https://www.airmeet.com/careers"
+    },
+    {
+      "name": "Apna",
+      "website": "https://www.apna.co/careers"
+    },
+    {
+      "name": "HackerEarth",
+      "website": "https://www.hackerearth.com/careers"
+    },
+    {
+      "name": "HackerRank India",
+      "website": "https://www.hackerrank.com/careers"
+    },
+    {
+      "name": "InterviewBit",
+      "website": "https://www.interviewbit.com/careers"
+    },
+    {
+      "name": "GeeksforGeeks",
+      "website": "https://www.geeksforgeeks.org/careers"
+    },
+    {
+      "name": "Scaler Academy",
+      "website": "https://www.scaler.com/careers"
+    },
+    {
+      "name": "Coding Ninjas",
+      "website": "https://www.codingninjas.com/careers"
+    },
+    {
+      "name": "BlueStacks",
+      "website": "https://www.bluestacks.com/work-at-bluestacks.html"
+    },
+    {
+      "name": "Dream11 Tech",
+      "website": "https://www.dream11.com/careers"
+    },
+    {
+      "name": "Gameskraft",
+      "website": "https://www.gameskraft.com/careers"
+    },
+    {
+      "name": "WinZO",
+      "website": "https://www.winzogames.com/careers"
+    },
+    {
+      "name": "Mobile Premier League",
+      "website": "https://mpl.live/careers"
+    },
+    {
+      "name": "CoinDCX",
+      "website": "https://careers.coindcx.com"
+    },
+    {
+      "name": "GrowwPay",
+      "website": "https://groww.in/careers"
+    },
+    {
+      "name": "Zerodha Varsity",
+      "website": "https://zerodha.com/careers"
+    },
+    {
+      "name": "Jar",
+      "website": "https://www.jarapp.in/careers"
+    },
+    {
+      "name": "Open",
+      "website": "https://open.money/careers"
+    },
+    {
+      "name": "Khatabook Tech",
+      "website": "https://khatabook.com/careers"
+    },
+    {
+      "name": "Bizongo",
+      "website": "https://www.bizongo.com/careers"
+    },
+    {
+      "name": "Nymble",
+      "website": "https://nymbleup.com/careers"
+    },
+    {
+      "name": "Rebel Foods Tech",
+      "website": "https://www.rebelfoods.com/careers"
+    },
+    {
+      "name": "Porter Tech",
+      "website": "https://porter.in/careers"
+    },
+    {
+      "name": "Shiprocket",
+      "website": "https://careers.shiprocket.in"
+    },
+    {
+      "name": "Shipsy",
+      "website": "https://shipsy.io/careers"
+    },
+    {
+      "name": "Leena.ai",
+      "website": "https://leena.ai/careers"
+    },
+    {
+      "name": "Darwinbox",
+      "website": "https://darwinbox.com/careers"
+    },
+    {
+      "name": "Keka",
+      "website": "https://www.keka.com/careers"
+    },
+    {
+      "name": "Vantage Circle",
+      "website": "https://www.vantagecircle.com/careers"
+    },
+    {
+      "name": "Yellow Messenger",
+      "website": "https://yellow.ai/careers"
+    },
+    {
+      "name": "Turtlemint",
+      "website": "https://turtlemint.com/careers"
+    },
+    {
+      "name": "Digitap",
+      "website": "https://digitap.ai/careers"
+    },
+    {
+      "name": "Signzy",
+      "website": "https://www.signzy.com/careers"
+    },
+    {
+      "name": "Perfios Tech",
+      "website": "https://perfios.com/careers"
+    },
+    {
+      "name": "Clevertap",
+      "website": "https://clevertap.com/careers"
+    },
+    {
+      "name": "MoEngage",
+      "website": "https://www.moengage.com/careers"
+    },
+    {
+      "name": "WebEngage",
+      "website": "https://webengage.com/careers"
+    },
+    {
+      "name": "FreshToHome",
+      "website": "https://www.freshtohome.com/careers"
+    },
+    {
+      "name": "Dukaan",
+      "website": "https://mydukaan.io/careers"
+    },
+    {
+      "name": "Zoko",
+      "website": "https://zoko.io/careers"
+    },
+    {
+      "name": "Pepper Square",
+      "website": "https://peppersquare.com/careers"
+    },
+    {
+      "name": "Giva",
+      "website": "https://giva.co/pages/careers"
+    },
+    {
+      "name": "BharatPe",
+      "website": "https://bharatpe.com/career"
+    },
+    {
+      "name": "CredAvenue",
+      "website": "https://www.go-yubi.com/careers"
+    },
+    {
+      "name": "Snapmint",
+      "website": "https://snapmint.com/careers"
+    },
+    {
+      "name": "Faircent",
+      "website": "https://www.faircent.com/careers"
+    },
+    {
+      "name": "Indifi",
+      "website": "https://www.indifi.com/careers"
+    },
+    {
+      "name": "LenDenClub",
+      "website": "https://www.lendenclub.com/careers"
+    },
+    {
+      "name": "Navi Technologies",
+      "website": "https://navi.com/careers"
+    },
+    {
+      "name": "Zopper",
+      "website": "https://www.zopper.com/careers"
+    },
+    {
+      "name": "RenewBuy",
+      "website": "https://renewbuy.com/careers"
+    },
+    {
+      "name": "InsuranceDekho",
+      "website": "https://www.insurancedekho.com/careers"
+    },
+    {
+      "name": "Cashify",
+      "website": "https://www.cashify.in/careers"
+    },
+    {
+      "name": "Zivame",
+      "website": "https://www.zivame.com/careers"
+    },
+    {
+      "name": "Myntra Jabong",
+      "website": "https://careers.myntra.com"
+    },
+    {
+      "name": "Bewakoof",
+      "website": "https://bewakoof.com/careers"
+    },
+    {
+      "name": "Furlenco",
+      "website": "https://www.furlenco.com/careers"
+    },
+    {
+      "name": "Rentomojo",
+      "website": "https://www.rentomojo.com/careers"
+    },
+    {
+      "name": "NoBrokerHood",
+      "website": "https://www.nobrokerhood.com/careers"
+    },
+    {
+      "name": "Square Yards",
+      "website": "https://careers.squareyards.com"
+    },
+    {
+      "name": "Housing.com",
+      "website": "https://careers.housing.com"
+    },
+    {
+      "name": "PropTiger",
+      "website": "https://careers.proptiger.com"
+    },
+    {
+      "name": "Livspace",
+      "website": "https://www.livspace.com/careers"
+    },
+    {
+      "name": "Homelane",
+      "website": "https://www.homelane.com/careers"
+    },
+    {
+      "name": "Infra360",
+      "website": "https://infra360.io/careers"
+    },
+    {
+      "name": "Locus",
+      "website": "https://locus.sh/careers"
+    },
+    {
+      "name": "FarEye",
+      "website": "https://fareye.com/careers"
+    },
+    {
+      "name": "LogiNext",
+      "website": "https://loginextsolutions.com/careers"
+    },
+    {
+      "name": "Increff",
+      "website": "https://www.increff.com/careers"
+    },
+    {
+      "name": "Unicommerce",
+      "website": "https://unicommerce.com/careers"
+    },
+    {
+      "name": "ElasticRun",
+      "website": "https://elastic.run/careers"
+    },
+    {
+      "name": "BlackBuck",
+      "website": "https://blackbuck.com/careers"
+    },
+    {
+      "name": "Aye Finance",
+      "website": "https://www.ayefin.com/careers"
+    },
+    {
+      "name": "KredX",
+      "website": "https://www.kredx.com/careers"
+    },
+    {
+      "name": "Vahdam",
+      "website": "https://vahdam.com/pages/careers"
+    },
+    {
+      "name": "Boat Tech",
+      "website": "https://www.boat-lifestyle.com/pages/careers"
+    },
+    {
+      "name": "Noise",
+      "website": "https://noise.fit/pages/careers"
+    },
+    {
+      "name": "Fire-Boltt",
+      "website": "https://fireboltt.com/pages/careers"
+    },
+    {
+      "name": "Ola Foods",
+      "website": "https://www.olacabs.com/careers"
+    },
+    {
+      "name": "EatSure",
+      "website": "https://www.eatsure.com/careers"
+    },
+    {
+      "name": "FreshMenu",
+      "website": "https://www.freshmenu.com/careers"
+    },
+    {
+      "name": "Zeta Suite",
+      "website": "https://careers.zeta.tech"
+    },
+    {
+      "name": "OpenEnvoy",
+      "website": "https://openenvoy.com/careers"
+    },
+    {
+      "name": "SignDesk",
+      "website": "https://signdesk.com/careers"
+    },
+    {
+      "name": "IDfy",
+      "website": "https://www.idfy.com/careers"
+    },
+    {
+      "name": "Spyne",
+      "website": "https://www.spyne.ai/careers"
+    },
+    {
+      "name": "Mad Street Den",
+      "website": "https://madstreetden.com/careers"
+    },
+    {
+      "name": "Pixis",
+      "website": "https://pixis.ai/careers"
+    },
+    {
+      "name": "Vymo Tech",
+      "website": "https://vymo.com/careers"
+    },
+    {
+      "name": "Leverage Edu",
+      "website": "https://leverageedu.com/careers"
+    },
+    {
+      "name": "Classplus",
+      "website": "https://classplusapp.com/careers"
+    }
+  ]
+}

@@ -1,0 +1,932 @@
+/* ==========================================================================
+   Tsenta AI · Production-Grade Autonomous Job Search Platform
+   Design System: Tactile Claymorphism & High-End Subscription SaaS
+   ========================================================================== */
+
+:root {
+  /* Canvas & Base Tones */
+  --clay-bg: #f5f2eb;
+  --clay-bg-subtle: #eee9df;
+  --clay-card-bg: #ffffff;
+  --clay-card-dark: #121820;
+
+  /* Accent Palettes */
+  --clay-forest: #14382c;
+  --clay-forest-light: #1e4e3e;
+  --clay-forest-hover: #0d261e;
+  --clay-ember: #e0601e;
+  --clay-ember-light: #ff7833;
+  --clay-ember-soft: rgba(224, 96, 30, 0.12);
+  --clay-blue: #2563eb;
+  --clay-blue-soft: #eff6ff;
+  --clay-purple: #7c3aed;
+  --clay-green: #10b981;
+  --clay-green-soft: #ecfdf5;
+
+  /* Neutral Slate Palette */
+  --text-primary: #171d26;
+  --text-secondary: #525d6d;
+  --text-muted: #8895a7;
+  --border-subtle: rgba(180, 170, 155, 0.28);
+  --border-strong: rgba(180, 170, 155, 0.45);
+
+  /* Claymorphic 3D Shadow Tokens */
+  --clay-depth-sm: 
+    6px 8px 16px rgba(175, 165, 150, 0.28),
+    -4px -4px 12px rgba(255, 255, 255, 0.95),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.9),
+    inset -2px -2px 4px rgba(180, 170, 150, 0.12);
+
+  --clay-depth-md: 
+    10px 14px 26px rgba(170, 160, 145, 0.3),
+    -6px -6px 18px rgba(255, 255, 255, 0.95),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.9),
+    inset -3px -3px 6px rgba(180, 170, 150, 0.15);
+
+  --clay-depth-lg: 
+    16px 22px 38px rgba(160, 150, 135, 0.32),
+    -10px -10px 24px rgba(255, 255, 255, 0.95),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.95),
+    inset -4px -4px 8px rgba(180, 170, 150, 0.16);
+
+  --clay-inset: 
+    inset 4px 5px 10px rgba(160, 150, 135, 0.25),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.9);
+
+  --clay-btn-forest: 
+    0 8px 18px rgba(20, 56, 44, 0.32),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.4),
+    inset -3px -3px 5px rgba(0, 0, 0, 0.25);
+
+  --clay-btn-ember: 
+    0 8px 20px rgba(224, 96, 30, 0.38),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.5),
+    inset -3px -3px 5px rgba(0, 0, 0, 0.22);
+
+  /* Radii */
+  --radius-pill: 9999px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --radius-xl: 34px;
+
+  /* Font Families */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', 'SFMono-Regular', Consolas, monospace;
+
+  /* Smooth Bouncy Transitions */
+  --spring: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --smooth: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--clay-bg);
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(224, 96, 30, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(20, 56, 44, 0.05) 0%, transparent 40%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+.ts-container {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* ==========================================================================
+   Claymorphic UI Elements (Cards, Buttons, Inputs, Chips)
+   ========================================================================== */
+
+/* The Master Clay Card */
+.clay-card {
+  background: var(--clay-card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay-depth-md);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  transition: var(--spring);
+  position: relative;
+  overflow: hidden;
+}
+
+.clay-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--clay-depth-lg);
+}
+
+.clay-card-flat {
+  background: var(--clay-card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay-depth-sm);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Inset Sunken Container */
+.clay-inset-well {
+  background: #ebe6dc;
+  border-radius: var(--radius-md);
+  box-shadow: var(--clay-inset);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Clay Buttons */
+.clay-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: var(--spring);
+  user-select: none;
+}
+
+.clay-btn:active {
+  transform: translateY(2px) scale(0.98);
+}
+
+.clay-btn-forest {
+  background: linear-gradient(145deg, #184435, #102d23);
+  color: #ffffff;
+  box-shadow: var(--clay-btn-forest);
+}
+
+.clay-btn-forest:hover {
+  background: linear-gradient(145deg, #1e5240, #14382c);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(20, 56, 44, 0.4), inset 2px 2px 3px rgba(255, 255, 255, 0.5);
+}
+
+.clay-btn-ember {
+  background: linear-gradient(145deg, #f06a24, #d45314);
+  color: #ffffff;
+  box-shadow: var(--clay-btn-ember);
+}
+
+.clay-btn-ember:hover {
+  background: linear-gradient(145deg, #ff7930, #e05e19);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(224, 96, 30, 0.45), inset 2px 2px 3px rgba(255, 255, 255, 0.6);
+}
+
+.clay-btn-surface {
+  background: linear-gradient(145deg, #ffffff, #f0eae0);
+  color: var(--text-primary);
+  box-shadow: var(--clay-depth-sm);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.clay-btn-surface:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: var(--clay-depth-md);
+  color: var(--clay-ember);
+}
+
+.clay-btn-danger {
+  background: linear-gradient(145deg, #ef4444, #dc2626);
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(220, 38, 38, 0.35), inset 2px 2px 3px rgba(255, 255, 255, 0.5), inset -2px -2px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.clay-btn-danger:hover {
+  background: linear-gradient(145deg, #f87171, #ef4444);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(220, 38, 38, 0.45), inset 2px 2px 3px rgba(255, 255, 255, 0.6);
+  color: #ffffff;
+}
+
+/* Clay Inset Input */
+.clay-input {
+  background: #ebe6dc;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--clay-inset);
+  padding: 10px 20px;
+  font-size: 13.5px;
+  color: var(--text-primary);
+  outline: none;
+  transition: var(--smooth);
+  width: 100%;
+}
+
+.clay-input:focus {
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(224, 96, 30, 0.25), var(--clay-depth-sm);
+  border-color: var(--clay-ember);
+}
+
+/* Clay Bubble Pill Tabs */
+.clay-tabs-pill {
+  display: inline-flex;
+  gap: 6px;
+  background: #ebe6dc;
+  padding: 6px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--clay-inset);
+}
+
+.clay-tab-item {
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: var(--spring);
+}
+
+.clay-tab-item.active {
+  background: linear-gradient(145deg, #ffffff, #f5f0e8);
+  color: var(--text-primary);
+  box-shadow: 
+    4px 6px 14px rgba(170, 160, 145, 0.3),
+    -3px -3px 8px rgba(255, 255, 255, 0.95),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
+}
+
+.clay-tab-item:hover:not(.active) {
+  color: var(--text-primary);
+}
+
+/* Clay Metric Badges & Pills */
+.clay-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 
+    3px 4px 8px rgba(180, 170, 155, 0.2),
+    -2px -2px 6px rgba(255, 255, 255, 0.8),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+.clay-badge-green {
+  background: linear-gradient(145deg, #dcfce7, #bbf7d0);
+  color: #14532d;
+}
+
+.clay-badge-orange {
+  background: linear-gradient(145deg, #ffedd5, #fed7aa);
+  color: #9a3412;
+}
+
+.clay-badge-blue {
+  background: linear-gradient(145deg, #dbeafe, #bfdbfe);
+  color: #1e3a8a;
+}
+
+.clay-badge-purple {
+  background: linear-gradient(145deg, #f3e8ff, #e9d5ff);
+  color: #581c87;
+}
+
+.clay-badge-dark {
+  background: linear-gradient(145deg, #1f2937, #111827);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), inset 1px 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+/* Pulse Dot */
+.ts-pulse-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+  display: inline-block;
+  animation: clayPulse 1.8s infinite;
+}
+
+@keyframes clayPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* ==========================================================================
+   Header & Navigation
+   ========================================================================== */
+
+.ts-header {
+  position: sticky;
+  top: 16px;
+  z-index: 100;
+  margin-bottom: 24px;
+}
+
+.ts-header-inner {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--clay-depth-md);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ts-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: -0.03em;
+}
+
+.ts-brand-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #194637, #0e2b21);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  font-weight: 900;
+  box-shadow: var(--clay-btn-forest);
+}
+
+.ts-nav-pill-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #ebe6dc;
+  padding: 5px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--clay-inset);
+}
+
+.ts-nav-pill-btn {
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: var(--spring);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ts-nav-pill-btn.active {
+  background: linear-gradient(145deg, #ffffff, #f7f3ec);
+  color: var(--text-primary);
+  box-shadow: 
+    3px 5px 12px rgba(170, 160, 145, 0.28),
+    -2px -2px 6px rgba(255, 255, 255, 0.9),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
+}
+
+.ts-nav-pill-btn:hover:not(.active) {
+  color: var(--clay-ember);
+}
+
+/* ==========================================================================
+   Production SaaS Control Banner (Auto-Pilot Cockpit)
+   ========================================================================== */
+
+.ts-cockpit-banner {
+  background: linear-gradient(135deg, #151d27, #0d1218);
+  border-radius: var(--radius-xl);
+  padding: 22px 28px;
+  box-shadow: 
+    16px 20px 40px rgba(18, 24, 32, 0.35),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.15),
+    inset -2px -2px 6px rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  margin-bottom: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ts-cockpit-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+
+.ts-runner-cylinder {
+  height: 10px;
+  background: #1e293b;
+  border-radius: var(--radius-pill);
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  position: relative;
+  width: 220px;
+}
+
+.ts-runner-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e0601e, #ff8c42);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 0 12px rgba(224, 96, 30, 0.8);
+  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==========================================================================
+   Claymorphic SaaS Metric Cards
+   ========================================================================== */
+
+.ts-metrics-deck {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+.ts-metric-card {
+  padding: 20px 22px;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay-depth-sm);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  transition: var(--spring);
+  position: relative;
+}
+
+.ts-metric-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--clay-depth-md);
+}
+
+.ts-metric-val {
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin: 6px 0 4px;
+}
+
+/* ==========================================================================
+   Stage 1: Job Match Cards (Tactile 3D Cards)
+   ========================================================================== */
+
+.ts-matches-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 18px;
+}
+
+.ts-job-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay-depth-sm);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--spring);
+}
+
+.ts-job-card:hover {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: var(--clay-depth-md);
+}
+
+.ts-match-score-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffffff, #f0eae0);
+  box-shadow: var(--clay-depth-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+  color: #15803d;
+  flex-shrink: 0;
+  border: 2px solid #bbf7d0;
+}
+
+/* ==========================================================================
+   Stage 2 & 3: Applications Production Table
+   ========================================================================== */
+
+.ts-table-wrapper {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay-depth-md);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  margin-top: 18px;
+}
+
+.ts-clay-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13.5px;
+}
+
+.ts-clay-table th {
+  background: #f7f4ed;
+  padding: 16px 20px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.ts-clay-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(180, 170, 155, 0.15);
+  color: var(--text-primary);
+  vertical-align: middle;
+  transition: var(--smooth);
+}
+
+.ts-clay-table tr {
+  cursor: pointer;
+  transition: var(--smooth);
+}
+
+.ts-clay-table tr:hover td {
+  background: #faf7f2;
+}
+
+.ts-clay-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Status Chips */
+.ts-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 
+    2px 3px 6px rgba(180, 170, 155, 0.18),
+    -1px -1px 4px rgba(255, 255, 255, 0.8);
+}
+
+.ts-status-submitted {
+  background: linear-gradient(145deg, #dcfce7, #bbf7d0);
+  color: #14532d;
+}
+
+.ts-status-tailoring {
+  background: linear-gradient(145deg, #dbeafe, #bfdbfe);
+  color: #1e40af;
+}
+
+.ts-status-needsyou {
+  background: linear-gradient(145deg, #fee2e2, #fecaca);
+  color: #991b1b;
+}
+
+.ts-status-queued {
+  background: linear-gradient(145deg, #fef3c7, #fde68a);
+  color: #92400e;
+}
+
+/* ==========================================================================
+   Stage 4: Kanban Pipeline Board
+   ========================================================================== */
+
+.ts-kanban-board {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(230px, 1fr));
+  gap: 18px;
+  overflow-x: auto;
+  padding: 8px 4px 28px;
+}
+
+.ts-kanban-col {
+  background: #ebe5da;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay-inset);
+  padding: 16px;
+  min-height: 520px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.ts-kanban-col-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.ts-kanban-card {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--clay-depth-sm);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  padding: 14px;
+  margin-bottom: 12px;
+  transition: var(--spring);
+  cursor: grab;
+}
+
+.ts-kanban-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: var(--clay-depth-md);
+}
+
+/* ==========================================================================
+   AI Inbox & Auto-Scheduler
+   ========================================================================== */
+
+.ts-inbox-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ts-inbox-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay-depth-md);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  padding: 24px;
+  transition: var(--spring);
+}
+
+.ts-inbox-reply-box {
+  background: #eefbf3;
+  border-radius: var(--radius-md);
+  border: 1px solid #bbf7d0;
+  box-shadow: 
+    inset 2px 2px 5px rgba(187, 247, 208, 0.4),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.9);
+  padding: 18px;
+  margin-top: 14px;
+}
+
+/* ==========================================================================
+   Candidate Master Profile Hub
+   ========================================================================== */
+
+.ts-profile-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+.ts-skill-pill {
+  background: linear-gradient(145deg, #f5f0e8, #ebe5db);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  box-shadow: 
+    3px 4px 8px rgba(180, 170, 155, 0.2),
+    -2px -2px 6px rgba(255, 255, 255, 0.9);
+  display: inline-block;
+}
+
+/* ==========================================================================
+   Subscription & Pricing Hub
+   ========================================================================== */
+
+.ts-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  margin-top: 36px;
+}
+
+.ts-pricing-card {
+  background: #ffffff;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--clay-depth-md);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  padding: 36px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  transition: var(--spring);
+  position: relative;
+}
+
+.ts-pricing-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: var(--clay-depth-lg);
+}
+
+.ts-pricing-card.featured {
+  background: linear-gradient(145deg, #16202c, #0d131a);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    20px 26px 45px rgba(18, 24, 32, 0.4),
+    inset 1px 1px 3px rgba(255, 255, 255, 0.2);
+  transform: scale(1.03);
+}
+
+.ts-pricing-card.featured:hover {
+  transform: translateY(-6px) scale(1.04);
+}
+
+.ts-price-tag {
+  font-size: 52px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Modals & Claymorphic Overlays
+   ========================================================================== */
+
+.ts-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 24, 32, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+}
+
+.ts-modal-dialog {
+  background: #ffffff;
+  border-radius: var(--radius-xl);
+  max-width: 720px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 
+    24px 32px 60px rgba(0, 0, 0, 0.35),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  animation: clayModalPop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes clayModalPop {
+  from { opacity: 0; transform: scale(0.92) translateY(14px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.ts-modal-header {
+  padding: 22px 28px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ts-modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #ebe6dc;
+  box-shadow: var(--clay-depth-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--spring);
+}
+
+.ts-modal-close:hover {
+  background: #e0601e;
+  color: #ffffff;
+  transform: rotate(90deg) scale(1.1);
+}
+
+.ts-modal-body {
+  padding: 26px 28px;
+}
+
+/* Diff Viewer */
+.ts-diff-block {
+  background: #ebe6dc;
+  border-radius: var(--radius-md);
+  box-shadow: var(--clay-inset);
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.ts-diff-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.ts-diff-del {
+  background: rgba(239, 68, 68, 0.12);
+  color: #991b1b;
+  text-decoration: line-through;
+}
+
+.ts-diff-add {
+  background: rgba(16, 185, 129, 0.15);
+  color: #065f46;
+  font-weight: 600;
+  box-shadow: 2px 2px 4px rgba(16, 185, 129, 0.1);
+}
+
+/* Terminal & SSE Streamer */
+.ts-terminal-box {
+  background: #0d1218;
+  color: #58a6ff;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  max-height: 380px;
+  overflow-y: auto;
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Responsive Rules */
+@media (max-width: 1100px) {
+  .ts-metrics-deck {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .ts-matches-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ts-pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  .ts-profile-grid {
+    grid-template-columns: 1fr;
+  }
+  .ts-kanban-board {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .ts-metrics-deck {
+    grid-template-columns: 1fr;
+  }
+  .ts-matches-grid {
+    grid-template-columns: 1fr;
+  }
+  .ts-cockpit-grid {
+    grid-template-columns: 1fr;
+  }
+  .ts-nav-pill-group {
+    display: none;
+  }
+}

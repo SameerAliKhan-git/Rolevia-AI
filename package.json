@@ -1,0 +1,32 @@
+{
+  "name": "rolevia-ai",
+  "version": "0.1.0",
+  "description": "Rolevia AI - AI-Powered Job Discovery, Resume Optimization & Application Automation Platform",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "test": "node tests/run_all_tests.js",
+    "prisma:generate": "npx prisma generate",
+    "prisma:push": "npx prisma db push",
+    "prisma:seed": "node prisma/seed.js"
+  },
+  "keywords": [
+    "job-automation",
+    "resume-optimization",
+    "ats-compliance",
+    "rolevia-ai"
+  ],
+  "author": "Rolevia AI Technologies",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@prisma/client": "^5.14.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "pdf-parse": "^1.1.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "prisma": "^5.14.0"
+  }
+}

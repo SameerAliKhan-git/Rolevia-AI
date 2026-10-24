@@ -1,0 +1,169 @@
+[
+  {
+    "id": "greenhouse",
+    "name": "Greenhouse",
+    "domain": "boards.greenhouse.io",
+    "patterns": [
+      "boards\\.greenhouse\\.io",
+      "api\\.greenhouse\\.io",
+      "gh_src"
+    ]
+  },
+  {
+    "id": "workday",
+    "name": "Workday",
+    "domain": "myworkdayjobs.com",
+    "patterns": [
+      "myworkdayjobs\\.com",
+      "wd\\d+\\.myworkday\\.com"
+    ]
+  },
+  {
+    "id": "ashby",
+    "name": "Ashby",
+    "domain": "jobs.ashbyhq.com",
+    "patterns": [
+      "jobs\\.ashbyhq\\.com",
+      "ashbyhq\\.com"
+    ]
+  },
+  {
+    "id": "lever",
+    "name": "Lever",
+    "domain": "jobs.lever.co",
+    "patterns": [
+      "jobs\\.lever\\.co"
+    ]
+  },
+  {
+    "id": "taleo",
+    "name": "Oracle Taleo",
+    "domain": "tbe.taleo.net",
+    "patterns": [
+      "tbe\\.taleo\\.net",
+      "taleo\\.net"
+    ]
+  },
+  {
+    "id": "smartrecruiters",
+    "name": "SmartRecruiters",
+    "domain": "jobs.smartrecruiters.com",
+    "patterns": [
+      "smartrecruiters\\.com"
+    ]
+  },
+  {
+    "id": "icims",
+    "name": "iCIMS",
+    "domain": "icims.com",
+    "patterns": [
+      "icims\\.com",
+      "jobs\\.icims\\.com"
+    ]
+  },
+  {
+    "id": "jobvite",
+    "name": "Jobvite",
+    "domain": "jobs.jobvite.com",
+    "patterns": [
+      "jobvite\\.com"
+    ]
+  },
+  {
+    "id": "rippling",
+    "name": "Rippling ATS",
+    "domain": "rippling-ats.com",
+    "patterns": [
+      "rippling-ats\\.com"
+    ]
+  },
+  {
+    "id": "bamboohr",
+    "name": "BambooHR",
+    "domain": "bamboohr.com",
+    "patterns": [
+      "bamboohr\\.com/jobs"
+    ]
+  },
+  {
+    "id": "workable",
+    "name": "Workable",
+    "domain": "apply.workable.com",
+    "patterns": [
+      "apply\\.workable\\.com"
+    ]
+  },
+  {
+    "id": "paycom",
+    "name": "Paycom",
+    "domain": "paycomonline.net",
+    "patterns": [
+      "paycomonline\\.net"
+    ]
+  },
+  {
+    "id": "hireclick",
+    "name": "HireClick",
+    "domain": "hireclick.com",
+    "patterns": [
+      "hireclick\\.com"
+    ]
+  },
+  {
+    "id": "hiringthing",
+    "name": "HiringThing",
+    "domain": "hiringthing.com",
+    "patterns": [
+      "hiringthing\\.com"
+    ]
+  },
+  {
+    "id": "bullhorn",
+    "name": "Bullhorn",
+    "domain": "bullhorn.com",
+    "patterns": [
+      "bullhorn\\.com"
+    ]
+  },
+  {
+    "id": "jazzhr",
+    "name": "JazzHR",
+    "domain": "theresumator.com",
+    "patterns": [
+      "theresumator\\.com",
+      "jazzhr\\.com"
+    ]
+  },
+  {
+    "id": "recruitee",
+    "name": "Recruitee",
+    "domain": "recruitee.com",
+    "patterns": [
+      "recruitee\\.com"
+    ]
+  },
+  {
+    "id": "pinpoint",
+    "name": "Pinpoint",
+    "domain": "pinpointhq.com",
+    "patterns": [
+      "pinpointhq\\.com"
+    ]
+  },
+  {
+    "id": "freshteam",
+    "name": "Freshteam",
+    "domain": "freshteam.com",
+    "patterns": [
+      "freshteam\\.com"
+    ]
+  },
+  {
+    "id": "breezy",
+    "name": "Breezy HR",
+    "domain": "breezy.hr",
+    "patterns": [
+      "breezy\\.hr"
+    ]
+  }
+]

@@ -1,0 +1,155 @@
+// Rolevia AI · Production Prisma Schema (Release 0.1)
+// Fully balanced relational persistence replacing legacy flat JSON store.json
+// Supports PostgreSQL in production and embedded SQLite for local zero-dependency testing.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id            String          @id @default(uuid())
+  name          String
+  subdomain     String          @unique
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  users         User[]
+  creditEntries CreditJournal[]
+  applications  Application[]
+}
+
+model User {
+  id            String            @id @default(uuid())
+  tenantId      String
+  tenant        Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  email         String            @unique
+  passwordHash  String
+  name          String
+  phone         String?
+  location      String?
+  linkedin      String?
+  github        String?
+  roleTitle     String?
+  yearsExp      Int               @default(0)
+  credits       Int               @default(50)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  profile       CandidateProfile?
+  creditEntries CreditJournal[]
+  applications  Application[]
+
+  @@index([tenantId])
+}
+
+model CandidateProfile {
+  id                 String      @id @default(uuid())
+  userId             String      @unique
+  user               User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skills             String      // JSON array string of skills
+  certifications     String      // JSON array string
+  targetRoles        String      // JSON array string
+  preferredLocations String      // JSON array string
+  needsSponsorship   Boolean     @default(false)
+  bachelors          String?
+  education          String?
+  rawResumeText      String?
+  atsReadinessScore  Int         @default(90)
+  parsedAt           DateTime?
+  facts              FactStore[]
+}
+
+model FactStore {
+  id                 String           @id @default(uuid())
+  candidateProfileId String
+  candidateProfile   CandidateProfile @relation(fields: [candidateProfileId], references: [id], onDelete: Cascade)
+  factType           String           // EDUCATION, WORK_EXPERIENCE, PROJECT, SKILL, CERTIFICATION
+  title              String
+  organization       String?
+  startDate          String?
+  endDate            String?
+  highlights         String           // JSON string of bullet highlights
+  metrics            String?          // Measurable impact string
+  verified           Boolean          @default(true)
+  confidence         Float            @default(1.0)
+  createdAt          DateTime         @default(now())
+
+  @@index([candidateProfileId])
+  @@index([factType])
+}
+
+model CreditJournal {
+  id             String   @id @default(uuid())
+  tenantId       String
+  tenant         Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entryType      String   // SUBSCRIPTION_GRANT, APPLICATION_HOLD, APPLICATION_COMMIT, APPLICATION_RELEASE, COURTESY_ADJUSTMENT
+  amount         Int      // Positive for credit additions, negative for debits
+  balanceAfter   Int      // Strict balance invariant snapshot
+  idempotencyKey String   @unique
+  referenceType  String?  // REQUISITION, INVOICE, WEBHOOK, ADMIN
+  referenceId    String?  // ID of job, order, or invoice
+  createdAt      DateTime @default(now())
+
+  @@index([tenantId, userId])
+}
+
+model ProcessedWebhookEvent {
+  id          String   @id @default(uuid())
+  eventId     String   @unique
+  eventType   String
+  signature   String
+  processedAt DateTime @default(now())
+}
+
+model Job {
+  id              String        @id @default(uuid())
+  company         String
+  title           String
+  url             String
+  applyUrl        String?
+  ats             String
+  atsName         String
+  location        String?
+  jobType         String?
+  salary          String?
+  postedAt        String?
+  requirements    String        // JSON array string
+  requisitionHash String        @unique // SHA-256 of normalized URL + title + company for deduplication
+  status          String        @default("ACTIVE") // ACTIVE, EXPIRED, ARCHIVED
+  lastCheckedAt   DateTime      @default(now())
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  applications    Application[]
+
+  @@index([status])
+  @@index([requisitionHash])
+}
+
+model Application {
+  id                 String    @id @default(uuid())
+  tenantId           String
+  tenant             Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  userId             String
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobId              String?
+  job                Job?      @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  company            String
+  position           String
+  ats                String
+  url                String
+  status             String    // DRAFT, DIFF_APPROVED, EXECUTING, SUBMITTED, OUTCOME_UNKNOWN, FAILED
+  confirmationNumber String?
+  receiptUrl         String?
+  diffData           String?   // JSON structured diff
+  receiptData        String?   // JSON structured submission proof
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  @@index([tenantId, userId])
+  @@index([status])
+}
