@@ -15,6 +15,7 @@ const resumeParser = require('./resumeParser');
 const billing = require('./billing');
 const jobCrawler = require('./jobCrawler');
 const jobMatcher = require('./jobMatcher');
+const resumeOptimizer = require('./resumeOptimizer');
 
 const PORT = process.env.PORT || 3000;
 const STORE_PATH = path.join(__dirname, 'database', 'store.json');
@@ -328,6 +329,56 @@ const server = http.createServer(async (req, res) => {
       } catch (err) {
         res.writeHead(500);
         res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+      return;
+    }
+
+    // POST /api/v1/resumes/optimize (FEAT-007 Truth-Grounded Resume & Cover Letter Optimization)
+    if (pathname === '/api/v1/resumes/optimize' && method === 'POST') {
+      try {
+        const body = await parseBody(req);
+        let callerTenantId = null;
+        if (req.headers.authorization) {
+          try {
+            const authUser = await auth.authenticateRequest(req);
+            callerTenantId = authUser.tenantId;
+          } catch (authErr) {
+            res.writeHead(401);
+            res.end(JSON.stringify({ success: false, error: authErr.message }));
+            return;
+          }
+        }
+
+        if (body.candidateProfileId && body.jobId) {
+          const result = await resumeOptimizer.optimizeForJob({
+            candidateProfileId: body.candidateProfileId,
+            jobId: body.jobId,
+            callerTenantId,
+            options: body.options || {}
+          });
+          res.writeHead(200);
+          res.end(JSON.stringify({ success: true, ...result }));
+          return;
+        }
+
+        if (body.candidateProfile && body.job) {
+          const result = resumeOptimizer.optimizeResumeAndCoverLetter({
+            candidateProfile: body.candidateProfile,
+            verifiedFacts: body.verifiedFacts || [],
+            job: body.job,
+            options: body.options || {}
+          });
+          res.writeHead(200);
+          res.end(JSON.stringify({ success: true, ...result }));
+          return;
+        }
+
+        res.writeHead(400);
+        res.end(JSON.stringify({ success: false, error: 'candidateProfileId + jobId or candidateProfile + job payload required' }));
+      } catch (err) {
+        const statusCode = err.name === 'HallucinationViolationError' ? 422 : 500;
+        res.writeHead(statusCode);
+        res.end(JSON.stringify({ success: false, error: err.message, violations: err.violations }));
       }
       return;
     }

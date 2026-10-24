@@ -10,6 +10,7 @@ const testFeat005Crawler = require('./test_feat005_crawler');
 const testE2EUserJourney = require('./test_e2e_user_journey');
 const testNegativePaths = require('./test_negative_paths');
 const testFeat006Matcher = require('./test_feat006_matcher');
+const testFeat007Optimizer = require('./test_feat007_optimizer');
 const prisma = require('../backend/db');
 
 async function runAllSuites() {
@@ -30,6 +31,7 @@ async function runAllSuites() {
     results.push(await testFeat004Billing());
     results.push(await testFeat005Crawler());
     results.push(await testFeat006Matcher());
+    results.push(await testFeat007Optimizer());
     results.push(await testE2EUserJourney());
     results.push(await testNegativePaths());
 

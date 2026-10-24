@@ -708,5 +708,6 @@ module.exports = {
   parseJobRequirements,
   getDegreeRank,
   normalizeSkill,
-  SKILL_SYNONYMS
+  SKILL_SYNONYMS,
+  CANONICAL_SKILL_KEYWORDS
 };
