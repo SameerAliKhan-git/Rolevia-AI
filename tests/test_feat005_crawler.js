@@ -146,6 +146,41 @@ async function testFeat005Crawler() {
   console.log(`✓ [DB] Freshness Scan: Evaluated ${scanReport.totalScanned} opportunities (${scanReport.verifiedLive} active, ${scanReport.expiredMarked} expired)`);
   testsPassed++;
 
+  // 6. Scheduled Job Ingestion Engine: Cycle Execution
+  const engine = new jobCrawler.ScheduledJobIngestionEngine();
+  const sampleFeeds = [
+    {
+      ats: 'lever',
+      company: `SchedLever_${Date.now()}`,
+      feedData: {
+        postings: [
+          { id: `sched-${Date.now()}`, text: 'SRE Lead', hostedUrl: 'https://jobs.lever.co/sched/1' }
+        ]
+      }
+    }
+  ];
+
+  const cycleReport = await engine.runCycle(sampleFeeds);
+  assert.strictEqual(cycleReport.cycleNumber, 1, 'Cycle number must be 1');
+  assert.strictEqual(cycleReport.feedsProcessed, 1, '1 feed processed in cycle');
+  assert.strictEqual(cycleReport.ingested, 1, '1 job ingested during scheduled cycle');
+  assert(cycleReport.freshness !== null, 'Scheduled cycle must include freshness scan');
+  console.log('✓ [SCHEDULER] Scheduled Engine: Cycle execution completed (ingestion + deduplication + freshness sweep)');
+  testsPassed++;
+
+  // 7. ATS Source Capabilities Matrix (Explicit Workday Incomplete Identification)
+  const status = engine.getStatus();
+  assert(status.supportedSources.includes('greenhouse'), 'Greenhouse must be marked SUPPORTED');
+  assert(status.supportedSources.includes('ashby'), 'Ashby must be marked SUPPORTED');
+  assert(status.supportedSources.includes('lever'), 'Lever must be marked SUPPORTED');
+  assert(status.incompleteSources.includes('workday'), 'Workday must be explicitly identified in incompleteSources');
+  
+  const workdayCap = status.capabilities.workday;
+  assert.strictEqual(workdayCap.status, 'INCOMPLETE_PLANNED_RELEASE_0_2', 'Workday status must be INCOMPLETE_PLANNED_RELEASE_0_2');
+  assert(workdayCap.limitationNote.includes('Release 0.2'), 'Workday limitation note must explain deferral to Release 0.2 browser automation');
+  console.log('✓ [CAPABILITY] ATS Matrix: Greenhouse/Ashby/Lever supported; Workday explicitly documented as incomplete (Release 0.2 scope)');
+  testsPassed++;
+
   console.log(`>> [PASS] FEAT-005: All ${testsPassed} job discovery & deduplication tests passed.`);
   return {
     suite: 'FEAT-005 Job Ingestion & Freshness Scan',

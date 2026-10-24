@@ -91,7 +91,8 @@ async function testFeat004Billing() {
     requisitionId: 'req-stripe-123'
   });
   assert.strictEqual(holdResult.success, true, 'Hold must succeed');
-  assert.strictEqual(holdResult.balance, startBalance - 1, 'Balance decremented by 1 during hold');
+  assert.strictEqual(holdResult.availableCredits, startBalance - 1, 'Available balance decremented by 1 during hold');
+  assert.strictEqual(holdResult.reservedCredits >= 1, true, 'Reserved credits incremented to at least 1');
 
   // Step B: APPLICATION_COMMIT upon verified ATS confirmation
   const commitResult = await billing.commitCreditForApplication({
@@ -102,7 +103,9 @@ async function testFeat004Billing() {
     receiptData: { fieldCount: 15, directLink: 'https://boards.greenhouse.io/stripe' }
   });
   assert.strictEqual(commitResult.status, 'SUBMITTED', 'Status updated to SUBMITTED');
-  console.log('✓ [DB] Credit Journal: Atomic HOLD and COMMIT completed with ledger consistency');
+  assert.strictEqual(commitResult.availableCredits, startBalance - 1, 'Available credits must NOT be deducted again upon commit');
+  assert.strictEqual(commitResult.consumedCredits >= 1, true, 'Consumed credits incremented to reflect confirmed submission');
+  console.log('✓ [DB] Credit Journal: Triple-reconciliation (available/reserved/consumed) verified with 0 double-deductions');
   testsPassed++;
 
   // 5. APPLICATION_RELEASE (Refund on Pre-dispatch failure)

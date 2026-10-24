@@ -1,0 +1,39 @@
+{
+  "id": "resume_two_column_modern",
+  "layoutType": "Two-Column Modern Tech",
+  "expectedFidelity": {
+    "name": "Alexander Chen",
+    "email": "alexander.chen@techmail.io",
+    "phone": "+1-415-555-0182",
+    "location": "San Francisco, CA",
+    "requiredSkills": [
+      "TypeScript",
+      "React",
+      "Node.js",
+      "Go",
+      "Python",
+      "PostgreSQL",
+      "Docker",
+      "Kubernetes",
+      "AWS"
+    ],
+    "minimumSkillCount": 6,
+    "hasEducation": true,
+    "hasExperience": true
+  },
+  "formatQualityExpectedRange": {
+    "minScore": 85,
+    "maxScore": 100
+  },
+  "relevanceBenchmarks": {
+    "targetJobRole": "Senior Backend Engineer",
+    "targetSkills": [
+      "Go",
+      "PostgreSQL",
+      "Kubernetes",
+      "Docker",
+      "AWS"
+    ],
+    "expectedMatchRateMin": 0.8
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "resume_entry_level",
+  "layoutType": "Entry-Level Graduate",
+  "expectedFidelity": {
+    "name": "Jordan Taylor",
+    "email": "jordan.taylor@university.edu",
+    "phone": "+1-512-555-0188",
+    "location": "Austin, TX",
+    "requiredSkills": [
+      "Python",
+      "Java",
+      "C++",
+      "JavaScript",
+      "React",
+      "PostgreSQL",
+      "Git",
+      "Linux"
+    ],
+    "minimumSkillCount": 5,
+    "hasEducation": true,
+    "hasExperience": true
+  },
+  "formatQualityExpectedRange": {
+    "minScore": 80,
+    "maxScore": 98
+  },
+  "relevanceBenchmarks": {
+    "targetJobRole": "Junior Software Engineer",
+    "targetSkills": [
+      "Python",
+      "Java",
+      "PostgreSQL",
+      "Git"
+    ],
+    "expectedMatchRateMin": 0.75
+  }
+}

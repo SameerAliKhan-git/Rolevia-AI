@@ -276,6 +276,130 @@ async function ingestAtsFeed({ ats, company, feedData }) {
   return ingestJobs(normalizedJobs);
 }
 
+/**
+ * ATS Capability Matrix & Status Registry
+ */
+const ATS_SOURCE_CAPABILITIES = {
+  greenhouse: {
+    name: 'Greenhouse Boards API v1',
+    status: 'SUPPORTED',
+    integrationType: 'DIRECT_API',
+    endpointFormat: 'https://boards-api.greenhouse.io/v1/boards/{board}/jobs',
+    features: ['full_description', 'departments', 'location_parsing', 'apply_url']
+  },
+  ashby: {
+    name: 'Ashby Job Posting API v1',
+    status: 'SUPPORTED',
+    integrationType: 'DIRECT_API',
+    endpointFormat: 'https://api.ashbyhq.com/posting-api/job-board/{board}',
+    features: ['compensation_tiers', 'departments', 'remote_classification', 'apply_url']
+  },
+  lever: {
+    name: 'Lever Postings API v0',
+    status: 'SUPPORTED',
+    integrationType: 'DIRECT_API',
+    endpointFormat: 'https://api.lever.co/v0/postings/{board}',
+    features: ['team_categories', 'commitment_types', 'hosted_url']
+  },
+  workday: {
+    name: 'Workday Enterprise CXS',
+    status: 'INCOMPLETE_PLANNED_RELEASE_0_2',
+    integrationType: 'BROWSER_AUTOMATION_PLAYWRIGHT',
+    endpointFormat: 'https://{company}.wd{N}.myworkdayjobs.com/wday/cxs/...',
+    limitationNote: 'Requires session cookies, dynamic tenant routing, and multi-step modal rendering. Deferred to Release 0.2 Playwright automation engine.'
+  }
+};
+
+/**
+ * Scheduled Job Ingestion Engine
+ * Orchestrates periodic multi-portal crawling, deduplication, and continuous freshness verification.
+ */
+class ScheduledJobIngestionEngine {
+  constructor() {
+    this.timer = null;
+    this.running = false;
+    this.intervalMs = 30 * 60 * 1000; // 30 minutes default
+    this.cycleCount = 0;
+    this.lastCycleAt = null;
+    this.metrics = {
+      totalIngested: 0,
+      totalDuplicates: 0,
+      totalErrors: 0,
+      lastFreshnessScan: null
+    };
+  }
+
+  async runCycle(feeds = []) {
+    const cycleStart = new Date();
+    this.cycleCount++;
+    const cycleReport = {
+      cycleNumber: this.cycleCount,
+      startedAt: cycleStart.toISOString(),
+      feedsProcessed: feeds.length,
+      ingested: 0,
+      duplicates: 0,
+      freshness: null
+    };
+
+    for (const feed of feeds) {
+      try {
+        const res = await ingestAtsFeed(feed);
+        cycleReport.ingested += res.ingested;
+        cycleReport.duplicates += res.duplicates;
+        this.metrics.totalIngested += res.ingested;
+        this.metrics.totalDuplicates += res.duplicates;
+      } catch (err) {
+        this.metrics.totalErrors++;
+      }
+    }
+
+    // Run periodic freshness sweep
+    try {
+      const freshnessReport = await runPeriodicFreshnessScan();
+      cycleReport.freshness = freshnessReport;
+      this.metrics.lastFreshnessScan = freshnessReport;
+    } catch (err) {
+      // transient scan failure
+    }
+
+    this.lastCycleAt = new Date().toISOString();
+    return cycleReport;
+  }
+
+  start({ intervalMs = 30 * 60 * 1000, feeds = [] } = {}) {
+    if (this.running) return;
+    this.running = true;
+    this.intervalMs = intervalMs;
+    this.timer = setInterval(() => {
+      this.runCycle(feeds).catch(() => {});
+    }, intervalMs);
+    if (this.timer && this.timer.unref) this.timer.unref();
+  }
+
+  stop() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+    this.running = false;
+  }
+
+  getStatus() {
+    return {
+      running: this.running,
+      intervalMs: this.intervalMs,
+      cycleCount: this.cycleCount,
+      lastCycleAt: this.lastCycleAt,
+      metrics: this.metrics,
+      supportedSources: Object.keys(ATS_SOURCE_CAPABILITIES).filter(k => ATS_SOURCE_CAPABILITIES[k].status === 'SUPPORTED'),
+      incompleteSources: Object.keys(ATS_SOURCE_CAPABILITIES).filter(k => ATS_SOURCE_CAPABILITIES[k].status !== 'SUPPORTED'),
+      capabilities: ATS_SOURCE_CAPABILITIES
+    };
+  }
+}
+
+const scheduledEngine = new ScheduledJobIngestionEngine();
+
 module.exports = {
   computeRequisitionHash,
   isJobUrlLive,
@@ -284,5 +408,8 @@ module.exports = {
   normalizeGreenhouseJob,
   normalizeAshbyJob,
   normalizeLeverJob,
-  ingestAtsFeed
+  ingestAtsFeed,
+  ScheduledJobIngestionEngine,
+  scheduledEngine,
+  ATS_SOURCE_CAPABILITIES
 };

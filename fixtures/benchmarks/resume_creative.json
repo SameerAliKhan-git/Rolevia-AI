@@ -1,0 +1,37 @@
+{
+  "id": "resume_creative_columns",
+  "layoutType": "Creative UI/UX Resume",
+  "expectedFidelity": {
+    "name": "Maya Lin",
+    "email": "maya.lin@designtech.io",
+    "phone": "+1-206-555-0143",
+    "location": "Seattle, WA",
+    "requiredSkills": [
+      "Figma",
+      "Design Systems",
+      "JavaScript",
+      "React",
+      "TypeScript",
+      "CSS3",
+      "Tailwind CSS"
+    ],
+    "minimumSkillCount": 5,
+    "hasEducation": true,
+    "hasExperience": true
+  },
+  "formatQualityExpectedRange": {
+    "minScore": 80,
+    "maxScore": 98
+  },
+  "relevanceBenchmarks": {
+    "targetJobRole": "Lead UI/UX Engineer",
+    "targetSkills": [
+      "Figma",
+      "Design Systems",
+      "React",
+      "CSS3",
+      "TypeScript"
+    ],
+    "expectedMatchRateMin": 0.8
+  }
+}

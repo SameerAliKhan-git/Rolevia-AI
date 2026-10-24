@@ -33,15 +33,17 @@ model User {
   location      String?
   linkedin      String?
   github        String?
-  roleTitle     String?
-  yearsExp      Int               @default(0)
-  credits       Int               @default(50)
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
-  profile       CandidateProfile?
-  creditEntries CreditJournal[]
-  applications  Application[]
-  refreshTokens RefreshToken[]
+  roleTitle        String?
+  yearsExp         Int               @default(0)
+  credits          Int               @default(50) // Available credits
+  reservedCredits  Int               @default(0)  // Held credits in flight for active applications
+  consumedCredits  Int               @default(0)  // Consumed credits for confirmed submissions
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  profile          CandidateProfile?
+  creditEntries    CreditJournal[]
+  applications     Application[]
+  refreshTokens    RefreshToken[]
 
   @@index([tenantId])
 }

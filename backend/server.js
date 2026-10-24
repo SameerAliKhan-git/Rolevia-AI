@@ -14,6 +14,7 @@ const auth = require('./auth');
 const resumeParser = require('./resumeParser');
 const billing = require('./billing');
 const jobCrawler = require('./jobCrawler');
+const jobMatcher = require('./jobMatcher');
 
 const PORT = process.env.PORT || 3000;
 const STORE_PATH = path.join(__dirname, 'database', 'store.json');
@@ -301,6 +302,33 @@ const server = http.createServer(async (req, res) => {
       const scanReport = await jobCrawler.runPeriodicFreshnessScan();
       res.writeHead(200);
       res.end(JSON.stringify({ success: true, scanReport, jobs: db.jobs }));
+      return;
+    }
+
+    // POST /api/v1/jobs/match (FEAT-006 Explainable AI Job Matching)
+    if (pathname === '/api/v1/jobs/match' && method === 'POST') {
+      try {
+        const body = await parseBody(req);
+        if (body.candidateProfileId) {
+          const ranked = await jobMatcher.matchCandidateAgainstJobs(body.candidateProfileId, body.options || {});
+          res.writeHead(200);
+          res.end(JSON.stringify({ success: true, count: ranked.length, matches: ranked }));
+          return;
+        }
+
+        if (body.candidate && body.job) {
+          const match = jobMatcher.computeJobMatch(body.candidate, body.job);
+          res.writeHead(200);
+          res.end(JSON.stringify({ success: true, match }));
+          return;
+        }
+
+        res.writeHead(400);
+        res.end(JSON.stringify({ success: false, error: 'candidateProfileId or candidate + job payload required' }));
+      } catch (err) {
+        res.writeHead(500);
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
       return;
     }
 
@@ -621,7 +649,8 @@ const server = http.createServer(async (req, res) => {
   }
 
   // 3. STATIC FILES SERVING
-  let filePath = path.join(STATIC_ROOT, pathname === '/' ? 'index.html' : pathname);
+  const decodedPath = decodeURIComponent(pathname);
+  let filePath = path.join(STATIC_ROOT, decodedPath === '/' ? 'index.html' : decodedPath);
 
   // Security sandbox check
   if (!filePath.startsWith(STATIC_ROOT)) {

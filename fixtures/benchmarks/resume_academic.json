@@ -1,0 +1,36 @@
+{
+  "id": "resume_academic_dense",
+  "layoutType": "Academic Dense CV",
+  "expectedFidelity": {
+    "name": "Dr. Elena Rostova",
+    "email": "elena.rostova@stanford.edu",
+    "phone": "+1-650-555-0199",
+    "location": "Stanford, CA",
+    "requiredSkills": [
+      "Distributed Systems",
+      "Formal Verification",
+      "Rust",
+      "C++",
+      "Python",
+      "Linux",
+      "Docker"
+    ],
+    "minimumSkillCount": 4,
+    "hasEducation": true,
+    "hasExperience": true
+  },
+  "formatQualityExpectedRange": {
+    "minScore": 65,
+    "maxScore": 85
+  },
+  "relevanceBenchmarks": {
+    "targetJobRole": "Research Scientist - Systems",
+    "targetSkills": [
+      "Distributed Systems",
+      "Rust",
+      "Formal Verification",
+      "C++"
+    ],
+    "expectedMatchRateMin": 0.75
+  }
+}

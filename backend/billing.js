@@ -145,13 +145,22 @@ async function reserveCreditForApplication({ tenantId, userId, applicationId, re
       where: { idempotencyKey: key }
     });
     if (existingHold) {
-      return { success: true, holdAlreadyActive: true, balance: existingHold.balanceAfter };
+      const user = await tx.user.findUnique({ where: { id: userId } });
+      return {
+        success: true,
+        holdAlreadyActive: true,
+        balance: existingHold.balanceAfter,
+        availableCredits: user.credits,
+        reservedCredits: user.reservedCredits,
+        consumedCredits: user.consumedCredits
+      };
     }
 
-    // Atomic conditional decrement with PostgreSQL row-level lock
+    // Atomic conditional decrement of available credits and increment of reserved credits
     const updatedCount = await tx.$executeRaw`
       UPDATE "User"
-      SET "credits" = "credits" - 1
+      SET "credits" = "credits" - 1,
+          "reservedCredits" = "reservedCredits" + 1
       WHERE "id" = ${userId} AND "credits" >= 1
     `;
 
@@ -185,6 +194,9 @@ async function reserveCreditForApplication({ tenantId, userId, applicationId, re
     return {
       success: true,
       balance: newBalance,
+      availableCredits: user.credits,
+      reservedCredits: user.reservedCredits,
+      consumedCredits: user.consumedCredits,
       journalId: entry.id
     };
   });
@@ -192,6 +204,7 @@ async function reserveCreditForApplication({ tenantId, userId, applicationId, re
 
 /**
  * Credit Accounting: Commit reserved credit upon verified application submission (APPLICATION_COMMIT)
+ * Transitions credit from 'reserved' to 'consumed' - DOES NOT re-deduct available credits.
  */
 async function commitCreditForApplication({ tenantId, userId, applicationId, confirmationNumber, receiptData }) {
   const key = `commit-${applicationId}-${userId}`;
@@ -204,6 +217,14 @@ async function commitCreditForApplication({ tenantId, userId, applicationId, con
       return { success: true, alreadyCommitted: true };
     }
 
+    // Move 1 credit from reserved to consumed without re-deducting available credits
+    await tx.$executeRaw`
+      UPDATE "User"
+      SET "reservedCredits" = GREATEST("reservedCredits" - 1, 0),
+          "consumedCredits" = "consumedCredits" + 1
+      WHERE "id" = ${userId}
+    `;
+
     const user = await tx.user.findUnique({ where: { id: userId } });
     if (!user) throw new Error('User not found');
 
@@ -212,7 +233,7 @@ async function commitCreditForApplication({ tenantId, userId, applicationId, con
         tenantId,
         userId,
         entryType: 'APPLICATION_COMMIT',
-        amount: 0, // balance was decremented during hold
+        amount: 0, // balance was decremented during hold; 0 additional debit
         balanceAfter: user.credits,
         idempotencyKey: key,
         referenceType: 'APPLICATION',
@@ -232,6 +253,9 @@ async function commitCreditForApplication({ tenantId, userId, applicationId, con
     return {
       success: true,
       status: 'SUBMITTED',
+      availableCredits: user.credits,
+      reservedCredits: user.reservedCredits,
+      consumedCredits: user.consumedCredits,
       journalId: entry.id
     };
   });
@@ -239,6 +263,7 @@ async function commitCreditForApplication({ tenantId, userId, applicationId, con
 
 /**
  * Credit Accounting: Release reserved credit if application failed before submission (APPLICATION_RELEASE)
+ * Moves 1 credit from 'reserved' back to 'available' (refund) without altering consumed credits.
  */
 async function releaseCreditForApplication({ tenantId, userId, applicationId, reason }) {
   const key = `release-${applicationId}-${userId}`;
@@ -251,15 +276,16 @@ async function releaseCreditForApplication({ tenantId, userId, applicationId, re
       return { success: true, alreadyReleased: true, balance: existingRelease.balanceAfter };
     }
 
+    // Move 1 credit from reserved back to available
+    await tx.$executeRaw`
+      UPDATE "User"
+      SET "reservedCredits" = GREATEST("reservedCredits" - 1, 0),
+          "credits" = "credits" + 1
+      WHERE "id" = ${userId}
+    `;
+
     const user = await tx.user.findUnique({ where: { id: userId } });
     if (!user) throw new Error('User not found');
-
-    const newBalance = user.credits + 1;
-
-    await tx.user.update({
-      where: { id: userId },
-      data: { credits: newBalance }
-    });
 
     const entry = await tx.creditJournal.create({
       data: {
@@ -267,7 +293,7 @@ async function releaseCreditForApplication({ tenantId, userId, applicationId, re
         userId,
         entryType: 'APPLICATION_RELEASE',
         amount: 1,
-        balanceAfter: newBalance,
+        balanceAfter: user.credits,
         idempotencyKey: key,
         referenceType: 'FAILURE_REFUND',
         referenceId: applicationId
@@ -281,7 +307,10 @@ async function releaseCreditForApplication({ tenantId, userId, applicationId, re
 
     return {
       success: true,
-      balance: newBalance,
+      balance: user.credits,
+      availableCredits: user.credits,
+      reservedCredits: user.reservedCredits,
+      consumedCredits: user.consumedCredits,
       status: 'FAILED',
       journalId: entry.id
     };
@@ -314,7 +343,28 @@ async function quarantineOutcomeUnknown({ tenantId, userId, applicationId, reaso
     quarantined: true,
     applicationId: updatedApp.id,
     userCredits: user.credits,
+    availableCredits: user.credits,
+    reservedCredits: user.reservedCredits,
+    consumedCredits: user.consumedCredits,
     message: 'Application quarantined in OUTCOME_UNKNOWN. Requisition locked; no duplicate submission permitted.'
+  };
+}
+
+/**
+ * Audit & Reconciliation: Returns complete breakdown of available, reserved, and consumed credits
+ */
+async function getUserCreditSummary(userId) {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) throw new Error('User not found');
+
+  const totalGranted = user.credits + user.reservedCredits + user.consumedCredits;
+  return {
+    userId: user.id,
+    availableCredits: user.credits,
+    reservedCredits: user.reservedCredits,
+    consumedCredits: user.consumedCredits,
+    totalGrantedCredits: totalGranted,
+    isBalanced: totalGranted >= 0 && user.credits >= 0 && user.reservedCredits >= 0 && user.consumedCredits >= 0
   };
 }
 
@@ -326,5 +376,6 @@ module.exports = {
   reserveCreditForApplication,
   commitCreditForApplication,
   releaseCreditForApplication,
-  quarantineOutcomeUnknown
+  quarantineOutcomeUnknown,
+  getUserCreditSummary
 };

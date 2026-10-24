@@ -201,11 +201,13 @@ function parseResumeText(rawText, numPages = 1) {
   // Expanded technical skills dictionary
   const knownSkills = [
     'Python', 'Flask', 'Django', 'FastAPI', 'React', 'TypeScript', 'JavaScript',
-    'Node.js', 'Express', 'Prisma ORM', 'PostgreSQL', 'SQLite', 'MongoDB', 'Docker',
-    'Kubernetes', 'Go / Golang', 'Terraform', 'AWS Architecture', 'AWS', 'GCP',
-    'PyTorch', 'JAX', 'C++', 'CUDA', 'Triton', 'HuggingFace', 'NumPy', 'Linux',
-    'Prometheus', 'Istio', 'ArgoCD', 'gRPC', 'Git', 'GitHub', 'REST APIs', 'JWT',
-    'RBAC', 'HTML5', 'CSS3', 'SQLAlchemy', 'CI/CD'
+    'Node.js', 'Express', 'Prisma ORM', 'Prisma', 'PostgreSQL', 'SQLite', 'MongoDB', 'Docker',
+    'Kubernetes', 'Go / Golang', 'Go', 'Terraform', 'AWS Architecture', 'AWS', 'GCP', 'Azure',
+    'PyTorch', 'JAX', 'C++', 'C', 'Rust', 'CUDA', 'Triton', 'HuggingFace', 'NumPy', 'Linux',
+    'Prometheus', 'Istio', 'ArgoCD', 'gRPC', 'GraphQL', 'Git', 'GitHub', 'REST APIs', 'REST', 'JWT',
+    'RBAC', 'HTML5', 'CSS3', 'Tailwind CSS', 'Tailwind', 'SQLAlchemy', 'CI/CD', 'Java', 'SQL',
+    'Distributed Systems', 'Formal Verification', 'TLA+', 'Paxos', 'Raft',
+    'Figma', 'Design Systems', 'UI/UX', 'User Research', 'Microservices', 'Distributed Caching'
   ];
 
   const detectedSkills = [];
@@ -357,6 +359,7 @@ async function parseAndSyncResume(userId, bufferOrPath) {
     filename,
     fileSizeBytes: buffer.length,
     parsedAt: new Date().toISOString(),
+    parsed,
     evaluation: parsed.evaluation,
     candidate: parsed.candidate,
     skills: parsed.skills,

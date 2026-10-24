@@ -14,6 +14,10 @@
   <!-- Centralized Brand Configuration -->
   <script src="brand.config.js"></script>
 
+  <!-- Product Favicon (Vector Icon Mark) -->
+  <link rel="icon" type="image/svg+xml" href="/public/rolevia-favicon.svg">
+  <link rel="alternate icon" type="image/png" href="/public/rolevia-logo.png">
+
   <!-- Claymorphism Design System -->
   <link rel="stylesheet" href="styles.css">
   
@@ -27,10 +31,12 @@
     <div class="ts-header-inner">
       <!-- Brand -->
       <a href="#" class="ts-brand" onclick="switchNav('dashboard'); return false;">
-        <div class="ts-brand-logo" style="background:linear-gradient(135deg, #1e5240, #14382c); color:#fff;">R</div>
+        <div class="ts-brand-logo" style="background:transparent; box-shadow:none; padding:0; display:flex; align-items:center; justify-content:center;">
+          <img src="/public/rolevia-logo.png" alt="Rolevia AI Logo" style="width:38px; height:38px; object-fit:contain; border-radius:10px; box-shadow:0 4px 12px rgba(20,56,44,0.18);" />
+        </div>
         <span style="font-weight:900; letter-spacing:-0.02em;">Rolevia<span style="color:#d97706; margin-left:1px;">AI</span></span>
         <span class="clay-badge clay-badge-orange" style="font-size:10.5px; padding:3px 8px;">
-          RELEASE 0.1
+          RELEASE 0.2
         </span>
       </a>
 

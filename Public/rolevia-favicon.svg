@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="roleviaBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e5240"/>
+      <stop offset="100%" stop-color="#0e281f"/>
+    </linearGradient>
+    <linearGradient id="roleviaAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <filter id="clayShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#roleviaBg)"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="14.5" fill="none" stroke="#2a6d56" stroke-width="1.5" stroke-opacity="0.6"/>
+  <!-- Bold Geometric 'R' Glyph -->
+  <g filter="url(#clayShadow)">
+    <path d="M20 15 H35.5 C42 15 46.5 19 46.5 25.5 C46.5 30.5 42.5 34.5 36.5 35 L47 49 H38 L28.5 36 H28 V49 H20 V15 Z M28 22 V30 H35 C38 30 40 28.5 40 26 C40 23.5 38 22 35 22 H28 Z" fill="#ffffff"/>
+    <!-- Amber Intelligence Spark -->
+    <circle cx="49" cy="16" r="4.5" fill="url(#roleviaAccent)"/>
+  </g>
+</svg>
