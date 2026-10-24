@@ -1,0 +1,1 @@
+import{o as e}from"./rolldown-runtime-C0FnF6B9.js";import{x as t}from"./react-vendor-BJfRIYtH.js";import{ut as n}from"./portal-DdHwNoI3.js";var r=e(t(),1);function i(e,t,i,a){let o=n(i);(0,r.useEffect)(()=>{e??=window;function n(e){o.current(e)}return e.addEventListener(t,n,a),()=>e.removeEventListener(t,n,a)},[e,t,a])}export{i as t};

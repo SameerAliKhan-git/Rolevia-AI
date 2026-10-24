@@ -1,0 +1,1 @@
+import{n as e,t}from"./bundle-mjs-BCZgiF-g.js";function n(...n){return t(e(n))}export{n as t};

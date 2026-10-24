@@ -1,0 +1,1 @@
+import{r as e}from"./rolldown-runtime-C0FnF6B9.js";import{o as t,p as n}from"./firebase-BCao27W1.js";var r=e({auth:()=>a}),i=n({apiKey:`AIzaSyA5iGb9hVcxkhBStKZa88GnG1Dvsy5PVr8`,authDomain:`dashboard.tsenta.com`,projectId:`autojobs-prod`,messagingSenderId:`159988797036`,appId:`1:159988797036:web:5d2cf9a2b1168d22a51249`}),a=t(i);export{r as n,a as t};

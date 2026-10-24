@@ -1,0 +1,47 @@
+[
+  {
+    "path": "app.js",
+    "bytes": 101367,
+    "sha256": "80bd633d093960aabf171c1f5ee752d9b9d878e58e1193f7b75650a707d99753"
+  },
+  {
+    "path": "index.html",
+    "bytes": 29678,
+    "sha256": "18d7e1da95daa37c24161f0157b7ae95cf3544577b8383429cd59e3d4c753467"
+  },
+  {
+    "path": "styles.css",
+    "bytes": 22369,
+    "sha256": "ce4033508a69a6fa2d00e9e8a6de2f4413910c74fb8e9ae4ebd046a874873adf"
+  },
+  {
+    "path": "backend/server.js",
+    "bytes": 21753,
+    "sha256": "45d6c6a629a881c252620c15ae9e591fcd6c504931469e12f8af3ae6c50f4496"
+  },
+  {
+    "path": "backend/database/store.json",
+    "bytes": 34404,
+    "sha256": "415b575a2f8719c7137c56c30e6b28c11e4fb5932a2295c5d47c25505e3c6ac2"
+  },
+  {
+    "path": "backend/config/ats_engines.json",
+    "bytes": 3104,
+    "sha256": "5d91e98b1d00f0ec11c544f87e297e9c7306d245c92207a03eebcaaf38a51b0e"
+  },
+  {
+    "path": "backend/config/company_directories.json",
+    "bytes": 117250,
+    "sha256": "296c2ae714e9061e9d0ea7e43ffc4d014418ad40e5cc380b352c94437fca9086"
+  },
+  {
+    "path": "frontend/src/App.jsx",
+    "bytes": 3646,
+    "sha256": "3226560e76fae0a061d973aee04d87fc5e3f4c4b41d94777ab622c4b19aa4067"
+  },
+  {
+    "path": "frontend/package.json",
+    "bytes": 489,
+    "sha256": "f65cbb5bb4666343fc365ce90ae313a79bfee9c22baabe63fb44b333e9dfb591"
+  }
+]

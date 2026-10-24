@@ -1,0 +1,1 @@
+var e=new Set([`MANUAL_APPLY_REQUIRED`,`MANUAL_COMPLETION`,`REVIEW_REQUIRED`,`ASSESSMENT_REQUIRED`,`ATS_NOT_SUPPORTED`,`ACCOUNT_REQUIRED`,`AUTH_FAILED`]),t=new Set([`FAILED`,`SKIPPED`]);function n(n){return!!n.errorCode&&e.has(n.errorCode)&&(!n.status||t.has(n.status))}export{n as t};

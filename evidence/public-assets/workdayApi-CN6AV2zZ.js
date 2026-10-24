@@ -1,0 +1,1 @@
+import{t as e}from"./api-CZ-WWetN.js";import{t}from"./workday-B6WWkLFt.js";var{useStoreWorkdayPasswordMutation:n,useGetWorkdayPasswordStatusQuery:r,useRevealWorkdayPasswordMutation:i,useDeleteWorkdayPasswordMutation:a}=t(e);export{n as i,r as n,i as r,a as t};

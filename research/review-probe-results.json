@@ -1,0 +1,15 @@
+{
+  "scope": "in-process isolated handler; mocked filesystem/network/listen/timers",
+  "passed": 9,
+  "results": [
+    "Unauthenticated profile read returns 200.",
+    "Empty unsigned payment body creates Paid invoice and 1500 credits.",
+    "Replaying unsigned verification grants another 1500 credits.",
+    "Profile mass assignment accepts credits and unsanitized HTML.",
+    "Invalid job ID selects first job and creates Submitted receipt at zero credits and exhausted quota, with no external call.",
+    "Profile remains accessible after logout.",
+    "Static handler serves database file without authentication.",
+    "Resume parsing returns success and score 98 when resume file does not exist.",
+    "Numeric skill produces uncaught request-handler TypeError."
+  ]
+}

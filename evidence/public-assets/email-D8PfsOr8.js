@@ -1,0 +1,1 @@
+var e=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;function t(t){return e.test(t.trim())}export{t};

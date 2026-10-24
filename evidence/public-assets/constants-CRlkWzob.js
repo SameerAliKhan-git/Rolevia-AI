@@ -1,0 +1,1 @@
+var e={name:`Tsenta`,description:`Automated job application platform that does the heavy lifting for you`,urls:{dashboard:`/dashboard`,login:`/login`,signup:`/login`,forgotPassword:`/forgot-password`,terms:`/terms`,privacy:`/privacy`,contact:`/contact`}};export{e as t};

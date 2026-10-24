@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon-light.png" />
+    <script>
+      // Swap the tab icon to match the browser/OS theme, and keep it in sync
+      // when the user toggles light/dark. (media= on favicons is unreliable in Chrome.)
+      (function () {
+        var dark = window.matchMedia("(prefers-color-scheme: dark)");
+        var link = document.querySelector("link[rel='icon']");
+        function set(e) { link.href = e.matches ? "/favicon-dark.png" : "/favicon-light.png"; }
+        set(dark);
+        dark.addEventListener("change", set);
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tsenta</title>
+    <meta name="description" content="Automate your job search with Tsenta. Apply to hundreds of jobs automatically and track your application progress." />
+    <!-- Fonts: match the Tsenta landing (Inter display + DM Sans body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- API: warm both connection pools. Requests send credentials, so they
+         use the credentialed pool (no crossorigin); their CORS preflights use
+         the anonymous one (crossorigin). Only the origin of the URL is used. -->
+    <link rel="preconnect" href="https://api.autojobs.me/api/v1" />
+    <link rel="preconnect" href="https://api.autojobs.me/api/v1" crossorigin />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18107751448"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-18107751448');
+    </script>
+    <!-- Meta Pixel Code (SPA — JS required, no <noscript> needed) -->
+    <script data-pixel-id="1528316832228844">
+      // Keep the build-time value in markup, not this hashed script body. Vite
+      // replaces the attribute per environment without invalidating the CSP.
+      window.__META_PIXEL_ID__ = document.currentScript.dataset.pixelId;
+      if (!window.__META_PIXEL_ID__ || window.__META_PIXEL_ID__.indexOf('%') !== -1) {
+        window.__META_PIXEL_ID__ = '1528316832228844';
+      }
+    </script>
+    <script>
+      if (window.__META_PIXEL_ID__ && window.__META_PIXEL_ID__.indexOf('%') === -1) {
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', window.__META_PIXEL_ID__);
+        fbq('track', 'PageView');
+      }
+    </script>
+    <!-- End Meta Pixel Code -->
+    <style>#app-loader{z-index:9999;background:#fdfcfc;justify-content:center;align-items:center;transition:opacity .3s ease-out;display:flex;position:fixed;inset:0}#app-loader .loader-content{text-align:center}#app-loader .loader-logo{justify-content:center;align-items:center;gap:10px;margin-bottom:32px;animation:2s ease-in-out infinite pulse;display:flex}#app-loader .loader-logo svg{color:#0b0b0c;width:36px;height:36px}#app-loader .loader-name{letter-spacing:-.01em;color:#0b0b0c;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;font-size:1.875rem;font-weight:600;line-height:1}#app-loader .loader-spinner{border:2px solid #0000;border-bottom-color:#15362b;border-radius:50%;width:48px;height:48px;margin:0 auto 16px;animation:1s linear infinite spin}#app-loader .loader-text{color:#6b7280;font-family:Inter,system-ui,-apple-system,sans-serif;font-size:1.125rem;font-weight:500;line-height:1.75rem}@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{0%,to{opacity:1}50%{opacity:.5}}</style>
+    <script type="module" crossorigin src="/assets/index-BzA-r5bo.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-C0FnF6B9.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-vendor-BJfRIYtH.js">
+    <link rel="modulepreload" crossorigin href="/assets/firebase-BCao27W1.js">
+    <link rel="modulepreload" crossorigin href="/assets/firebase-BBNyJSA6.js">
+    <link rel="modulepreload" crossorigin href="/assets/sentry-DtAMeAKu.js">
+    <link rel="modulepreload" crossorigin href="/assets/logger-D4klN9W3.js">
+    <link rel="modulepreload" crossorigin href="/assets/posthog-D_KOSIrT.js">
+    <link rel="modulepreload" crossorigin href="/assets/account_suspension-CxhRv-Kn.js">
+    <link rel="modulepreload" crossorigin href="/assets/api-CZ-WWetN.js">
+    <link rel="modulepreload" crossorigin href="/assets/store-CJs4VMRF.js">
+    <link rel="modulepreload" crossorigin href="/assets/contract-CBGzuKuo.js">
+    <link rel="modulepreload" crossorigin href="/assets/schemas-B-MmcwHE.js">
+    <link rel="modulepreload" crossorigin href="/assets/usersApi-D_wluQxc.js">
+    <link rel="modulepreload" crossorigin href="/assets/applicationsApi-qbeQj421.js">
+    <link rel="modulepreload" crossorigin href="/assets/ats--6qonFW9.js">
+    <link rel="modulepreload" crossorigin href="/assets/filter_config-D7ZTP36m.js">
+    <link rel="modulepreload" crossorigin href="/assets/jobboard-mpPvbpyI.js">
+    <link rel="modulepreload" crossorigin href="/assets/subscriptionApi-D1butwwh.js">
+    <link rel="modulepreload" crossorigin href="/assets/use_referral-WaC-j7MH.js">
+    <link rel="modulepreload" crossorigin href="/assets/use_auth-DXwrZv99.js">
+    <link rel="modulepreload" crossorigin href="/assets/bundle-mjs-BCZgiF-g.js">
+    <link rel="modulepreload" crossorigin href="/assets/dist-D9N-pqAt.js">
+    <link rel="modulepreload" crossorigin href="/assets/useTransmit-C7BJmYhX.js">
+    <link rel="modulepreload" crossorigin href="/assets/iconBase-BUknUJAU.js">
+    <link rel="modulepreload" crossorigin href="/assets/hi-DO34sQiq.js">
+    <link rel="modulepreload" crossorigin href="/assets/paths-DGlSk3rU.js">
+    <link rel="modulepreload" crossorigin href="/assets/custom_toast-C4RvFt5q.js">
+    <link rel="modulepreload" crossorigin href="/assets/lazy_section_boundary-DKgYVJor.js">
+    <link rel="modulepreload" crossorigin href="/assets/constants-CRlkWzob.js">
+    <link rel="modulepreload" crossorigin href="/assets/brand-fC5rqLhX.js">
+    <link rel="modulepreload" crossorigin href="/assets/portal-DdHwNoI3.js">
+    <link rel="modulepreload" crossorigin href="/assets/floating-DPos8Xox.js">
+    <link rel="modulepreload" crossorigin href="/assets/use-inert-others-DI5a4pcD.js">
+    <link rel="modulepreload" crossorigin href="/assets/element-movement-BdWGPyvg.js">
+    <link rel="modulepreload" crossorigin href="/assets/md-CmGIAhDw.js">
+    <link rel="modulepreload" crossorigin href="/assets/select-CwrsSfej.js">
+    <link rel="modulepreload" crossorigin href="/assets/use-tab-direction-ckwAYziC.js">
+    <link rel="modulepreload" crossorigin href="/assets/use-event-listener-CrfIhdWO.js">
+    <link rel="modulepreload" crossorigin href="/assets/active-element-history-G-TgD1G7.js">
+    <link rel="modulepreload" crossorigin href="/assets/dialog-Bu61Lt5x.js">
+    <link rel="modulepreload" crossorigin href="/assets/modal-DX-_Tib4.js">
+    <link rel="modulepreload" crossorigin href="/assets/motion-Yha3YIen.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CnVvWmQ2.css">
+  <link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js" defer></script></head>
+  <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <!-- Loading screen - removed by React when app mounts -->
+    <div id="app-loader">
+      <div class="loader-content">
+        <div class="loader-logo">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <path fill="currentColor" fill-rule="evenodd" d="M50 13 L91 90 L9 90 Z M50 47 L69 90 L31 90 Z" />
+          </svg>
+          <span class="loader-name">Tsenta</span>
+        </div>
+        <div class="loader-spinner"></div>
+        <p class="loader-text">Loading...</p>
+      </div>
+    </div>
+    <!-- Timestamp the loader's animation start so React's <LoadingScreen> can
+         phase-align its spinner/pulse and the handoff doesn't visibly jump. -->
+    <script>
+      window.__ts_loader_t0 = performance.now();
+    </script>
+    <div id="root"></div>
+  </body>
+</html>

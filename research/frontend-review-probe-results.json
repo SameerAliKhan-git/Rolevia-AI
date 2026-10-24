@@ -1,0 +1,12 @@
+{
+  "scope": "UI functions with inert DOM sinks and stubbed fetch",
+  "passed": 6,
+  "results": [
+    "Profile name is inserted as raw HTML into innerHTML (no browser payload executed).",
+    "Empty successful API responses retain seeded jobs and applications.",
+    "Startup hydration never requests current subscription.",
+    "Auto-pilot toggle issues no backend request.",
+    "Approve & Dispatch only changes in-memory resume status; no backend request.",
+    "Profile save displays success after network failure."
+  ]
+}

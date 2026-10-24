@@ -1,0 +1,1 @@
+import{n as e,t}from"./contract-CBGzuKuo.js";import{g as n,m as r,o as i}from"./schemas-B-MmcwHE.js";var a=r({message:n(),success:i()});function o(n){return n.injectEndpoints({endpoints:n=>({submitFeedback:n.mutation({query:t=>e(`/api/v1/feedback`,`post`,{body:t}),transformResponse:t()(a)})})})}export{o as t};

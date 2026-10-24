@@ -1,0 +1,1 @@
+import{b as e,c as t,r as n}from"./react-vendor-BJfRIYtH.js";var r=e(),i=n();function a(){let e=(0,r.c)(1),n;return e[0]===Symbol.for(`react.memo_cache_sentinel`)?(n=(0,i.jsx)(t,{to:`/dashboard/tracker`,replace:!0}),e[0]=n):n=e[0],n}export{a as default};

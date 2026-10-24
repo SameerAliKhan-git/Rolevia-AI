@@ -1,0 +1,1 @@
+function e(e,t,n=`${t}s`){return`${e.toLocaleString(`en-US`)} ${e===1?t:n}`}var t=`Turn on Auto Apply`;function n(e,t=e.length,n=3){let r=[...new Set(e.filter(Boolean))];if(r.length===0)return``;let i=r.slice(0,n),a=Math.max(t,r.length)-i.length;return a>0?`${i.join(`, `)} and ${a} more`:i.length===1?i[0]??``:`${i.slice(0,-1).join(`, `)} and ${i.at(-1)}`}export{n,e as r,t};

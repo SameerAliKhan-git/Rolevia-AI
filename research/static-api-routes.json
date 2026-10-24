@@ -1,0 +1,622 @@
+[
+  {
+    "file": "applicationsApi-qbeQj421.js",
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/list",
+        "char_offset": 10669
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications",
+        "char_offset": 10921
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/applications/{applicationId}/approve",
+        "char_offset": 11043
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/jobs/{jobId}/status",
+        "char_offset": 11237
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/{applicationId}/resume-download-url",
+        "char_offset": 11461
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/list/counts",
+        "char_offset": 12680
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/applications/search",
+        "char_offset": 13263
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/applications",
+        "char_offset": 13563
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/applications/skip-bulk",
+        "char_offset": 14256
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/applications/{applicationId}/reapply",
+        "char_offset": 14433
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/applications/skip-bulk",
+        "char_offset": 14722
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/{applicationId}/optimization-data",
+        "char_offset": 14875
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/rate-limit",
+        "char_offset": 15064
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/count",
+        "char_offset": 15233
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/stats",
+        "char_offset": 15349
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/{applicationId}",
+        "char_offset": 15500
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/{applicationId}/detail",
+        "char_offset": 15794
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/applications/{applicationId}/regenerate-resume",
+        "char_offset": 16134
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/applications/{applicationId}/skip-optimization",
+        "char_offset": 16427
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/{applicationId}/resume-url",
+        "char_offset": 16813
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/{applicationId}/resume-download-url",
+        "char_offset": 17103
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/applications/{applicationId}/optimized-resume",
+        "char_offset": 17476
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/{applicationId}/cover-letter-data",
+        "char_offset": 17892
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/{applicationId}/cover-letter-download-url",
+        "char_offset": 18213
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/{applicationId}/cover-letter-download-url",
+        "char_offset": 18475
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/applications/{applicationId}/cover-letter",
+        "char_offset": 18879
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/applications/{applicationId}/skip-cover-letter",
+        "char_offset": 19268
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/{applicationId}/trace",
+        "char_offset": 19514
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/applications/{applicationId}/password",
+        "char_offset": 19787
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/applications/{applicationId}/resume-submit",
+        "char_offset": 19989
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/applications/{applicationId}/typeahead-suggest",
+        "char_offset": 20342
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/cloud-executions/running",
+        "char_offset": 20534
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/tracked-applications/export",
+        "char_offset": 20651
+      }
+    ]
+  },
+  {
+    "file": "usersApi-D_wluQxc.js",
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/api/v1/users/{uid}/resume-profiles",
+        "char_offset": 2563
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/{uid}/resume-profiles/{profileId}",
+        "char_offset": 2716
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/{uid}/resume-profiles",
+        "char_offset": 2930
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/{uid}/resume-profiles",
+        "char_offset": 3191
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/{uid}/resume-profiles/{profileId}",
+        "char_offset": 3417
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/v1/users/{uid}/resume-profiles/{profileId}",
+        "char_offset": 3617
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/{uid}/resume-profiles/{profileId}/set-default",
+        "char_offset": 3810
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/{uid}/resume-profiles/{profileId}/resume",
+        "char_offset": 4089
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/{uid}/resume-profiles/{profileId}/reimport",
+        "char_offset": 4408
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/{uid}/resume-profiles/{profileId}/resume/download-url",
+        "char_offset": 4722
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/{uid}/apply-preferences",
+        "char_offset": 8067
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/{uid}/apply-preferences",
+        "char_offset": 8259
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/{uid}/profile/preferences",
+        "char_offset": 8953
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/{uid}/profile/resume-settings",
+        "char_offset": 9365
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/email-preferences",
+        "char_offset": 9863
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/email-preferences",
+        "char_offset": 10034
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/email-history",
+        "char_offset": 10208
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/email-recommendation-filters",
+        "char_offset": 10372
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/email-recommendation-filters",
+        "char_offset": 10584
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/email-type-preferences",
+        "char_offset": 10797
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/email-type-preferences",
+        "char_offset": 10985
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/{uid}/auto-apply-config",
+        "char_offset": 11204
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/{uid}/auto-apply-runs",
+        "char_offset": 11365
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/{uid}/auto-apply-config",
+        "char_offset": 11545
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/firebase",
+        "char_offset": 11819
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/{uid}",
+        "char_offset": 11960
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/check-email",
+        "char_offset": 12103
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/forgot-password",
+        "char_offset": 12235
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/reset-password",
+        "char_offset": 12368
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/{uid}/profile",
+        "char_offset": 12572
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/{uid}/profile",
+        "char_offset": 12878
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/{uid}/profile/personal-info",
+        "char_offset": 13089
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/{uid}/profile/education",
+        "char_offset": 13395
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/{uid}/profile/work-experience",
+        "char_offset": 13705
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/{uid}/profile/skills",
+        "char_offset": 13986
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/{uid}/profile/custom-sections",
+        "char_offset": 14247
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/{uid}/profile/mark-reviewed",
+        "char_offset": 14486
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/{uid}/resume/download-url",
+        "char_offset": 14857
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/{uid}/reupload-resume",
+        "char_offset": 15278
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/{uid}/retry-profile-extraction",
+        "char_offset": 15534
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/{uid}/generate-pdf",
+        "char_offset": 15749
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/v1/users/account",
+        "char_offset": 16181
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/account/restore",
+        "char_offset": 16379
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/referral",
+        "char_offset": 16548
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/meta-attribution",
+        "char_offset": 16754
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/acquisition-source",
+        "char_offset": 16900
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/push-tokens",
+        "char_offset": 17069
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/v1/users/push-tokens",
+        "char_offset": 17202
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/memories",
+        "char_offset": 17329
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/v1/users/memories/{id}",
+        "char_offset": 17475
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/v1/users/memories/{id}",
+        "char_offset": 17640
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/memories/proposals",
+        "char_offset": 17803
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/memories/proposals/{id}/approve",
+        "char_offset": 17963
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/users/memories/proposals/{id}/reject",
+        "char_offset": 18155
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/{uid}/public-profile",
+        "char_offset": 18338
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/{uid}/public-profile",
+        "char_offset": 18524
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/me/referral",
+        "char_offset": 18707
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/v1/users/me/referral",
+        "char_offset": 18871
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/me/referral-context",
+        "char_offset": 19047
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/subscription/offer-code",
+        "char_offset": 19236
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/{uid}/cover-letter/content",
+        "char_offset": 19454
+      },
+      {
+        "method": "PUT",
+        "path": "/api/v1/users/{uid}/cover-letter/content",
+        "char_offset": 19661
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/places/autocomplete",
+        "char_offset": 19858
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/places/details",
+        "char_offset": 19987
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/messaging-otp/send",
+        "char_offset": 20109
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/messaging-otp/verify",
+        "char_offset": 20246
+      }
+    ]
+  },
+  {
+    "file": "subscriptionApi-D1butwwh.js",
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/api/v1/subscription/plans",
+        "char_offset": 1102
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/subscription/current",
+        "char_offset": 1237
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/subscription/checkout",
+        "char_offset": 1375
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/subscription/cancel",
+        "char_offset": 1489
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/subscription/reactivate",
+        "char_offset": 1632
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/subscription/plan/preview",
+        "char_offset": 1773
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/subscription/plan/change",
+        "char_offset": 1882
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/subscription/pause",
+        "char_offset": 2031
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/subscription/resume",
+        "char_offset": 2184
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/subscription/portal",
+        "char_offset": 2339
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/subscription/plan/cancel-change",
+        "char_offset": 2443
+      }
+    ]
+  },
+  {
+    "file": "filter_config-D7ZTP36m.js",
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/api/v1/jobboard/jobs/{id}",
+        "char_offset": 3561
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/jobboard/jobs/{id}",
+        "char_offset": 3716
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/job-description/fetch",
+        "char_offset": 3880
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/jobs/recommendations/sources",
+        "char_offset": 3997
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/jobs/recommendations",
+        "char_offset": 4138
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/jobs/recommendations",
+        "char_offset": 4413
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/jobs/recommendations/count",
+        "char_offset": 4574
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/jobs/{jobId}/skip",
+        "char_offset": 4798
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/jobboard/location-options",
+        "char_offset": 4911
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/jobboard/company-options",
+        "char_offset": 5121
+      }
+    ]
+  }
+]
