@@ -1,7 +1,8 @@
-// Rolevia AI · FEAT-005/FEAT-006: Experience-Aware Job Classification & Eligibility Engine
+// Rolevia AI · FEAT-016: Experience-Aware Job Classification & Eligibility Engine
 // Segregates jobs by employer-required experience, distinguishes fresher-friendly roles,
 // models candidate experience types (full-time, internships, projects), supports overlapping intervals,
-// and preserves truth-grounded extraction provenance without silent guessing.
+// disaggregates overall from skill-specific experience, guards against ungrounded title guessing,
+// and preserves truth-grounded extraction provenance.
 
 /**
  * Standard Experience Category Identifiers
@@ -36,6 +37,19 @@ const VERIFICATION_STATUS = {
 };
 
 /**
+ * Recognized tech skills for disaggregated skill-specific requirement parsing
+ */
+const RECOGNIZED_TECH_SKILLS = [
+  'Python', 'JavaScript', 'TypeScript', 'Node.js', 'React', 'Angular', 'Vue', 'Next.js',
+  'Go', 'Golang', 'Java', 'Kotlin', 'Swift', 'C++', 'C#', 'Rust', 'Ruby', 'PHP',
+  'PostgreSQL', 'Postgres', 'MySQL', 'MongoDB', 'Redis', 'Cassandra', 'Elasticsearch',
+  'Docker', 'Kubernetes', 'AWS', 'GCP', 'Azure', 'Linux', 'Terraform', 'Kafka',
+  'GraphQL', 'REST', 'CI/CD', 'Git', 'SQL', 'PyTorch', 'TensorFlow', 'Flask', 'Django',
+  'Spring', 'FastAPI', 'HTML', 'CSS', 'Microservices',
+  'Spark', 'Apache Spark', 'PySpark', 'WebGL', 'WebGPU', 'Playwright', 'Cypress', 'Selenium', 'Hadoop', 'Pandas'
+];
+
+/**
  * Regular expressions for experience extraction
  */
 const REGEX_PATTERNS = {
@@ -43,25 +57,25 @@ const REGEX_PATTERNS = {
   fresherKeywords: /\b(?:fresh(?:er)?s?(?:\s+(?:welcome|can\s+apply|only|eligible))?|fresh\s+graduates?|recent\s+graduates?|new\s+grads?|graduate\s+trainees?|campus\s+(?:hiring|placements?)|entry\s+level(?:\s+opportunity)?|no\s+(?:prior\s+)?experience(?:\s+required|\s+needed)?|zero\s+experience|0\s*(?:-\s*0\s*)?years?(?:\s+of)?(?:\s+experience)?)\b/i,
 
   // Graduation year / batch restrictions
-  graduationBatch: /\b(?:batch(?:\s+of)?\s*|graduating\s+in\s+|passout\s+batch\s*|class\s+of\s*)?((?:202[0-9])(?:\s*(?:\/|-|,|\s+or\s+|\s+and\s+)\s*(?:202[0-9]))*)\s*(?:batch|graduates?|passouts?|students?)\b/i,
+  graduationBatch: /\b(?:batch(?:\s+of)?\s*|graduating\s+in\s+|passing\s+out\s+in\s+|passout\s+batch\s*|class\s+of\s*)?((?:202[0-9])(?:\s*(?:\/|-|,|\s+or\s+|\s+and\s+)\s*(?:202[0-9]))*)\s*(?:batch|graduates?|passouts?|students?|only)?\b/i,
 
-  // Numeric experience range: e.g. "1 to 3 years", "0-2 years", "3 - 5 yrs"
-  rangeExperience: /\b(\d+(?:\.\d+)?)\s*(?:to|-)\s*(\d+(?:\.\d+)?)\s*\+?\s*(?:years?|yrs?)(?:\s+of)?(?:\s+(?:relevant|hands-on|industry|professional|work|software))?\s*experience\b/i,
+  // Numeric experience range: e.g. "1 to 3 years", "0-2 years", "3 - 5 yrs", "0 to 2 years of software engineering experience"
+  rangeExperience: /\b(\d+(?:\.\d+)?)\s*(?:to|-)\s*(\d+(?:\.\d+)?)\s*\+?\s*(?:years?|yrs?)(?:\s+(?:of|in|with))?(?:\s+[\w+-]+){0,4}\s*(?:experience|development|engineering|testing|programming)\b/i,
 
   // Minimum experience: e.g. "minimum 2 years", "at least 3 years", "min 1 year"
-  minExperience: /\b(?:minimum(?:\s+of)?|at\s+least|min\.?)\s*(\d+(?:\.\d+)?)\s*\+?\s*(?:years?|yrs?)(?:\s+of)?(?:\s+(?:relevant|hands-on|industry|professional|work|software))?\s*experience\b/i,
+  minExperience: /\b(?:minimum(?:\s+of)?|at\s+least|min\.?)\s*(\d+(?:\.\d+)?)\s*\+?\s*(?:years?|yrs?)(?:\s+(?:of|in|with))?(?:\s+[\w+-]+){0,4}\s*(?:experience|development|engineering|testing|programming)\b/i,
 
-  // Plussed experience: e.g. "2+ years", "5+ yrs experience"
-  plusExperience: /\b(\d+(?:\.\d+)?)\s*\+\s*(?:years?|yrs?)(?:\s+of)?(?:\s+(?:relevant|hands-on|industry|professional|work|software))?\s*experience\b/i,
+  // Plussed experience: e.g. "2+ years", "5+ yrs experience", "10+ years"
+  plusExperience: /\b(\d+(?:\.\d+)?)\s*\+\s*(?:years?|yrs?)(?:\s+(?:of|in|with))?(?:\s+[\w+-]+){0,4}\s*(?:experience|development|engineering|testing|programming)\b/i,
 
   // Stated exact experience: e.g. "1 year of software experience", "2 years experience"
-  exactExperience: /\b(?:requires?\s+)?(\d+(?:\.\d+)?)\s*(?:years?|yrs?)(?:\s+of)?(?:\s+(?:relevant|hands-on|industry|professional|work|software))?\s*experience\b/i,
+  exactExperience: /\b(?:requires?\s+)?(\d+(?:\.\d+)?)\s*(?:years?|yrs?)(?:\s+(?:of|in|with))?(?:\s+[\w+-]+){0,4}\s*(?:experience|development|engineering|testing|programming)\b/i,
 
   // Up to / Maximum experience: e.g. "up to 5 years", "maximum 3 years"
-  maxExperience: /\b(?:up\s+to|maximum(?:\s+of)?|max\.?|not\s+more\s+than)\s*(\d+(?:\.\d+)?)\s*(?:years?|yrs?)(?:\s+of)?(?:\s+(?:relevant|hands-on|industry|professional|work|software))?\s*experience\b/i,
+  maxExperience: /\b(?:up\s+to|maximum(?:\s+of)?|max\.?|not\s+more\s+than)\s*(\d+(?:\.\d+)?)\s*(?:years?|yrs?)(?:\s+(?:of|in|with))?(?:\s+[\w+-]+){0,4}\s*(?:experience|development|engineering|testing|programming)\b/i,
 
   // Preferred experience vs mandatory
-  preferredExperience: /\b(?:experience\s+(?:is\s+)?(?:preferred|desirable|a\s+plus)|prior\s+experience\s+(?:is\s+)?(?:preferred|a\s+plus|desirable)|preferred(?:\s*:\s*.*|\s+qualification[s:]?.*)?\d+\+?\s*years?|not\s+mandatory|experience\s+preferred\s+but\s+not\s+mandatory)\b/i,
+  preferredExperience: /\b(?:experience\s+(?:is\s+)?(?:preferred|desirable|a\s+plus)|prior\s+experience\s+(?:is\s+)?(?:preferred|a\s+plus|desirable)|\d+(?:\s*[-to]\s*\d+)?\+?\s*(?:years?|yrs?).*?(?:preferred|a\s+plus|desirable)|preferred(?:\s*:\s*.*|\s+qualification[s:]?.*)?\d+\+?\s*years?|not\s+mandatory|experience\s+preferred\s+but\s+not\s+mandatory)\b/i,
 
   // Mandatory markers
   mandatoryExperience: /\b(?:must\s+have|required|mandatory|minimum|at\s+least|strictly\s+requires?)\b/i,
@@ -70,7 +84,13 @@ const REGEX_PATTERNS = {
   internshipAccepted: /\b(?:internships?(?:\s+experience)?\s+(?:accepted|counted|considered|welcome|valid)|relevant\s+internship(?:s)?\s+(?:considered|accepted))\b/i,
 
   // Internship explicit exclusion
-  internshipExcluded: /\b(?:full-time\s+(?:paid\s+)?(?:professional\s+)?experience\s+only|internships?(?:\s+experience)?\s+(?:do\s+not\s+count|not\s+considered|excluded|not\s+applicable))\b/i
+  internshipExcluded: /\b(?:full-time\s+(?:paid\s+)?(?:professional\s+)?experience\s+only|internships?(?:\s+experience)?\s+(?:do\s+not\s+count|not\s+considered|excluded|not\s+applicable))\b/i,
+
+  // Work authorization / visa sponsorship restriction
+  workAuthRestricted: /\b(?:us\s+citizens?(?:\s+only)?|permanent\s+residents?(?:\s+only)?|no\s+(?:visa\s+)?sponsorship(?:\s+provided|\s+available)?|does\s+not\s+offer\s+sponsorship|must\s+be\s+authorized\s+to\s+work\s+in\s+the\s+u\.?s\.?(?:\s+without\s+sponsorship)?|itar(?:\s+compliance|\s+restricted)?|security\s+clearance\s+required|candidates\s+must\s+not\s+require\s+sponsorship)\b/i,
+
+  // Overall experience indicator (distinguishes total career years from individual tool years)
+  overallExpKeywords: /\b(?:software\s+(?:development|engineering)|industry|professional|work|overall|total|commercial|relevant)\s*experience\b|\bexperience\s+(?:in\s+the\s+industry|in\s+software\s+development|as\s+a\s+software\s+engineer)\b/i
 };
 
 /**
@@ -103,9 +123,19 @@ function classifyJobExperience(job = {}) {
   let confidence = 0.0;
   let status = VERIFICATION_STATUS.UNSPECIFIED;
   let conflictingStatements = [];
+  let detectedSkillSpecific = {};
+  let sponsorshipAvailable = true;
+  let requiresWorkAuthorization = false;
 
   for (const item of items) {
     const text = item.text;
+
+    // Check work authorization / sponsorship restrictions
+    if (REGEX_PATTERNS.workAuthRestricted.test(text)) {
+      sponsorshipAvailable = false;
+      requiresWorkAuthorization = true;
+      if (!sourceText) sourceText = text;
+    }
 
     // Check internship acceptance or exclusion
     if (REGEX_PATTERNS.internshipAccepted.test(text)) {
@@ -134,12 +164,41 @@ function classifyJobExperience(job = {}) {
     }
 
     // Check preferred vs mandatory experience
-    if (REGEX_PATTERNS.preferredExperience.test(text)) {
-      detectedRequirementType = REQUIREMENT_TYPES.PREFERRED;
+    const isItemPreferred = REGEX_PATTERNS.preferredExperience.test(text);
+    if (isItemPreferred) {
+      if (detectedRequirementType === REQUIREMENT_TYPES.UNSPECIFIED) {
+        detectedRequirementType = REQUIREMENT_TYPES.PREFERRED;
+      }
       if (!sourceText) sourceText = text;
     } else if (REGEX_PATTERNS.mandatoryExperience.test(text)) {
       if (detectedRequirementType === REQUIREMENT_TYPES.UNSPECIFIED) {
         detectedRequirementType = REQUIREMENT_TYPES.MANDATORY;
+      }
+    }
+
+    // Check skill-specific experience clauses (e.g. "2+ years of Python experience", "at least 1 year with Docker")
+    let foundSkillMatch = false;
+    for (const skill of RECOGNIZED_TECH_SKILLS) {
+      const escapedSkill = skill.replace(/([+*.?^=!:${}()|[\]/\\])/g, '\\$1');
+      const skillPattern = new RegExp(
+        `(?:(\\d+(?:\\.\\d+)?)\\s*(?:to|-)\\s*(\\d+(?:\\.\\d+)?)\\s*\\+?|(\\d+(?:\\.\\d+)?)\\s*\\+?)\\s*(?:years?|yrs?)(?:\\s+of)?(?:\\s+(?:hands-on|production|relevant|working))?\\s*(?:experience\\s+)?(?:in|with|using)?\\s*${escapedSkill}\\b|\\b${escapedSkill}\\s*(?:experience)?\\s*[:(-]?\\s*(\\d+(?:\\.\\d+)?)\\s*\\+?\\s*(?:years?|yrs?)`,
+        'i'
+      );
+      const sMatch = text.match(skillPattern);
+      if (sMatch) {
+        const isUpTo = /\b(?:up\s+to|maximum(?:\s+of)?|max\.?|not\s+more\s+than)\b/i.test(text);
+        const parsedYears = parseFloat(sMatch[1] || sMatch[3] || sMatch[4]);
+        const minYears = isUpTo ? 0 : parsedYears;
+        const maxYears = isUpTo ? parsedYears : (sMatch[2] ? parseFloat(sMatch[2]) : null);
+        if (!isNaN(minYears)) {
+          detectedSkillSpecific[skill] = {
+            minYears,
+            maxYears,
+            type: isItemPreferred ? 'PREFERRED' : 'MANDATORY',
+            sourceText: text
+          };
+          foundSkillMatch = true;
+        }
       }
     }
 
@@ -149,8 +208,10 @@ function classifyJobExperience(job = {}) {
       const min = parseFloat(rangeMatch[1]);
       const max = parseFloat(rangeMatch[2]);
       if (!isNaN(min) && !isNaN(max)) {
-        detectedRange = { min, max, text };
-        if (!sourceText) sourceText = text;
+        if (!detectedRange || min >= detectedRange.min) {
+          detectedRange = { min, max, text };
+          if (!sourceText) sourceText = text;
+        }
       }
     }
 
@@ -159,18 +220,22 @@ function classifyJobExperience(job = {}) {
     if (minMatch) {
       const min = parseFloat(minMatch[1]);
       if (!isNaN(min)) {
-        detectedMin = { min, text };
-        if (!sourceText) sourceText = text;
+        if (!detectedMin || min > detectedMin.min) {
+          detectedMin = { min, text };
+          if (!sourceText) sourceText = text;
+        }
       }
     }
 
-    // Check plussed experience: e.g. "2+ years"
+    // Check plussed experience: e.g. "2+ years", "5+ years", "10+ years"
     const plusMatch = text.match(REGEX_PATTERNS.plusExperience);
     if (plusMatch) {
       const min = parseFloat(plusMatch[1]);
       if (!isNaN(min)) {
-        detectedMin = { min, text };
-        if (!sourceText) sourceText = text;
+        if (!detectedMin || min > detectedMin.min) {
+          detectedMin = { min, text };
+          if (!sourceText) sourceText = text;
+        }
       }
     }
 
@@ -197,12 +262,24 @@ function classifyJobExperience(job = {}) {
     }
   }
 
-  // Detect Contradictory statements (e.g. "Freshers welcome" but "5+ years required")
-  if (detectedFresher && detectedMin && detectedMin.min >= 3) {
-    conflictingStatements.push(`Fresher clause '${sourceText}' contradicts high-experience requirement '${detectedMin.text}'`);
+  // Detect Contradictory statements (e.g. "Entry level" or "Freshers welcome" but "5+ years required")
+  if (detectedFresher && ((detectedMin && detectedMin.min >= 5) || (detectedRange && detectedRange.min >= 5))) {
+    conflictingStatements.push(`Fresher/Entry-level clause contradicts high-experience requirement (${detectedMin ? detectedMin.min : detectedRange.min}+ years)`);
   }
-  if (detectedRange && detectedMin && Math.abs(detectedRange.min - detectedMin.min) >= 3) {
+  if (detectedRange && detectedMin && Math.abs(detectedRange.min - detectedMin.min) >= 4) {
     conflictingStatements.push(`Range ${detectedRange.min}-${detectedRange.max} contradicts minimum ${detectedMin.min}`);
+  }
+
+  // If no overall experience was stated but skill-specific experience was parsed:
+  // Derive overall minimum as the maximum required skill years (lower bound)
+  if (!detectedRange && !detectedMin && !detectedMax && Object.keys(detectedSkillSpecific).length > 0) {
+    const mandatorySkills = Object.values(detectedSkillSpecific).filter(s => s.type !== 'PREFERRED');
+    const skillPool = mandatorySkills.length > 0 ? mandatorySkills : Object.values(detectedSkillSpecific);
+    const maxSkillYears = Math.max(...skillPool.map(s => s.minYears || 0));
+    if (maxSkillYears > 0) {
+      detectedMin = { min: maxSkillYears, text: skillPool[0].sourceText };
+      if (!sourceText) sourceText = skillPool[0].sourceText;
+    }
   }
 
   // Synthesize min, max, category, and fresher friendliness
@@ -215,8 +292,8 @@ function classifyJobExperience(job = {}) {
     // Ambiguity / Contradiction Resolution
     status = VERIFICATION_STATUS.NEEDS_VERIFICATION;
     confidence = 0.5;
-    isFresherFriendly = detectedFresher;
-    minYears = detectedRange ? detectedRange.min : (detectedMin ? detectedMin.min : 0);
+    isFresherFriendly = false;
+    minYears = detectedRange ? detectedRange.min : (detectedMin ? detectedMin.min : null);
     maxYears = detectedRange ? detectedRange.max : null;
     category = assignCategoryFromYears(minYears, maxYears, isFresherFriendly);
     sourceText = `Contradictory posting text: ${conflictingStatements.join('; ')}`;
@@ -246,6 +323,13 @@ function classifyJobExperience(job = {}) {
     isFresherFriendly = true;
     category = assignCategoryFromYears(minYears, maxYears, isFresherFriendly);
     confidence = 0.85;
+    status = VERIFICATION_STATUS.VERIFIED;
+  } else if (detectedRequirementType === REQUIREMENT_TYPES.PREFERRED) {
+    minYears = detectedRange ? detectedRange.min : (detectedMin ? detectedMin.min : 0);
+    maxYears = detectedRange ? detectedRange.max : (detectedMin ? null : 0);
+    isFresherFriendly = true;
+    category = assignCategoryFromYears(minYears, maxYears, isFresherFriendly);
+    confidence = 0.90;
     status = VERIFICATION_STATUS.VERIFIED;
   } else if (detectedFresher) {
     minYears = 0;
@@ -290,7 +374,10 @@ function classifyJobExperience(job = {}) {
     experienceVerificationStatus: status,
     isFresherFriendly,
     acceptsInternships,
-    graduationYearRestrictions: detectedGraduationYears
+    graduationYearRestrictions: detectedGraduationYears,
+    skillSpecificExperience: Object.keys(detectedSkillSpecific).length > 0 ? detectedSkillSpecific : null,
+    sponsorshipAvailable,
+    requiresWorkAuthorization
   };
 }
 
@@ -432,14 +519,33 @@ function evaluateExperienceEligibility(candidate, job) {
   const isFresherFriendly = Boolean(targetJob.isFresherFriendly);
   const acceptsInternships = targetJob.acceptsInternships !== false; // defaults to true for entry/fresher unless explicitly excluded
 
-  // Compute effective qualifying candidate experience
-  let qualifyingExperienceYears = fullTimeYears;
-  if (acceptsInternships || isFresherFriendly || (jobMin !== null && jobMin <= 1)) {
-    // Count internship experience when employer permits it or for entry roles
-    qualifyingExperienceYears += internshipYears;
+  // 1a. Contradictory or Ambiguous Requirements
+  if (targetJob.experienceVerificationStatus === VERIFICATION_STATUS.NEEDS_VERIFICATION) {
+    return {
+      status: 'NEEDS_VERIFICATION',
+      eligible: true,
+      gapYears: 0,
+      reason: 'Job posting contains contradictory or ambiguous experience requirements. Application verification required.',
+      sourceText: targetJob.experienceSourceText,
+      provenance: 'AMBIGUOUS_REQUIREMENTS'
+    };
   }
 
-  // 2. Check Graduation Year Restrictions (e.g. 2025/2026 batch)
+  // 1b. Check Work Authorization / Visa Sponsorship
+  if (candidate.requiresSponsorship === true) {
+    if (targetJob.sponsorshipAvailable === false || targetJob.requiresWorkAuthorization === true) {
+      return {
+        status: 'INELIGIBLE',
+        eligible: false,
+        gapYears: 0,
+        reason: 'Job requires independent work authorization or does not sponsor visas; candidate requires sponsorship.',
+        sourceText: targetJob.experienceSourceText,
+        provenance: 'SPONSORSHIP_RESTRICTED'
+      };
+    }
+  }
+
+  // 1c. Check Graduation Year Restrictions (e.g. 2025/2026 batch)
   if (targetJob.graduationYearRestrictions) {
     let allowedYears = [];
     try {
@@ -460,6 +566,39 @@ function evaluateExperienceEligibility(candidate, job) {
           provenance: 'GRADUATION_YEAR_MISMATCH'
         };
       }
+    }
+  }
+
+  // Compute effective qualifying candidate experience
+  let qualifyingExperienceYears = fullTimeYears;
+  if (acceptsInternships || isFresherFriendly || (jobMin !== null && jobMin <= 1)) {
+    // Count internship experience when employer permits it or for entry roles
+    qualifyingExperienceYears += internshipYears;
+  }
+
+  // 1d. Degree-Level Equivalence (M.Sc/Master degree can bridge up to 1 year of experience gap)
+  if (degreeLevel === 'MASTER' && jobMin !== null && qualifyingExperienceYears < jobMin) {
+    qualifyingExperienceYears += 1.0;
+  }
+
+  const effectiveJobMin = jobMin !== null ? jobMin : 0;
+  const overallGap = Math.round((effectiveJobMin - qualifyingExperienceYears) * 10) / 10;
+
+  // 2. High Mandatory Experience Gap (e.g. 0 yrs candidate vs 2+ yrs, or gap >= 2)
+  if (jobMin !== null && qualifyingExperienceYears < jobMin && reqType !== REQUIREMENT_TYPES.PREFERRED && !isFresherFriendly) {
+    if ((qualifyingExperienceYears === 0 && effectiveJobMin >= 2) || overallGap >= 2.0) {
+      return {
+        status: 'INELIGIBLE',
+        eligible: false,
+        gapYears: overallGap,
+        reason: effectiveJobMin >= 8
+          ? `Role requires Staff/Principal seniority (${effectiveJobMin}+ years experience); candidate has ${qualifyingExperienceYears} years verified employment.`
+          : (effectiveJobMin >= 5
+            ? `Role requires Senior seniority (${effectiveJobMin}+ years experience); candidate has ${qualifyingExperienceYears} years.`
+            : `Job requires ${effectiveJobMin}+ years mandatory professional experience; candidate has ${qualifyingExperienceYears} years.`),
+        sourceText: targetJob.experienceSourceText,
+        provenance: 'EXPERIENCE_GAP'
+      };
     }
   }
 
@@ -499,13 +638,43 @@ function evaluateExperienceEligibility(candidate, job) {
     };
   }
 
-  // 6. Mandatory Experience Evaluation
-  const effectiveJobMin = jobMin !== null ? jobMin : 0;
+  // 6. Skill-Specific Experience Evaluation (checked for candidates with sufficient overall foundation)
+  if (targetJob.skillSpecificExperience && typeof targetJob.skillSpecificExperience === 'object') {
+    let rawSkills = candidate.skills || candidate.topSkills || [];
+    if (typeof rawSkills === 'string') {
+      try {
+        rawSkills = JSON.parse(rawSkills);
+      } catch {
+        rawSkills = rawSkills.split(',').map(s => s.trim());
+      }
+    }
+    if (!Array.isArray(rawSkills)) rawSkills = [];
+    const candidateSkills = rawSkills.map(s => (typeof s === 'string' ? s.toLowerCase() : (s.name || '').toLowerCase()));
+    const candidateSkillYears = candidate.skillYears || {};
 
+    for (const [skillName, spec] of Object.entries(targetJob.skillSpecificExperience)) {
+      const sLower = skillName.toLowerCase();
+      const hasSkill = candidateSkills.some(cs => cs.includes(sLower) || sLower.includes(cs));
+      const yearsHave = candidateSkillYears[sLower] !== undefined ? candidateSkillYears[sLower] : (hasSkill ? qualifyingExperienceYears : 0);
+
+      if (spec.minYears && yearsHave < spec.minYears) {
+        if (spec.type === REQUIREMENT_TYPES.MANDATORY) {
+          return {
+            status: 'NEEDS_VERIFICATION',
+            eligible: true,
+            gapYears: Math.round((spec.minYears - yearsHave) * 10) / 10,
+            reason: `Job requires ${spec.minYears}+ years experience in ${skillName}; candidate profile indicates ${yearsHave} years.`,
+            sourceText: targetJob.experienceSourceText,
+            provenance: 'SKILL_EXPERIENCE_GAP'
+          };
+        }
+      }
+    }
+  }
+
+  // 7. General Mandatory Experience Evaluation
   if (qualifyingExperienceYears >= effectiveJobMin) {
-    // Candidate meets or exceeds minimum
     if (jobMax !== null && qualifyingExperienceYears > jobMax + 3) {
-      // Significantly overqualified
       return {
         status: 'NEEDS_VERIFICATION',
         eligible: true,
@@ -525,30 +694,13 @@ function evaluateExperienceEligibility(candidate, job) {
       provenance: 'SATISFIES_REQUIREMENT'
     };
   } else {
-    // Candidate has an experience gap
-    const gap = Math.round((effectiveJobMin - qualifyingExperienceYears) * 10) / 10;
-
-    // If candidate has 0 years and job requires 2+ years mandatory
-    if (qualifyingExperienceYears === 0 && effectiveJobMin >= 2) {
-      return {
-        status: 'INELIGIBLE',
-        eligible: false,
-        gapYears: gap,
-        reason: effectiveJobMin >= 8
-          ? `Role requires Staff/Principal seniority (${effectiveJobMin}+ years experience); candidate has 0 years verified employment.`
-          : `Job requires ${effectiveJobMin}+ years mandatory professional experience; candidate has 0 years verified employment.`,
-        sourceText: targetJob.experienceSourceText,
-        provenance: 'EXPERIENCE_GAP'
-      };
-    }
-
-    // If gap is small (1 year or less) and candidate has strong projects/internships
-    if (gap <= 1.0) {
+    // Gap is small (1 year or less)
+    if (overallGap <= 1.0) {
       return {
         status: 'NEEDS_VERIFICATION',
         eligible: true,
-        gapYears: gap,
-        reason: `Job specifies ${effectiveJobMin}+ years; candidate has ${qualifyingExperienceYears} years (${gap} yr gap may be bridged by domain depth or verified coursework).`,
+        gapYears: overallGap,
+        reason: `Job specifies ${effectiveJobMin}+ years; candidate has ${qualifyingExperienceYears} years (${overallGap} yr gap may be bridged by domain depth or verified coursework).`,
         sourceText: targetJob.experienceSourceText,
         provenance: 'MARGINAL_GAP'
       };
@@ -557,12 +709,12 @@ function evaluateExperienceEligibility(candidate, job) {
     return {
       status: 'INELIGIBLE',
       eligible: false,
-      gapYears: gap,
+      gapYears: overallGap,
       reason: effectiveJobMin >= 8
         ? `Role requires Staff/Principal seniority (${effectiveJobMin}+ years experience); candidate has ${qualifyingExperienceYears} years`
         : (effectiveJobMin >= 5
           ? `Role requires Senior seniority (${effectiveJobMin}+ years experience); candidate has ${qualifyingExperienceYears} years`
-          : `Experience requirement gap of ${gap} years (${qualifyingExperienceYears} yrs vs ${effectiveJobMin}+ yrs mandatory).`),
+          : `Experience requirement gap of ${overallGap} years (${qualifyingExperienceYears} yrs vs ${effectiveJobMin}+ yrs mandatory).`),
       sourceText: targetJob.experienceSourceText,
       provenance: 'EXPERIENCE_GAP'
     };
@@ -621,7 +773,7 @@ function calculateDetailedCandidateExperience(candidate) {
     internshipYears: Math.round((internshipMonths / 12) * 10) / 10,
     projectCount,
     graduationYear,
-    degreeLevel: eduStr.toLowerCase().includes('master') || eduStr.toLowerCase().includes('msc') ? 'MASTER' : 'BACHELOR'
+    degreeLevel: /\bm\.?s(?:c)?\b|\bmaster/i.test(eduStr) ? 'MASTER' : 'BACHELOR'
   };
 }
 
@@ -641,25 +793,40 @@ function parseRequirementsString(raw) {
 
 /**
  * Safe backfill helper: updates existing PostgreSQL Job records with extracted experience intelligence
+ * Supports safe batching (limit, offset), force re-indexing, idempotency, and audit logging.
  */
-async function backfillExistingJobs(prismaClient) {
-  if (!prismaClient) return { updated: 0, skipped: 0, total: 0 };
+async function backfillExistingJobs(prismaClient, { limit = 50, offset = 0, force = false, triggeredBy = 'system' } = {}) {
+  if (!prismaClient) return { updated: 0, skipped: 0, total: 0, limit: Number(limit) || 50, offset: Number(offset) || 0, hasMore: false };
 
+  const parsedLimit = Math.min(Math.max(parseInt(limit, 10) || 50, 1), 200); // capped between 1 and 200
+  const parsedOffset = Math.max(parseInt(offset, 10) || 0, 0);
+
+  const whereClause = force
+    ? {}
+    : {
+        OR: [
+          { experienceVerificationStatus: 'UNSPECIFIED' },
+          { minExperienceYears: null, isFresherFriendly: false }
+        ]
+      };
+
+  const totalMatching = await prismaClient.job.count({ where: whereClause });
   const jobs = await prismaClient.job.findMany({
-    where: {
-      OR: [
-        { experienceVerificationStatus: 'UNSPECIFIED' },
-        { minExperienceYears: null, isFresherFriendly: false }
-      ]
-    }
+    where: whereClause,
+    skip: parsedOffset,
+    take: parsedLimit,
+    orderBy: { createdAt: 'desc' }
   });
 
   let updated = 0;
   let skipped = 0;
+  const auditEntries = [];
 
   for (const job of jobs) {
     const classification = classifyJobExperience(job);
-    if (classification.experienceVerificationStatus !== VERIFICATION_STATUS.UNSPECIFIED || classification.isFresherFriendly) {
+    const hasData = classification.experienceVerificationStatus !== VERIFICATION_STATUS.UNSPECIFIED || classification.isFresherFriendly || force;
+    
+    if (hasData) {
       await prismaClient.job.update({
         where: { id: job.id },
         data: {
@@ -672,19 +839,37 @@ async function backfillExistingJobs(prismaClient) {
           experienceVerificationStatus: classification.experienceVerificationStatus,
           isFresherFriendly: classification.isFresherFriendly,
           acceptsInternships: classification.acceptsInternships,
-          graduationYearRestrictions: classification.graduationYearRestrictions
+          graduationYearRestrictions: classification.graduationYearRestrictions,
+          skillSpecificExperience: classification.skillSpecificExperience,
+          sponsorshipAvailable: classification.sponsorshipAvailable
         }
       });
       updated++;
+      auditEntries.push({
+        jobId: job.id,
+        title: job.title,
+        company: job.company,
+        minYears: classification.minExperienceYears,
+        category: classification.experienceCategory,
+        fresherFriendly: classification.isFresherFriendly
+      });
     } else {
       skipped++;
     }
   }
 
+  const logMessage = `[FEAT-016 Backfill Audit] Triggered by ${triggeredBy}: batch offset=${parsedOffset}, limit=${parsedLimit}. Updated: ${updated}, Skipped: ${skipped}, Remaining in query: ${Math.max(0, totalMatching - (parsedOffset + jobs.length))}`;
+  console.log(logMessage);
+
   return {
-    total: jobs.length,
+    total: totalMatching,
+    processed: jobs.length,
     updated,
-    skipped
+    skipped,
+    offset: parsedOffset,
+    limit: parsedLimit,
+    hasMore: (parsedOffset + jobs.length) < totalMatching,
+    audit: auditEntries
   };
 }
 

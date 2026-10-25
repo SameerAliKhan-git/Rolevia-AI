@@ -13,7 +13,7 @@ const testFeat006Matcher = require('./test_feat006_matcher');
 const testFeat007Optimizer = require('./test_feat007_optimizer');
 const testFeat008Workspace = require('./test_feat008_workspace');
 const testFeat008SecurityAndUX = require('./test_feat008_security_ux');
-const testFeat010ExperienceEngine = require('./test_feat010_experience_engine');
+const testFeat016ExperienceEngine = require('./test_feat016_experience_engine');
 const prisma = require('../backend/db');
 
 async function runAllSuites() {
@@ -37,7 +37,7 @@ async function runAllSuites() {
     results.push(await testFeat007Optimizer());
     results.push(await testFeat008Workspace());
     results.push(await testFeat008SecurityAndUX());
-    results.push(await testFeat010ExperienceEngine());
+    results.push(await testFeat016ExperienceEngine());
     results.push(await testE2EUserJourney());
     results.push(await testNegativePaths());
 
@@ -66,8 +66,9 @@ async function runAllSuites() {
     console.log('  Feature ID  | Feature Name                             | Category     | Pass / Fail');
     console.log('  ------------+------------------------------------------+--------------+------------');
     results.forEach((r, idx) => {
-      const featId = (r.suite.startsWith('FEAT-00') ? r.suite.slice(0, 8) : `GATE-${idx + 1}`).padEnd(11);
-      const name = r.suite.replace(/^FEAT-00\d\s*[:-]?\s*/, '').slice(0, 40).padEnd(40);
+      const featMatch = r.suite.match(/^(FEAT-\d{3})/);
+      const featId = (featMatch ? featMatch[1] : `GATE-${idx + 1}`).padEnd(11);
+      const name = r.suite.replace(/^FEAT-\d{3}\s*[:-]?\s*/, '').slice(0, 40).padEnd(40);
       const cat = (r.category || 'Unit').padEnd(12);
       const counts = `${r.passed} / ${r.failed}`.padStart(10);
       console.log(`  ${featId} | ${name} | ${cat} | ${counts}`);

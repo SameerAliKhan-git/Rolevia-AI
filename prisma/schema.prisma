@@ -153,6 +153,8 @@ model Job {
   isFresherFriendly              Boolean   @default(false)
   acceptsInternships             Boolean?  @default(false)
   graduationYearRestrictions     Json?     // Array of eligible graduation years e.g. ["2025", "2026"]
+  skillSpecificExperience        Json?     // Disaggregated skill-specific experience requirements e.g. {"Python": 2}
+  sponsorshipAvailable           Boolean?  @default(true) // Whether employer offers visa sponsorship or accepts OPT/CPT
 
   lastCheckedAt   DateTime      @default(now())
   createdAt       DateTime      @default(now())

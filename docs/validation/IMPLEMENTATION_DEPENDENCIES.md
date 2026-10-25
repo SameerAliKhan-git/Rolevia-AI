@@ -34,6 +34,7 @@ graph TD
     
     FEAT_014["FEAT-014: Career Intelligence & Skill Gaps"]
     FEAT_015["FEAT-015: Purchasing Power Parity Billing"]
+    FEAT_016["FEAT-016: Experience Classification & Eligibility Engine"]
 
     %% Dependencies
     FEAT_001 --> FEAT_002
@@ -42,8 +43,9 @@ graph TD
     FEAT_002 --> FEAT_003
     FEAT_002 --> FEAT_004
     
+    FEAT_005 --> FEAT_016
+    FEAT_016 --> FEAT_006
     FEAT_003 --> FEAT_006
-    FEAT_005 --> FEAT_006
     
     FEAT_003 --> FEAT_007
     FEAT_006 --> FEAT_007

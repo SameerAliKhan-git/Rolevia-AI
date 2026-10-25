@@ -13,7 +13,8 @@ Release 0.2 transforms Rolevia AI from a validated foundational platform (Postgr
 
 ```mermaid
 graph TD
-    FEAT005[FEAT-005: Normalized Job Feed] --> FEAT006[FEAT-006: Explainable AI Job Matching]
+    FEAT005[FEAT-005: Normalized Job Feed] --> FEAT016[FEAT-016: Experience Classification Engine]
+    FEAT016 --> FEAT006[FEAT-006: Explainable AI Job Matching]
     FACTSTORE[Candidate FactStore] --> FEAT006
     FACTSTORE --> FEAT007[FEAT-007: Truth-Grounded Resume & Letter Optimizer]
     FEAT006 --> FEAT007

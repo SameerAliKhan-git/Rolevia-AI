@@ -28,6 +28,7 @@ Every feature is tracked with a permanent identifier (`FEAT-XXX`), component own
 | **FEAT-013** | **P2** | Model Context Protocol (MCP) Server for Claude & Cursor | Backend / Agents | Release 0.3 | FEAT-002, FEAT-006, FEAT-009 |
 | **FEAT-014** | **P3** | Career Intelligence, Skill Gap Analysis & Interview Prep | AI / Analytics | Release 0.4 | FEAT-006, FEAT-010 |
 | **FEAT-015** | **P3** | Purchasing Power Parity (PPP) Multi-Currency Billing Engine | Billing / Growth | Release 0.4 | FEAT-004 |
+| **FEAT-016** | **P0** | Experience-Aware Job Classification & Eligibility Engine | AI / Search | Release 0.1 | FEAT-005, FEAT-006 |
 
 ---
 
@@ -139,3 +140,17 @@ Every feature is tracked with a permanent identifier (`FEAT-XXX`), component own
   1. Drag-and-drop Kanban tracker synced to database status.
   2. Downloadable verified submission receipts with confirmation tokens and live URLs.
 - **Completion Criteria**: Persistent tracking of all submitted applications.
+
+---
+
+### FEAT-016: Experience-Aware Job Classification & Eligibility Engine
+- **Target**: Release 0.1 Foundation & Release 0.2 Matching Integration
+- **Prerequisites**: `FEAT-005`, `FEAT-006`
+- **Development Requirements**:
+  1. Truth-grounded experience extraction from job descriptions with interval parsing, provenance snippets, and confidence scoring.
+  2. Disaggregation of overall career experience vs skill-specific experience requirements (e.g. 5+ yrs overall vs 2+ yrs Python).
+  3. Fresher eligibility modeling, internship acceptance/exclusion detection, graduation batch filtering, and M.Sc degree equivalence.
+  4. Tri-state eligibility evaluation (`ELIGIBLE`, `INELIGIBLE`, `NEEDS_VERIFICATION`) with missing requirements invariant (`NEEDS_VERIFICATION`, never assumed fresher).
+  5. Dual discovery views (`view=all` vs `view=eligible`), clay-neumorphic filter bar, and secure backfill API with pagination and admin authentication.
+- **Completion Criteria**: 100% empirical precision & recall on benchmark fixture, 0% fresher FPR, and all automated engine tests passing.
+

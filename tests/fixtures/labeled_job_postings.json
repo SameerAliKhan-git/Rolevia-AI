@@ -1,0 +1,583 @@
+[
+  {
+    "id": "JOB-001",
+    "title": "Graduate Associate Software Engineer",
+    "company": "Infosys",
+    "description": "We are seeking enthusiastic Graduate Associate Software Engineers. Freshers welcome to apply. No prior professional experience required. Training provided.",
+    "requirements": ["Freshers welcome to apply", "No prior experience required", "B.Tech or M.Sc Computer Science or MCA"],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 0,
+      "experienceCategory": "FRESHER",
+      "requirementType": "MANDATORY",
+      "acceptsInternships": true,
+      "sponsorshipAvailable": true,
+      "candidateEligibilities": {
+        "fresher_0yr": "ELIGIBLE",
+        "experienced_3yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-002",
+    "title": "Junior Python Developer (0-1 yrs)",
+    "company": "Razorpay",
+    "description": "Looking for entry level engineers with 0 to 1 years of experience in Python and REST APIs. Recent college graduates encouraged.",
+    "requirements": ["0-1 years of experience in Python", "Understanding of relational databases", "Internships counted towards experience"],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 1,
+      "experienceCategory": "0-1",
+      "requirementType": "MANDATORY",
+      "acceptsInternships": true,
+      "sponsorshipAvailable": true,
+      "candidateEligibilities": {
+        "fresher_0yr": "ELIGIBLE",
+        "intern_1yr": "ELIGIBLE",
+        "senior_6yr": "NEEDS_VERIFICATION"
+      }
+    }
+  },
+  {
+    "id": "JOB-003",
+    "title": "Associate Backend Engineer",
+    "company": "Swiggy",
+    "description": "Hiring Associate Backend Engineer with 0-2 years hands-on experience in Node.js, Go, or Python. Internship experience is accepted.",
+    "requirements": ["0 to 2 years of software engineering experience", "Internship experience is accepted", "B.E./B.Tech or M.Sc in CS"],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 2,
+      "experienceCategory": "0-2",
+      "requirementType": "MANDATORY",
+      "acceptsInternships": true,
+      "sponsorshipAvailable": true,
+      "candidateEligibilities": {
+        "fresher_0yr": "ELIGIBLE",
+        "intern_1yr": "ELIGIBLE",
+        "experienced_2yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-004",
+    "title": "Software Engineer II - Backend",
+    "company": "Stripe",
+    "description": "Build resilient financial infrastructure. Requires 1-3 years of production software engineering experience.",
+    "requirements": ["1 to 3 years of software engineering experience", "Proficiency in Ruby, Java, or Go", "Experience with PostgreSQL"],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 1,
+      "maxExperienceYears": 3,
+      "experienceCategory": "1-3",
+      "requirementType": "MANDATORY",
+      "acceptsInternships": true,
+      "sponsorshipAvailable": true,
+      "candidateEligibilities": {
+        "fresher_0yr": "NEEDS_VERIFICATION",
+        "experienced_2yr": "ELIGIBLE",
+        "staff_9yr": "NEEDS_VERIFICATION"
+      }
+    }
+  },
+  {
+    "id": "JOB-005",
+    "title": "Full Stack Engineer (Mid-Level)",
+    "company": "Atlassian",
+    "description": "Join our collaborative Jira platform team. Requires 3 to 5 years of full stack development.",
+    "requirements": ["3-5 years of full-stack development experience", "React and Node.js proficiency", "AWS deployment experience"],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 3,
+      "maxExperienceYears": 5,
+      "experienceCategory": "3-5",
+      "requirementType": "MANDATORY",
+      "acceptsInternships": false,
+      "sponsorshipAvailable": true,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "experienced_2yr": "NEEDS_VERIFICATION",
+        "mid_4yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-006",
+    "title": "Senior Distributed Systems Engineer",
+    "company": "Snowflake",
+    "description": "Seeking Senior Engineer with 5-8 years of systems programming in C++ or Rust.",
+    "requirements": ["5 to 8 years of software development experience", "Deep knowledge of multi-threaded systems", "Distributed consensus algorithms"],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 5,
+      "maxExperienceYears": 8,
+      "experienceCategory": "5-8",
+      "requirementType": "MANDATORY",
+      "acceptsInternships": false,
+      "sponsorshipAvailable": true,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "experienced_2yr": "INELIGIBLE",
+        "senior_6yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-007",
+    "title": "Principal Architect / Staff Engineer",
+    "company": "Databricks",
+    "description": "Lead the architecture of our cloud execution plane. Minimum 8+ years of industry experience.",
+    "requirements": ["8+ years of distributed systems engineering experience", "Proven track record designing large-scale cloud architectures"],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 8,
+      "maxExperienceYears": null,
+      "experienceCategory": "8+",
+      "requirementType": "MANDATORY",
+      "acceptsInternships": false,
+      "sponsorshipAvailable": true,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "mid_4yr": "INELIGIBLE",
+        "staff_9yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-008",
+    "title": "Backend Python Engineer (Disaggregated Skill Experience)",
+    "company": "DoorDash",
+    "description": "Seeking backend engineer. 5+ years of software development experience overall, with 2+ years of Python microservices experience.",
+    "requirements": [
+      "5+ years of software development experience",
+      "2+ years of Python experience",
+      "Experience with Kubernetes and Kafka"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 5,
+      "maxExperienceYears": null,
+      "experienceCategory": "5-8",
+      "requirementType": "MANDATORY",
+      "hasSkillSpecific": true,
+      "skillSpecificExperience": {
+        "python": { "minYears": 2, "type": "MANDATORY" }
+      },
+      "candidateEligibilities": {
+        "python_5yr_senior": "ELIGIBLE",
+        "node_5yr_no_python": "NEEDS_VERIFICATION",
+        "fresher_0yr": "INELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-009",
+    "title": "Full Stack Developer (Mandatory vs Preferred)",
+    "company": "Canva",
+    "description": "Build high-performance graphic tools. 3+ years React mandatory. 1+ years WebGL preferred.",
+    "requirements": [
+      "Minimum 3 years of commercial React and TypeScript development experience",
+      "1+ years experience in WebGL or WebGPU preferred"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 3,
+      "maxExperienceYears": null,
+      "experienceCategory": "3-5",
+      "requirementType": "MANDATORY",
+      "hasSkillSpecific": true,
+      "skillSpecificExperience": {
+        "react": { "minYears": 3, "type": "MANDATORY" },
+        "webgl": { "minYears": 1, "type": "PREFERRED" }
+      },
+      "candidateEligibilities": {
+        "react_3yr_no_webgl": "ELIGIBLE",
+        "fresher_0yr": "INELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-010",
+    "title": "Frontend Engineer (Experience Preferred Only)",
+    "company": "Vercel",
+    "description": "We evaluate candidates based on demonstrated craftsmanship and public contributions. 1-2 years experience preferred, but not strictly required. Self-taught developers welcome.",
+    "requirements": [
+      "1-2 years experience preferred",
+      "Not mandatory; open to strong project portfolios and open source contributions"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 1,
+      "maxExperienceYears": 2,
+      "experienceCategory": "1-3",
+      "requirementType": "PREFERRED",
+      "candidateEligibilities": {
+        "fresher_0yr": "ELIGIBLE",
+        "experienced_2yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-011",
+    "title": "Software Engineer - Paid Experience Only",
+    "company": "Citadel Securities",
+    "description": "High-frequency trading infrastructure. Requires at least 2 years of full-time professional experience. Internships do not count towards this requirement.",
+    "requirements": [
+      "Minimum 2 years of full-time professional software engineering experience",
+      "Full-time paid experience only; internships not accepted or counted",
+      "C++ and low-latency network programming"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 2,
+      "maxExperienceYears": null,
+      "experienceCategory": "2+",
+      "requirementType": "MANDATORY",
+      "acceptsInternships": false,
+      "candidateEligibilities": {
+        "intern_only_1yr": "INELIGIBLE",
+        "fulltime_2yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-012",
+    "title": "Campus Graduate Engineer 2026 Batch",
+    "company": "Google",
+    "description": "University Graduate software engineer role. Specifically open to 2025 and 2026 graduation batches. Freshers welcome.",
+    "requirements": [
+      "Graduating in 2025 or 2026 batch",
+      "Freshers welcome; no prior full-time experience required",
+      "BS, MS, or PhD in Computer Science"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 0,
+      "experienceCategory": "FRESHER",
+      "graduationYearRestrictions": [2025, 2026],
+      "candidateEligibilities": {
+        "grad_2026": "ELIGIBLE",
+        "grad_2021": "INELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-013",
+    "title": "Infrastructure Engineer (Unstated Requirements)",
+    "company": "Linear",
+    "description": "We are seeking a thoughtful Infrastructure Engineer to help maintain our ultra-fast sync engine. We value velocity, curiosity, and code craftsmanship.",
+    "requirements": [
+      "Experience with TypeScript, PostgreSQL, and Redis",
+      "Familiarity with cloud hosting and distributed caches",
+      "Strong communication skills"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": null,
+      "maxExperienceYears": null,
+      "experienceCategory": "NOT_SPECIFIED",
+      "requirementType": "UNSPECIFIED",
+      "candidateEligibilities": {
+        "fresher_0yr": "NEEDS_VERIFICATION",
+        "experienced_2yr": "NEEDS_VERIFICATION"
+      }
+    }
+  },
+  {
+    "id": "JOB-014",
+    "title": "Software Engineer (Contradictory Requirements)",
+    "company": "Legacy Corp",
+    "description": "Entry-level junior developer wanted for our enterprise services team. Must have at least 7+ years of hands-on Java development.",
+    "requirements": [
+      "Entry level role",
+      "Requires at least 7+ years of Java enterprise experience"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "experienceVerificationStatus": "NEEDS_VERIFICATION",
+      "candidateEligibilities": {
+        "fresher_0yr": "NEEDS_VERIFICATION"
+      }
+    }
+  },
+  {
+    "id": "JOB-015",
+    "title": "Defense Systems Software Engineer (ITAR / No Sponsorship)",
+    "company": "Anduril Industries",
+    "description": "Autonomous defense hardware platform. Due to ITAR compliance, applicants must be US citizens or permanent residents. No visa sponsorship available.",
+    "requirements": [
+      "Must be a US Citizen or Permanent Resident due to ITAR compliance",
+      "No visa sponsorship available",
+      "3+ years C++ or Python experience"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 3,
+      "sponsorshipAvailable": false,
+      "candidateEligibilities": {
+        "citizen_3yr": "ELIGIBLE",
+        "needs_sponsorship_3yr": "INELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-016",
+    "title": "Global Remote Software Engineer (Visa Sponsorship Available)",
+    "company": "GitLab",
+    "description": "We are 100% remote. Visa sponsorship and relocation support provided for qualifying roles.",
+    "requirements": [
+      "2-4 years experience in Ruby on Rails or Go",
+      "Visa sponsorship provided",
+      "Global remote"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 2,
+      "maxExperienceYears": 4,
+      "sponsorshipAvailable": true,
+      "candidateEligibilities": {
+        "needs_sponsorship_3yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-017",
+    "title": "Machine Learning Engineer (M.Sc Equivalence)",
+    "company": "Cohere",
+    "description": "Train and deploy large language models. Requires 2+ years industry experience, or Master's degree in Computer Science.",
+    "requirements": [
+      "2+ years experience or Master's degree in Computer Science / AI",
+      "PyTorch and transformer architecture expertise"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 2,
+      "candidateEligibilities": {
+        "msc_student_1yr_exp": "ELIGIBLE",
+        "bsc_0yr_exp": "INELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-018",
+    "title": "Data Analyst (Up to 3 years)",
+    "company": "Flipkart",
+    "description": "Looking for early-career data analysts. Maximum 3 years of experience. Freshers and junior analysts welcome.",
+    "requirements": ["Up to 3 years of SQL and data visualization experience", "Freshers welcome"],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 3,
+      "candidateEligibilities": {
+        "fresher_0yr": "ELIGIBLE",
+        "experienced_2yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-019",
+    "title": "Frontend React Developer (1-2 years)",
+    "company": "Notion",
+    "description": "Build high-speed web apps. Minimum 1 to 2 years of experience with React, TypeScript, and state management.",
+    "requirements": ["1-2 years React experience", "TypeScript proficiency"],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 1,
+      "maxExperienceYears": 2,
+      "experienceCategory": "1-3",
+      "candidateEligibilities": {
+        "fresher_0yr": "NEEDS_VERIFICATION",
+        "experienced_1_5yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-020",
+    "title": "Junior QA Automation Engineer",
+    "company": "BrowserStack",
+    "description": "Exciting role for new graduates and early professionals with 0-1 years in Playwright or Cypress.",
+    "requirements": ["0 to 1 years testing experience", "Freshers with automation training welcome"],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 1,
+      "experienceCategory": "0-1",
+      "candidateEligibilities": {
+        "fresher_0yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-021",
+    "title": "Senior Cloud Infrastructure Architect",
+    "company": "Amazon Web Services",
+    "description": "Requires minimum 10+ years of cloud architecture experience. Lead large enterprise migrations.",
+    "requirements": ["10+ years of enterprise architecture experience", "Expertise with AWS Well-Architected Framework"],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 10,
+      "experienceCategory": "8+",
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "mid_4yr": "INELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-022",
+    "title": "Developer Advocate (Open Source Projects Count)",
+    "company": "Postman",
+    "description": "0-2 years experience. Meaningful GitHub contributions and active developer community projects accepted.",
+    "requirements": ["0-2 years experience or strong open-source project portfolio", "API design and technical writing"],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 2,
+      "experienceCategory": "0-2",
+      "candidateEligibilities": {
+        "fresher_0yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-023",
+    "title": "Backend Rust Developer (At least 4 years)",
+    "company": "1Password",
+    "description": "Build high-security cryptographic vault systems. At least 4 years of systems software engineering.",
+    "requirements": ["At least 4 years of backend software engineering", "Rust or C++ proficiency"],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 4,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "mid_4yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-024",
+    "title": "Site Reliability Engineer (2-5 years)",
+    "company": "Spotify",
+    "description": "Keep Spotify music streaming 24/7. 2 to 5 years of SRE or DevOps experience with Linux and Kubernetes.",
+    "requirements": ["2-5 years of Linux and Kubernetes operational experience", "Python or Go scripting"],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 2,
+      "maxExperienceYears": 5,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "mid_3yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-025",
+    "title": "Product Designer (No Experience Mentioned)",
+    "company": "Figma",
+    "description": "We are seeking a Product Designer to craft intuitive interfaces for our design canvas. Portfolio review required.",
+    "requirements": ["Portfolio showcasing interaction and visual design", "Proficiency in Figma"],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": null,
+      "maxExperienceYears": null,
+      "experienceCategory": "NOT_SPECIFIED",
+      "candidateEligibilities": {
+        "fresher_0yr": "NEEDS_VERIFICATION"
+      }
+    }
+  },
+  {
+    "id": "JOB-026",
+    "title": "Security Analyst (US Citizens Only)",
+    "company": "Palantir Technologies",
+    "description": "Due to federal government contracts, candidates must hold active security clearance or US Citizenship. No visa sponsorship.",
+    "requirements": ["US Citizens only", "No visa sponsorship", "2+ years of cybersecurity experience"],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 2,
+      "sponsorshipAvailable": false,
+      "candidateEligibilities": {
+        "needs_sponsorship_3yr": "INELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-027",
+    "title": "Python Data Engineer (3+ yrs overall, 1+ yr Spark)",
+    "company": "Uber",
+    "description": "Data pipelines at scale. 3+ years data engineering overall, with 1+ year Apache Spark or PySpark.",
+    "requirements": [
+      "3+ years of data engineering experience",
+      "1+ years of Apache Spark / PySpark experience",
+      "SQL and Python fluency"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 3,
+      "hasSkillSpecific": true,
+      "skillSpecificExperience": {
+        "spark": { "minYears": 1, "type": "MANDATORY" }
+      },
+      "candidateEligibilities": {
+        "data_eng_3yr_with_spark": "ELIGIBLE",
+        "data_eng_3yr_no_spark": "NEEDS_VERIFICATION"
+      }
+    }
+  },
+  {
+    "id": "JOB-028",
+    "title": "Graduate Trainee - 2025/2026 Batch Only",
+    "company": "Tata Consultancy Services",
+    "description": "National Qualifier Test for 2025 and 2026 engineering graduates. No experience required.",
+    "requirements": [
+      "Passing out in 2025 or 2026 only",
+      "Freshers welcome",
+      "B.E./B.Tech/MCA/M.Sc"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "graduationYearRestrictions": [2025, 2026],
+      "candidateEligibilities": {
+        "grad_2026": "ELIGIBLE",
+        "grad_2023": "INELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-029",
+    "title": "Staff iOS Engineer (8-12 years)",
+    "company": "Airbnb",
+    "description": "Lead iOS architecture across all mobile applications. Requires 8 to 12 years of Swift / iOS experience.",
+    "requirements": ["8-12 years of iOS development with Swift", "Experience guiding multi-team technical roadmaps"],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 8,
+      "maxExperienceYears": 12,
+      "experienceCategory": "8+",
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "senior_6yr": "INELIGIBLE",
+        "staff_9yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "JOB-030",
+    "title": "Technical Writer (Unstated Experience)",
+    "company": "HashiCorp",
+    "description": "Produce developer-focused documentation for Terraform and Vault. Clear writing samples required.",
+    "requirements": ["Markdown and Git fluency", "Familiarity with cloud concepts"],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": null,
+      "experienceCategory": "NOT_SPECIFIED",
+      "candidateEligibilities": {
+        "fresher_0yr": "NEEDS_VERIFICATION"
+      }
+    }
+  }
+]
