@@ -28,7 +28,7 @@ const ApplicationAnnotation = Annotation.Root({
   currentStage: Annotation({ default: () => 'DISCOVER' }),
   status: Annotation({ default: () => 'INITIALIZED' }),
 
-  candidateProfile: Annotation({ default: () => ({ skills: [], experienceYears: 0, needsSponsorship: false, factIds: [] }) }),
+  candidateProfile: Annotation({ default: () => ({ skills: [], experienceYears: null, educationLevel: null, needsSponsorship: null, factIds: [] }) }),
   jobData: Annotation({ default: () => ({ company: '', position: '', ats: '', url: '', requiredSkills: [] }) }),
   matchEvaluation: Annotation({ default: () => null }),
   optimization: Annotation({ default: () => null }),
@@ -64,46 +64,92 @@ async function nodeDiscover(state) {
 }
 
 /**
- * 2. Node: Match & Eligibility Evaluation
+ * 2. Node: Match & Eligibility Evaluation (Phase 1 Hardening)
+ * Detects contradictory profiles, missing mandatory requirements, and enforces NEEDS_VERIFICATION.
  */
 async function nodeMatch(state) {
   const timestamp = new Date().toISOString();
+  const profile = state.candidateProfile || {};
+  const job = state.jobData || {};
+
+  // 1. Contradiction Detection
+  const contradictions = [];
+  if ((profile.experienceYears === 0 || profile.isFresher) && profile.seniorTitle) {
+    contradictions.push('Profile asserts 0 years / fresher status, but contradictory senior title is recorded');
+  }
+  if (profile.graduationYear && profile.graduationYear > new Date().getFullYear() && profile.experienceYears && profile.experienceYears >= 2) {
+    contradictions.push(`Graduation year is in the future (${profile.graduationYear}), but claims ${profile.experienceYears} years full-time professional experience`);
+  }
+  if (profile.needsSponsorship === false && profile.workAuthorization && /f1|opt|cpt|h1b|l1|visitor|none/i.test(profile.workAuthorization)) {
+    contradictions.push(`Profile asserts no visa sponsorship needed, but work authorization is '${profile.workAuthorization}' requiring employer petition`);
+  }
+
+  // 2. Missing Mandatory Eligibility Check (Never silently default unknown facts)
+  const missingMandatory = [];
+  if (job.minYearsExp && job.minYearsExp > 0 && (profile.experienceYears === null || profile.experienceYears === undefined)) {
+    missingMandatory.push(`Job requires ${job.minYearsExp} years minimum experience; candidate experience is unverified (unknown)`);
+  }
+  if (job.sponsorshipAvailable === false && (profile.needsSponsorship === null || profile.needsSponsorship === undefined)) {
+    missingMandatory.push('Job restricts visa sponsorship; candidate sponsorship requirement is unverified (unknown)');
+  }
+  if (job.requiredDegree && (profile.educationLevel === null || profile.educationLevel === undefined)) {
+    missingMandatory.push(`Job requires ${job.requiredDegree}; candidate education is unverified (unknown)`);
+  }
+
   const evaluation = computeJobMatch(
     {
-      skills: state.candidateProfile.skills || [],
-      yearsExp: state.candidateProfile.experienceYears || 0,
-      education: state.candidateProfile.educationLevel || "Bachelor's",
-      needsSponsorship: state.candidateProfile.needsSponsorship || false,
-      targetRoles: state.jobData.position || ''
+      skills: profile.skills || [],
+      yearsExp: profile.experienceYears !== null && profile.experienceYears !== undefined ? profile.experienceYears : 0,
+      education: profile.educationLevel || '',
+      needsSponsorship: profile.needsSponsorship === true,
+      targetRoles: job.position || ''
     },
     {
-      company: state.jobData.company,
-      title: state.jobData.position,
-      description: state.jobData.description || '',
-      requirements: state.jobData.requiredSkills || [],
-      minExperienceYears: state.jobData.minYearsExp,
-      sponsorshipAvailable: state.jobData.sponsorshipAvailable
+      company: job.company,
+      title: job.position,
+      description: job.description || '',
+      requirements: job.requiredSkills || [],
+      minExperienceYears: job.minYearsExp,
+      sponsorshipAvailable: job.sponsorshipAvailable
     }
   );
 
-  const eligibilityStatus = evaluation.eligibility ? evaluation.eligibility.status : 'ELIGIBLE';
+  let eligibilityStatus = evaluation.eligibility ? evaluation.eligibility.status : 'ELIGIBLE';
+  const allReasons = [...(evaluation.eligibility?.reasons || [])];
+
+  if (missingMandatory.length > 0) {
+    // Missing mandatory information takes precedence over default assumption of ineligibility
+    eligibilityStatus = 'NEEDS_VERIFICATION';
+    allReasons.push(...missingMandatory);
+  }
+  if (contradictions.length > 0) {
+    eligibilityStatus = 'NEEDS_VERIFICATION';
+    allReasons.push(...contradictions);
+  }
+
+  const requiresVerificationPause = contradictions.length > 0 || missingMandatory.length > 0;
+
+  const status = eligibilityStatus === 'INELIGIBLE'
+    ? 'INELIGIBLE_STOP'
+    : (requiresVerificationPause ? 'NEEDS_VERIFICATION' : 'IN_PROGRESS');
 
   return {
     currentStage: 'MATCH',
     matchEvaluation: {
       eligibility: eligibilityStatus,
-      reasons: evaluation.eligibility ? evaluation.eligibility.reasons : [],
+      reasons: allReasons,
       score: evaluation.compositeScore,
-      recommendation: evaluation.recommendation
+      recommendation: evaluation.recommendation,
+      contradictionsDetected: contradictions.length > 0
     },
-    status: eligibilityStatus === 'INELIGIBLE' ? 'INELIGIBLE_STOP' : 'IN_PROGRESS',
+    status,
     events: [
       {
         timestamp,
         fromStage: 'DISCOVER',
         toStage: 'MATCH',
         eventType: 'ELIGIBILITY_EVALUATED',
-        details: { eligibility: eligibilityStatus, score: evaluation.compositeScore }
+        details: { eligibility: eligibilityStatus, score: evaluation.compositeScore, reasons: allReasons }
       }
     ]
   };
@@ -115,6 +161,9 @@ async function nodeMatch(state) {
 function routeAfterMatch(state) {
   if (state.matchEvaluation && state.matchEvaluation.eligibility === 'INELIGIBLE') {
     return 'ineligible';
+  }
+  if (state.status === 'NEEDS_VERIFICATION' || state.matchEvaluation?.contradictionsDetected) {
+    return 'needs_verification';
   }
   return 'eligible';
 }
@@ -163,6 +212,17 @@ async function nodeOptimize(state) {
       documentHash: docHash,
       documentVersion: (state.optimization ? state.optimization.documentVersion : 0) + 1,
       claimValidations: optimized.claimValidations || []
+    },
+    documentReview: {
+      approvedByCandidate: false,
+      candidateEditsApplied: false,
+      approvedContentHash: null,
+      approvedAt: null
+    },
+    submissionAuthorization: {
+      isAuthorized: false,
+      authorizationToken: null,
+      authorizedAt: null
     },
     status: 'PAUSED_FOR_HUMAN',
     events: [
@@ -373,6 +433,33 @@ async function nodePrepareApplication(state) {
     };
   }
 
+  // Check for unanswered screening questions requiring candidate action
+  const unansweredAction = (state.screeningQuestions || []).find(q => q.requiresCandidateAction || (q.answer === null && q.category === 'SENSITIVE_DISCLOSURE'));
+  if (unansweredAction) {
+    if (creditHeld) {
+      await releaseCreditForApplication(state.userId, state.tenantId, state.applicationId, 'Unanswered screening question requires candidate action');
+      creditHeld = false;
+    }
+    return {
+      currentStage: 'HUMAN_REVIEW',
+      status: 'HUMAN_ESCALATION_QUESTIONS',
+      execution: {
+        ...execution,
+        creditHeld,
+        humanInterventionReason: `Screening question requires human input: ${unansweredAction.questionText}`
+      },
+      events: [
+        {
+          timestamp,
+          fromStage: 'PREPARE_APPLICATION',
+          toStage: 'HUMAN_REVIEW',
+          eventType: 'ESCALATED_UNANSWERED_SCREENING_QUESTION',
+          details: { question: unansweredAction.questionText }
+        }
+      ]
+    };
+  }
+
   return {
     currentStage: 'PREPARE_APPLICATION',
     status: 'IN_PROGRESS',
@@ -410,10 +497,28 @@ function routeAfterPreparation(state) {
  * 7. Node: Human Review Escalation
  */
 async function nodeHumanReview(state) {
+  if (state.status === 'IN_PROGRESS' || state.status === 'RESOLVED_BY_HUMAN') {
+    return {
+      status: 'IN_PROGRESS'
+    };
+  }
   return {
     currentStage: 'HUMAN_REVIEW',
-    status: 'PAUSED_FOR_HUMAN'
+    status: (state.status && state.status !== 'IN_PROGRESS') ? state.status : 'PAUSED_FOR_HUMAN'
   };
+}
+
+/**
+ * Conditional Edge: Check Human Review
+ */
+function routeAfterHumanReview(state) {
+  if (state.status === 'IN_PROGRESS' || state.status === 'RESOLVED_BY_HUMAN') {
+    if (state.currentStage === 'MATCH') {
+      return 'resume_match';
+    }
+    return 'resume_prepare';
+  }
+  return 'paused';
 }
 
 /**
@@ -593,7 +698,8 @@ function createApplicationWorkflowGraph(checkpointer = new MemorySaver()) {
     .addEdge('node_discover', 'node_match')
     .addConditionalEdges('node_match', routeAfterMatch, {
       eligible: 'node_optimize',
-      ineligible: END
+      ineligible: END,
+      needs_verification: 'node_human_review'
     })
     .addEdge('node_optimize', 'node_document_review')
     .addConditionalEdges('node_document_review', routeAfterDocumentReview, {
@@ -610,7 +716,11 @@ function createApplicationWorkflowGraph(checkpointer = new MemorySaver()) {
       needs_human: 'node_human_review',
       failed: END
     })
-    .addEdge('node_human_review', END)
+    .addConditionalEdges('node_human_review', routeAfterHumanReview, {
+      resume_match: 'node_match',
+      resume_prepare: 'node_prepare_application',
+      paused: END
+    })
     .addEdge('node_submit', 'node_verify')
     .addEdge('node_verify', 'node_track')
     .addEdge('node_track', END);
@@ -634,5 +744,6 @@ module.exports = {
   routeAfterMatch,
   routeAfterDocumentReview,
   routeAfterAuthorization,
-  routeAfterPreparation
+  routeAfterPreparation,
+  routeAfterHumanReview
 };

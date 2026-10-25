@@ -20,6 +20,9 @@ const testFeat009Audit = require('./test_feat009_feat010_audit');
 const testTrackerUi = require('./verify_tracker_ui');
 const { runFeat011Tests: testFeat011RecruiterEmail } = require('./test_feat011_recruiter_email');
 const { runAgenticWorkflowSuite: testAgenticWorkflowSuite } = require('./test_agentic_workflow_suite');
+const { runLLMHardeningTestSuite: testLLMHardeningSuite } = require('./test_llm_gateway_hardening_suite');
+const { runLangGraphDurabilitySuite: testLangGraphDurabilitySuite } = require('./test_langgraph_durability_suite');
+const { runWorkflowAtsIntegrationSuite: testWorkflowAtsIntegrationSuite } = require('./test_workflow_ats_integration_suite');
 const prisma = require('../backend/db');
 
 async function runAllSuites() {
@@ -50,6 +53,9 @@ async function runAllSuites() {
     results.push(await testTrackerUi());
     results.push(await testFeat011RecruiterEmail());
     results.push(await testAgenticWorkflowSuite());
+    results.push(await testLLMHardeningSuite());
+    results.push(await testLangGraphDurabilitySuite());
+    results.push(await testWorkflowAtsIntegrationSuite());
     results.push(await testE2EUserJourney());
     results.push(await testNegativePaths());
 

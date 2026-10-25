@@ -148,6 +148,21 @@ function validateSemanticClaimAssertions(claimText, sourceFact) {
     }
   }
 
+  // 5. Fabricated Organization / Employer in Claim
+  const prominentEmployers = ['google', 'meta', 'apple', 'amazon', 'netflix', 'microsoft', 'uber', 'airbnb', 'stripe', 'palantir', 'openai'];
+  for (const emp of prominentEmployers) {
+    const atEmpRegex = new RegExp(`\\b(?:at|for|with)\\s+${emp}(?:\\s+cloud)?\\b|\\b${emp}(?:\\s+cloud)?\\b`, 'i');
+    if (atEmpRegex.test(claimText) && !(sourceFact.organization || '').toLowerCase().includes(emp) && !(sourceFact.title || '').toLowerCase().includes(emp)) {
+      violations.push({
+        type: 'FABRICATED_EMPLOYER_ASSERTION',
+        claim: claimText,
+        sourceFactId: sourceFact.id,
+        fabricatedEmployer: emp,
+        reason: `Claim asserts affiliation or work with '${emp}', which is absent from source fact [${sourceFact.organization || sourceFact.title}].`
+      });
+    }
+  }
+
   return violations;
 }
 

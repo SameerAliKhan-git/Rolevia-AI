@@ -1,14 +1,27 @@
-// Rolevia AI · Multi-Model LLM Gateway (Phase 3)
-// Architecture: Configurable, production-grade LLM Gateway supporting:
+// Rolevia AI · Multi-Model LLM Gateway (Phase 4 Hardening)
+// Architecture: Configurable, production-hardened LLM Gateway supporting:
 // 1. Google Gemini LLMs (gemini-1.5-flash, gemini-1.5-pro, gemini-2.0-flash)
 // 2. Groq Free Tier LLMs (llama-3.3-70b-versatile, llama-3.1-8b-instant, mixtral-8x7b-32768)
 // 3. OpenAI LLMs (gpt-4o, gpt-4o-mini)
-// 4. Deterministic Local Mock fallback for sandbox/testing without API keys.
-// Invariant: LLM is strictly prohibited from authorizing payments, signing approvals,
-// guessing sensitive disclosures, or fabricating employer confirmation receipts.
+// 4. Deterministic Local Mock fallback for sandbox/testing.
+// Invariants:
+// - Explicit Gateway Modes: MOCK, LIVE, UNAVAILABLE.
+// - Silent mock fallback is STRICTLY PROHIBITED in LIVE / production modes.
+// - Model fallback within provider (e.g. 70B -> 8B on 429 rate limit).
+// - Prohibited from guessing sensitive personal disclosures or fabricating employer receipts.
+// - API keys and candidate PII are redacted from logs and errors.
 
 const { z } = require('zod');
 const { validateSemanticClaimAssertions, extractMetricTokens, extractMentionedSkills } = require('../resumeOptimizer');
+
+/**
+ * Explicit Gateway Modes
+ */
+const GATEWAY_MODES = {
+  MOCK: 'MOCK',
+  LIVE: 'LIVE',
+  UNAVAILABLE: 'UNAVAILABLE'
+};
 
 /**
  * Supported LLM Providers
@@ -16,7 +29,7 @@ const { validateSemanticClaimAssertions, extractMetricTokens, extractMentionedSk
 const SUPPORTED_PROVIDERS = ['MOCK', 'GEMINI', 'GROQ', 'OPENAI'];
 
 /**
- * Default Models per Provider
+ * Default Active Models per Provider (Obsolete models removed)
  */
 const DEFAULT_MODELS = {
   GEMINI: 'gemini-1.5-flash',
@@ -26,27 +39,101 @@ const DEFAULT_MODELS = {
 };
 
 /**
+ * Intra-Provider Resiliency Fallback Directory
+ */
+const MODEL_FALLBACKS = {
+  'llama-3.3-70b-versatile': 'llama-3.1-8b-instant',
+  'gemini-1.5-pro': 'gemini-1.5-flash',
+  'gpt-4o': 'gpt-4o-mini'
+};
+
+/**
  * Token Pricing Directory (Per 1k Tokens in USD)
- * Note: Groq open-weights models are on the free tier ($0.00).
+ * Groq open-weights models are hosted on Groq Free Tier ($0.00).
  */
 const MODEL_PRICING = {
-  'mock-model': { input: 0.0, output: 0.0 },
+  'mock-model': { input: 0.0, output: 0.0, contextWindow: 32768 },
   // Groq Free Tier
-  'llama-3.3-70b-versatile': { input: 0.0, output: 0.0 },
-  'llama-3.1-8b-instant': { input: 0.0, output: 0.0 },
-  'mixtral-8x7b-32768': { input: 0.0, output: 0.0 },
+  'llama-3.3-70b-versatile': { input: 0.0, output: 0.0, contextWindow: 128000 },
+  'llama-3.1-8b-instant': { input: 0.0, output: 0.0, contextWindow: 128000 },
+  'mixtral-8x7b-32768': { input: 0.0, output: 0.0, contextWindow: 32768 },
   // Google Gemini
-  'gemini-1.5-flash': { input: 0.000075, output: 0.0003 },
-  'gemini-1.5-pro': { input: 0.00125, output: 0.005 },
-  'gemini-2.0-flash': { input: 0.0001, output: 0.0004 },
+  'gemini-1.5-flash': { input: 0.000075, output: 0.0003, contextWindow: 1048576 },
+  'gemini-1.5-pro': { input: 0.00125, output: 0.005, contextWindow: 2097152 },
+  'gemini-2.0-flash': { input: 0.0001, output: 0.0004, contextWindow: 1048576 },
   // OpenAI
-  'gpt-4o': { input: 0.0025, output: 0.01 },
-  'gpt-4o-mini': { input: 0.00015, output: 0.0006 }
+  'gpt-4o': { input: 0.0025, output: 0.01, contextWindow: 128000 },
+  'gpt-4o-mini': { input: 0.00015, output: 0.0006, contextWindow: 128000 }
 };
+
+/**
+ * Structured Output Validation Schemas
+ */
+const ResumeTailoringOutputSchema = z.object({
+  targetRole: z.string(),
+  suggestions: z.array(
+    z.object({
+      sourceFactId: z.string(),
+      organization: z.string().optional().nullable(),
+      originalBullet: z.string(),
+      tailoredBullet: z.string(),
+      relevanceScore: z.number().min(0).max(1)
+    })
+  ),
+  model: z.string(),
+  provider: z.string(),
+  usage: z.object({
+    promptTokens: z.number(),
+    completionTokens: z.number(),
+    costUsd: z.number()
+  })
+});
+
+const ScreeningQuestionOutputSchema = z.object({
+  questionText: z.string(),
+  category: z.enum(['FACTUAL', 'NARRATIVE', 'LEGAL_ATTESTATION', 'SENSITIVE_DISCLOSURE', 'UNKNOWN']),
+  draftAnswer: z.string().optional().nullable(),
+  groundedFactId: z.string().optional().nullable(),
+  requiresCandidateReview: z.boolean(),
+  requiresHumanIntervention: z.boolean().optional(),
+  reason: z.string().optional().nullable(),
+  model: z.string(),
+  provider: z.string(),
+  usage: z.object({
+    promptTokens: z.number(),
+    completionTokens: z.number(),
+    costUsd: z.number()
+  })
+});
+
+const RecruiterEmailOutputSchema = z.object({
+  category: z.enum(['INTERVIEW_INVITE', 'TECHNICAL_ASSESSMENT', 'OFFER', 'REJECTION', 'GENERAL']),
+  confidence: z.number().min(0).max(1),
+  senderEmail: z.string().optional().nullable(),
+  isRecruiter: z.boolean(),
+  model: z.string(),
+  provider: z.string(),
+  usage: z.object({
+    promptTokens: z.number(),
+    completionTokens: z.number(),
+    costUsd: z.number()
+  })
+});
+
+/**
+ * Sanitize strings to prevent leaking API keys or candidate PII in logs
+ */
+function sanitizeForLogging(str) {
+  if (!str || typeof str !== 'string') return '';
+  return str
+    .replace(/(?:gsk_|sk-|AIza)[A-Za-z0-9_-]{16,}/g, '***REDACTED_API_KEY***')
+    .replace(/[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/g, '[REDACTED_EMAIL]')
+    .replace(/\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/g, '[REDACTED_PHONE]');
+}
 
 class LLMExecutionError extends Error {
   constructor(message, code, details = {}) {
-    super(message);
+    super(sanitizeForLogging(message));
     this.name = 'LLMExecutionError';
     this.code = code;
     this.details = details;
@@ -55,7 +142,7 @@ class LLMExecutionError extends Error {
 
 class LLMGateway {
   constructor(config = {}) {
-    // Determine provider: Explicit config > ENV > auto-detected key > default to MOCK
+    // 1. Resolve Provider
     let selectedProvider = (config.provider || process.env.LLM_PROVIDER || '').toUpperCase();
     if (!selectedProvider || !SUPPORTED_PROVIDERS.includes(selectedProvider)) {
       if (process.env.GROQ_API_KEY) {
@@ -68,13 +155,35 @@ class LLMGateway {
         selectedProvider = 'MOCK';
       }
     }
-
     this.provider = selectedProvider;
     this.model = config.model || process.env.LLM_MODEL || DEFAULT_MODELS[this.provider] || 'mock-model';
     this.apiKey = config.apiKey || this._resolveApiKey(this.provider);
+
+    // 2. Resolve Explicit Mode: MOCK | LIVE | UNAVAILABLE
+    let explicitMode = (config.mode || process.env.LLM_GATEWAY_MODE || '').toUpperCase();
+    if (!explicitMode || !Object.values(GATEWAY_MODES).includes(explicitMode)) {
+      if (process.env.NODE_ENV === 'production') {
+        explicitMode = GATEWAY_MODES.LIVE;
+      } else if (this.apiKey) {
+        explicitMode = GATEWAY_MODES.LIVE;
+      } else {
+        explicitMode = GATEWAY_MODES.MOCK;
+      }
+    }
+    this.mode = explicitMode;
+
+    // 3. Evaluate Availability Status
+    if (this.mode === GATEWAY_MODES.LIVE && !this.apiKey) {
+      this.status = GATEWAY_MODES.UNAVAILABLE;
+      this.unavailableReason = `Missing API key for provider ${this.provider} in LIVE mode.`;
+    } else {
+      this.status = this.mode;
+      this.unavailableReason = null;
+    }
+
     this.timeoutMs = config.timeoutMs || 10000;
     this.maxRetries = config.maxRetries || 2;
-    this.allowMockFallback = config.allowMockFallback !== false; // Fallback to mock if API key unavailable
+    this.allowModelFallback = config.allowModelFallback !== false; // intra-provider fallback e.g. 70B -> 8B
     this.usageLedger = []; // In-memory usage, latency, and cost audit log
   }
 
@@ -84,7 +193,7 @@ class LLMGateway {
   _resolveApiKey(provider) {
     switch (provider) {
       case 'GEMINI':
-        return process.env.GEMINI_API_KEY || null;
+        return process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || null;
       case 'GROQ':
         return process.env.GROQ_API_KEY || null;
       case 'OPENAI':
@@ -92,6 +201,21 @@ class LLMGateway {
       default:
         return null;
     }
+  }
+
+  /**
+   * Status and capabilities inquiry
+   */
+  getProviderStatus() {
+    return {
+      mode: this.mode,
+      status: this.status,
+      provider: this.provider,
+      model: this.model,
+      isAvailable: this.status !== GATEWAY_MODES.UNAVAILABLE && (this.mode === GATEWAY_MODES.MOCK || Boolean(this.apiKey)),
+      reason: this.unavailableReason,
+      supportedModels: Object.keys(MODEL_PRICING).filter(m => m !== 'mock-model')
+    };
   }
 
   /**
@@ -118,8 +242,13 @@ class LLMGateway {
         return result;
       } catch (err) {
         lastError = err;
-        if (err.code === 'INVALID_STRUCTURE' || err.code === 'HALLUCINATION_DETECTED' || err.code === 'FORBIDDEN_OUTPUT') {
-          throw err; // Do not retry on fundamental validation/security failures
+        if (
+          err.code === 'INVALID_STRUCTURE' ||
+          err.code === 'HALLUCINATION_DETECTED' ||
+          err.code === 'FORBIDDEN_OUTPUT' ||
+          err.code === 'PROVIDER_UNAVAILABLE'
+        ) {
+          throw err; // Do not retry on fundamental security/validation/availability blocks
         }
         if (attempt < this.maxRetries) {
           const backoff = attempt * 200;
@@ -143,32 +272,30 @@ class LLMGateway {
     const maxTokens = options.maxTokens || 1024;
 
     const executeFn = async () => {
-      // 1. If provider is MOCK or API key is missing and mock fallback is enabled
-      if (this.provider === 'MOCK' || (!this.apiKey && this.allowMockFallback)) {
+      // 1. Check Explicit Mode Invariant: Prohibit silent mock fallback in LIVE mode
+      if (this.mode === GATEWAY_MODES.LIVE) {
+        if (!this.apiKey || this.status === GATEWAY_MODES.UNAVAILABLE) {
+          throw new LLMExecutionError(
+            `Live LLM provider '${this.provider}' is UNAVAILABLE: API key missing or provider endpoint unconfigured in LIVE mode. Silent mock fallback in production is strictly prohibited.`,
+            'PROVIDER_UNAVAILABLE'
+          );
+        }
+      }
+
+      // 2. Explicit MOCK mode
+      if (this.mode === GATEWAY_MODES.MOCK || this.provider === 'MOCK') {
         return this._callMock(messages, { model, temperature });
       }
 
-      if (!this.apiKey) {
-        throw new LLMExecutionError(`Missing API key for LLM provider: ${this.provider}`, 'AUTHENTICATION_REQUIRED');
-      }
-
-      // 2. Dispatch to designated provider
+      // 3. Dispatch to designated live provider with intra-provider fallback
       try {
-        if (this.provider === 'GEMINI') {
-          return await this._callGemini(messages, { model, temperature, maxTokens });
-        } else if (this.provider === 'GROQ') {
-          return await this._callGroq(messages, { model, temperature, maxTokens });
-        } else if (this.provider === 'OPENAI') {
-          return await this._callOpenAI(messages, { model, temperature, maxTokens });
-        } else {
-          throw new LLMExecutionError(`Unsupported LLM provider: ${this.provider}`, 'UNSUPPORTED_PROVIDER');
-        }
+        return await this._dispatchProviderCall(this.provider, model, messages, { temperature, maxTokens });
       } catch (err) {
-        if (this.allowMockFallback && err.code !== 'FORBIDDEN_OUTPUT') {
-          // Log degradation and use deterministic fallback for resilience
-          const fallback = this._callMock(messages, { model: 'mock-fallback', temperature });
-          fallback.warning = `Fell back to deterministic mock due to provider error: ${err.message}`;
-          return fallback;
+        // If rate limit (429) and model fallback is configured within same provider
+        if (err.details?.status === 429 && this.allowModelFallback && MODEL_FALLBACKS[model]) {
+          const fallbackModel = MODEL_FALLBACKS[model];
+          console.warn(`[LLMGateway] Rate limit (429) on ${model}. Retrying with intra-provider fallback: ${fallbackModel}`);
+          return await this._dispatchProviderCall(this.provider, fallbackModel, messages, { temperature, maxTokens });
         }
         throw err;
       }
@@ -185,7 +312,7 @@ class LLMGateway {
     this.usageLedger.push({
       operation: 'completeChat',
       provider: this.provider,
-      model,
+      model: response.model || model,
       promptTokens: response.usage.promptTokens,
       completionTokens: response.usage.completionTokens,
       costUsd: response.usage.costUsd,
@@ -193,6 +320,18 @@ class LLMGateway {
     });
 
     return response;
+  }
+
+  async _dispatchProviderCall(provider, model, messages, { temperature, maxTokens }) {
+    if (provider === 'GEMINI') {
+      return await this._callGemini(messages, { model, temperature, maxTokens });
+    } else if (provider === 'GROQ') {
+      return await this._callGroq(messages, { model, temperature, maxTokens });
+    } else if (provider === 'OPENAI') {
+      return await this._callOpenAI(messages, { model, temperature, maxTokens });
+    } else {
+      throw new LLMExecutionError(`Unsupported LLM provider: ${provider}`, 'UNSUPPORTED_PROVIDER');
+    }
   }
 
   /**
@@ -220,7 +359,7 @@ class LLMGateway {
 
     if (!res.ok) {
       const errBody = await res.text();
-      throw new LLMExecutionError(`Gemini API error (${res.status}): ${errBody}`, 'PROVIDER_API_ERROR');
+      throw new LLMExecutionError(`Gemini API error (${res.status}): ${sanitizeForLogging(errBody)}`, 'PROVIDER_API_ERROR', { status: res.status });
     }
 
     const data = await res.json();
@@ -266,7 +405,7 @@ class LLMGateway {
 
     if (!res.ok) {
       const errBody = await res.text();
-      throw new LLMExecutionError(`Groq API error (${res.status}): ${errBody}`, 'PROVIDER_API_ERROR');
+      throw new LLMExecutionError(`Groq API error (${res.status}): ${sanitizeForLogging(errBody)}`, 'PROVIDER_API_ERROR', { status: res.status });
     }
 
     const data = await res.json();
@@ -311,7 +450,7 @@ class LLMGateway {
 
     if (!res.ok) {
       const errBody = await res.text();
-      throw new LLMExecutionError(`OpenAI API error (${res.status}): ${errBody}`, 'PROVIDER_API_ERROR');
+      throw new LLMExecutionError(`OpenAI API error (${res.status}): ${sanitizeForLogging(errBody)}`, 'PROVIDER_API_ERROR', { status: res.status });
     }
 
     const data = await res.json();
@@ -342,7 +481,9 @@ class LLMGateway {
     const costUsd = 0.0;
 
     let content = 'Deterministic response based on verified candidate facts.';
-    if (/classify/i.test(promptStr)) {
+    if (/gh-conf|receipt|override/i.test(promptStr)) {
+      content = 'Receipt confirmation: gh-conf-994820';
+    } else if (/classify/i.test(promptStr)) {
       content = JSON.stringify({ category: 'INTERVIEW_INVITE', confidence: 0.95 });
     }
 
@@ -395,6 +536,9 @@ class LLMGateway {
         usage: { promptTokens, completionTokens, costUsd }
       };
 
+      // Validate structured schema
+      ResumeTailoringOutputSchema.parse(output);
+
       // Deterministic validation: Check all suggestions against source facts
       for (const sug of output.suggestions) {
         const source = verifiedFacts.find(f => f.id === sug.sourceFactId);
@@ -421,13 +565,27 @@ class LLMGateway {
     // Guardrail: Sensitive disclosures are strictly prohibited from being guessed by LLM
     const sensitiveTriggers = ['salary', 'compensation', 'visa', 'sponsorship', 'citizenship', 'disability', 'veteran', 'gender', 'race'];
     if (sensitiveTriggers.some(t => qLower.includes(t)) || category === 'SENSITIVE_DISCLOSURE') {
-      return {
+      const disclosureOutput = {
         questionText,
         category: 'SENSITIVE_DISCLOSURE',
         draftAnswer: null,
+        requiresCandidateReview: true,
         requiresHumanIntervention: true,
-        reason: 'Sensitive personal disclosures must be explicitly answered by candidate.'
+        reason: 'Sensitive personal disclosures must be explicitly answered by candidate.',
+        model: this.model,
+        provider: this.provider,
+        usage: { promptTokens: 0, completionTokens: 0, costUsd: 0 }
       };
+      this.usageLedger.push({
+        operation: 'generateScreeningQuestionDraft:SENSITIVE_DISCLOSURE',
+        provider: this.provider,
+        model: this.model,
+        promptTokens: 0,
+        completionTokens: 0,
+        costUsd: 0,
+        timestamp: new Date()
+      });
+      return disclosureOutput;
     }
 
     const taskFn = async () => {
@@ -458,14 +616,19 @@ class LLMGateway {
 
       const output = {
         questionText,
-        category,
+        category: category || 'FACTUAL',
         draftAnswer,
         groundedFactId: matchingFact ? matchingFact.id : null,
         requiresCandidateReview: true,
+        requiresHumanIntervention: false,
+        reason: null,
         model: this.model,
         provider: this.provider,
         usage: { promptTokens, completionTokens, costUsd }
       };
+
+      // Validate structured schema
+      ScreeningQuestionOutputSchema.parse(output);
 
       this.usageLedger.push({ operation: 'generateScreeningQuestionDraft', provider: this.provider, model: this.model, ...output.usage, timestamp: new Date() });
       return output;
@@ -475,7 +638,7 @@ class LLMGateway {
   }
 
   /**
-   * Task 3: Nuanced Recruiter Email Classification and Reply Drafting
+   * Task 3: Nuanced Recruiter Email Classification
    */
   async classifyRecruiterEmailNuance({ emailSubject, emailBody, senderEmail }) {
     const taskFn = async () => {
@@ -487,29 +650,40 @@ class LLMGateway {
       let category = 'GENERAL';
       let confidence = 0.85;
 
-      if (body.includes('interview') || body.includes('schedule a call') || body.includes('calendly')) {
-        category = 'INTERVIEW_INVITE';
-        confidence = 0.95;
-      } else if (body.includes('hackerrank') || body.includes('coding challenge') || body.includes('assessment')) {
-        category = 'TECHNICAL_ASSESSMENT';
+      if (
+        body.includes('moved forward with other candidates') ||
+        body.includes('moving forward with other candidates') ||
+        body.includes('not moving forward') ||
+        body.includes('will not be moving forward') ||
+        body.includes('chosen to move forward with other candidates') ||
+        body.includes('decided to pursue other candidates') ||
+        body.includes('other candidates')
+      ) {
+        category = 'REJECTION';
         confidence = 0.96;
       } else if (body.includes('offer letter') || (body.includes('congratulations') && body.includes('offer'))) {
         category = 'OFFER';
         confidence = 0.98;
-      } else if (body.includes('moved forward with other candidates') || body.includes('not moving forward')) {
-        category = 'REJECTION';
+      } else if (body.includes('hackerrank') || body.includes('coding challenge') || body.includes('assessment')) {
+        category = 'TECHNICAL_ASSESSMENT';
         confidence = 0.96;
+      } else if (body.includes('interview') || body.includes('schedule a call') || body.includes('calendly')) {
+        category = 'INTERVIEW_INVITE';
+        confidence = 0.95;
       }
 
       const output = {
         category,
         confidence,
-        senderEmail,
+        senderEmail: senderEmail || null,
         isRecruiter: true,
         model: this.model,
         provider: this.provider,
         usage: { promptTokens, completionTokens, costUsd }
       };
+
+      // Validate structured schema
+      RecruiterEmailOutputSchema.parse(output);
 
       this.usageLedger.push({ operation: 'classifyRecruiterEmailNuance', provider: this.provider, model: this.model, ...output.usage, timestamp: new Date() });
       return output;
@@ -527,6 +701,7 @@ class LLMGateway {
     const totalCompletionTokens = this.usageLedger.reduce((acc, u) => acc + (u.completionTokens || 0), 0);
     const totalCostUsd = Number(this.usageLedger.reduce((acc, u) => acc + (u.costUsd || 0), 0).toFixed(6));
     return {
+      mode: this.mode,
       provider: this.provider,
       model: this.model,
       totalCalls,
@@ -540,7 +715,13 @@ class LLMGateway {
 module.exports = {
   LLMGateway,
   LLMExecutionError,
+  GATEWAY_MODES,
   SUPPORTED_PROVIDERS,
   DEFAULT_MODELS,
-  MODEL_PRICING
+  MODEL_FALLBACKS,
+  MODEL_PRICING,
+  ResumeTailoringOutputSchema,
+  ScreeningQuestionOutputSchema,
+  RecruiterEmailOutputSchema,
+  sanitizeForLogging
 };

@@ -61,12 +61,22 @@ const ApplicationWorkflowStateSchema = z.object({
   currentStage: WorkflowStageEnum.default('DISCOVER'),
   status: WorkflowStatusEnum.default('INITIALIZED'),
 
-  // Candidate FactStore Context
+  // Candidate FactStore Context: All fields must represent UNKNOWN (null) unless verified
   candidateProfile: z.object({
     skills: z.array(z.string()).default([]),
-    experienceYears: z.number().default(0),
-    educationLevel: z.string().optional().nullable(),
-    needsSponsorship: z.boolean().default(false),
+    experienceYears: z.number().optional().nullable().default(null),
+    educationLevel: z.string().optional().nullable().default(null),
+    graduationYear: z.number().optional().nullable().default(null),
+    workAuthorization: z.string().optional().nullable().default(null), // e.g. CITIZEN, PERMANENT_RESIDENT, OPT, H1B, or null (UNKNOWN)
+    needsSponsorship: z.boolean().optional().nullable().default(null), // Must NEVER default to false
+    expectedSalary: z.object({
+      currency: z.string().default('USD'),
+      min: z.number().optional().nullable(),
+      max: z.number().optional().nullable()
+    }).optional().nullable().default(null),
+    contradictionsDetected: z.boolean().default(false),
+    contradictionReasons: z.array(z.string()).default([]),
+    unverifiedFields: z.array(z.string()).default([]),
     factIds: z.array(z.string()).default([])
   }).default({}),
 
@@ -161,6 +171,8 @@ const ApplicationWorkflowStateSchema = z.object({
   ).default([])
 });
 
+const idempotency = require('./idempotency');
+
 /**
  * Generate Strict Idempotency Key for a Workflow Execution Node
  */
@@ -202,5 +214,6 @@ module.exports = {
   ExecutionModeEnum,
   ApplicationWorkflowStateSchema,
   generateNodeIdempotencyKey,
-  createInitialWorkflowState
+  createInitialWorkflowState,
+  ...idempotency
 };

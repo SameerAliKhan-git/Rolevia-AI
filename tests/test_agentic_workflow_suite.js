@@ -413,6 +413,59 @@ async function runAgenticWorkflowSuite() {
     assert.notStrictEqual(thread1, thread2, 'Different tenants cannot access or share checkpoint states');
   });
 
+  // 12. Incomplete Candidate Profile: Missing mandatory eligibility information triggers NEEDS_VERIFICATION
+  await testAsync('Incomplete Profile: Mandatory eligibility information (null facts) enforces NEEDS_VERIFICATION', async () => {
+    const { nodeMatch, routeAfterMatch } = require('../backend/workflows/applicationGraph');
+    const incompleteState = {
+      candidateProfile: {
+        skills: ['Python'],
+        experienceYears: null, // Unknown
+        educationLevel: null,  // Unknown
+        needsSponsorship: null // Unknown
+      },
+      jobData: {
+        company: 'Stripe',
+        position: 'Senior Python Engineer',
+        minYearsExp: 3,
+        sponsorshipAvailable: false,
+        requiredDegree: "Bachelor's",
+        requiredSkills: ['Python']
+      }
+    };
+
+    const res = await nodeMatch(incompleteState);
+    assert.strictEqual(res.matchEvaluation.eligibility, 'NEEDS_VERIFICATION');
+    assert.strictEqual(res.status, 'NEEDS_VERIFICATION');
+    assert(res.matchEvaluation.reasons.some(r => r.includes('unverified')));
+    assert.strictEqual(routeAfterMatch(res), 'needs_verification');
+  });
+
+  // 13. Contradictory Candidate Profile: Conflicting experience and status claims trigger verification pause
+  await testAsync('Contradictory Profile: Conflicting senior titles and fresher claims trigger verification pause', async () => {
+    const { nodeMatch, routeAfterMatch } = require('../backend/workflows/applicationGraph');
+    const contradictoryState = {
+      candidateProfile: {
+        skills: ['Go', 'Kubernetes'],
+        experienceYears: 0,
+        seniorTitle: 'Lead Distributed Systems Architect',
+        graduationYear: 2028, // Future
+        educationLevel: "Bachelor's",
+        needsSponsorship: false,
+        workAuthorization: 'f1' // Contradicts no sponsorship needed
+      },
+      jobData: {
+        company: 'Grafana Labs',
+        position: 'Systems Engineer',
+        requiredSkills: ['Go']
+      }
+    };
+
+    const res = await nodeMatch(contradictoryState);
+    assert.strictEqual(res.matchEvaluation.contradictionsDetected, true);
+    assert.strictEqual(res.status, 'NEEDS_VERIFICATION');
+    assert.strictEqual(routeAfterMatch(res), 'needs_verification');
+  });
+
   console.log('\n================================================================================');
   console.log(`>> [AGENTIC WORKFLOW SUITE COMPLETE] Passed: ${passed}, Failed: ${failed}`);
   console.log('================================================================================\n');
