@@ -17,6 +17,8 @@ const jobCrawler = require('./jobCrawler');
 const jobMatcher = require('./jobMatcher');
 const resumeOptimizer = require('./resumeOptimizer');
 const resumeWorkspace = require('./resumeWorkspace');
+const atsEngine = require('./ats/atsEngine');
+const { getFixtureHtml } = require('./ats/fixtures');
 
 const PORT = process.env.PORT || 3000;
 const STORE_PATH = path.join(__dirname, 'database', 'store.json');
@@ -113,6 +115,20 @@ const server = http.createServer(async (req, res) => {
     const body = await parseBody(req);
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ success: true, channel: body.channel || 'default' }));
+    return;
+  }
+
+  // ATS Staging Fixtures (FEAT-009 Local Staging Testing)
+  if (pathname.startsWith('/fixtures/ats/')) {
+    const fixtureType = pathname.split('/')[3];
+    const html = getFixtureHtml(fixtureType);
+    if (html) {
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(html);
+      return;
+    }
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('ATS Staging Fixture Not Found');
     return;
   }
 
@@ -673,6 +689,89 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/v1/applications' && method === 'GET') {
       res.writeHead(200);
       res.end(JSON.stringify({ applications: db.applications }));
+      return;
+    }
+
+
+    // POST /api/v1/automation/dry-run (FEAT-009 Dry-Run Form Filling & Validation)
+    if (pathname === '/api/v1/automation/dry-run' && method === 'POST') {
+      try {
+        const authResult = await auth.authenticateRequest(req);
+        if (!authResult.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Authentication required for ATS automation' }));
+          return;
+        }
+
+        const body = await parseBody(req);
+        const result = await atsEngine.executeApplication({
+          applicationId: body.applicationId,
+          userId: authResult.user.id,
+          tenantId: authResult.tenantId,
+          executionMode: 'DRY_RUN'
+        });
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, ...result }));
+      } catch (err) {
+        const status = err.code === 'DUPLICATE_SUBMISSION_PREVENTED' ? 409 : 422;
+        res.writeHead(status, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message, code: err.code }));
+      }
+      return;
+    }
+
+    // POST /api/v1/automation/submit (FEAT-009 Candidate-Authorized Final Submission)
+    if (pathname === '/api/v1/automation/submit' && method === 'POST') {
+      try {
+        const authResult = await auth.authenticateRequest(req);
+        if (!authResult.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Authentication required for submission' }));
+          return;
+        }
+
+        const body = await parseBody(req);
+        if (!body.finalSubmissionConsent) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Explicit finalSubmissionConsent: true required to submit application' }));
+          return;
+        }
+
+        const result = await atsEngine.executeApplication({
+          applicationId: body.applicationId,
+          userId: authResult.user.id,
+          tenantId: authResult.tenantId,
+          executionMode: 'LIVE',
+          finalSubmissionConsent: true
+        });
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, ...result }));
+      } catch (err) {
+        const status = err.code === 'DUPLICATE_SUBMISSION_PREVENTED' ? 409 : 500;
+        res.writeHead(status, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message, code: err.code }));
+      }
+      return;
+    }
+
+    // POST /api/v1/automation/recover (FEAT-009 Worker Interruption Recovery)
+    if (pathname === '/api/v1/automation/recover' && method === 'POST') {
+      try {
+        const authResult = await auth.authenticateRequest(req);
+        if (!authResult.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Authentication required' }));
+          return;
+        }
+        const recovery = await atsEngine.recoverInterruptedExecutions();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, ...recovery }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
       return;
     }
 

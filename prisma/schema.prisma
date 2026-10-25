@@ -167,9 +167,20 @@ model Application {
   receiptUrl         String?
   diffData           String?   // JSON structured diff
   receiptData        String?   // JSON structured submission proof
+  executionMode      String    @default("DRY_RUN") // DRY_RUN, LIVE
+  submissionConsent  Boolean   @default(false)
+  documentHash       String?
+  documentVersionId  String?
+  approvalSignature  String?
+  idempotencyKey     String?   @unique
+  screenshotPath     String?
+  executionLogs      String?   // JSON array of structured execution events
+  quarantineReason   String?
+  failureReason      String?
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 
   @@index([tenantId, userId])
   @@index([status])
+  @@index([idempotencyKey])
 }

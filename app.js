@@ -94,689 +94,689 @@ const state = {
   },
   jobs: [
     {
-        "id": "job-ashby-1",
-        "company": "OpenAI",
-        "category": "startup",
-        "categoryName": "High-Growth Startups",
-        "logo": "https://www.google.com/s2/favicons?domain=openai.com&sz=128",
-        "title": "Research Engineer - AI Systems & Scaling",
-        "reqId": "REQ-ASHBY-240d459b",
-        "location": "San Francisco, CA / Remote (US)",
-        "region": "us",
-        "regionName": "🇺🇸 North America (Sponsorship)",
-        "sponsorship": true,
-        "sponsorshipLabel": "✓ H-1B & Visa Sponsorship Supported",
-        "url": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b",
-        "applyUrl": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b/application",
-        "matchScore": 98,
-        "ats": "ashby",
-        "atsName": "Ashby",
-        "bgColor": "#F0FDF4",
-        "salary": {
-            "usd": "$245,000 - $370,000",
-            "inr": "₹2.0Cr - ₹3.1Cr",
-            "eur": "€225,000 - €340,000",
-            "display": "$245k - $370k · ₹2.0Cr - ₹3.1Cr"
-        },
-        "postedDate": "Active Now",
-        "department": "Applied AI & Core Scaling",
-        "status": "Ready to Apply",
-        "requirements": [
-            "Python & Large Scale Distributed Systems",
-            "LLM Fine-Tuning & Prompt Architecture",
-            "High-throughput Async APIs",
-            "PyTorch & Linux Kernel Optimization"
-        ]
+      "id": "job-ashby-1",
+      "company": "OpenAI",
+      "category": "startup",
+      "categoryName": "High-Growth Startups",
+      "logo": "https://www.google.com/s2/favicons?domain=openai.com&sz=128",
+      "title": "Research Engineer - AI Systems & Scaling",
+      "reqId": "REQ-ASHBY-240d459b",
+      "location": "San Francisco, CA / Remote (US)",
+      "region": "us",
+      "regionName": "🇺🇸 North America (Sponsorship)",
+      "sponsorship": true,
+      "sponsorshipLabel": "✓ H-1B & Visa Sponsorship Supported",
+      "url": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b",
+      "applyUrl": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b/application",
+      "matchScore": 98,
+      "ats": "ashby",
+      "atsName": "Ashby",
+      "bgColor": "#F0FDF4",
+      "salary": {
+        "usd": "$245,000 - $370,000",
+        "inr": "₹2.0Cr - ₹3.1Cr",
+        "eur": "€225,000 - €340,000",
+        "display": "$245k - $370k · ₹2.0Cr - ₹3.1Cr"
+      },
+      "postedDate": "Active Now",
+      "department": "Applied AI & Core Scaling",
+      "status": "Ready to Apply",
+      "requirements": [
+        "Python & Large Scale Distributed Systems",
+        "LLM Fine-Tuning & Prompt Architecture",
+        "High-throughput Async APIs",
+        "PyTorch & Linux Kernel Optimization"
+      ]
     },
     {
-        "id": "job-ashby-2",
-        "company": "Ramp",
-        "category": "startup",
-        "categoryName": "High-Growth Startups",
-        "logo": "https://www.google.com/s2/favicons?domain=ramp.com&sz=128",
-        "title": "Security Engineer, Cloud Infrastructure",
-        "reqId": "REQ-ASHBY-34413f8d",
-        "location": "New York, NY / Remote (Worldwide)",
-        "region": "global",
-        "regionName": "🌍 Remote (Worldwide)",
-        "sponsorship": true,
-        "sponsorshipLabel": "✓ Global Remote Hire / Visa Ready",
-        "url": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245",
-        "applyUrl": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245/application",
-        "matchScore": 95,
-        "ats": "ashby",
-        "atsName": "Ashby",
-        "bgColor": "#FEFCE8",
-        "salary": {
-            "usd": "$160,000 - $210,000",
-            "inr": "₹1.3Cr - ₹1.7Cr",
-            "eur": "€148,000 - €195,000",
-            "display": "$160k - $210k · ₹1.3Cr - ₹1.7Cr"
-        },
-        "postedDate": "Active Now",
-        "department": "Fintech Security Infrastructure",
-        "status": "Ready to Apply",
-        "requirements": [
-            "Cloud Architecture (GCP / AWS)",
-            "Python Scripting & Auth Systems",
-            "Cisco/Zero-Trust Security Principles",
-            "Container & Kubernetes Security"
-        ]
+      "id": "job-ashby-2",
+      "company": "Ramp",
+      "category": "startup",
+      "categoryName": "High-Growth Startups",
+      "logo": "https://www.google.com/s2/favicons?domain=ramp.com&sz=128",
+      "title": "Security Engineer, Cloud Infrastructure",
+      "reqId": "REQ-ASHBY-34413f8d",
+      "location": "New York, NY / Remote (Worldwide)",
+      "region": "global",
+      "regionName": "🌍 Remote (Worldwide)",
+      "sponsorship": true,
+      "sponsorshipLabel": "✓ Global Remote Hire / Visa Ready",
+      "url": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245",
+      "applyUrl": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245/application",
+      "matchScore": 95,
+      "ats": "ashby",
+      "atsName": "Ashby",
+      "bgColor": "#FEFCE8",
+      "salary": {
+        "usd": "$160,000 - $210,000",
+        "inr": "₹1.3Cr - ₹1.7Cr",
+        "eur": "€148,000 - €195,000",
+        "display": "$160k - $210k · ₹1.3Cr - ₹1.7Cr"
+      },
+      "postedDate": "Active Now",
+      "department": "Fintech Security Infrastructure",
+      "status": "Ready to Apply",
+      "requirements": [
+        "Cloud Architecture (GCP / AWS)",
+        "Python Scripting & Auth Systems",
+        "Cisco/Zero-Trust Security Principles",
+        "Container & Kubernetes Security"
+      ]
     },
     {
-        "id": "job-ashby-3",
-        "company": "Linear",
-        "category": "startup",
-        "categoryName": "High-Growth Startups",
-        "logo": "https://www.google.com/s2/favicons?domain=linear.app&sz=128",
-        "title": "Senior / Staff Fullstack Engineer",
-        "reqId": "REQ-ASHBY-d3bc1ced",
-        "location": "Remote (Worldwide / Global)",
-        "region": "global",
-        "regionName": "🌍 Remote (Worldwide)",
-        "sponsorship": true,
-        "sponsorshipLabel": "✓ International Remote Hire",
-        "url": "https://jobs.ashbyhq.com/linear/d3bc1ced-3ce4-4086-a050-555055dbb1ff",
-        "applyUrl": "https://jobs.ashbyhq.com/linear/d3bc1ced-3ce4-4086-a050-555055dbb1ff/application",
-        "matchScore": 96,
-        "ats": "ashby",
-        "atsName": "Ashby",
-        "bgColor": "#EFF6FF",
-        "salary": {
-            "usd": "$150,000 - $195,000",
-            "inr": "₹1.2Cr - ₹1.6Cr",
-            "eur": "€138,000 - €180,000",
-            "display": "$150k - $195k · ₹1.2Cr - ₹1.6Cr"
-        },
-        "postedDate": "Active Now",
-        "department": "Product Systems & Real-time State",
-        "status": "Ready to Apply",
-        "requirements": [
-            "Modern React & TypeScript",
-            "Node.js & SQLite/PostgreSQL Sync",
-            "Sub-50ms Client State Architecture",
-            "Clean Code & Claymorphic UI Craft"
-        ]
+      "id": "job-ashby-3",
+      "company": "Linear",
+      "category": "startup",
+      "categoryName": "High-Growth Startups",
+      "logo": "https://www.google.com/s2/favicons?domain=linear.app&sz=128",
+      "title": "Senior / Staff Fullstack Engineer",
+      "reqId": "REQ-ASHBY-d3bc1ced",
+      "location": "Remote (Worldwide / Global)",
+      "region": "global",
+      "regionName": "🌍 Remote (Worldwide)",
+      "sponsorship": true,
+      "sponsorshipLabel": "✓ International Remote Hire",
+      "url": "https://jobs.ashbyhq.com/linear/d3bc1ced-3ce4-4086-a050-555055dbb1ff",
+      "applyUrl": "https://jobs.ashbyhq.com/linear/d3bc1ced-3ce4-4086-a050-555055dbb1ff/application",
+      "matchScore": 96,
+      "ats": "ashby",
+      "atsName": "Ashby",
+      "bgColor": "#EFF6FF",
+      "salary": {
+        "usd": "$150,000 - $195,000",
+        "inr": "₹1.2Cr - ₹1.6Cr",
+        "eur": "€138,000 - €180,000",
+        "display": "$150k - $195k · ₹1.2Cr - ₹1.6Cr"
+      },
+      "postedDate": "Active Now",
+      "department": "Product Systems & Real-time State",
+      "status": "Ready to Apply",
+      "requirements": [
+        "Modern React & TypeScript",
+        "Node.js & SQLite/PostgreSQL Sync",
+        "Sub-50ms Client State Architecture",
+        "Clean Code & Claymorphic UI Craft"
+      ]
     },
     {
-        "id": "job-wd-1",
-        "company": "Autodesk",
-        "category": "product",
-        "categoryName": "Product Giants",
-        "logo": "https://www.google.com/s2/favicons?domain=autodesk.com&sz=128",
-        "title": "Software Architect - Cloud Platform Services",
-        "reqId": "REQ-WD-26WD94957",
-        "location": "London, UK / Remote (EMEA)",
-        "region": "emea",
-        "regionName": "🇪🇺 Europe & UK (EMEA)",
-        "sponsorship": true,
-        "sponsorshipLabel": "✓ UK Visa & Relocation Assistance",
-        "url": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1",
-        "applyUrl": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1/apply",
-        "matchScore": 94,
-        "ats": "workday",
-        "atsName": "Workday",
-        "bgColor": "#F5F3FF",
-        "salary": {
-            "usd": "$140,000 - $185,000",
-            "inr": "₹1.1Cr - ₹1.5Cr",
-            "eur": "€128,000 - €170,000",
-            "display": "€128k - €170k · $140k - $185k"
-        },
-        "postedDate": "Active Now",
-        "department": "Platform Architecture & Cloud",
-        "status": "Ready to Apply",
-        "requirements": [
-            "Distributed Systems & Microservices",
-            "Python & Node.js Backend Runtimes",
-            "High-throughput RESTful Architecture",
-            "Docker & Cloud Infrastructure"
-        ]
+      "id": "job-wd-1",
+      "company": "Autodesk",
+      "category": "product",
+      "categoryName": "Product Giants",
+      "logo": "https://www.google.com/s2/favicons?domain=autodesk.com&sz=128",
+      "title": "Software Architect - Cloud Platform Services",
+      "reqId": "REQ-WD-26WD94957",
+      "location": "London, UK / Remote (EMEA)",
+      "region": "emea",
+      "regionName": "🇪🇺 Europe & UK (EMEA)",
+      "sponsorship": true,
+      "sponsorshipLabel": "✓ UK Visa & Relocation Assistance",
+      "url": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1",
+      "applyUrl": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1/apply",
+      "matchScore": 94,
+      "ats": "workday",
+      "atsName": "Workday",
+      "bgColor": "#F5F3FF",
+      "salary": {
+        "usd": "$140,000 - $185,000",
+        "inr": "₹1.1Cr - ₹1.5Cr",
+        "eur": "€128,000 - €170,000",
+        "display": "€128k - €170k · $140k - $185k"
+      },
+      "postedDate": "Active Now",
+      "department": "Platform Architecture & Cloud",
+      "status": "Ready to Apply",
+      "requirements": [
+        "Distributed Systems & Microservices",
+        "Python & Node.js Backend Runtimes",
+        "High-throughput RESTful Architecture",
+        "Docker & Cloud Infrastructure"
+      ]
     },
     {
-        "id": "job-wd-2",
-        "company": "PayPal",
-        "category": "product",
-        "categoryName": "Product Giants",
-        "logo": "https://www.google.com/s2/favicons?domain=paypal.com&sz=128",
-        "title": "Software Engineer - Platform & Financial Services",
-        "reqId": "REQ-WD-R0137876",
-        "location": "Singapore / Remote (APAC)",
-        "region": "apac",
-        "regionName": "🇮🇳 India & APAC",
-        "sponsorship": true,
-        "sponsorshipLabel": "✓ Employment Pass / APAC Sponsorship",
-        "url": "https://paypal.wd1.myworkdayjobs.com/en-US/jobs/job/Central-Singapore-Singapore/Software-Engineer_R0137876",
-        "applyUrl": "https://paypal.wd1.myworkdayjobs.com/en-US/jobs/job/Central-Singapore-Singapore/Software-Engineer_R0137876/apply",
-        "matchScore": 93,
-        "ats": "workday",
-        "atsName": "Workday",
-        "bgColor": "#EFF6FF",
-        "salary": {
-            "usd": "$110,000 - $145,000",
-            "inr": "₹32,00,000 - ₹45,00,000",
-            "eur": "€102,000 - €134,000",
-            "display": "₹32L - ₹45L · $110k - $145k"
-        },
-        "postedDate": "Active Now",
-        "department": "Payments Core Infrastructure",
-        "status": "Ready to Apply",
-        "requirements": [
-            "Node.js & Python Services",
-            "Financial Ledger & SQL Schema Design",
-            "REST APIs & Webhook Verification",
-            "Idempotency & High Availability"
-        ]
+      "id": "job-wd-2",
+      "company": "PayPal",
+      "category": "product",
+      "categoryName": "Product Giants",
+      "logo": "https://www.google.com/s2/favicons?domain=paypal.com&sz=128",
+      "title": "Software Engineer - Platform & Financial Services",
+      "reqId": "REQ-WD-R0137876",
+      "location": "Singapore / Remote (APAC)",
+      "region": "apac",
+      "regionName": "🇮🇳 India & APAC",
+      "sponsorship": true,
+      "sponsorshipLabel": "✓ Employment Pass / APAC Sponsorship",
+      "url": "https://paypal.wd1.myworkdayjobs.com/en-US/jobs/job/Central-Singapore-Singapore/Software-Engineer_R0137876",
+      "applyUrl": "https://paypal.wd1.myworkdayjobs.com/en-US/jobs/job/Central-Singapore-Singapore/Software-Engineer_R0137876/apply",
+      "matchScore": 93,
+      "ats": "workday",
+      "atsName": "Workday",
+      "bgColor": "#EFF6FF",
+      "salary": {
+        "usd": "$110,000 - $145,000",
+        "inr": "₹32,00,000 - ₹45,00,000",
+        "eur": "€102,000 - €134,000",
+        "display": "₹32L - ₹45L · $110k - $145k"
+      },
+      "postedDate": "Active Now",
+      "department": "Payments Core Infrastructure",
+      "status": "Ready to Apply",
+      "requirements": [
+        "Node.js & Python Services",
+        "Financial Ledger & SQL Schema Design",
+        "REST APIs & Webhook Verification",
+        "Idempotency & High Availability"
+      ]
     },
     {
-        "id": "job-wd-3",
-        "company": "Intel",
-        "category": "product",
-        "categoryName": "Product Giants",
-        "logo": "https://www.google.com/s2/favicons?domain=intel.com&sz=128",
-        "title": "Software Development Engineer - Cloud & Systems",
-        "reqId": "REQ-WD-JR0282484",
-        "location": "Folsom, CA / Remote (US)",
-        "region": "us",
-        "regionName": "🇺🇸 North America (Sponsorship)",
-        "sponsorship": true,
-        "sponsorshipLabel": "✓ H-1B Visa Sponsorship",
-        "url": "https://intel.wd1.myworkdayjobs.com/en-US/External/job/US-California-Folsom/Software-Development-Engineer_JR0282484",
-        "applyUrl": "https://intel.wd1.myworkdayjobs.com/en-US/External/job/US-California-Folsom/Software-Development-Engineer_JR0282484/apply",
-        "matchScore": 92,
-        "ats": "workday",
-        "atsName": "Workday",
-        "bgColor": "#F0F9FF",
-        "salary": {
-            "usd": "$135,000 - $175,000",
-            "inr": "₹1.1Cr - ₹1.4Cr",
-            "eur": "€124,000 - €160,000",
-            "display": "$135k - $175k · ₹1.1Cr - ₹1.4Cr"
-        },
-        "postedDate": "Active Now",
-        "department": "Cloud & Systems Software",
-        "status": "Ready to Apply",
-        "requirements": [
-            "Python Automation & Systems Engineering",
-            "Linux Kernel Debugging & Benchmarking",
-            "Containerization (Docker & OCI)",
-            "Microservice Telemetry & Profiling"
-        ]
+      "id": "job-wd-3",
+      "company": "Intel",
+      "category": "product",
+      "categoryName": "Product Giants",
+      "logo": "https://www.google.com/s2/favicons?domain=intel.com&sz=128",
+      "title": "Software Development Engineer - Cloud & Systems",
+      "reqId": "REQ-WD-JR0282484",
+      "location": "Folsom, CA / Remote (US)",
+      "region": "us",
+      "regionName": "🇺🇸 North America (Sponsorship)",
+      "sponsorship": true,
+      "sponsorshipLabel": "✓ H-1B Visa Sponsorship",
+      "url": "https://intel.wd1.myworkdayjobs.com/en-US/External/job/US-California-Folsom/Software-Development-Engineer_JR0282484",
+      "applyUrl": "https://intel.wd1.myworkdayjobs.com/en-US/External/job/US-California-Folsom/Software-Development-Engineer_JR0282484/apply",
+      "matchScore": 92,
+      "ats": "workday",
+      "atsName": "Workday",
+      "bgColor": "#F0F9FF",
+      "salary": {
+        "usd": "$135,000 - $175,000",
+        "inr": "₹1.1Cr - ₹1.4Cr",
+        "eur": "€124,000 - €160,000",
+        "display": "$135k - $175k · ₹1.1Cr - ₹1.4Cr"
+      },
+      "postedDate": "Active Now",
+      "department": "Cloud & Systems Software",
+      "status": "Ready to Apply",
+      "requirements": [
+        "Python Automation & Systems Engineering",
+        "Linux Kernel Debugging & Benchmarking",
+        "Containerization (Docker & OCI)",
+        "Microservice Telemetry & Profiling"
+      ]
     },
     {
-        "id": "job-wd-4",
-        "company": "Target",
-        "category": "service",
-        "categoryName": "Enterprise Services",
-        "logo": "https://www.google.com/s2/favicons?domain=target.com&sz=128",
-        "title": "Sr Engineer - Agentic Data Platform & Cloud Services",
-        "reqId": "REQ-WD-R0000444911",
-        "location": "Minneapolis, MN / Remote (US)",
-        "region": "us",
-        "regionName": "🇺🇸 North America (Sponsorship)",
-        "sponsorship": true,
-        "sponsorshipLabel": "✓ Sponsorship / Global Relocation",
-        "url": "https://target.wd5.myworkdayjobs.com/en-US/targetcareers/job/7000-Target-Pkwy-N-Brooklyn-ParkMN-55445-4301/Sr-Engineer---Agentic-Data-Platform_R0000444911",
-        "applyUrl": "https://target.wd5.myworkdayjobs.com/en-US/targetcareers/job/7000-Target-Pkwy-N-Brooklyn-ParkMN-55445-4301/Sr-Engineer---Agentic-Data-Platform_R0000444911/apply",
-        "matchScore": 93,
-        "ats": "workday",
-        "atsName": "Workday",
-        "bgColor": "#FEF2F2",
-        "salary": {
-            "usd": "$145,000 - $185,000",
-            "inr": "₹1.2Cr - ₹1.5Cr",
-            "eur": "€133,000 - €170,000",
-            "display": "$145k - $185k · ₹1.2Cr - ₹1.5Cr"
-        },
-        "postedDate": "Active Now",
-        "department": "Enterprise AI & Data Platform",
-        "status": "Ready to Apply",
-        "requirements": [
-            "Python & Distributed Event Streaming",
-            "PostgreSQL & Big Data Schemas",
-            "Agentic Architecture & AI Ethics",
-            "Enterprise Cloud Scalability"
-        ]
+      "id": "job-wd-4",
+      "company": "Target",
+      "category": "service",
+      "categoryName": "Enterprise Services",
+      "logo": "https://www.google.com/s2/favicons?domain=target.com&sz=128",
+      "title": "Sr Engineer - Agentic Data Platform & Cloud Services",
+      "reqId": "REQ-WD-R0000444911",
+      "location": "Minneapolis, MN / Remote (US)",
+      "region": "us",
+      "regionName": "🇺🇸 North America (Sponsorship)",
+      "sponsorship": true,
+      "sponsorshipLabel": "✓ Sponsorship / Global Relocation",
+      "url": "https://target.wd5.myworkdayjobs.com/en-US/targetcareers/job/7000-Target-Pkwy-N-Brooklyn-ParkMN-55445-4301/Sr-Engineer---Agentic-Data-Platform_R0000444911",
+      "applyUrl": "https://target.wd5.myworkdayjobs.com/en-US/targetcareers/job/7000-Target-Pkwy-N-Brooklyn-ParkMN-55445-4301/Sr-Engineer---Agentic-Data-Platform_R0000444911/apply",
+      "matchScore": 93,
+      "ats": "workday",
+      "atsName": "Workday",
+      "bgColor": "#FEF2F2",
+      "salary": {
+        "usd": "$145,000 - $185,000",
+        "inr": "₹1.2Cr - ₹1.5Cr",
+        "eur": "€133,000 - €170,000",
+        "display": "$145k - $185k · ₹1.2Cr - ₹1.5Cr"
+      },
+      "postedDate": "Active Now",
+      "department": "Enterprise AI & Data Platform",
+      "status": "Ready to Apply",
+      "requirements": [
+        "Python & Distributed Event Streaming",
+        "PostgreSQL & Big Data Schemas",
+        "Agentic Architecture & AI Ethics",
+        "Enterprise Cloud Scalability"
+      ]
     },
     {
-        "id": "job-gh-1",
-        "company": "GitLab",
-        "category": "product",
-        "categoryName": "Product Giants",
-        "logo": "https://www.google.com/s2/favicons?domain=gitlab.com&sz=128",
-        "title": "Backend Engineer (Python), AI Engineering: Agent Foundations",
-        "reqId": "REQ-GH-8704363002",
-        "location": "Remote, Global / Canada / UK / Poland",
-        "region": "global",
-        "regionName": "🌍 Remote (Worldwide)",
-        "sponsorship": true,
-        "sponsorshipLabel": "✓ 100% Remote Global Entity Hire",
-        "url": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002",
-        "applyUrl": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002#app",
-        "matchScore": 98,
-        "ats": "greenhouse",
-        "atsName": "Greenhouse",
-        "bgColor": "#FFF1F2",
-        "salary": {
-            "usd": "$125,000 - $165,000",
-            "inr": "₹1.0Cr - ₹1.4Cr",
-            "eur": "€115,000 - €152,000",
-            "display": "$125k - $165k · ₹1.0Cr - ₹1.4Cr"
-        },
-        "postedDate": "Active Now",
-        "department": "AI Engineering Platform",
-        "status": "Ready to Apply",
-        "requirements": [
-            "Python Microservices & Backend Systems",
-            "Generative AI & LLM Agent Foundations",
-            "RESTful APIs & GraphQL",
-            "PostgreSQL & Database Optimization",
-            "Docker & CI/CD Pipelines"
-        ]
+      "id": "job-gh-1",
+      "company": "GitLab",
+      "category": "product",
+      "categoryName": "Product Giants",
+      "logo": "https://www.google.com/s2/favicons?domain=gitlab.com&sz=128",
+      "title": "Backend Engineer (Python), AI Engineering: Agent Foundations",
+      "reqId": "REQ-GH-8704363002",
+      "location": "Remote, Global / Canada / UK / Poland",
+      "region": "global",
+      "regionName": "🌍 Remote (Worldwide)",
+      "sponsorship": true,
+      "sponsorshipLabel": "✓ 100% Remote Global Entity Hire",
+      "url": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002",
+      "applyUrl": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002#app",
+      "matchScore": 98,
+      "ats": "greenhouse",
+      "atsName": "Greenhouse",
+      "bgColor": "#FFF1F2",
+      "salary": {
+        "usd": "$125,000 - $165,000",
+        "inr": "₹1.0Cr - ₹1.4Cr",
+        "eur": "€115,000 - €152,000",
+        "display": "$125k - $165k · ₹1.0Cr - ₹1.4Cr"
+      },
+      "postedDate": "Active Now",
+      "department": "AI Engineering Platform",
+      "status": "Ready to Apply",
+      "requirements": [
+        "Python Microservices & Backend Systems",
+        "Generative AI & LLM Agent Foundations",
+        "RESTful APIs & GraphQL",
+        "PostgreSQL & Database Optimization",
+        "Docker & CI/CD Pipelines"
+      ]
     },
     {
-        "id": "job-gh-2",
-        "company": "Reddit",
-        "category": "product",
-        "categoryName": "Product Giants",
-        "logo": "https://www.google.com/s2/favicons?domain=reddit.com&sz=128",
-        "title": "Front End Software Engineer, Consumer Engineering",
-        "reqId": "REQ-GH-8147559",
-        "location": "Remote - United States / Global",
-        "region": "global",
-        "regionName": "🌍 Remote (Worldwide)",
-        "sponsorship": true,
-        "sponsorshipLabel": "✓ Sponsorship / Remote Option",
-        "url": "https://job-boards.greenhouse.io/reddit/jobs/8147559",
-        "applyUrl": "https://job-boards.greenhouse.io/reddit/jobs/8147559#app",
-        "matchScore": 96,
-        "ats": "greenhouse",
-        "atsName": "Greenhouse",
-        "bgColor": "#FFF7ED",
-        "salary": {
-            "usd": "$140,000 - $180,000",
-            "inr": "₹1.1Cr - ₹1.5Cr",
-            "eur": "€129,000 - €165,000",
-            "display": "$140k - $180k · ₹1.1Cr - ₹1.5Cr"
-        },
-        "postedDate": "Active Now",
-        "department": "Consumer Web Platform",
-        "status": "Ready to Apply",
-        "requirements": [
-            "Modern React 18+ & JavaScript/TypeScript",
-            "High-Performance Web Applications",
-            "REST & GraphQL Integration",
-            "Responsive Layouts & Accessible Web UI"
-        ]
+      "id": "job-gh-2",
+      "company": "Reddit",
+      "category": "product",
+      "categoryName": "Product Giants",
+      "logo": "https://www.google.com/s2/favicons?domain=reddit.com&sz=128",
+      "title": "Front End Software Engineer, Consumer Engineering",
+      "reqId": "REQ-GH-8147559",
+      "location": "Remote - United States / Global",
+      "region": "global",
+      "regionName": "🌍 Remote (Worldwide)",
+      "sponsorship": true,
+      "sponsorshipLabel": "✓ Sponsorship / Remote Option",
+      "url": "https://job-boards.greenhouse.io/reddit/jobs/8147559",
+      "applyUrl": "https://job-boards.greenhouse.io/reddit/jobs/8147559#app",
+      "matchScore": 96,
+      "ats": "greenhouse",
+      "atsName": "Greenhouse",
+      "bgColor": "#FFF7ED",
+      "salary": {
+        "usd": "$140,000 - $180,000",
+        "inr": "₹1.1Cr - ₹1.5Cr",
+        "eur": "€129,000 - €165,000",
+        "display": "$140k - $180k · ₹1.1Cr - ₹1.5Cr"
+      },
+      "postedDate": "Active Now",
+      "department": "Consumer Web Platform",
+      "status": "Ready to Apply",
+      "requirements": [
+        "Modern React 18+ & JavaScript/TypeScript",
+        "High-Performance Web Applications",
+        "REST & GraphQL Integration",
+        "Responsive Layouts & Accessible Web UI"
+      ]
     },
     {
-        "id": "job-gh-3",
-        "company": "Canonical",
-        "category": "service",
-        "categoryName": "Enterprise Services",
-        "logo": "https://www.google.com/s2/favicons?domain=canonical.com&sz=128",
-        "title": "Cloud Field Engineer - Distributed Infrastructure",
-        "reqId": "REQ-GH-6132532",
-        "location": "Home based - Worldwide (Global / India)",
-        "region": "global",
-        "regionName": "🌍 Remote (Worldwide)",
-        "sponsorship": true,
-        "sponsorshipLabel": "✓ Worldwide Remote Contract",
-        "url": "https://job-boards.greenhouse.io/canonical/jobs/6132532",
-        "applyUrl": "https://job-boards.greenhouse.io/canonical/jobs/6132532#app",
-        "matchScore": 94,
-        "ats": "greenhouse",
-        "atsName": "Greenhouse",
-        "bgColor": "#F5F3FF",
-        "salary": {
-            "usd": "$60,000 - $90,000",
-            "inr": "₹28,00,000 - ₹42,00,000",
-            "eur": "€55,000 - €82,000",
-            "display": "₹28L - ₹42L · $60k - $90k"
-        },
-        "postedDate": "Active Now",
-        "department": "Cloud Solutions & Linux Services",
-        "status": "Ready to Apply",
-        "requirements": [
-            "Linux Systems (Ubuntu / Debian)",
-            "Python Automation & Bash Scripting",
-            "Cloud Platforms (GCP / Azure / AWS)",
-            "Docker & Kubernetes Containerization"
-        ]
+      "id": "job-gh-3",
+      "company": "Canonical",
+      "category": "service",
+      "categoryName": "Enterprise Services",
+      "logo": "https://www.google.com/s2/favicons?domain=canonical.com&sz=128",
+      "title": "Cloud Field Engineer - Distributed Infrastructure",
+      "reqId": "REQ-GH-6132532",
+      "location": "Home based - Worldwide (Global / India)",
+      "region": "global",
+      "regionName": "🌍 Remote (Worldwide)",
+      "sponsorship": true,
+      "sponsorshipLabel": "✓ Worldwide Remote Contract",
+      "url": "https://job-boards.greenhouse.io/canonical/jobs/6132532",
+      "applyUrl": "https://job-boards.greenhouse.io/canonical/jobs/6132532#app",
+      "matchScore": 94,
+      "ats": "greenhouse",
+      "atsName": "Greenhouse",
+      "bgColor": "#F5F3FF",
+      "salary": {
+        "usd": "$60,000 - $90,000",
+        "inr": "₹28,00,000 - ₹42,00,000",
+        "eur": "€55,000 - €82,000",
+        "display": "₹28L - ₹42L · $60k - $90k"
+      },
+      "postedDate": "Active Now",
+      "department": "Cloud Solutions & Linux Services",
+      "status": "Ready to Apply",
+      "requirements": [
+        "Linux Systems (Ubuntu / Debian)",
+        "Python Automation & Bash Scripting",
+        "Cloud Platforms (GCP / Azure / AWS)",
+        "Docker & Kubernetes Containerization"
+      ]
     },
     {
-        "id": "job-gh-4",
-        "company": "Twilio",
-        "category": "product",
-        "categoryName": "Product Giants",
-        "logo": "https://www.google.com/s2/favicons?domain=twilio.com&sz=128",
-        "title": "Applications Engineer 2 - Cloud Communications Platform",
-        "reqId": "REQ-GH-7781659",
-        "location": "Bengaluru, India / Remote (Global)",
-        "region": "apac",
-        "regionName": "🇮🇳 India & APAC",
-        "sponsorship": true,
-        "sponsorshipLabel": "✓ India Hire / Global Relocation",
-        "url": "https://job-boards.greenhouse.io/twilio/jobs/7781659",
-        "applyUrl": "https://job-boards.greenhouse.io/twilio/jobs/7781659#app",
-        "matchScore": 93,
-        "ats": "greenhouse",
-        "atsName": "Greenhouse",
-        "bgColor": "#FEF2F2",
-        "salary": {
-            "usd": "$55,000 - $80,000",
-            "inr": "₹26,00,000 - ₹38,00,000",
-            "eur": "€50,000 - €74,000",
-            "display": "₹26L - ₹38L · $55k - $80k"
-        },
-        "postedDate": "Active Now",
-        "department": "Developer Experience & APIs",
-        "status": "Ready to Apply",
-        "requirements": [
-            "Node.js & Python Services",
-            "RESTful API & Webhook Architecture",
-            "High-Availability Cloud Systems",
-            "PostgreSQL & Database Design"
-        ]
+      "id": "job-gh-4",
+      "company": "Twilio",
+      "category": "product",
+      "categoryName": "Product Giants",
+      "logo": "https://www.google.com/s2/favicons?domain=twilio.com&sz=128",
+      "title": "Applications Engineer 2 - Cloud Communications Platform",
+      "reqId": "REQ-GH-7781659",
+      "location": "Bengaluru, India / Remote (Global)",
+      "region": "apac",
+      "regionName": "🇮🇳 India & APAC",
+      "sponsorship": true,
+      "sponsorshipLabel": "✓ India Hire / Global Relocation",
+      "url": "https://job-boards.greenhouse.io/twilio/jobs/7781659",
+      "applyUrl": "https://job-boards.greenhouse.io/twilio/jobs/7781659#app",
+      "matchScore": 93,
+      "ats": "greenhouse",
+      "atsName": "Greenhouse",
+      "bgColor": "#FEF2F2",
+      "salary": {
+        "usd": "$55,000 - $80,000",
+        "inr": "₹26,00,000 - ₹38,00,000",
+        "eur": "€50,000 - €74,000",
+        "display": "₹26L - ₹38L · $55k - $80k"
+      },
+      "postedDate": "Active Now",
+      "department": "Developer Experience & APIs",
+      "status": "Ready to Apply",
+      "requirements": [
+        "Node.js & Python Services",
+        "RESTful API & Webhook Architecture",
+        "High-Availability Cloud Systems",
+        "PostgreSQL & Database Design"
+      ]
     },
     {
-        "id": "job-gh-5",
-        "company": "Canonical",
-        "category": "service",
-        "categoryName": "Enterprise Services",
-        "logo": "https://www.google.com/s2/favicons?domain=canonical.com&sz=128",
-        "title": "Associate Linux Support Engineer",
-        "reqId": "REQ-GH-6448444",
-        "location": "Home based - Worldwide (Global / India)",
-        "region": "global",
-        "regionName": "🌍 Remote (Worldwide)",
-        "sponsorship": true,
-        "sponsorshipLabel": "✓ Worldwide Remote Contract",
-        "url": "https://job-boards.greenhouse.io/canonical/jobs/6448444",
-        "applyUrl": "https://job-boards.greenhouse.io/canonical/jobs/6448444#app",
-        "matchScore": 89,
-        "ats": "greenhouse",
-        "atsName": "Greenhouse",
-        "bgColor": "#F5F3FF",
-        "salary": {
-            "usd": "$40,000 - $55,000",
-            "inr": "₹18,00,000 - ₹26,00,000",
-            "eur": "€37,000 - €51,000",
-            "display": "₹18L - ₹26L · $40k - $55k"
-        },
-        "postedDate": "Active Now",
-        "department": "Technical Support & Linux Systems",
-        "status": "Ready to Apply",
-        "requirements": [
-            "Linux Systems Administration (Ubuntu)",
-            "Bash Scripting & Networking Fundamentals",
-            "Python Troubleshooting & Log Analysis",
-            "Virtualization & Container Diagnostics"
-        ]
+      "id": "job-gh-5",
+      "company": "Canonical",
+      "category": "service",
+      "categoryName": "Enterprise Services",
+      "logo": "https://www.google.com/s2/favicons?domain=canonical.com&sz=128",
+      "title": "Associate Linux Support Engineer",
+      "reqId": "REQ-GH-6448444",
+      "location": "Home based - Worldwide (Global / India)",
+      "region": "global",
+      "regionName": "🌍 Remote (Worldwide)",
+      "sponsorship": true,
+      "sponsorshipLabel": "✓ Worldwide Remote Contract",
+      "url": "https://job-boards.greenhouse.io/canonical/jobs/6448444",
+      "applyUrl": "https://job-boards.greenhouse.io/canonical/jobs/6448444#app",
+      "matchScore": 89,
+      "ats": "greenhouse",
+      "atsName": "Greenhouse",
+      "bgColor": "#F5F3FF",
+      "salary": {
+        "usd": "$40,000 - $55,000",
+        "inr": "₹18,00,000 - ₹26,00,000",
+        "eur": "€37,000 - €51,000",
+        "display": "₹18L - ₹26L · $40k - $55k"
+      },
+      "postedDate": "Active Now",
+      "department": "Technical Support & Linux Systems",
+      "status": "Ready to Apply",
+      "requirements": [
+        "Linux Systems Administration (Ubuntu)",
+        "Bash Scripting & Networking Fundamentals",
+        "Python Troubleshooting & Log Analysis",
+        "Virtualization & Container Diagnostics"
+      ]
     }
-],
+  ],
   applications: [
     {
-        "id": "app-ashby-1",
-        "company": "OpenAI",
-        "category": "startup",
-        "logo": "https://www.google.com/s2/favicons?domain=openai.com&sz=128",
-        "position": "Research Engineer - AI Systems & Scaling",
-        "reqId": "REQ-ASHBY-240d459b",
-        "ats": "Ashby",
-        "url": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b",
-        "applyUrl": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b/application",
-        "resumeStatus": "Tailored",
-        "coverStatus": "Generated",
-        "status": "Submitted",
-        "statusType": "submitted",
-        "appliedAt": "12m ago",
-        "executionTime": "31s",
-        "diff": [
-            {
-                "role": "Python Developer Intern · Mantarang Edtech (Tailored for OpenAI)",
-                "del": "Built backend services and database models for attendance tracking.",
-                "add": "Architected modular Python/Flask microservices managing 500+ daily users; certified in Generative AI and AI Ethics, optimizing async data ingest pipelines and enforcing 99.9% JWT security compliance."
-            }
-        ],
-        "receipt": {
-            "submittedFields": 19,
-            "confirmationNumber": "OPENAI-ASHBY-910248",
-            "applicationUrl": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b",
-            "answers": {
-                "Full Name": "Sameer Ali Khan",
-                "Email": "sammysameerkhan007@gmail.com",
-                "Phone": "+91-7382898751",
-                "Education": "M.Sc Computer Science (Osmania University, Expected 2026)",
-                "Work Authorization": "Eligible for Visa Sponsorship / Remote Global Hire",
-                "Target ATS Engine": "Ashby Native JSON Gateway",
-                "Direct Portal Link": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b"
-            }
+      "id": "app-ashby-1",
+      "company": "OpenAI",
+      "category": "startup",
+      "logo": "https://www.google.com/s2/favicons?domain=openai.com&sz=128",
+      "position": "Research Engineer - AI Systems & Scaling",
+      "reqId": "REQ-ASHBY-240d459b",
+      "ats": "Ashby",
+      "url": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b",
+      "applyUrl": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b/application",
+      "resumeStatus": "Tailored",
+      "coverStatus": "Generated",
+      "status": "Submitted",
+      "statusType": "submitted",
+      "appliedAt": "12m ago",
+      "executionTime": "31s",
+      "diff": [
+        {
+          "role": "Python Developer Intern · Mantarang Edtech (Tailored for OpenAI)",
+          "del": "Built backend services and database models for attendance tracking.",
+          "add": "Architected modular Python/Flask microservices managing 500+ daily users; certified in Generative AI and AI Ethics, optimizing async data ingest pipelines and enforcing 99.9% JWT security compliance."
         }
-    },
-    {
-        "id": "app-wd-1",
-        "company": "Autodesk",
-        "category": "product",
-        "logo": "https://www.google.com/s2/favicons?domain=autodesk.com&sz=128",
-        "position": "Software Architect - Cloud Platform Services",
-        "reqId": "REQ-WD-26WD94957",
-        "ats": "Workday",
-        "url": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1",
-        "applyUrl": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1/apply",
-        "resumeStatus": "Tailored",
-        "coverStatus": "Generated",
-        "status": "Submitted",
-        "statusType": "submitted",
-        "appliedAt": "45m ago",
-        "executionTime": "38s",
-        "diff": [
-            {
-                "role": "Full-Stack Developer · NGO Web App (Tailored for Autodesk)",
-                "del": "Developed responsive user interfaces and backend routes using React and Node.js.",
-                "add": "Engineered high-concurrency Node.js & Prisma ORM backends; built 25+ RESTful endpoints tested against Workday ATS parsing algorithms with 98/100 compliance."
-            }
-        ],
-        "receipt": {
-            "submittedFields": 22,
-            "confirmationNumber": "AUTODESK-WD-269495",
-            "applicationUrl": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1",
-            "answers": {
-                "Full Name": "Sameer Ali Khan",
-                "Email": "sammysameerkhan007@gmail.com",
-                "Target ATS Engine": "Workday CXS Cloud Gateway",
-                "Direct Portal Link": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1"
-            }
+      ],
+      "receipt": {
+        "submittedFields": 19,
+        "confirmationNumber": "OPENAI-ASHBY-910248",
+        "applicationUrl": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b",
+        "answers": {
+          "Full Name": "Sameer Ali Khan",
+          "Email": "sammysameerkhan007@gmail.com",
+          "Phone": "+91-7382898751",
+          "Education": "M.Sc Computer Science (Osmania University, Expected 2026)",
+          "Work Authorization": "Eligible for Visa Sponsorship / Remote Global Hire",
+          "Target ATS Engine": "Ashby Native JSON Gateway",
+          "Direct Portal Link": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b"
         }
+      }
     },
     {
-        "id": "app-gh-1",
-        "company": "GitLab",
-        "category": "product",
-        "logo": "https://www.google.com/s2/favicons?domain=gitlab.com&sz=128",
-        "position": "Backend Engineer (Python), AI Engineering: Agent Foundations",
-        "reqId": "REQ-GH-8704363002",
-        "ats": "Greenhouse",
-        "url": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002",
-        "applyUrl": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002#app",
-        "resumeStatus": "Tailored",
-        "coverStatus": "Generated",
-        "status": "Submitted",
-        "statusType": "submitted",
-        "appliedAt": "2 hours ago",
-        "executionTime": "34s",
-        "receipt": {
-            "submittedFields": 18,
-            "confirmationNumber": "GITLAB-GH-870436",
-            "applicationUrl": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002",
-            "answers": {
-                "Full Name": "Sameer Ali Khan",
-                "Email": "sammysameerkhan007@gmail.com",
-                "Target ATS Engine": "Greenhouse Official Board API",
-                "Direct Portal Link": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002"
-            }
+      "id": "app-wd-1",
+      "company": "Autodesk",
+      "category": "product",
+      "logo": "https://www.google.com/s2/favicons?domain=autodesk.com&sz=128",
+      "position": "Software Architect - Cloud Platform Services",
+      "reqId": "REQ-WD-26WD94957",
+      "ats": "Workday",
+      "url": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1",
+      "applyUrl": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1/apply",
+      "resumeStatus": "Tailored",
+      "coverStatus": "Generated",
+      "status": "Submitted",
+      "statusType": "submitted",
+      "appliedAt": "45m ago",
+      "executionTime": "38s",
+      "diff": [
+        {
+          "role": "Full-Stack Developer · NGO Web App (Tailored for Autodesk)",
+          "del": "Developed responsive user interfaces and backend routes using React and Node.js.",
+          "add": "Engineered high-concurrency Node.js & Prisma ORM backends; built 25+ RESTful endpoints tested against Workday ATS parsing algorithms with 98/100 compliance."
         }
+      ],
+      "receipt": {
+        "submittedFields": 22,
+        "confirmationNumber": "AUTODESK-WD-269495",
+        "applicationUrl": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1",
+        "answers": {
+          "Full Name": "Sameer Ali Khan",
+          "Email": "sammysameerkhan007@gmail.com",
+          "Target ATS Engine": "Workday CXS Cloud Gateway",
+          "Direct Portal Link": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1"
+        }
+      }
     },
     {
-        "id": "app-ashby-2",
-        "company": "Ramp",
-        "category": "startup",
-        "logo": "https://www.google.com/s2/favicons?domain=ramp.com&sz=128",
-        "position": "Security Engineer, Cloud Infrastructure",
-        "reqId": "REQ-ASHBY-34413f8d",
-        "ats": "Ashby",
-        "url": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245",
-        "applyUrl": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245/application",
-        "resumeStatus": "Ready",
-        "coverStatus": "Ready",
-        "status": "In review",
-        "statusType": "screening",
-        "appliedAt": "4 hours ago"
+      "id": "app-gh-1",
+      "company": "GitLab",
+      "category": "product",
+      "logo": "https://www.google.com/s2/favicons?domain=gitlab.com&sz=128",
+      "position": "Backend Engineer (Python), AI Engineering: Agent Foundations",
+      "reqId": "REQ-GH-8704363002",
+      "ats": "Greenhouse",
+      "url": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002",
+      "applyUrl": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002#app",
+      "resumeStatus": "Tailored",
+      "coverStatus": "Generated",
+      "status": "Submitted",
+      "statusType": "submitted",
+      "appliedAt": "2 hours ago",
+      "executionTime": "34s",
+      "receipt": {
+        "submittedFields": 18,
+        "confirmationNumber": "GITLAB-GH-870436",
+        "applicationUrl": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002",
+        "answers": {
+          "Full Name": "Sameer Ali Khan",
+          "Email": "sammysameerkhan007@gmail.com",
+          "Target ATS Engine": "Greenhouse Official Board API",
+          "Direct Portal Link": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002"
+        }
+      }
     },
     {
-        "id": "app-wd-2",
-        "company": "Target",
-        "category": "service",
-        "logo": "https://www.google.com/s2/favicons?domain=target.com&sz=128",
-        "position": "Sr Engineer - Agentic Data Platform",
-        "reqId": "REQ-WD-R0000444911",
-        "ats": "Workday",
-        "url": "https://target.wd5.myworkdayjobs.com/en-US/targetcareers/job/7000-Target-Pkwy-N-Brooklyn-ParkMN-55445-4301/Sr-Engineer---Agentic-Data-Platform_R0000444911",
-        "applyUrl": "https://target.wd5.myworkdayjobs.com/en-US/targetcareers/job/7000-Target-Pkwy-N-Brooklyn-ParkMN-55445-4301/Sr-Engineer---Agentic-Data-Platform_R0000444911/apply",
-        "resumeStatus": "Default",
-        "coverStatus": "Off",
-        "status": "Queued",
-        "statusType": "queued",
-        "appliedAt": "5 hours ago"
+      "id": "app-ashby-2",
+      "company": "Ramp",
+      "category": "startup",
+      "logo": "https://www.google.com/s2/favicons?domain=ramp.com&sz=128",
+      "position": "Security Engineer, Cloud Infrastructure",
+      "reqId": "REQ-ASHBY-34413f8d",
+      "ats": "Ashby",
+      "url": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245",
+      "applyUrl": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245/application",
+      "resumeStatus": "Ready",
+      "coverStatus": "Ready",
+      "status": "In review",
+      "statusType": "screening",
+      "appliedAt": "4 hours ago"
+    },
+    {
+      "id": "app-wd-2",
+      "company": "Target",
+      "category": "service",
+      "logo": "https://www.google.com/s2/favicons?domain=target.com&sz=128",
+      "position": "Sr Engineer - Agentic Data Platform",
+      "reqId": "REQ-WD-R0000444911",
+      "ats": "Workday",
+      "url": "https://target.wd5.myworkdayjobs.com/en-US/targetcareers/job/7000-Target-Pkwy-N-Brooklyn-ParkMN-55445-4301/Sr-Engineer---Agentic-Data-Platform_R0000444911",
+      "applyUrl": "https://target.wd5.myworkdayjobs.com/en-US/targetcareers/job/7000-Target-Pkwy-N-Brooklyn-ParkMN-55445-4301/Sr-Engineer---Agentic-Data-Platform_R0000444911/apply",
+      "resumeStatus": "Default",
+      "coverStatus": "Off",
+      "status": "Queued",
+      "statusType": "queued",
+      "appliedAt": "5 hours ago"
     }
-],
+  ],
   kanbanColumns: [
     {
-        "id": "col-applied",
-        "title": "Applied",
-        "count": 52,
-        "items": [
-            {
-                "company": "OpenAI",
-                "role": "Research Engineer - AI Systems",
-                "ats": "Ashby",
-                "date": "12m ago",
-                "link": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b"
-            },
-            {
-                "company": "Autodesk",
-                "role": "Software Architect - Cloud",
-                "ats": "Workday",
-                "date": "45m ago",
-                "link": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1"
-            },
-            {
-                "company": "GitLab",
-                "role": "Backend Engineer (Python), AI Engineering",
-                "ats": "Greenhouse",
-                "date": "2h ago",
-                "link": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002"
-            }
-        ]
+      "id": "col-applied",
+      "title": "Applied",
+      "count": 52,
+      "items": [
+        {
+          "company": "OpenAI",
+          "role": "Research Engineer - AI Systems",
+          "ats": "Ashby",
+          "date": "12m ago",
+          "link": "https://jobs.ashbyhq.com/openai/240d459b-696d-43eb-8497-fab3e56ecd9b"
+        },
+        {
+          "company": "Autodesk",
+          "role": "Software Architect - Cloud",
+          "ats": "Workday",
+          "date": "45m ago",
+          "link": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext/job/EMEA---United-Kingdom---OffsiteHome/Software-Architect_26WD94957-1"
+        },
+        {
+          "company": "GitLab",
+          "role": "Backend Engineer (Python), AI Engineering",
+          "ats": "Greenhouse",
+          "date": "2h ago",
+          "link": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002"
+        }
+      ]
     },
     {
-        "id": "col-viewed",
-        "title": "Viewed / Screening",
-        "count": 28,
-        "items": [
-            {
-                "company": "Ramp",
-                "role": "Security Engineer, Cloud",
-                "ats": "Ashby",
-                "date": "4h ago",
-                "link": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245"
-            },
-            {
-                "company": "PayPal",
-                "role": "Software Engineer - Platform",
-                "ats": "Workday",
-                "date": "1d ago",
-                "link": "https://paypal.wd1.myworkdayjobs.com/en-US/jobs/job/Central-Singapore-Singapore/Software-Engineer_R0137876"
-            },
-            {
-                "company": "Canonical",
-                "role": "Cloud Field Engineer",
-                "ats": "Greenhouse",
-                "date": "1d ago",
-                "link": "https://job-boards.greenhouse.io/canonical/jobs/6132532"
-            }
-        ]
+      "id": "col-viewed",
+      "title": "Viewed / Screening",
+      "count": 28,
+      "items": [
+        {
+          "company": "Ramp",
+          "role": "Security Engineer, Cloud",
+          "ats": "Ashby",
+          "date": "4h ago",
+          "link": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245"
+        },
+        {
+          "company": "PayPal",
+          "role": "Software Engineer - Platform",
+          "ats": "Workday",
+          "date": "1d ago",
+          "link": "https://paypal.wd1.myworkdayjobs.com/en-US/jobs/job/Central-Singapore-Singapore/Software-Engineer_R0137876"
+        },
+        {
+          "company": "Canonical",
+          "role": "Cloud Field Engineer",
+          "ats": "Greenhouse",
+          "date": "1d ago",
+          "link": "https://job-boards.greenhouse.io/canonical/jobs/6132532"
+        }
+      ]
     },
     {
-        "id": "col-replied",
-        "title": "Recruiter Replied",
-        "count": 11,
-        "items": [
-            {
-                "company": "Linear",
-                "role": "Staff Fullstack Engineer",
-                "ats": "Ashby",
-                "date": "Yesterday",
-                "badge": "Architecture Challenge",
-                "link": "https://jobs.ashbyhq.com/linear/d3bc1ced-3ce4-4086-a050-555055dbb1ff"
-            },
-            {
-                "company": "Twilio",
-                "role": "Applications Engineer 2",
-                "ats": "Greenhouse",
-                "date": "2d ago",
-                "badge": "Technical Screen",
-                "link": "https://job-boards.greenhouse.io/twilio/jobs/7781659"
-            }
-        ]
+      "id": "col-replied",
+      "title": "Recruiter Replied",
+      "count": 11,
+      "items": [
+        {
+          "company": "Linear",
+          "role": "Staff Fullstack Engineer",
+          "ats": "Ashby",
+          "date": "Yesterday",
+          "badge": "Architecture Challenge",
+          "link": "https://jobs.ashbyhq.com/linear/d3bc1ced-3ce4-4086-a050-555055dbb1ff"
+        },
+        {
+          "company": "Twilio",
+          "role": "Applications Engineer 2",
+          "ats": "Greenhouse",
+          "date": "2d ago",
+          "badge": "Technical Screen",
+          "link": "https://job-boards.greenhouse.io/twilio/jobs/7781659"
+        }
+      ]
     },
     {
-        "id": "col-interview",
-        "title": "Interview Scheduled",
-        "count": 5,
-        "items": [
-            {
-                "company": "GitLab",
-                "role": "AI Engineering Foundations",
-                "ats": "Greenhouse",
-                "date": "Thursday 2:30 PM IST",
-                "badge": "Round 1 System Video",
-                "link": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002"
-            },
-            {
-                "company": "Reddit",
-                "role": "Consumer Web Frontend",
-                "ats": "Greenhouse",
-                "date": "Friday 6:00 PM IST",
-                "badge": "Tech Architecture",
-                "link": "https://job-boards.greenhouse.io/reddit/jobs/8147559"
-            }
-        ]
+      "id": "col-interview",
+      "title": "Interview Scheduled",
+      "count": 5,
+      "items": [
+        {
+          "company": "GitLab",
+          "role": "AI Engineering Foundations",
+          "ats": "Greenhouse",
+          "date": "Thursday 2:30 PM IST",
+          "badge": "Round 1 System Video",
+          "link": "https://job-boards.greenhouse.io/gitlab/jobs/8704363002"
+        },
+        {
+          "company": "Reddit",
+          "role": "Consumer Web Frontend",
+          "ats": "Greenhouse",
+          "date": "Friday 6:00 PM IST",
+          "badge": "Tech Architecture",
+          "link": "https://job-boards.greenhouse.io/reddit/jobs/8147559"
+        }
+      ]
     },
     {
-        "id": "col-offers",
-        "title": "Offers",
-        "count": 2,
-        "items": [
-            {
-                "company": "Canonical",
-                "role": "Cloud Engineer",
-                "ats": "Greenhouse",
-                "date": "Valid until Nov 15",
-                "badge": "Offer Letter Ready",
-                "link": "https://job-boards.greenhouse.io/canonical/jobs/6132532"
-            },
-            {
-                "company": "Intel",
-                "role": "Software Systems Engineer",
-                "ats": "Workday",
-                "date": "Valid until Nov 20",
-                "badge": "Offer Negotiation",
-                "link": "https://intel.wd1.myworkdayjobs.com/en-US/External/job/US-California-Folsom/Software-Development-Engineer_JR0282484"
-            }
-        ]
+      "id": "col-offers",
+      "title": "Offers",
+      "count": 2,
+      "items": [
+        {
+          "company": "Canonical",
+          "role": "Cloud Engineer",
+          "ats": "Greenhouse",
+          "date": "Valid until Nov 15",
+          "badge": "Offer Letter Ready",
+          "link": "https://job-boards.greenhouse.io/canonical/jobs/6132532"
+        },
+        {
+          "company": "Intel",
+          "role": "Software Systems Engineer",
+          "ats": "Workday",
+          "date": "Valid until Nov 20",
+          "badge": "Offer Negotiation",
+          "link": "https://intel.wd1.myworkdayjobs.com/en-US/External/job/US-California-Folsom/Software-Development-Engineer_JR0282484"
+        }
+      ]
     }
-],
+  ],
   directories: { total: 1358, product: 500, startups: 434, service: 424 },
   selectedCategory: "all",
   selectedAts: "all",
@@ -872,10 +872,10 @@ function renderMatches() {
     if (state.searchQuery) {
       const q = state.searchQuery;
       const match = job.title.toLowerCase().includes(q) ||
-                    job.company.toLowerCase().includes(q) ||
-                    (job.location && job.location.toLowerCase().includes(q)) ||
-                    (job.department && job.department.toLowerCase().includes(q)) ||
-                    (job.requirements && job.requirements.some(r => r.toLowerCase().includes(q)));
+        job.company.toLowerCase().includes(q) ||
+        (job.location && job.location.toLowerCase().includes(q)) ||
+        (job.department && job.department.toLowerCase().includes(q)) ||
+        (job.requirements && job.requirements.some(r => r.toLowerCase().includes(q)));
       if (!match) return false;
     }
     return true;
@@ -892,10 +892,10 @@ function renderMatches() {
     `;
     return;
   }
-  
+
   container.innerHTML = filteredJobs.map(job => {
     const salaryDisp = getFormattedSalary(job.salary, state.selectedCurrency);
-    
+
     // Category Badge
     let catBadge = '🏢 Product Giant';
     if (job.category === 'startup') catBadge = '🦄 High-Growth Startup';
@@ -1054,7 +1054,7 @@ async function triggerApply(jobId) {
 
       const creditsEl = document.getElementById('user-credits-val');
       if (creditsEl) creditsEl.innerText = `${state.user.credits} credits`;
-      
+
       const quotaEl = document.getElementById('quota-val');
       if (quotaEl) quotaEl.innerText = `${state.subscription.appsUsed} / ${state.subscription.appsLimit}`;
 
@@ -1461,16 +1461,16 @@ function renderSectionsList(ws) {
       </div>
 
       ${sec.items.map(item => {
-        const isAccepted = ws.decisions[item.itemId] !== false;
-        const customText = ws.customEdits[item.itemId];
-        const isEditing = ws.editingItemId === item.itemId;
-        const isEvidenceOpen = Boolean(ws.expandedEvidence[item.itemId]);
+    const isAccepted = ws.decisions[item.itemId] !== false;
+    const customText = ws.customEdits[item.itemId];
+    const isEditing = ws.editingItemId === item.itemId;
+    const isEvidenceOpen = Boolean(ws.expandedEvidence[item.itemId]);
 
-        let cardClass = 'ws-bullet-card';
-        if (!isAccepted) cardClass += ' is-rejected';
-        if (customText) cardClass += ' is-edited';
+    let cardClass = 'ws-bullet-card';
+    if (!isAccepted) cardClass += ' is-rejected';
+    if (customText) cardClass += ' is-edited';
 
-        return `
+    return `
           <div class="${cardClass}" id="card-${item.itemId}">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:8px;">
               <div style="display:flex; align-items:center; gap:6px;">
@@ -1543,7 +1543,7 @@ function renderSectionsList(ws) {
             ` : ''}
           </div>
         `;
-      }).join('')}
+  }).join('')}
     </div>
   `).join('');
 }
@@ -1778,7 +1778,7 @@ function saveInlineEdit(itemId) {
   const verifiedSkills = (state.user.skills || []).map(s => s.toLowerCase());
   const words = text.toLowerCase().split(/[\s,.;:()]+/);
   const ungroundedCheck = ['solidity', 'blockchain', 'ethereum', 'web3', 'rust', 'c++'];
-  
+
   for (const ug of ungroundedCheck) {
     if (words.includes(ug) && !verifiedSkills.includes(ug)) {
       alert(`[Rolevia Anti-Hallucination Guard]\n\nYour edit introduces '${ug}' which is not in your verified FactStore. All custom edits must be grounded in verified candidate facts.`);
@@ -1903,7 +1903,7 @@ function openReceiptModal(app) {
 
   document.getElementById('receipt-modal-title').innerText = `Verified ATS Submission Receipt · ${app.company}`;
   const body = document.getElementById('receipt-modal-body');
-  
+
   body.innerHTML = `
     <div class="clay-card-flat" style="background:#121820; color:#fff; padding:24px; border-radius:20px;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;">
@@ -2471,7 +2471,7 @@ async function confirmLogout() {
   closeModal('logout-modal');
   try {
     await fetch('/api/v1/auth/logout', { method: 'POST' });
-  } catch (e) {}
+  } catch (e) { }
 
   state.autoPilot.active = false;
   const statusPill = document.getElementById('autopilot-status-pill');
