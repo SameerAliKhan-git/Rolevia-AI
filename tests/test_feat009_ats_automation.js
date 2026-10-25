@@ -191,18 +191,20 @@ async function testFeat009AtsAutomation() {
 
   assert.strictEqual(stagingResult.success, true);
   assert.strictEqual(stagingResult.mode, 'DRY_RUN');
-  assert.strictEqual(stagingResult.status, atsAutomation.APPLICATION_STATES.SUBMITTED_CONFIRMED);
-  assert.ok(stagingResult.receipt.receiptHash, 'Receipt hash must be generated');
-  assert.ok(stagingResult.receipt.confirmationNumber, 'Confirmation number must be recorded');
-  assert.strictEqual(stagingResult.receipt.mode, 'DRY_RUN');
+  assert.strictEqual(stagingResult.status, atsAutomation.APPLICATION_STATES.READY_FOR_SUBMISSION);
+  assert.strictEqual(stagingResult.receipt.type, atsAutomation.RECEIPT_TYPES.DRY_RUN_DIAGNOSTIC);
+  assert.strictEqual(stagingResult.receipt.confirmationNumber, null, 'Zero synthetic confirmation numbers on dry runs');
+  assert.strictEqual(stagingResult.receipt.employerConfirmed, false, 'Dry run is not an employer acknowledgment');
+  assert.ok(stagingResult.receipt.receiptHash, 'Diagnostic receipt hash must be generated');
 
-  // Verify credit was held and committed
+  // Verify dry run consumed ZERO credits (no hold, no commit)
+  const dryRunUser = await prisma.user.findUnique({ where: { id: testUser.id } });
+  assert.strictEqual(dryRunUser.credits, 20, 'Dry run must not deduct candidate credits');
   const journalEntries = await prisma.creditJournal.findMany({
     where: { userId: testUser.id }
   });
-  assert(journalEntries.some(j => j.entryType === 'APPLICATION_HOLD'));
-  assert(journalEntries.some(j => j.entryType === 'APPLICATION_COMMIT'));
-  console.log('✓ [DRY RUN] Staging Runner: Form filled, screenshot captured, confirmation extracted, credit journal synchronized');
+  assert(!journalEntries.some(j => j.entryType === 'APPLICATION_COMMIT'), 'Zero credits committed on dry run');
+  console.log('✓ [DRY RUN] Staging Runner: Form verified, screenshot captured, zero credits debited, diagnostic receipt typed');
   testsPassed++;
 
   // 7. Human Escalation Path & Credit Refund (NEEDS_USER_ACTION)

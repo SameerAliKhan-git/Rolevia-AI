@@ -16,6 +16,8 @@ const testFeat008SecurityAndUX = require('./test_feat008_security_ux');
 const testFeat016ExperienceEngine = require('./test_feat016_experience_engine');
 const testFeat009AtsAutomation = require('./test_feat009_ats_automation');
 const testFeat010ApplicationTracker = require('./test_feat010_application_tracker');
+const testFeat009Audit = require('./test_feat009_feat010_audit');
+const testTrackerUi = require('./verify_tracker_ui');
 const prisma = require('../backend/db');
 
 async function runAllSuites() {
@@ -42,6 +44,8 @@ async function runAllSuites() {
     results.push(await testFeat016ExperienceEngine());
     results.push(await testFeat009AtsAutomation());
     results.push(await testFeat010ApplicationTracker());
+    results.push(await testFeat009Audit());
+    results.push(await testTrackerUi());
     results.push(await testE2EUserJourney());
     results.push(await testNegativePaths());
 

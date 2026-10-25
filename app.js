@@ -20,7 +20,7 @@ const state = {
     active: true,
     dailyVelocity: 35,
     schedule: '09:00 - 18:00 EST',
-    proxyPool: 'US Residential (Workday Clean IP)',
+    proxyPool: 'Direct Candidate Dispatch (Conservative Rate Limits)',
     minSalary: 120000,
     roleFilter: 'Full Stack / Python / Backend',
     autoPilotInterval: null
@@ -2611,7 +2611,7 @@ function renderProfile() {
           </div>
           <div style="font-size:12px; color:#525d6d; line-height:1.5; margin-bottom:16px;">
             Connected session: <strong>${u.email}</strong><br>
-            Autonomous Cloud Runner: <strong>Active (US Residential IP Proxy)</strong>
+            Autonomous Cloud Runner: <strong>Active (Candidate-Authorized & Rate-Limited)</strong>
           </div>
           
           <button class="clay-btn clay-btn-danger" style="width:100%; padding:10px 18px; font-size:13px; display:inline-flex; align-items:center; justify-content:center; gap:8px;" onclick="promptLogout()">
@@ -2874,7 +2874,7 @@ function renderBilling() {
           <span class="clay-badge clay-badge-orange" style="font-size:10px; margin-bottom:6px;">MAX VELOCITY</span>
           <h3 style="font-size:19px; font-weight:800; color:#171d26;">Power Auto-Pilot Plan</h3>
           <p style="font-size:13px; color:#525d6d; margin-top:6px; line-height:1.5;">
-            Unlock 4,500 monthly applications, 150/day velocity, and dedicated US residential IP clean proxies to maximize interview frequency.
+            Unlock 4,500 monthly applications, 150/day velocity, and dedicated conservative rate-limited dispatch queues to maximize interview frequency.
           </p>
 
           <div style="margin-top:20px; padding:16px; background:#ebe6dc; border-radius:14px;">
@@ -2948,7 +2948,7 @@ function renderBilling() {
           <div style="margin-top:16px; display:flex; flex-direction:column; gap:8px; font-size:12.5px; color:#525d6d;">
             <div>✓ <strong>4,500 applications</strong> per month</div>
             <div>✓ 150 applications / day max velocity</div>
-            <div>✓ Dedicated residential clean IP proxy pool</div>
+            <div>✓ Dedicated candidate-authorized queue</div>
             <div>✓ Priority cloud execution worker queue</div>
             <div>✓ Unlimited tailored cover letters</div>
           </div>
@@ -3076,12 +3076,12 @@ function renderSettings() {
         </div>
 
         <div class="clay-inset-well" style="padding:18px;">
-          <div style="font-weight:800; font-size:13.5px; color:#171d26;">Cloud Proxy Route</div>
-          <div style="font-size:12px; color:#525d6d; margin-top:2px;">Authorized IP pool ensuring reliable portal connection</div>
+          <div style="font-weight:800; font-size:13.5px; color:#171d26;">Cloud Dispatch Mode</div>
+          <div style="font-size:12px; color:#525d6d; margin-top:2px;">Execution profile ensuring compliant rate-limited portal submission</div>
           <select class="clay-input" style="margin-top:10px;">
-            <option>US Residential High-Trust (Recommended)</option>
-            <option>EU Corporate Dedicated IP</option>
-            <option>Global Distributed Edge (Standard Automation)</option>
+            <option>Direct Candidate Dispatch (Conservative Rate Limits - Recommended)</option>
+            <option>Human-in-the-Loop Assist Mode (Prompt on Attestations)</option>
+            <option>Single Requisition Focused Mode (Strict Verification)</option>
           </select>
         </div>
       </div>

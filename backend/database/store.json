@@ -894,5 +894,12 @@
     "product": 500,
     "startups": 434,
     "service": 424
+  },
+  "userFilterPreferences": {
+    "tenant-a:user-tenant-a": {
+      "experienceRange": "0-2",
+      "eligibilityMode": "eligible_only",
+      "updatedAt": "2026-10-25T17:17:31.861Z"
+    }
   }
 }

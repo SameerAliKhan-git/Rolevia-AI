@@ -188,6 +188,7 @@ model Application {
   diffData            String?            // JSON structured diff
   receiptData         String?            // JSON structured submission proof
   approvalSignature   String?            // Candidate HMAC authorization signature
+  approvalPayload     String?            // Structured candidate authorization binding (JSON)
   approvalTimestamp   DateTime?          // Timestamp when candidate authorized submission
   approvedContentHash String?            // Hash of approved documents
   executionAttempts   Int                @default(0)

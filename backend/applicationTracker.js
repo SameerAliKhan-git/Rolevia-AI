@@ -312,6 +312,7 @@ async function resolveCandidateAction({ applicationId, userId, tenantId, resolve
 
 /**
  * Retrieve Cryptographic Verified Submission Receipt
+ * Invariant: NEVER represents dry-run artifacts or unconfirmed submissions as employer acknowledgment.
  */
 async function getVerifiedReceipt({ applicationId, userId, tenantId }) {
   const application = await prisma.application.findUnique({
@@ -334,20 +335,31 @@ async function getVerifiedReceipt({ applicationId, userId, tenantId }) {
     } catch (e) {}
   }
 
-  if (!receiptData && application.status === atsAutomation.APPLICATION_STATES.SUBMITTED_CONFIRMED) {
-    // Generate authoritative fallback receipt
-    const confNumber = application.confirmationNumber || `CONF-${application.id.slice(0, 8).toUpperCase()}`;
+  // Invariant check: Reject dry-run diagnostic artifacts
+  if (receiptData && (receiptData.mode === 'DRY_RUN' || receiptData.type === atsAutomation.RECEIPT_TYPES.DRY_RUN_DIAGNOSTIC || receiptData.dryRun === true)) {
+    throw new Error('NOT_AN_EMPLOYER_RECEIPT: Application was executed as a dry-run diagnostic. No employer receipt exists. Request diagnostic proof instead.');
+  }
+
+  if (application.status !== atsAutomation.APPLICATION_STATES.SUBMITTED_CONFIRMED) {
+    throw new Error(`NO_SUBMISSION_RECEIPT: No verified submission receipt exists. Application has not been confirmed by employer ATS. Current status: ${application.status}`);
+  }
+
+  if (!receiptData) {
+    // Generate authoritative fallback receipt if confirmed but raw JSON missing
+    const confNumber = application.confirmationNumber || null;
     const timestamp = application.updatedAt ? application.updatedAt.toISOString() : new Date().toISOString();
     const hash = atsAutomation.generateReceiptHash(
       application.id,
       application.userId,
       application.job ? application.job.requisitionHash : application.id,
-      confNumber,
+      confNumber || 'EMPLOYER_ACKNOWLEDGED',
       timestamp
     );
 
     receiptData = {
+      type: atsAutomation.RECEIPT_TYPES.EMPLOYER_CONFIRMED,
       verified: true,
+      employerConfirmed: true,
       receiptHash: hash,
       confirmationNumber: confNumber,
       timestamp,
@@ -360,8 +372,38 @@ async function getVerifiedReceipt({ applicationId, userId, tenantId }) {
     };
   }
 
-  if (!receiptData) {
-    throw new Error('No verified submission receipt available for this application');
+  return {
+    applicationId: application.id,
+    company: application.company,
+    position: application.position,
+    status: application.status,
+    stage: application.stage,
+    receipt: receiptData
+  };
+}
+
+/**
+ * Retrieve Staging Diagnostic Proof (Dry-Run Artifacts)
+ */
+async function getDiagnosticProof({ applicationId, userId, tenantId }) {
+  const application = await prisma.application.findUnique({
+    where: { id: applicationId },
+    include: { job: true, user: true }
+  });
+
+  if (!application) {
+    throw new Error('Application not found');
+  }
+
+  if (application.userId !== userId || application.tenantId !== tenantId) {
+    throw new Error('Forbidden: Cross-tenant diagnostic access');
+  }
+
+  let receiptData = null;
+  if (application.receiptData) {
+    try {
+      receiptData = typeof application.receiptData === 'object' ? application.receiptData : JSON.parse(application.receiptData);
+    } catch (e) {}
   }
 
   return {
@@ -370,7 +412,12 @@ async function getVerifiedReceipt({ applicationId, userId, tenantId }) {
     position: application.position,
     status: application.status,
     stage: application.stage,
-    receipt: receiptData
+    diagnostic: receiptData || {
+      type: atsAutomation.RECEIPT_TYPES.DRY_RUN_DIAGNOSTIC,
+      mode: 'DRY_RUN',
+      employerConfirmed: false,
+      screenshotArtifact: application.submissionEvidence
+    }
   };
 }
 
@@ -440,5 +487,6 @@ module.exports = {
   createApplication,
   updateApplicationStage,
   resolveCandidateAction,
-  getVerifiedReceipt
+  getVerifiedReceipt,
+  getDiagnosticProof
 };

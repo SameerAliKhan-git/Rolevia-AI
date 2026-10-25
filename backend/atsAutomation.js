@@ -32,12 +32,20 @@ const APPLICATION_STATES = {
   SKIPPED: 'SKIPPED'
 };
 
+// Strict Receipt Types Taxonomy per Architectural Requirements
+const RECEIPT_TYPES = {
+  DRY_RUN_DIAGNOSTIC: 'DRY_RUN_DIAGNOSTIC',
+  FORM_COMPLETION_EVIDENCE: 'FORM_COMPLETION_EVIDENCE',
+  SUBMISSION_ATTEMPT: 'SUBMISSION_ATTEMPT',
+  EMPLOYER_CONFIRMED: 'EMPLOYER_CONFIRMED'
+};
+
 // Valid Forward State Transitions Matrix
 const VALID_TRANSITIONS = {
-  [APPLICATION_STATES.DRAFT]: [APPLICATION_STATES.OPTIMIZING, APPLICATION_STATES.SKIPPED],
+  [APPLICATION_STATES.DRAFT]: [APPLICATION_STATES.OPTIMIZING, APPLICATION_STATES.RUNNING_PRE_SUBMIT, APPLICATION_STATES.SKIPPED],
   [APPLICATION_STATES.OPTIMIZING]: [APPLICATION_STATES.PENDING_REVIEW, APPLICATION_STATES.FAILED_CONFIRMED],
   [APPLICATION_STATES.PENDING_REVIEW]: [APPLICATION_STATES.APPROVED, APPLICATION_STATES.DRAFT, APPLICATION_STATES.SKIPPED],
-  [APPLICATION_STATES.APPROVED]: [APPLICATION_STATES.QUEUED_RESERVED, APPLICATION_STATES.DRAFT, APPLICATION_STATES.FAILED_CONFIRMED],
+  [APPLICATION_STATES.APPROVED]: [APPLICATION_STATES.QUEUED_RESERVED, APPLICATION_STATES.RUNNING_PRE_SUBMIT, APPLICATION_STATES.DRAFT, APPLICATION_STATES.FAILED_CONFIRMED],
   [APPLICATION_STATES.QUEUED_RESERVED]: [APPLICATION_STATES.RUNNING_PRE_SUBMIT, APPLICATION_STATES.FAILED_CONFIRMED],
   [APPLICATION_STATES.RUNNING_PRE_SUBMIT]: [
     APPLICATION_STATES.READY_FOR_SUBMISSION,
@@ -52,8 +60,9 @@ const VALID_TRANSITIONS = {
     APPLICATION_STATES.SKIPPED
   ],
   [APPLICATION_STATES.READY_FOR_SUBMISSION]: [
+    APPLICATION_STATES.QUEUED_RESERVED,
+    APPLICATION_STATES.RUNNING_PRE_SUBMIT,
     APPLICATION_STATES.SUBMISSION_IN_FLIGHT,
-    APPLICATION_STATES.SUBMITTED_CONFIRMED, // In DRY_RUN mode, verified staging completes
     APPLICATION_STATES.FAILED_CONFIRMED
   ],
   [APPLICATION_STATES.SUBMISSION_IN_FLIGHT]: [
@@ -119,15 +128,15 @@ function detectAtsPlatform(targetUrl = '', htmlContent = '') {
   const url = (targetUrl || '').toLowerCase();
   const html = (htmlContent || '').toLowerCase();
 
-  if (url.includes('boards.greenhouse.io') || url.includes('api.greenhouse.io') || url.includes('gh_src') || html.includes('id="application_form"') || html.includes('greenhouse-portal')) {
+  if (url.includes('boards.greenhouse.io') || url.includes('api.greenhouse.io') || url.includes('greenhouse') || url.includes('gh_src') || html.includes('id="application_form"') || html.includes('greenhouse-portal')) {
     return { ats: 'greenhouse', name: 'Greenhouse', supported: true, adapter: 'GreenhouseAdapter' };
   }
 
-  if (url.includes('jobs.ashbyhq.com') || url.includes('ashbyhq.com') || html.includes('ashby-application-form') || html.includes('_ashby_')) {
+  if (url.includes('jobs.ashbyhq.com') || url.includes('ashbyhq.com') || url.includes('ashby') || html.includes('ashby-application-form') || html.includes('_ashby_')) {
     return { ats: 'ashby', name: 'Ashby', supported: true, adapter: 'AshbyAdapter' };
   }
 
-  if (url.includes('jobs.lever.co') || url.includes('lever.co') || html.includes('class="lever-form"') || html.includes('lever-jobs-form')) {
+  if (url.includes('jobs.lever.co') || url.includes('lever.co') || url.includes('lever') || html.includes('class="lever-form"') || html.includes('lever-jobs-form')) {
     return { ats: 'lever', name: 'Lever', supported: true, adapter: 'LeverAdapter' };
   }
 
@@ -145,42 +154,147 @@ function detectAtsPlatform(targetUrl = '', htmlContent = '') {
 }
 
 /**
- * Candidate Authorization Gate
- * Cryptographically verifies candidate's approval signature before any application dispatch
+ * Candidate Submission Authorization Generator
+ * Explicitly binds candidate consent to authenticated user, tenant, application,
+ * employer requisition, approved document version, SHA-256 document content hash, and timestamp.
  */
-function verifySubmissionAuthorization(application, candidateSecret = 'rolevia_ai_super_secret_jwt_key_2026_production_ready') {
+function createSubmissionAuthorization({
+  userId,
+  tenantId,
+  applicationId,
+  requisitionHash,
+  documentVersion = 'v1.0.0',
+  documentContentHash,
+  consentTimestamp = new Date().toISOString(),
+  expiresInDays = 7,
+  candidateSecret = process.env.JWT_SECRET || 'rolevia_ai_super_secret_jwt_key_2026_production_ready'
+}) {
+  if (!userId || !tenantId || !applicationId) {
+    throw new Error('userId, tenantId, and applicationId required for submission authorization');
+  }
+  if (!requisitionHash) {
+    throw new Error('requisitionHash required to bind authorization to specific employer job');
+  }
+  if (!documentContentHash) {
+    throw new Error('documentContentHash required to bind authorization to approved document');
+  }
+
+  const consentDate = new Date(consentTimestamp);
+  const expiresAt = new Date(consentDate.getTime() + expiresInDays * 24 * 60 * 60 * 1000).toISOString();
+  const payload = `${userId}|${tenantId}|${applicationId}|${requisitionHash}|${documentVersion}|${documentContentHash}|${consentTimestamp}|${expiresAt}`;
+  const signature = crypto.createHmac('sha256', candidateSecret).update(payload).digest('hex');
+
+  return {
+    signature,
+    payload,
+    consentTimestamp,
+    expiresAt,
+    documentVersion,
+    documentContentHash,
+    requisitionHash,
+    revoked: false
+  };
+}
+
+/**
+ * Candidate Authorization Gate
+ * Cryptographically verifies candidate's explicit approval signature before application dispatch.
+ * Invariants:
+ * 1. Bound to user ID, tenant ID, application ID, employer requisition, doc version, SHA-256 hash.
+ * 2. Editing document or changing target job invalidates authorization.
+ * 3. Expired or revoked authorization is rejected.
+ */
+function verifySubmissionAuthorization(application, candidateSecret = 'rolevia_ai_super_secret_jwt_key_2026_production_ready', expectedRequisitionHash = null, expectedDocContentHash = null) {
   if (!application) {
     throw new Error('Application record required for authorization check');
   }
 
   if (!application.approvalSignature) {
-    return { authorized: false, reason: 'MISSING_AUTHORIZATION: Candidate has not signed and approved this application' };
+    return { authorized: false, reason: 'MISSING_AUTHORIZATION: Candidate has not signed and approved this application for submission' };
   }
 
   if (!application.approvedContentHash) {
     return { authorized: false, reason: 'MISSING_CONTENT_HASH: Approved document content hash missing' };
   }
 
-  // Verify HMAC: HMAC-SHA256(candidateId + ":" + tenantId + ":" + applicationId + ":" + approvedContentHash, secret)
-  const expectedPayload = `${application.userId}:${application.tenantId}:${application.id}:${application.approvedContentHash}`;
-  const expectedSig = crypto.createHmac('sha256', candidateSecret).update(expectedPayload).digest('hex');
-
-  const sigBuf = Buffer.from(application.approvalSignature, 'utf8');
-  const expBuf = Buffer.from(expectedSig, 'utf8');
-
-  if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) {
-    return { authorized: false, reason: 'INVALID_SIGNATURE: Cryptographic authorization signature verification failed (tampered or forged)' };
+  // Parse structured authorization payload if present
+  let authMeta = null;
+  if (application.approvalPayload) {
+    try {
+      authMeta = typeof application.approvalPayload === 'object' ? application.approvalPayload : JSON.parse(application.approvalPayload);
+    } catch (e) {}
   }
 
-  // Check freshness (approvals older than 7 days require re-confirmation)
-  if (application.approvalTimestamp) {
-    const ageMs = Date.now() - new Date(application.approvalTimestamp).getTime();
-    if (ageMs > 7 * 24 * 60 * 60 * 1000) {
-      return { authorized: false, reason: 'EXPIRED_AUTHORIZATION: Candidate approval has expired (older than 7 days)' };
+  // Invariant: Revocation check
+  if (authMeta && authMeta.revoked === true) {
+    return { authorized: false, reason: 'REVOKED_AUTHORIZATION: Candidate authorization has been revoked (e.g. document edited or requisition changed)' };
+  }
+
+  // Invariant: Expiration check (default 7 days)
+  const consentTime = authMeta?.consentTimestamp || (application.approvalTimestamp ? new Date(application.approvalTimestamp).toISOString() : null);
+  const expiresAt = authMeta?.expiresAt || (consentTime ? new Date(new Date(consentTime).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString() : null);
+  if (expiresAt && Date.now() > new Date(expiresAt).getTime()) {
+    return { authorized: false, reason: 'EXPIRED_AUTHORIZATION: Candidate approval has expired' };
+  }
+
+  // Invariant: Requisition Binding check (cannot submit to different job than authorized)
+  const targetReqHash = expectedRequisitionHash || (application.job && application.job.requisitionHash) || application.jobId || application.id;
+  if (authMeta && authMeta.requisitionHash && targetReqHash && authMeta.requisitionHash !== targetReqHash) {
+    return { authorized: false, reason: `REQUISITION_MISMATCH: Bound requisition (${authMeta.requisitionHash}) does not match current target job (${targetReqHash})` };
+  }
+
+  // Invariant: Document Content Hash Binding check (cannot submit modified document without re-authorization)
+  const targetContentHash = expectedDocContentHash || application.approvedContentHash;
+  if (authMeta && authMeta.documentContentHash && targetContentHash && authMeta.documentContentHash !== targetContentHash) {
+    return { authorized: false, reason: 'DOCUMENT_HASH_MISMATCH: Document content has been modified since candidate authorization' };
+  }
+
+  // Verify HMAC signature across supported payload formats
+  let signatureValid = false;
+
+  // Format A: Bound structured payload (userId|tenantId|applicationId|requisitionHash|docVersion|docHash|timestamp|expiresAt)
+  if (authMeta && authMeta.payload) {
+    const expectedSig = crypto.createHmac('sha256', candidateSecret).update(authMeta.payload).digest('hex');
+    const sigBuf = Buffer.from(application.approvalSignature, 'utf8');
+    const expBuf = Buffer.from(expectedSig, 'utf8');
+    if (sigBuf.length === expBuf.length && crypto.timingSafeEqual(sigBuf, expBuf)) {
+      signatureValid = true;
     }
   }
 
-  return { authorized: true, candidateId: application.userId, verifiedAt: new Date().toISOString() };
+  // Format B: Requisition-bound HMAC (userId:tenantId:applicationId:requisitionHash:approvedContentHash)
+  if (!signatureValid) {
+    const reqPayload = `${application.userId}:${application.tenantId}:${application.id}:${targetReqHash}:${application.approvedContentHash}`;
+    const expectedSig = crypto.createHmac('sha256', candidateSecret).update(reqPayload).digest('hex');
+    const sigBuf = Buffer.from(application.approvalSignature, 'utf8');
+    const expBuf = Buffer.from(expectedSig, 'utf8');
+    if (sigBuf.length === expBuf.length && crypto.timingSafeEqual(sigBuf, expBuf)) {
+      signatureValid = true;
+    }
+  }
+
+  // Format C: Standard HMAC (userId:tenantId:applicationId:approvedContentHash) for backwards compatibility
+  if (!signatureValid) {
+    const stdPayload = `${application.userId}:${application.tenantId}:${application.id}:${application.approvedContentHash}`;
+    const expectedSig = crypto.createHmac('sha256', candidateSecret).update(stdPayload).digest('hex');
+    const sigBuf = Buffer.from(application.approvalSignature, 'utf8');
+    const expBuf = Buffer.from(expectedSig, 'utf8');
+    if (sigBuf.length === expBuf.length && crypto.timingSafeEqual(sigBuf, expBuf)) {
+      signatureValid = true;
+    }
+  }
+
+  if (!signatureValid) {
+    return { authorized: false, reason: 'INVALID_SIGNATURE: Cryptographic authorization signature verification failed (tampered or forged)' };
+  }
+
+  return {
+    authorized: true,
+    candidateId: application.userId,
+    verifiedAt: new Date().toISOString(),
+    requisitionHash: targetReqHash,
+    documentContentHash: targetContentHash
+  };
 }
 
 /**
@@ -197,31 +311,46 @@ function mapScreeningQuestions(questions = [], candidateProfile = {}) {
     const qText = (q.label || q.text || q.id || '').toLowerCase();
     const isRequired = q.required === true;
 
+    // 0. Resume / CV File Upload Field
+    if (/\b(?:resume|cv|curriculum\s+vitae)\b/i.test(qText) || q.type === 'file' || q.id === 'resume' || q.id === '_resume') {
+      answers.push({
+        fieldId: q.id,
+        label: q.label || 'Resume / CV',
+        value: '[ATTACHED_DOCUMENT]',
+        source: 'APPLICATION_APPROVED_DOCUMENT'
+      });
+      continue;
+    }
+
+    const userName = (candidateProfile.user && candidateProfile.user.name) || candidateProfile.name || 'Candidate User';
+    const userEmail = (candidateProfile.user && candidateProfile.user.email) || candidateProfile.email || '';
+    const userPhone = (candidateProfile.user && candidateProfile.user.phone) || candidateProfile.phone || '+15550192834';
+
     // 1. Full Name / First Name / Last Name
     if (/\b(?:first\s+name|given\s+name)\b/i.test(qText)) {
-      const parts = (candidateProfile.user && candidateProfile.user.name || '').split(' ');
+      const parts = userName.split(' ');
       answers.push({ fieldId: q.id, label: q.label, value: parts[0] || 'Candidate', source: 'PROFILE_USER_NAME' });
       continue;
     }
     if (/\b(?:last\s+name|family\s+name|surname)\b/i.test(qText)) {
-      const parts = (candidateProfile.user && candidateProfile.user.name || '').split(' ');
+      const parts = userName.split(' ');
       answers.push({ fieldId: q.id, label: q.label, value: parts.slice(1).join(' ') || 'User', source: 'PROFILE_USER_NAME' });
       continue;
     }
     if (/\b(?:full\s+name|name)\b/i.test(qText) && !/\b(?:company|school|manager|referral)\b/i.test(qText)) {
-      answers.push({ fieldId: q.id, label: q.label, value: candidateProfile.user && candidateProfile.user.name || 'Candidate', source: 'PROFILE_USER_NAME' });
+      answers.push({ fieldId: q.id, label: q.label, value: userName, source: 'PROFILE_USER_NAME' });
       continue;
     }
 
     // 2. Email Address
     if (/\b(?:email)\b/i.test(qText)) {
-      answers.push({ fieldId: q.id, label: q.label, value: candidateProfile.user && candidateProfile.user.email || '', source: 'PROFILE_USER_EMAIL' });
+      answers.push({ fieldId: q.id, label: q.label, value: userEmail, source: 'PROFILE_USER_EMAIL' });
       continue;
     }
 
     // 3. Phone Number
     if (/\b(?:phone|mobile|telephone|cell)\b/i.test(qText)) {
-      answers.push({ fieldId: q.id, label: q.label, value: candidateProfile.user && candidateProfile.user.phone || '+15550192834', source: 'PROFILE_USER_PHONE' });
+      answers.push({ fieldId: q.id, label: q.label, value: userPhone, source: 'PROFILE_USER_PHONE' });
       continue;
     }
 
@@ -334,6 +463,10 @@ class BaseAtsAdapter {
     throw new Error('verifyFormCompletion must be implemented by adapter');
   }
 
+  async submitForm(page) {
+    throw new Error('submitForm must be implemented by adapter');
+  }
+
   async extractConfirmationEvidence(page) {
     throw new Error('extractConfirmationEvidence must be implemented by adapter');
   }
@@ -375,6 +508,8 @@ class GreenhouseAdapter extends BaseAtsAdapter {
       const exists = await page.$(selector);
       if (exists) {
         const tag = await exists.evaluate(el => el.tagName.toLowerCase());
+        const inputType = await exists.evaluate(el => el.getAttribute('type') || '');
+        if (inputType === 'file') continue;
         if (tag === 'select') {
           await page.selectOption(selector, { label: ans.value }).catch(() => page.selectOption(selector, { index: 1 }));
         } else {
@@ -400,7 +535,11 @@ class GreenhouseAdapter extends BaseAtsAdapter {
       const missing = [];
       const requiredInputs = document.querySelectorAll('input[required], select[required], textarea[required]');
       requiredInputs.forEach(el => {
-        if (!el.value || el.value.trim() === '') {
+        if (el.type === 'file') {
+          if (!el.files || el.files.length === 0) {
+            missing.push(el.id || el.name || 'unnamed_field');
+          }
+        } else if (!el.value || el.value.trim() === '') {
           missing.push(el.id || el.name || 'unnamed_field');
         }
       });
@@ -413,12 +552,27 @@ class GreenhouseAdapter extends BaseAtsAdapter {
     };
   }
 
+  async submitForm(page) {
+    const submitBtn = await page.$('button[type="submit"], input[type="submit"], #submit_app');
+    if (!submitBtn) {
+      throw new Error('GREENHOUSE_SUBMIT_BUTTON_NOT_FOUND: Could not locate application submission button');
+    }
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 10000 }).catch(() => {}),
+      submitBtn.click()
+    ]);
+    await page.waitForLoadState('networkidle').catch(() => {});
+    return { submitted: true };
+  }
+
   async extractConfirmationEvidence(page) {
     return page.evaluate(() => {
       const text = document.body ? document.body.innerText : '';
+      const hasConfirmation = /(?:thank\s+you\s+for\s+applying|application\s+(?:was\s+)?submitted|application\s+received|we(?:'ve|\s+have)\s+received\s+your\s+application|thanks\s+for\s+applying|submission\s+received)/i.test(text);
       const match = text.match(/(?:confirmation|application\s+id|requisition\s+number)[\s#:]+([A-Za-z0-9-_]{6,})/i);
-      const confNumber = match ? match[1] : `GH-CONF-${Date.now().toString(36).toUpperCase()}`;
+      const confNumber = match ? match[1] : null;
       return {
+        confirmed: hasConfirmation || Boolean(confNumber),
         confirmationNumber: confNumber,
         evidenceSnippet: text.slice(0, 300)
       };
@@ -459,6 +613,8 @@ class AshbyAdapter extends BaseAtsAdapter {
       const selector = `input[name="${ans.fieldId}"], #${ans.fieldId}, textarea[name="${ans.fieldId}"]`;
       const el = await page.$(selector);
       if (el) {
+        const inputType = await el.evaluate(e => e.getAttribute('type') || '');
+        if (inputType === 'file') continue;
         await page.fill(selector, String(ans.value));
         filledFields.push(ans.fieldId);
       }
@@ -477,18 +633,40 @@ class AshbyAdapter extends BaseAtsAdapter {
     const missing = await page.evaluate(() => {
       const invalid = [];
       const inputs = document.querySelectorAll('input[required], textarea[required]');
-      inputs.forEach(i => { if (!i.value) invalid.push(i.name || i.id); });
+      inputs.forEach(i => {
+        if (i.type === 'file') {
+          if (!i.files || i.files.length === 0) invalid.push(i.name || i.id);
+        } else if (!i.value) {
+          invalid.push(i.name || i.id);
+        }
+      });
       return invalid;
     });
     return { complete: missing.length === 0, missingFields: missing };
   }
 
+  async submitForm(page) {
+    const submitBtn = await page.$('button[type="submit"], [data-testid="submit-application"], button:has-text("Submit")');
+    if (!submitBtn) {
+      throw new Error('ASHBY_SUBMIT_BUTTON_NOT_FOUND: Could not locate Ashby application submission button');
+    }
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 10000 }).catch(() => {}),
+      submitBtn.click()
+    ]);
+    await page.waitForLoadState('networkidle').catch(() => {});
+    return { submitted: true };
+  }
+
   async extractConfirmationEvidence(page) {
     return page.evaluate(() => {
       const text = document.body ? document.body.innerText : '';
-      const match = text.match(/(?:app|submission|id)[\s#:]+([A-Za-z0-9-_]{6,})/i);
+      const hasConfirmation = /(?:thank\s+you\s+for\s+applying|application\s+(?:was\s+)?submitted|application\s+received|we(?:'ve|\s+have)\s+received\s+your\s+application|thanks\s+for\s+applying|submission\s+received)/i.test(text);
+      const match = text.match(/(?:app|submission|id|confirmation)[\s#:]+([A-Za-z0-9-_]{6,})/i);
+      const confNumber = match ? match[1] : null;
       return {
-        confirmationNumber: match ? match[1] : `ASHBY-${Date.now().toString(36).toUpperCase()}`,
+        confirmed: hasConfirmation || Boolean(confNumber),
+        confirmationNumber: confNumber,
         evidenceSnippet: text.slice(0, 300)
       };
     });
@@ -528,6 +706,8 @@ class LeverAdapter extends BaseAtsAdapter {
       const selector = `input[name="${ans.fieldId}"], textarea[name="${ans.fieldId}"]`;
       const el = await page.$(selector);
       if (el) {
+        const inputType = await el.evaluate(e => e.getAttribute('type') || '');
+        if (inputType === 'file') continue;
         await page.fill(selector, String(ans.value));
         filled.push(ans.fieldId);
       }
@@ -553,12 +733,28 @@ class LeverAdapter extends BaseAtsAdapter {
     return { complete: missing.length === 0, missingFields: missing };
   }
 
+  async submitForm(page) {
+    const submitBtn = await page.$('button[type="submit"], #btn-submit, .template-btn-submit');
+    if (!submitBtn) {
+      throw new Error('LEVER_SUBMIT_BUTTON_NOT_FOUND: Could not locate Lever application submission button');
+    }
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 10000 }).catch(() => {}),
+      submitBtn.click()
+    ]);
+    await page.waitForLoadState('networkidle').catch(() => {});
+    return { submitted: true };
+  }
+
   async extractConfirmationEvidence(page) {
     return page.evaluate(() => {
       const text = document.body ? document.body.innerText : '';
-      const match = text.match(/(?:confirmation|lever)[\s#:]+([A-Za-z0-9-_]{6,})/i);
+      const hasConfirmation = /(?:thank\s+you\s+for\s+applying|application\s+(?:was\s+)?submitted|application\s+received|we(?:'ve|\s+have)\s+received\s+your\s+application|thanks\s+for\s+applying|submission\s+received)/i.test(text);
+      const match = text.match(/(?:confirmation|lever|id)[\s#:]+([A-Za-z0-9-_]{6,})/i);
+      const confNumber = match ? match[1] : null;
       return {
-        confirmationNumber: match ? match[1] : `LEVER-${Date.now().toString(36).toUpperCase()}`,
+        confirmed: hasConfirmation || Boolean(confNumber),
+        confirmationNumber: confNumber,
         evidenceSnippet: text.slice(0, 300)
       };
     });
@@ -585,8 +781,12 @@ class WorkdayAdapter extends BaseAtsAdapter {
     return { complete: false, missingFields: ['WORKDAY_AUTHENTICATION_REQUIRED'] };
   }
 
+  async submitForm() {
+    throw new Error('WORKDAY_INCOMPLETE: Workday automated submission requires candidate authentication.');
+  }
+
   async extractConfirmationEvidence() {
-    return { confirmationNumber: null, evidenceSnippet: 'Workday multi-step portal' };
+    return { confirmed: false, confirmationNumber: null, evidenceSnippet: 'Workday multi-step portal' };
   }
 }
 
@@ -615,128 +815,6 @@ function generateReceiptHash(applicationId, candidateId, requisitionHash, confir
   const payload = `${applicationId}:${candidateId}:${requisitionHash}:${confirmationNumber}:${timestamp}`;
   return crypto.createHash('sha256').update(payload).digest('hex');
 }
-
-/**
- * Main Playwright Dry-Run & Staging Runner
- * Executes authorized application workflow in DRY_RUN mode.
- */
-async function executeApplicationWorkflow(applicationId, options = {}) {
-  const mode = options.mode || process.env.ROLEVIA_AUTOMATION_MODE || 'DRY_RUN';
-  const candidateSecret = options.candidateSecret || process.env.JWT_SECRET || 'rolevia_ai_super_secret_jwt_key_2026_production_ready';
-  
-  // 1. Load Application with User, Tenant, Job, and Profile
-  const application = await prisma.application.findUnique({
-    where: { id: applicationId },
-    include: {
-      user: {
-        include: {
-          profile: {
-            include: { facts: true }
-          }
-        }
-      },
-      job: true
-    }
-  });
-
-  if (!application) {
-    throw new Error(`Application ${applicationId} not found`);
-  }
-
-  // 2. Cryptographic Authorization Check
-  const authGate = verifySubmissionAuthorization(application, candidateSecret);
-  if (!authGate.authorized) {
-    await transitionApplicationState(
-      applicationId,
-      APPLICATION_STATES.FAILED_CONFIRMED,
-      'AUTHORIZATION_REJECTED',
-      { reason: authGate.reason }
-    );
-    throw new Error(`Execution aborted: ${authGate.reason}`);
-  }
-
-  // 3. Credit Reservation (FEAT-004 HOLD)
-  let creditHold = null;
-  try {
-    creditHold = await billing.reserveCreditForApplication({
-      tenantId: application.tenantId,
-      userId: application.userId,
-      applicationId: application.id,
-      requisitionId: application.jobId || application.id
-    });
-    await transitionApplicationState(
-      applicationId,
-      APPLICATION_STATES.QUEUED_RESERVED,
-      'CREDIT_HOLD',
-      { creditJournalId: creditHold.journalId, availableCredits: creditHold.availableCredits }
-    );
-  } catch (err) {
-    await transitionApplicationState(
-      applicationId,
-      APPLICATION_STATES.FAILED_CONFIRMED,
-      'CREDIT_HOLD_FAILED',
-      { error: err.message }
-    );
-    throw new Error(`Credit reservation failed: ${err.message}`);
-  }
-
-  // 4. Transition to RUNNING_PRE_SUBMIT
-  await transitionApplicationState(
-    applicationId,
-    APPLICATION_STATES.RUNNING_PRE_SUBMIT,
-    'WORKER_DISPATCHED',
-    { mode, workerId: `worker-${process.pid}` }
-  );
-
-  // 5. Detect ATS & Obtain Adapter
-  const platform = detectAtsPlatform(application.url);
-  if (!platform.supported && platform.ats === 'workday') {
-    // Release credit back to user
-    await billing.releaseCreditForApplication({
-      tenantId: application.tenantId,
-      userId: application.userId,
-      applicationId: application.id,
-      reason: 'Workday multi-step automation unsupported',
-      targetStatus: null
-    });
-
-    await transitionApplicationState(
-      applicationId,
-      APPLICATION_STATES.NEEDS_USER_ACTION,
-      'UNSUPPORTED_ATS_ESCALATION',
-      {
-        ats: 'workday',
-        reason: platform.limitationReason,
-        actionRequired: 'CANDIDATE_MANUAL_SUBMIT'
-      }
-    );
-
-    return {
-      success: false,
-      status: APPLICATION_STATES.NEEDS_USER_ACTION,
-      reason: platform.limitationReason
-    };
-  }
-
-  const adapter = getAtsAdapter(platform.ats);
-  if (!adapter) {
-    await billing.releaseCreditForApplication({
-      tenantId: application.tenantId,
-      userId: application.userId,
-      applicationId: application.id,
-      reason: 'Unsupported ATS',
-      targetStatus: null
-    });
-
-    await transitionApplicationState(
-      applicationId,
-      APPLICATION_STATES.FAILED_CONFIRMED,
-      'UNSUPPORTED_ATS',
-      { error: `ATS ${platform.ats} has no active adapter` }
-    );
-
-    return { success: false, status: APPLICATION_STATES.FAILED_CONFIRMED, error: 'Unsupported ATS' };
-  }
 
 function getChromiumLaunchOptions() {
   const options = {
@@ -774,13 +852,169 @@ function getChromiumLaunchOptions() {
   return options;
 }
 
-  // 6. Launch Headless Browser (or Use Mock Target)
+/**
+ * Main Playwright Dry-Run & Staging Runner
+ * Executes authorized application workflow in DRY_RUN mode.
+ */
+async function executeApplicationWorkflow(applicationId, options = {}) {
+  const mode = options.mode || process.env.ROLEVIA_AUTOMATION_MODE || 'DRY_RUN';
+  const candidateSecret = options.candidateSecret || process.env.JWT_SECRET || 'rolevia_ai_super_secret_jwt_key_2026_production_ready';
+  
+  // 1. Load Application with User, Tenant, Job, and Profile
+  const application = await prisma.application.findUnique({
+    where: { id: applicationId },
+    include: {
+      user: {
+        include: {
+          profile: {
+            include: { facts: true }
+          }
+        }
+      },
+      job: true
+    }
+  });
+
+  if (!application) {
+    throw new Error(`Application ${applicationId} not found`);
+  }
+
+  // Invariant 1: Quarantined applications cannot be auto-resubmitted
+  if (application.status === APPLICATION_STATES.OUTCOME_UNKNOWN) {
+    throw new Error('APPLICATION_QUARANTINED: Automatic resubmission blocked while outcome is unknown. Manual reconciliation required.');
+  }
+
+  // Invariant 2: Concurrent execution guard
+  if (application.status === APPLICATION_STATES.RUNNING_PRE_SUBMIT || application.status === APPLICATION_STATES.SUBMISSION_IN_FLIGHT) {
+    throw new Error('CONCURRENT_EXECUTION_BLOCKED: Application execution is already in flight.');
+  }
+
+  // 2. Cryptographic Authorization Check
+  // In LIVE mode: Candidate must explicitly authorize submission
+  // In DRY_RUN mode: Verification is executed if candidate has authorized, or validated for readiness
+  const currentDocHash = application.diffData ? crypto.createHash('sha256').update(application.diffData).digest('hex') : application.approvedContentHash;
+  const currentReqHash = (application.job && application.job.requisitionHash) || application.jobId || application.id;
+  const authGate = verifySubmissionAuthorization(application, candidateSecret, currentReqHash, currentDocHash);
+  if (mode === 'LIVE' && !authGate.authorized) {
+    await transitionApplicationState(
+      applicationId,
+      APPLICATION_STATES.FAILED_CONFIRMED,
+      'AUTHORIZATION_REJECTED',
+      { reason: authGate.reason }
+    );
+    throw new Error(`Execution aborted: ${authGate.reason}`);
+  }
+
+  // 3. Credit Reservation (FEAT-004 HOLD) - ONLY consumed during authorized LIVE submissions
+  // Invariant: Dry-run staging diagnostics NEVER hold or debit paid credits
+  let creditHold = null;
+  if (mode === 'LIVE') {
+    try {
+      creditHold = await billing.reserveCreditForApplication({
+        tenantId: application.tenantId,
+        userId: application.userId,
+        applicationId: application.id,
+        requisitionId: application.jobId || application.id
+      });
+      await transitionApplicationState(
+        applicationId,
+        APPLICATION_STATES.QUEUED_RESERVED,
+        'CREDIT_HOLD',
+        { creditJournalId: creditHold.journalId, availableCredits: creditHold.availableCredits }
+      );
+    } catch (err) {
+      await transitionApplicationState(
+        applicationId,
+        APPLICATION_STATES.FAILED_CONFIRMED,
+        'CREDIT_HOLD_FAILED',
+        { error: err.message }
+      );
+      throw new Error(`Credit reservation failed: ${err.message}`);
+    }
+  }
+
   let browser = null;
   let page = null;
-  const screenshotFilename = `ats_${platform.ats}_${Date.now()}.png`;
-  const screenshotPath = path.join(EVIDENCE_DIR, screenshotFilename);
+  let resumeFilePath = null;
+  let screenshotFilename = `ats_exec_${Date.now()}.png`;
+  let screenshotPath = path.join(EVIDENCE_DIR, screenshotFilename);
 
   try {
+    // 4. Transition to RUNNING_PRE_SUBMIT
+    await transitionApplicationState(
+      applicationId,
+      APPLICATION_STATES.RUNNING_PRE_SUBMIT,
+      'WORKER_DISPATCHED',
+      { mode, workerId: `worker-${process.pid}` }
+    );
+
+    if (options.simulatePreSubmitInterruption) {
+      throw new Error('SIMULATED_PRE_SUBMIT_INTERRUPTION: Worker killed before submission');
+    }
+
+    // 5. Detect ATS & Obtain Adapter
+    let platform = detectAtsPlatform(application.url);
+    if (!platform.supported && application.ats) {
+      if (application.ats === 'greenhouse') platform = { ats: 'greenhouse', name: 'Greenhouse', supported: true, adapter: 'GreenhouseAdapter' };
+      else if (application.ats === 'ashby') platform = { ats: 'ashby', name: 'Ashby', supported: true, adapter: 'AshbyAdapter' };
+      else if (application.ats === 'lever') platform = { ats: 'lever', name: 'Lever', supported: true, adapter: 'LeverAdapter' };
+      else if (application.ats === 'workday') platform = { ats: 'workday', name: 'Workday', supported: false, adapter: 'WorkdayAdapter', limitationReason: 'Workday requires multi-step authentication' };
+    }
+    if (!platform.supported && platform.ats === 'workday') {
+      if (creditHold) {
+        await billing.releaseCreditForApplication({
+          tenantId: application.tenantId,
+          userId: application.userId,
+          applicationId: application.id,
+          reason: 'Workday multi-step automation unsupported',
+          targetStatus: null
+        });
+      }
+
+      await transitionApplicationState(
+        applicationId,
+        APPLICATION_STATES.NEEDS_USER_ACTION,
+        'UNSUPPORTED_ATS_ESCALATION',
+        {
+          ats: 'workday',
+          reason: platform.limitationReason,
+          actionRequired: 'CANDIDATE_MANUAL_SUBMIT'
+        }
+      );
+
+      return {
+        success: false,
+        status: APPLICATION_STATES.NEEDS_USER_ACTION,
+        reason: platform.limitationReason
+      };
+    }
+
+    const adapter = getAtsAdapter(platform.ats);
+    if (!adapter) {
+      if (creditHold) {
+        await billing.releaseCreditForApplication({
+          tenantId: application.tenantId,
+          userId: application.userId,
+          applicationId: application.id,
+          reason: 'Unsupported ATS',
+          targetStatus: null
+        });
+      }
+
+      await transitionApplicationState(
+        applicationId,
+        APPLICATION_STATES.FAILED_CONFIRMED,
+        'UNSUPPORTED_ATS',
+        { error: `ATS ${platform.ats} has no active adapter` }
+      );
+
+      return { success: false, status: APPLICATION_STATES.FAILED_CONFIRMED, error: 'Unsupported ATS' };
+    }
+
+    screenshotFilename = `ats_${platform.ats}_${Date.now()}.png`;
+    screenshotPath = path.join(EVIDENCE_DIR, screenshotFilename);
+
+    // 6. Launch Headless Browser (or Use Mock Target)
     browser = await chromium.launch(getChromiumLaunchOptions());
     const context = await browser.newContext({
       viewport: { width: 1280, height: 800 },
@@ -798,6 +1032,9 @@ function getChromiumLaunchOptions() {
     // 7. Extract Questions & Map Answers from FactStore
     const questions = await adapter.extractFormQuestions(page).catch(() => []);
     const candidateProfile = (application.user && (application.user.profile || application.user.candidateProfile)) || {};
+    if (!candidateProfile.user && application.user) {
+      candidateProfile.user = application.user;
+    }
     const mapping = mapScreeningQuestions(questions, candidateProfile);
 
     // Save extracted screening answers in DB
@@ -810,14 +1047,15 @@ function getChromiumLaunchOptions() {
     if (mapping.escalations.length > 0) {
       await page.screenshot({ path: screenshotPath });
 
-      // Refund credit
-      await billing.releaseCreditForApplication({
-        userId: application.userId,
-        tenantId: application.tenantId,
-        applicationId: application.id,
-        reason: 'Candidate escalation required',
-        targetStatus: null
-      });
+      if (creditHold) {
+        await billing.releaseCreditForApplication({
+          userId: application.userId,
+          tenantId: application.tenantId,
+          applicationId: application.id,
+          reason: 'Candidate escalation required',
+          targetStatus: null
+        });
+      }
 
       await transitionApplicationState(
         applicationId,
@@ -854,20 +1092,16 @@ function getChromiumLaunchOptions() {
     // Capture Staging Screenshot Evidence
     await page.screenshot({ path: screenshotPath });
 
-    // Clean up temporary resume file
-    if (resumeFilePath && fs.existsSync(resumeFilePath)) {
-      try { fs.unlinkSync(resumeFilePath); } catch (e) {}
-    }
-
     if (!completion.complete) {
-      // Incomplete form - escalate
-      await billing.releaseCreditForApplication({
-        userId: application.userId,
-        tenantId: application.tenantId,
-        applicationId: application.id,
-        reason: 'Incomplete form fields',
-        targetStatus: null
-      });
+      if (creditHold) {
+        await billing.releaseCreditForApplication({
+          userId: application.userId,
+          tenantId: application.tenantId,
+          applicationId: application.id,
+          reason: 'Incomplete form fields',
+          targetStatus: null
+        });
+      }
 
       await transitionApplicationState(
         applicationId,
@@ -887,25 +1121,28 @@ function getChromiumLaunchOptions() {
       };
     }
 
+    if (options.simulatePreSubmitInterruption) {
+      throw new Error('SIMULATED_PRE_SUBMIT_INTERRUPTION: Worker crashed before form submission');
+    }
+
     // 11. Staging Mode vs Live Submission
     if (mode === 'DRY_RUN') {
-      // IN DRY_RUN: Form is filled, validated, verified, but NOT submitted to real employer
-      const confNumber = `STAGING-CONF-${Date.now().toString(36).toUpperCase()}`;
+      // IN DRY_RUN: Form is filled, validated, and verified offline
+      // Invariant: ZERO employer submission executed; ZERO paid credits consumed; ZERO fabricated confirmation numbers
       const timestamp = new Date().toISOString();
       const receiptHash = generateReceiptHash(
         applicationId,
         application.userId,
         application.job ? application.job.requisitionHash : application.id,
-        confNumber,
+        'DRY_RUN_DIAGNOSTIC',
         timestamp
       );
-
       const receiptData = {
-        dryRun: true,
+        type: RECEIPT_TYPES.DRY_RUN_DIAGNOSTIC,
         mode: 'DRY_RUN',
-        verified: true,
+        employerConfirmed: false,
+        confirmationNumber: null,
         receiptHash,
-        confirmationNumber: confNumber,
         timestamp,
         ats: platform.ats,
         company: application.company,
@@ -913,23 +1150,15 @@ function getChromiumLaunchOptions() {
         filledFields: filled,
         screenshotArtifact: screenshotFilename,
         candidateName: application.user.name,
-        candidateEmail: application.user.email
+        candidateEmail: application.user.email,
+        diagnosticNote: 'Dry-run diagnostic verification complete; zero employer submission executed; 0 credits consumed.'
       };
-
-      // Commit Credit upon verified staging completion
-      await billing.commitCreditForApplication({
-        userId: application.userId,
-        tenantId: application.tenantId,
-        applicationId: application.id,
-        confirmationNumber: confNumber,
-        receiptData
-      });
 
       await prisma.application.update({
         where: { id: applicationId },
         data: {
-          status: APPLICATION_STATES.SUBMITTED_CONFIRMED,
-          confirmationNumber: confNumber,
+          status: APPLICATION_STATES.READY_FOR_SUBMISSION,
+          confirmationNumber: null,
           receiptUrl: `/evidence/screenshots/${screenshotFilename}`,
           receiptData: JSON.stringify(receiptData),
           submissionEvidence: screenshotFilename,
@@ -939,40 +1168,173 @@ function getChromiumLaunchOptions() {
 
       await transitionApplicationState(
         applicationId,
-        APPLICATION_STATES.SUBMITTED_CONFIRMED,
-        'SUBMISSION_CONFIRMED_DRY_RUN',
+        APPLICATION_STATES.READY_FOR_SUBMISSION,
+        'FORM_COMPLETION_VERIFIED_DRY_RUN',
         receiptData
       );
 
       return {
         success: true,
-        status: APPLICATION_STATES.SUBMITTED_CONFIRMED,
+        status: APPLICATION_STATES.READY_FOR_SUBMISSION,
         mode: 'DRY_RUN',
         receipt: receiptData
       };
     }
 
-    // If live mode is requested without explicit administrative clearance, safely reject
-    await billing.releaseCreditForApplication({
-      userId: application.userId,
-      tenantId: application.tenantId,
-      applicationId: application.id,
-      reason: 'Live mode requires explicit production safety bypass',
-      targetStatus: null
-    });
+    // 12. LIVE Submission Mode
+    if (mode === 'LIVE') {
+      const isAllowedLive = options.allowLiveSubmission === true || process.env.ROLEVIA_ALLOW_LIVE_TESTING === 'true';
+      if (!isAllowedLive) {
+        if (creditHold) {
+          await billing.releaseCreditForApplication({
+            userId: application.userId,
+            tenantId: application.tenantId,
+            applicationId: application.id,
+            reason: 'Live mode requires explicit production safety bypass',
+            targetStatus: null
+          });
+        }
 
-    await transitionApplicationState(
-      applicationId,
-      APPLICATION_STATES.FAILED_CONFIRMED,
-      'LIVE_SUBMISSION_BLOCKED',
-      { error: 'Live employer submission requires production authorization flag' }
-    );
+        await transitionApplicationState(
+          applicationId,
+          APPLICATION_STATES.FAILED_CONFIRMED,
+          'LIVE_SUBMISSION_BLOCKED',
+          { error: 'Live employer submission safety barrier active. Real employer submission disabled.' }
+        );
 
-    return {
-      success: false,
-      status: APPLICATION_STATES.FAILED_CONFIRMED,
-      error: 'Live employer submission safety barrier active'
-    };
+        return {
+          success: false,
+          status: APPLICATION_STATES.FAILED_CONFIRMED,
+          error: 'Live employer submission safety barrier active'
+        };
+      }
+
+      // Controlled Live / Sandbox Submission Workflow
+      await transitionApplicationState(
+        applicationId,
+        APPLICATION_STATES.SUBMISSION_IN_FLIGHT,
+        'SUBMISSION_DISPATCHED',
+        { mode: 'LIVE', dispatchedAt: new Date().toISOString() }
+      );
+
+      try {
+        if (options.simulateSubmitInterruption) {
+          throw new Error('SIMULATED_SUBMIT_INTERRUPTION: Worker crashed during submit dispatch');
+        }
+        await adapter.submitForm(page);
+      } catch (submitErr) {
+        // Interrupted during submit or network timeout post-dispatch
+        await billing.quarantineOutcomeUnknown({
+          tenantId: application.tenantId,
+          userId: application.userId,
+          applicationId: application.id,
+          reason: `Submission dispatch interrupted: ${submitErr.message}`
+        });
+
+        await transitionApplicationState(
+          applicationId,
+          APPLICATION_STATES.OUTCOME_UNKNOWN,
+          'SUBMISSION_INTERRUPTED',
+          { error: submitErr.message, quarantineReason: 'Interrupted during submission dispatch' }
+        );
+
+        return {
+          success: false,
+          status: APPLICATION_STATES.OUTCOME_UNKNOWN,
+          error: submitErr.message
+        };
+      }
+
+      // Extract real confirmation evidence from employer page
+      const confirmation = await adapter.extractConfirmationEvidence(page);
+      console.log('[DEBUG CONFIRMATION]', { url: page.url(), confirmation });
+      await page.screenshot({ path: screenshotPath });
+
+      if (confirmation.confirmed) {
+        const timestamp = new Date().toISOString();
+        const confNumber = confirmation.confirmationNumber;
+        const receiptHash = generateReceiptHash(
+          applicationId,
+          application.userId,
+          application.job ? application.job.requisitionHash : application.id,
+          confNumber || 'EMPLOYER_ACKNOWLEDGED',
+          timestamp
+        );
+
+        const receiptData = {
+          type: RECEIPT_TYPES.EMPLOYER_CONFIRMED,
+          mode: 'LIVE',
+          employerConfirmed: true,
+          receiptHash,
+          confirmationNumber: confNumber,
+          timestamp,
+          ats: platform.ats,
+          company: application.company,
+          position: application.position,
+          filledFields: filled,
+          screenshotArtifact: screenshotFilename,
+          evidenceSnippet: confirmation.evidenceSnippet,
+          candidateName: application.user.name,
+          candidateEmail: application.user.email
+        };
+
+        // Commit Credit upon verified employer confirmation
+        await billing.commitCreditForApplication({
+          userId: application.userId,
+          tenantId: application.tenantId,
+          applicationId: application.id,
+          confirmationNumber: confNumber,
+          receiptData
+        });
+
+        await prisma.application.update({
+          where: { id: applicationId },
+          data: {
+            status: APPLICATION_STATES.SUBMITTED_CONFIRMED,
+            confirmationNumber: confNumber,
+            receiptUrl: `/evidence/screenshots/${screenshotFilename}`,
+            receiptData: JSON.stringify(receiptData),
+            submissionEvidence: screenshotFilename,
+            executionAttempts: { increment: 1 }
+          }
+        });
+
+        await transitionApplicationState(
+          applicationId,
+          APPLICATION_STATES.SUBMITTED_CONFIRMED,
+          'EMPLOYER_SUBMISSION_CONFIRMED',
+          receiptData
+        );
+
+        return {
+          success: true,
+          status: APPLICATION_STATES.SUBMITTED_CONFIRMED,
+          mode: 'LIVE',
+          receipt: receiptData
+        };
+      } else {
+        // Missing confirmation evidence post-submit -> quarantine in OUTCOME_UNKNOWN
+        await billing.quarantineOutcomeUnknown({
+          tenantId: application.tenantId,
+          userId: application.userId,
+          applicationId: application.id,
+          reason: 'Missing employer confirmation page post-submission'
+        });
+
+        await transitionApplicationState(
+          applicationId,
+          APPLICATION_STATES.OUTCOME_UNKNOWN,
+          'MISSING_EMPLOYER_CONFIRMATION',
+          { quarantineReason: 'Application submitted but employer confirmation receipt could not be verified' }
+        );
+
+        return {
+          success: false,
+          status: APPLICATION_STATES.OUTCOME_UNKNOWN,
+          error: 'MISSING_EMPLOYER_CONFIRMATION: Submission dispatched but confirmation evidence was unverified. Quarantined.'
+        };
+      }
+    }
 
   } catch (error) {
     console.error('[RUNNER ERROR]', error);
@@ -1007,6 +1369,9 @@ function getChromiumLaunchOptions() {
     if (browser) {
       await browser.close().catch(() => {});
     }
+    if (resumeFilePath && fs.existsSync(resumeFilePath)) {
+      try { fs.unlinkSync(resumeFilePath); } catch (e) {}
+    }
   }
 }
 
@@ -1020,16 +1385,23 @@ function getMockAtsFixtureHtml(ats, application) {
       <html>
       <head><title>${application.position} at ${application.company} - Greenhouse</title></head>
       <body>
-        <h1>${application.position}</h1>
-        <h2>${application.company}</h2>
-        <form id="application_form">
-          <div class="field"><label for="first_name">First Name *</label><input id="first_name" name="first_name" required /></div>
-          <div class="field"><label for="last_name">Last Name *</label><input id="last_name" name="last_name" required /></div>
-          <div class="field"><label for="email">Email *</label><input id="email" name="email" type="email" required /></div>
-          <div class="field"><label for="phone">Phone *</label><input id="phone" name="phone" required /></div>
-          <div class="field"><label for="resume">Resume / CV *</label><input type="file" id="resume" required /></div>
-          <button type="submit" id="submit_app">Submit Application</button>
-        </form>
+        <div id="form-container">
+          <h1>${application.position}</h1>
+          <h2>${application.company}</h2>
+          <form id="application_form" onsubmit="event.preventDefault(); document.getElementById('form-container').style.display='none'; document.getElementById('conf-container').style.display='block'; return false;">
+            <div class="field"><label for="first_name">First Name *</label><input id="first_name" name="first_name" required /></div>
+            <div class="field"><label for="last_name">Last Name *</label><input id="last_name" name="last_name" required /></div>
+            <div class="field"><label for="email">Email *</label><input id="email" name="email" type="email" required /></div>
+            <div class="field"><label for="phone">Phone *</label><input id="phone" name="phone" required /></div>
+            <div class="field"><label for="resume">Resume / CV *</label><input type="file" id="resume" required /></div>
+            <button type="submit" id="submit_app">Submit Application</button>
+          </form>
+        </div>
+        <div id="conf-container" style="display:none; padding:40px;">
+          <h1>Thank you for applying to ${application.company}!</h1>
+          <p>Your application was submitted successfully.</p>
+          <div id="application-confirmation-id">Confirmation # REAL-GH-CONF-88219</div>
+        </div>
       </body>
       </html>
     `;
@@ -1040,13 +1412,21 @@ function getMockAtsFixtureHtml(ats, application) {
       <html>
       <head><title>${application.position} at ${application.company} - Ashby</title></head>
       <body>
-        <div class="ashby-application-form">
-          <h2>Apply for ${application.position}</h2>
-          <div><label>First Name *</label><input name="_name_first" required /></div>
-          <div><label>Last Name *</label><input name="_name_last" required /></div>
-          <div><label>Email *</label><input name="_email" required /></div>
-          <div><label>Phone *</label><input name="_phone" required /></div>
-          <div><label>Resume *</label><input type="file" name="_resume" required /></div>
+        <div id="ashby-root">
+          <form class="ashby-application-form" onsubmit="event.preventDefault(); document.getElementById('ashby-root').style.display='none'; document.getElementById('ashby-conf').style.display='block'; return false;">
+            <h2>Apply for ${application.position}</h2>
+            <div><label>First Name *</label><input name="_name_first" required /></div>
+            <div><label>Last Name *</label><input name="_name_last" required /></div>
+            <div><label>Email *</label><input name="_email" required /></div>
+            <div><label>Phone *</label><input name="_phone" required /></div>
+            <div><label>Resume *</label><input type="file" name="_resume" required /></div>
+            <button type="submit" data-testid="submit-application">Submit Application</button>
+          </form>
+        </div>
+        <div id="ashby-conf" style="display:none; padding:40px;">
+          <h2>Application submitted!</h2>
+          <p>Thanks for your interest in ${application.company}. We have received your application.</p>
+          <div class="submission-id">Submission ID: REAL-ASHBY-APP-4401</div>
         </div>
       </body>
       </html>
@@ -1058,12 +1438,20 @@ function getMockAtsFixtureHtml(ats, application) {
       <html>
       <head><title>${application.position} at ${application.company} - Lever</title></head>
       <body>
-        <form class="lever-form">
-          <div class="application-field"><span class="text">Full Name *</span><input name="name" required /></div>
-          <div class="application-field"><span class="text">Email *</span><input name="email" required /></div>
-          <div class="application-field"><span class="text">Phone *</span><input name="phone" required /></div>
-          <div class="application-field"><span class="text">Resume/CV *</span><input type="file" name="resume" required /></div>
-        </form>
+        <div id="lever-root">
+          <form class="lever-form" onsubmit="event.preventDefault(); document.getElementById('lever-root').style.display='none'; document.getElementById('lever-conf').style.display='block'; return false;">
+            <div class="application-field"><span class="text">Full Name *</span><input name="name" required /></div>
+            <div class="application-field"><span class="text">Email *</span><input name="email" required /></div>
+            <div class="application-field"><span class="text">Phone *</span><input name="phone" required /></div>
+            <div class="application-field"><span class="text">Resume/CV *</span><input type="file" name="resume" required /></div>
+            <button type="submit" id="btn-submit" class="template-btn-submit">Submit Application</button>
+          </form>
+        </div>
+        <div id="lever-conf" style="display:none; padding:40px;">
+          <h2>Application received</h2>
+          <p>Thank you for applying to ${application.company}.</p>
+          <div>Confirmation ID: REAL-LEVER-ID-7721</div>
+        </div>
       </body>
       </html>
     `;
@@ -1073,14 +1461,17 @@ function getMockAtsFixtureHtml(ats, application) {
 
 module.exports = {
   APPLICATION_STATES,
+  RECEIPT_TYPES,
   VALID_TRANSITIONS,
   transitionApplicationState,
   detectAtsPlatform,
+  createSubmissionAuthorization,
   verifySubmissionAuthorization,
   mapScreeningQuestions,
   getAtsAdapter,
   executeApplicationWorkflow,
   generateReceiptHash,
+  getMockAtsFixtureHtml,
   GreenhouseAdapter,
   AshbyAdapter,
   LeverAdapter,

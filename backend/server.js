@@ -1138,6 +1138,112 @@ const server = http.createServer(async (req, res) => {
       }
     }
 
+    // GET /api/v1/applications/:id/diagnostic (FEAT-009 / FEAT-010 Dry-Run Diagnostic Proof Viewer)
+    if (pathname.match(/^\/api\/v1\/applications\/([^/]+)\/diagnostic$/) && method === 'GET') {
+      try {
+        const authCtx = await resolveRequestUser(req);
+        if (!authCtx.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: authCtx.error }));
+          return;
+        }
+
+        const appId = pathname.split('/')[4];
+        const diagnostic = await applicationTracker.getDiagnosticProof({
+          applicationId: appId,
+          userId: authCtx.userId,
+          tenantId: authCtx.tenantId
+        });
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, ...diagnostic }));
+        return;
+      } catch (err) {
+        const status = err.message.includes('Forbidden') ? 403 : err.message.includes('not found') ? 404 : 400;
+        res.writeHead(status, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+        return;
+      }
+    }
+
+    // POST /api/v1/applications/:id/authorize-submission (FEAT-009 Candidate Submission Authorization)
+    if (pathname.match(/^\/api\/v1\/applications\/([^/]+)\/authorize-submission$/) && method === 'POST') {
+      try {
+        const authCtx = await resolveRequestUser(req);
+        if (!authCtx.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: authCtx.error }));
+          return;
+        }
+
+        const appId = pathname.split('/')[4];
+        const body = await parseBody(req);
+        const application = await prisma.application.findUnique({
+          where: { id: appId },
+          include: { job: true }
+        });
+
+        if (!application) {
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Application not found' }));
+          return;
+        }
+
+        if (application.userId !== authCtx.userId || application.tenantId !== authCtx.tenantId) {
+          res.writeHead(403, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Forbidden: Cross-tenant application authorization' }));
+          return;
+        }
+
+        const requisitionHash = body.requisitionHash || (application.job && application.job.requisitionHash) || application.jobId || application.id;
+        const documentContentHash = body.documentContentHash || application.approvedContentHash || (application.diffData ? crypto.createHash('sha256').update(application.diffData).digest('hex') : crypto.createHash('sha256').update(application.position || 'document').digest('hex'));
+
+        const authorization = atsAutomation.createSubmissionAuthorization({
+          userId: authCtx.userId,
+          tenantId: authCtx.tenantId,
+          applicationId: appId,
+          requisitionHash,
+          documentVersion: body.documentVersion || 'v1.0.0',
+          documentContentHash,
+          expiresInDays: body.expiresInDays || 7,
+          candidateSecret: process.env.JWT_SECRET || 'rolevia_ai_super_secret_jwt_key_2026_production_ready'
+        });
+
+        await prisma.application.update({
+          where: { id: appId },
+          data: {
+            approvalSignature: authorization.signature,
+            approvalPayload: JSON.stringify(authorization),
+            approvalTimestamp: new Date(authorization.consentTimestamp),
+            approvedContentHash: documentContentHash
+          }
+        });
+
+        await prisma.applicationEvent.create({
+          data: {
+            applicationId: appId,
+            fromStatus: application.status,
+            toStatus: application.status,
+            eventType: 'CANDIDATE_SUBMISSION_AUTHORIZED',
+            payload: {
+              consentTimestamp: authorization.consentTimestamp,
+              expiresAt: authorization.expiresAt,
+              requisitionHash,
+              documentContentHash
+            }
+          }
+        });
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, authorization }));
+        return;
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+        return;
+      }
+    }
+
     // POST /api/v1/applications/:id/execute (FEAT-009 Staging & Automation Runner Dispatch)
     if (pathname.match(/^\/api\/v1\/applications\/([^/]+)\/execute$/) && method === 'POST') {
       try {
