@@ -163,35 +163,41 @@ function createSubmissionAuthorization({
   tenantId,
   applicationId,
   requisitionHash,
+  jobRequisitionHash,
   documentVersion = 'v1.0.0',
   documentContentHash,
+  documentHash,
   consentTimestamp = new Date().toISOString(),
   expiresInDays = 7,
   candidateSecret = process.env.JWT_SECRET || 'rolevia_ai_super_secret_jwt_key_2026_production_ready'
 }) {
+  const reqHash = requisitionHash || jobRequisitionHash;
+  const docHash = documentContentHash || documentHash;
+
   if (!userId || !tenantId || !applicationId) {
     throw new Error('userId, tenantId, and applicationId required for submission authorization');
   }
-  if (!requisitionHash) {
+  if (!reqHash) {
     throw new Error('requisitionHash required to bind authorization to specific employer job');
   }
-  if (!documentContentHash) {
+  if (!docHash) {
     throw new Error('documentContentHash required to bind authorization to approved document');
   }
 
   const consentDate = new Date(consentTimestamp);
   const expiresAt = new Date(consentDate.getTime() + expiresInDays * 24 * 60 * 60 * 1000).toISOString();
-  const payload = `${userId}|${tenantId}|${applicationId}|${requisitionHash}|${documentVersion}|${documentContentHash}|${consentTimestamp}|${expiresAt}`;
+  const payload = `${userId}|${tenantId}|${applicationId}|${reqHash}|${documentVersion}|${docHash}|${consentTimestamp}|${expiresAt}`;
   const signature = crypto.createHmac('sha256', candidateSecret).update(payload).digest('hex');
 
   return {
     signature,
+    authorizationToken: signature,
     payload,
     consentTimestamp,
     expiresAt,
     documentVersion,
-    documentContentHash,
-    requisitionHash,
+    documentContentHash: docHash,
+    requisitionHash: reqHash,
     revoked: false
   };
 }

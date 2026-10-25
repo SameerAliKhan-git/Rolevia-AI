@@ -831,11 +831,16 @@ function getWorkspaceVersions(candidateProfileId, jobId) {
   return versions.sort((a, b) => new Date(b.generatedAt) - new Date(a.generatedAt));
 }
 
+const { createSubmissionAuthorization, verifySubmissionAuthorization } = require('./atsAutomation');
+
 module.exports = {
   buildOptimizationWorkspace,
   applyCandidateWorkspaceDecisions,
   invalidateWorkspaceApproval,
   verifyApprovalSignature,
+  createDocumentApproval: createSubmissionAuthorization,
+  createSubmissionAuthorization,
+  verifySubmissionAuthorization,
   exportWorkspaceBinaryDocument,
   persistWorkspaceSession,
   loadWorkspaceSession,

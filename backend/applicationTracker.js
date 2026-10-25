@@ -477,6 +477,24 @@ function formatApplicationOutput(app, includeEvents = false) {
   return out;
 }
 
+async function recordApplicationEvent(applicationId, fromStatus, toStatus, eventType, payload = {}) {
+  try {
+    const existing = await prisma.application.findUnique({ where: { id: applicationId } });
+    if (!existing) return null;
+    return await prisma.applicationEvent.create({
+      data: {
+        applicationId,
+        fromStatus: fromStatus || existing.status,
+        toStatus: toStatus || existing.status,
+        eventType: eventType || 'GENERIC_EVENT',
+        payload: payload || {}
+      }
+    });
+  } catch (err) {
+    return null;
+  }
+}
+
 module.exports = {
   KANBAN_BUCKETS,
   BUCKET_STATUS_MAP,
@@ -488,5 +506,6 @@ module.exports = {
   updateApplicationStage,
   resolveCandidateAction,
   getVerifiedReceipt,
-  getDiagnosticProof
+  getDiagnosticProof,
+  recordApplicationEvent
 };

@@ -249,7 +249,20 @@ function verifyTruthGrounding(generatedText, verifiedBundle, evidenceLedger = []
  * Optimizes a resume and generates a job-aligned cover letter strictly from verified candidate facts.
  * Provides Claim-Level Evidence Mapping, Versioning, and Decoupled Scoring.
  */
-function optimizeResumeAndCoverLetter({ candidateProfile, verifiedFacts = [], job, options = {} }) {
+function optimizeResumeAndCoverLetter(arg1, arg2, arg3) {
+  let candidateProfile, verifiedFacts, job, options;
+  if (arg2 !== undefined) {
+    candidateProfile = arg1;
+    verifiedFacts = (arg1 && arg1.facts) ? arg1.facts : [];
+    job = arg2;
+    options = arg3 || {};
+  } else if (arg1) {
+    candidateProfile = arg1.candidateProfile || arg1;
+    verifiedFacts = arg1.verifiedFacts || (candidateProfile ? candidateProfile.facts : []) || [];
+    job = arg1.job;
+    options = arg1.options || {};
+  }
+
   if (!candidateProfile) {
     throw new Error('Candidate profile is required for resume optimization');
   }
@@ -551,6 +564,8 @@ function optimizeResumeAndCoverLetter({ candidateProfile, verifiedFacts = [], jo
 
   return {
     success: true,
+    documentHash: `sha256:${documentHash}`,
+    diffData: evidenceLedger,
     targetJob: {
       id: job.id,
       title: job.title,
@@ -679,6 +694,7 @@ module.exports = {
   validateSemanticClaimAssertions,
   verifyTruthGrounding,
   optimizeResumeAndCoverLetter,
+  optimizeResumeForJob: optimizeResumeAndCoverLetter,
   optimizeForJob,
   computeObjectHash
 };

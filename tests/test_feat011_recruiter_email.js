@@ -64,7 +64,8 @@ async function runFeat011Tests() {
     const rawToken = 'secret_refresh_token_abc';
     const encrypted = encryptToken(rawToken);
     const parts = encrypted.split(':');
-    parts[2] = parts[2].substring(0, parts[2].length - 2) + 'ff'; // tamper ciphertext
+    // Flip first character of auth tag to guarantee tampering
+    parts[1] = (parts[1][0] === '0' ? '1' : '0') + parts[1].substring(1);
     const tampered = parts.join(':');
 
     assert.throws(() => {

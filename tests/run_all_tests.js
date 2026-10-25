@@ -19,6 +19,7 @@ const testFeat010ApplicationTracker = require('./test_feat010_application_tracke
 const testFeat009Audit = require('./test_feat009_feat010_audit');
 const testTrackerUi = require('./verify_tracker_ui');
 const { runFeat011Tests: testFeat011RecruiterEmail } = require('./test_feat011_recruiter_email');
+const { runAgenticWorkflowSuite: testAgenticWorkflowSuite } = require('./test_agentic_workflow_suite');
 const prisma = require('../backend/db');
 
 async function runAllSuites() {
@@ -48,6 +49,7 @@ async function runAllSuites() {
     results.push(await testFeat009Audit());
     results.push(await testTrackerUi());
     results.push(await testFeat011RecruiterEmail());
+    results.push(await testAgenticWorkflowSuite());
     results.push(await testE2EUserJourney());
     results.push(await testNegativePaths());
 
