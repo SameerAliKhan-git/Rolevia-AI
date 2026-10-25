@@ -17,9 +17,11 @@ model Tenant {
   subdomain     String          @unique
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
-  users         User[]
-  creditEntries CreditJournal[]
-  applications  Application[]
+  users              User[]
+  creditEntries      CreditJournal[]
+  applications       Application[]
+  mailboxConnections MailboxConnection[]
+  recruiterMessages  RecruiterMessage[]
 }
 
 model User {
@@ -40,10 +42,13 @@ model User {
   consumedCredits  Int               @default(0)  // Consumed credits for confirmed submissions
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
-  profile          CandidateProfile?
-  creditEntries    CreditJournal[]
-  applications     Application[]
-  refreshTokens    RefreshToken[]
+  profile            CandidateProfile?
+  creditEntries      CreditJournal[]
+  applications       Application[]
+  refreshTokens      RefreshToken[]
+  mailboxConnections MailboxConnection[]
+  recruiterMessages  RecruiterMessage[]
+  screeningAnswers   ScreeningQuestionRecord[]
 
   @@index([tenantId])
 }
@@ -198,6 +203,8 @@ model Application {
   screeningAnswers    Json?              // Extracted and mapped screening Q&A
   stage               String             @default("APPLIED") // APPLIED, SCREENING, INTERVIEWING, OFFER, REJECTED, WITHDRAWN
   events              ApplicationEvent[]
+  recruiterMessages   RecruiterMessage[]
+  screeningRecords    ScreeningQuestionRecord[]
   createdAt           DateTime           @default(now())
   updatedAt           DateTime           @updatedAt
 
@@ -218,4 +225,99 @@ model ApplicationEvent {
 
   @@index([applicationId])
 }
+
+// ============================================================================
+// Release 0.3: Recruiter Email Intelligence & Screening Question Models
+// ============================================================================
+
+model MailboxConnection {
+  id                    String             @id @default(uuid())
+  tenantId              String
+  tenant                Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  userId                String
+  user                  User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider              String             // GMAIL, OUTLOOK, IMAP
+  emailAddress          String
+  encryptedAccessToken  String
+  encryptedRefreshToken String?
+  tokenExpiry           DateTime?
+  scopes                String             // JSON array string of approved scopes
+  status                String             @default("ACTIVE") // ACTIVE, DISCONNECTED, ERROR
+  lastError             String?
+  lastSyncedAt          DateTime?
+  messages              RecruiterMessage[]
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+
+  @@unique([userId, provider, emailAddress])
+  @@index([tenantId, userId])
+}
+
+model RecruiterMessage {
+  id                  String             @id @default(uuid())
+  tenantId            String
+  tenant              Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  userId              String
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mailboxId           String
+  mailbox             MailboxConnection  @relation(fields: [mailboxId], references: [id], onDelete: Cascade)
+  applicationId       String?
+  application         Application?       @relation(fields: [applicationId], references: [id], onDelete: SetNull)
+  providerMessageId   String             @unique // External message ID for deduplication
+  threadId            String?
+  senderEmail         String
+  senderName          String?
+  subject             String
+  snippet             String?
+  bodyCleaned         String?
+  dateReceived        DateTime
+  category            String             // INTERVIEW_INVITE, TECHNICAL_ASSESSMENT, OFFER, REJECTION, STATUS_UPDATE, GENERAL
+  confidence          Float              @default(1.0)
+  isDecisionConfirmed Boolean            @default(false)
+  decisionStatus      String             @default("INFERRED") // CONFIRMED, INFERRED, UNVERIFIED
+  extractedDates      Json?              // Extracted interview times, calendar info
+  assessmentLinks     Json?              // Coding test URLs, deadlines
+  draftReply          String?            // AI drafted reply (requires user approval)
+  draftReplyStatus    String?            // DRAFT_PENDING_APPROVAL, APPROVED, DISCARDED
+  metadata            Json?              // Headers, raw match details
+  createdAt           DateTime           @default(now())
+
+  @@index([tenantId, userId])
+  @@index([applicationId])
+  @@index([category])
+  @@index([decisionStatus])
+}
+
+model EmailDedupLedger {
+  id                String   @id @default(uuid())
+  providerMessageId String   @unique
+  mailboxId         String
+  processedAt       DateTime @default(now())
+
+  @@index([mailboxId])
+}
+
+model ScreeningQuestionRecord {
+  id                  String       @id @default(uuid())
+  userId              String
+  user                User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  applicationId       String?
+  application         Application? @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  questionText        String
+  questionNormalized  String
+  category            String       // FACTUAL, NARRATIVE, LEGAL_ATTESTATION, SENSITIVE_DISCLOSURE, UNKNOWN
+  generatedAnswer     String?
+  candidateAnswer     String?      // Candidate modified or approved answer
+  status              String       @default("PENDING_REVIEW") // AUTO_GENERATED, APPROVED, NEEDS_USER_ACTION, REJECTED
+  groundedFactIds     Json?        // List of source FactStore IDs
+  version             Int          @default(1)
+  isReusable          Boolean      @default(false) // Whether candidate saved as reusable preference
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+
+  @@index([userId])
+  @@index([applicationId])
+  @@index([category])
+}
+
 

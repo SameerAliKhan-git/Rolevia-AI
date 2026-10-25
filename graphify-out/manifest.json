@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "backend/database/store.json": {
-    "mtime": 1792948651.8611279,
-    "seen": 1792948793.4447074,
-    "ast_hash": "2d283ef5fd9cce1c7c34cc6c480a6574",
+    "mtime": 1792950175.881445,
+    "seen": 1792950261.6165977,
+    "ast_hash": "638a9555fc8da079892738a65d864bc3",
     "semantic_hash": ""
   },
   "backend/server.js": {
@@ -1896,9 +1896,9 @@
     "semantic_hash": ""
   },
   "tests/run_all_tests.js": {
-    "mtime": 1792948318.746919,
-    "seen": 1792948793.502232,
-    "ast_hash": "31d7827c2861b2c84f626500c98d15f2",
+    "mtime": 1792950062.5250933,
+    "seen": 1792950261.667756,
+    "ast_hash": "6aa6c6c8b5ce48ebe016838391d59371",
     "semantic_hash": ""
   },
   "tests/test_feat001_db.js": {
@@ -3180,21 +3180,21 @@
     "semantic_hash": ""
   },
   "evidence/screenshots/tracker_kanban_desktop.png": {
-    "mtime": 1792948670.390635,
-    "seen": 1792948793.5554845,
-    "ast_hash": "4a3ded7403d5efb5e103af59adad0606",
+    "mtime": 1792950193.7674441,
+    "seen": 1792950261.7331026,
+    "ast_hash": "4aace25d54839db2a095a73e3dae09e2",
     "semantic_hash": ""
   },
   "evidence/screenshots/tracker_kanban_mobile.png": {
-    "mtime": 1792948670.997482,
-    "seen": 1792948793.5554845,
-    "ast_hash": "6f4d4d0057b017deba91f2b247c37456",
+    "mtime": 1792950194.368179,
+    "seen": 1792950261.7331026,
+    "ast_hash": "fdb6520dfe546704da4aa0038137d06d",
     "semantic_hash": ""
   },
   "evidence/screenshots/tracker_receipt_modal.png": {
-    "mtime": 1792948669.816386,
-    "seen": 1792948793.5554845,
-    "ast_hash": "30540fa4541f17f0482565e8e742ad28",
+    "mtime": 1792950193.2117202,
+    "seen": 1792950261.7331026,
+    "ast_hash": "75139a5229b8619f78f40e9d24d96b47",
     "semantic_hash": ""
   },
   "COMPETITOR_FEATURE_MATRIX.md": {
@@ -3344,6 +3344,138 @@
   "evidence/screenshots/ats_lever_1792948660733.png": {
     "mtime": 1792948662.149159,
     "seen": 1792948793.5396707,
+    "ast_hash": "6692380e13c5ab0f16b2c16134452b8b",
+    "semantic_hash": ""
+  },
+  "backend/recruiterEmailIntelligence.js": {
+    "mtime": 1792949819.0335636,
+    "seen": 1792950261.6165977,
+    "ast_hash": "61081136b93b1662142b08087867bcb1",
+    "semantic_hash": ""
+  },
+  "tests/test_feat011_recruiter_email.js": {
+    "mtime": 1792949751.7783408,
+    "seen": 1792950261.67774,
+    "ast_hash": "d9e5e904a161fe34359cd0c092000064",
+    "semantic_hash": ""
+  },
+  "AGENTIC_FRAMEWORK_AUDIT.md": {
+    "mtime": 1792950017.835912,
+    "seen": 1792950261.67774,
+    "ast_hash": "04d2243c7c39d85712199d8d480b244f",
+    "semantic_hash": ""
+  },
+  "docs/reports/AGENTIC_FRAMEWORK_AUDIT.md": {
+    "mtime": 1792950017.835912,
+    "seen": 1792950261.67774,
+    "ast_hash": "04d2243c7c39d85712199d8d480b244f",
+    "semantic_hash": ""
+  },
+  "docs/reports/RELEASE_0.3_IMPLEMENTATION_PLAN.md": {
+    "mtime": 1792949248.1569376,
+    "seen": 1792950261.6837943,
+    "ast_hash": "3de32b21dd716ca948bba5bd954c03bb",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/resume_09cbd2ad-84da-4cba-a9b8-5cd56d84c8eb.txt": {
+    "mtime": 1792950184.6776147,
+    "seen": 1792950261.6837943,
+    "ast_hash": "81c47b54ae9973465af1b68f72e3012b",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/resume_0ae5776a-f05a-4075-a93a-2e292fcac0f6.txt": {
+    "mtime": 1792950189.1389859,
+    "seen": 1792950261.6837943,
+    "ast_hash": "31dfa4bc6e1fbe08394ca7e2da81aa21",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/resume_34ff84fa-e045-4528-be4e-a45ffadd702e.txt": {
+    "mtime": 1792950181.3075502,
+    "seen": 1792950261.6837943,
+    "ast_hash": "fb839d261d6bec8a9efa465bf7a7390f",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/resume_93d72c04-a579-45d8-9345-16205ab4d4fb.txt": {
+    "mtime": 1792950187.4810495,
+    "seen": 1792950261.699352,
+    "ast_hash": "7ba450e5ce110f5575c0baf017a18f52",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/resume_a0d6d41a-c794-49e9-b301-b7b57924a727.txt": {
+    "mtime": 1792950177.8652318,
+    "seen": 1792950261.7003706,
+    "ast_hash": "1cd36cfff95a73674fe4e57e64306cf0",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/resume_b57dc9f0-52a2-46e9-bca4-6b110723387c.txt": {
+    "mtime": 1792950179.12823,
+    "seen": 1792950261.7003706,
+    "ast_hash": "a57daf9d43028499bf4a5db60a2982ad",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/resume_c53181a3-2433-473b-95dd-9c82d58d7d3c.txt": {
+    "mtime": 1792950183.0400403,
+    "seen": 1792950261.7003706,
+    "ast_hash": "fdac94472f0f5ed5fb226cdac460ada3",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/resume_d7f260a0-74bb-4053-bea9-5ba5a8b47ca5.txt": {
+    "mtime": 1792950186.3222983,
+    "seen": 1792950261.7003706,
+    "ast_hash": "f11c8482c6bb68ee52a18006d58ae1c5",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/ats_ashby_1792950182524.png": {
+    "mtime": 1792950183.9622912,
+    "seen": 1792950261.7003706,
+    "ast_hash": "98fd5e2d57cfa0769ca1a72585f49f73",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/ats_greenhouse_1792950176039.png": {
+    "mtime": 1792950177.9849696,
+    "seen": 1792950261.717708,
+    "ast_hash": "64bee80d40e2894ef2808bde5373b552",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/ats_greenhouse_1792950179762.png": {
+    "mtime": 1792950180.570809,
+    "seen": 1792950261.717708,
+    "ast_hash": "020c26f766415bfe77837b4345678aaf",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/ats_greenhouse_1792950180838.png": {
+    "mtime": 1792950182.264184,
+    "seen": 1792950261.717708,
+    "ast_hash": "36e0d38a414c9cfdf22dcdd7d83f1bf9",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/ats_greenhouse_1792950185826.png": {
+    "mtime": 1792950186.5733044,
+    "seen": 1792950261.717708,
+    "ast_hash": "b61c12dce20197e69f1342192b60cf12",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/ats_greenhouse_1792950186999.png": {
+    "mtime": 1792950188.40968,
+    "seen": 1792950261.717708,
+    "ast_hash": "524572751375ac00fe3ddc5b7cc264b2",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/ats_greenhouse_1792950188660.png": {
+    "mtime": 1792950190.0756521,
+    "seen": 1792950261.717708,
+    "ast_hash": "e9b692d41ca65f10b7fe5ac2a24f0dde",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/ats_lever_1792950178292.png": {
+    "mtime": 1792950179.3520007,
+    "seen": 1792950261.7331026,
+    "ast_hash": "0861380de9647ced8ac0bfd883fc137d",
+    "semantic_hash": ""
+  },
+  "evidence/screenshots/ats_lever_1792950184223.png": {
+    "mtime": 1792950185.5756488,
+    "seen": 1792950261.7331026,
     "ast_hash": "6692380e13c5ab0f16b2c16134452b8b",
     "semantic_hash": ""
   }
