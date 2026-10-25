@@ -18,6 +18,8 @@ const jobMatcher = require('./jobMatcher');
 const resumeOptimizer = require('./resumeOptimizer');
 const resumeWorkspace = require('./resumeWorkspace');
 const experienceEngine = require('./experienceEngine');
+const atsAutomation = require('./atsAutomation');
+const applicationTracker = require('./applicationTracker');
 
 const PORT = process.env.PORT || 3000;
 const STORE_PATH = path.join(__dirname, 'database', 'store.json');
@@ -993,11 +995,273 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    // GET /api/v1/applications
+    // =========================================================================
+    // FEAT-009 & FEAT-010: APPLICATION AUTOMATION & KANBAN TRACKER ENDPOINTS
+    // =========================================================================
+
+    // Helper to resolve request identity & tenant context
+    async function resolveRequestUser(req) {
+      const authResult = await auth.authenticateRequest(req);
+      if (authResult.authenticated) {
+        return { authenticated: true, user: authResult.user, userId: authResult.user.id, tenantId: authResult.tenantId };
+      }
+      if (req.headers['x-user-id']) {
+        const userId = req.headers['x-user-id'];
+        const tenantId = req.headers['x-tenant-id'] || 'tenant-rolevia-default';
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        if (user) {
+          return { authenticated: true, user, userId: user.id, tenantId: user.tenantId };
+        }
+      }
+      return { authenticated: false, error: authResult.error || 'Authentication required' };
+    }
+
+    // GET /api/v1/applications/counts (FEAT-010 Aggregated Kanban Counts)
+    if (pathname === '/api/v1/applications/counts' && method === 'GET') {
+      try {
+        const authCtx = await resolveRequestUser(req);
+        if (!authCtx.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: authCtx.error }));
+          return;
+        }
+
+        const counts = await applicationTracker.getApplicationCounts({
+          userId: authCtx.userId,
+          tenantId: authCtx.tenantId
+        });
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, counts }));
+        return;
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+        return;
+      }
+    }
+
+    // GET /api/v1/applications (FEAT-010 Multi-Tenant Application Feed)
     if (pathname === '/api/v1/applications' && method === 'GET') {
-      res.writeHead(200);
-      res.end(JSON.stringify({ applications: db.applications }));
-      return;
+      try {
+        const authCtx = await resolveRequestUser(req);
+        if (!authCtx.authenticated) {
+          // Unauthenticated fallback to public mock feed for initial static landing
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ applications: db.applications, count: db.applications.length }));
+          return;
+        }
+
+        const queryParams = parsedUrl.query || {};
+        const result = await applicationTracker.listApplications({
+          userId: authCtx.userId,
+          tenantId: authCtx.tenantId,
+          filter: queryParams.filter || 'all',
+          query: queryParams.query || '',
+          stage: queryParams.stage || null,
+          page: queryParams.page || 1,
+          limit: queryParams.limit || 20,
+          sort: queryParams.sort || 'updatedAt',
+          order: queryParams.order || 'desc'
+        });
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          success: true,
+          applications: result.applications,
+          pagination: result.pagination
+        }));
+        return;
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+        return;
+      }
+    }
+
+    // POST /api/v1/applications (FEAT-010 Create Application Record)
+    if (pathname === '/api/v1/applications' && method === 'POST') {
+      try {
+        const authCtx = await resolveRequestUser(req);
+        if (!authCtx.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: authCtx.error }));
+          return;
+        }
+
+        const body = await parseBody(req);
+        const app = await applicationTracker.createApplication({
+          userId: authCtx.userId,
+          tenantId: authCtx.tenantId,
+          jobId: body.jobId,
+          company: body.company,
+          position: body.position,
+          url: body.url,
+          ats: body.ats
+        });
+
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, application: app }));
+        return;
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+        return;
+      }
+    }
+
+    // GET /api/v1/applications/:id/receipt (FEAT-010 Cryptographic Receipt Viewer)
+    if (pathname.match(/^\/api\/v1\/applications\/([^/]+)\/receipt$/) && method === 'GET') {
+      try {
+        const authCtx = await resolveRequestUser(req);
+        if (!authCtx.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: authCtx.error }));
+          return;
+        }
+
+        const appId = pathname.split('/')[4];
+        const receipt = await applicationTracker.getVerifiedReceipt({
+          applicationId: appId,
+          userId: authCtx.userId,
+          tenantId: authCtx.tenantId
+        });
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, ...receipt }));
+        return;
+      } catch (err) {
+        const status = err.message.includes('Forbidden') ? 403 : err.message.includes('not found') ? 404 : 400;
+        res.writeHead(status, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+        return;
+      }
+    }
+
+    // POST /api/v1/applications/:id/execute (FEAT-009 Staging & Automation Runner Dispatch)
+    if (pathname.match(/^\/api\/v1\/applications\/([^/]+)\/execute$/) && method === 'POST') {
+      try {
+        const authCtx = await resolveRequestUser(req);
+        if (!authCtx.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: authCtx.error }));
+          return;
+        }
+
+        const appId = pathname.split('/')[4];
+        const body = await parseBody(req);
+        const mode = body.mode || process.env.ROLEVIA_AUTOMATION_MODE || 'DRY_RUN';
+
+        broadcastSSE('execution:started', { appId, mode, timestamp: new Date().toISOString() });
+
+        const executionResult = await atsAutomation.executeApplicationWorkflow(appId, {
+          mode,
+          candidateSecret: process.env.JWT_SECRET || 'rolevia_ai_super_secret_jwt_key_2026_production_ready'
+        });
+
+        broadcastSSE('execution:completed', {
+          appId,
+          status: executionResult.status,
+          success: executionResult.success
+        });
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: executionResult.success, result: executionResult }));
+        return;
+      } catch (err) {
+        broadcastSSE('execution:failed', { error: err.message });
+        const statusCode = err.message.includes('UNAUTHORIZED') ? 403 : 500;
+        res.writeHead(statusCode, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+        return;
+      }
+    }
+
+    // POST /api/v1/applications/:id/resolve-action (FEAT-009 Human-in-the-Loop Escalation Resolution)
+    if (pathname.match(/^\/api\/v1\/applications\/([^/]+)\/resolve-action$/) && method === 'POST') {
+      try {
+        const authCtx = await resolveRequestUser(req);
+        if (!authCtx.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: authCtx.error }));
+          return;
+        }
+
+        const appId = pathname.split('/')[4];
+        const body = await parseBody(req);
+        const resolved = await applicationTracker.resolveCandidateAction({
+          applicationId: appId,
+          userId: authCtx.userId,
+          tenantId: authCtx.tenantId,
+          resolvedAnswers: body.answers || [],
+          instructions: body.instructions || ''
+        });
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, application: resolved }));
+        return;
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+        return;
+      }
+    }
+
+    // PATCH /api/v1/applications/:id/stage (FEAT-010 Manual Stage Move)
+    if (pathname.match(/^\/api\/v1\/applications\/([^/]+)\/stage$/) && method === 'PATCH') {
+      try {
+        const authCtx = await resolveRequestUser(req);
+        if (!authCtx.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: authCtx.error }));
+          return;
+        }
+
+        const appId = pathname.split('/')[4];
+        const body = await parseBody(req);
+        const updated = await applicationTracker.updateApplicationStage({
+          applicationId: appId,
+          userId: authCtx.userId,
+          tenantId: authCtx.tenantId,
+          stage: body.stage
+        });
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, application: updated }));
+        return;
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+        return;
+      }
+    }
+
+    // GET /api/v1/applications/:id (FEAT-010 Application Detail & Event Timeline)
+    if (pathname.match(/^\/api\/v1\/applications\/([^/]+)$/) && method === 'GET') {
+      try {
+        const authCtx = await resolveRequestUser(req);
+        if (!authCtx.authenticated) {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: authCtx.error }));
+          return;
+        }
+
+        const appId = pathname.split('/')[4];
+        const detail = await applicationTracker.getApplicationDetail({
+          applicationId: appId,
+          userId: authCtx.userId,
+          tenantId: authCtx.tenantId
+        });
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, application: detail }));
+        return;
+      } catch (err) {
+        const status = err.message.includes('Forbidden') ? 403 : 404;
+        res.writeHead(status, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+        return;
+      }
     }
 
     // POST /api/v1/cloud-executions/running (FEAT-004 Credit Hold, Commit & Outcome Unknown Isolation)

@@ -188,7 +188,7 @@ async function reserveCreditForApplication({ tenantId, userId, applicationId, re
 
     await tx.application.update({
       where: { id: applicationId },
-      data: { status: 'EXECUTING' }
+      data: { status: 'QUEUED_RESERVED' }
     });
 
     return {
@@ -265,7 +265,7 @@ async function commitCreditForApplication({ tenantId, userId, applicationId, con
  * Credit Accounting: Release reserved credit if application failed before submission (APPLICATION_RELEASE)
  * Moves 1 credit from 'reserved' back to 'available' (refund) without altering consumed credits.
  */
-async function releaseCreditForApplication({ tenantId, userId, applicationId, reason }) {
+async function releaseCreditForApplication({ tenantId, userId, applicationId, reason, targetStatus }) {
   const key = `release-${applicationId}-${userId}`;
 
   return prisma.$transaction(async (tx) => {
@@ -273,7 +273,7 @@ async function releaseCreditForApplication({ tenantId, userId, applicationId, re
       where: { idempotencyKey: key }
     });
     if (existingRelease) {
-      return { success: true, alreadyReleased: true, balance: existingRelease.balanceAfter };
+      return { success: true, alreadyReleased: true, balance: existingRelease.balanceAfter, status: targetStatus || 'FAILED' };
     }
 
     // Move 1 credit from reserved back to available
@@ -300,10 +300,12 @@ async function releaseCreditForApplication({ tenantId, userId, applicationId, re
       }
     });
 
-    await tx.application.update({
-      where: { id: applicationId },
-      data: { status: 'FAILED' }
-    });
+    if (targetStatus !== null) {
+      await tx.application.update({
+        where: { id: applicationId },
+        data: { status: targetStatus || 'FAILED' }
+      });
+    }
 
     return {
       success: true,
@@ -311,7 +313,7 @@ async function releaseCreditForApplication({ tenantId, userId, applicationId, re
       availableCredits: user.credits,
       reservedCredits: user.reservedCredits,
       consumedCredits: user.consumedCredits,
-      status: 'FAILED',
+      status: targetStatus || 'FAILED',
       journalId: entry.id
     };
   });
