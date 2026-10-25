@@ -801,11 +801,229 @@ const state = {
       content: '“Hello Sameer, your tailored application and hands-on experience building full-stack applications with Flask, Node.js, and GCP stood out. We would like to send over a brief technical assessment.”',
       autoDraft: '“Hi Anthropic Recruiting Team, thank you for considering my application! I would be delighted to complete the technical assessment. Please send through the instructions whenever ready.”'
     }
-  ]
+  ],
+  selectedExperience: 'all',
+  selectedEligibilityMode: 'all',
+  discoveryView: 'all_jobs',
+  selectedCategory: 'all',
+  selectedAts: 'all',
+  selectedRegion: 'all',
+  selectedCurrency: 'dual',
+  searchQuery: '',
 };
 
 // ==========================================================================
-// Multi-Currency & Filter Handlers
+// Experience-Aware Job Classification & Eligibility Handlers (FEAT-005 / FEAT-006)
+// ==========================================================================
+
+function formatExpInterval(min, max) {
+  if (min === 0 && (max === null || max === 1)) return '0–1 yrs';
+  if (min === 0 && max === 2) return '0–2 yrs';
+  if (min !== null && max !== null) return `${min}–${max} yrs`;
+  if (min !== null && max === null) return `${min}+ yrs`;
+  if (min === null && max !== null) return `Up to ${max} yrs`;
+  return 'Exp Unspecified';
+}
+
+function isJobMatchingClientExperience(job, filter) {
+  if (!filter || filter === 'all') return true;
+
+  const min = job.minExperienceYears !== undefined && job.minExperienceYears !== null ? job.minExperienceYears : null;
+  const max = job.maxExperienceYears !== undefined && job.maxExperienceYears !== null ? job.maxExperienceYears : null;
+  const isFresher = Boolean(job.isFresherFriendly);
+
+  if (filter === 'fresher') {
+    return isFresher || (min !== null && min === 0 && (max === null || max <= 1));
+  }
+
+  if (filter === 'unspecified') {
+    return min === null && max === null && !isFresher;
+  }
+
+  const INTERVAL_MAP = {
+    '0-1': { min: 0, max: 1 },
+    '0-2': { min: 0, max: 2 },
+    '1-3': { min: 1, max: 3 },
+    '3-5': { min: 3, max: 5 },
+    '5-8': { min: 5, max: 8 },
+    '8+':  { min: 8, max: Infinity }
+  };
+
+  const target = INTERVAL_MAP[filter];
+  if (!target) return true;
+
+  // Unspecified experience does not match numeric intervals
+  if (min === null && max === null) return false;
+
+  const effMin = min !== null ? min : 0;
+  const effMax = max !== null ? max : Infinity;
+
+  // Two intervals [A, B] and [C, D] overlap if Math.max(A, C) <= Math.min(B, D)
+  return Math.max(effMin, target.min) <= Math.min(effMax, target.max);
+}
+
+function evaluateClientCandidateEligibility(candidate, job) {
+  if (!candidate || !job) {
+    return { status: 'NEEDS_VERIFICATION', reason: 'Verification recommended' };
+  }
+
+  const candidateYears = typeof candidate.yearsExp === 'number' ? candidate.yearsExp : 2;
+  const min = job.minExperienceYears !== undefined && job.minExperienceYears !== null ? job.minExperienceYears : null;
+  const max = job.maxExperienceYears !== undefined && job.maxExperienceYears !== null ? job.maxExperienceYears : null;
+  const reqType = job.experienceRequirementType || 'UNSPECIFIED';
+  const isFresher = Boolean(job.isFresherFriendly);
+
+  // 1. Preferred experience does not block candidate
+  if (reqType === 'PREFERRED') {
+    return { status: 'ELIGIBLE', reason: 'Experience preferred by employer, not mandatory' };
+  }
+
+  // 2. Fresher-friendly opportunity
+  if (isFresher && candidateYears <= 2) {
+    return { status: 'ELIGIBLE', reason: 'Fresher-friendly role welcomes candidates with 0–2 yrs experience' };
+  }
+
+  // 3. Experience not specified
+  if (min === null && max === null) {
+    return { status: 'NEEDS_VERIFICATION', reason: 'Experience requirement not specified in posting' };
+  }
+
+  // 4. Mandatory minimum comparison
+  const effMin = min !== null ? min : 0;
+  if (candidateYears >= effMin) {
+    return { status: 'ELIGIBLE', reason: `Candidate's ${candidateYears} yrs satisfies required ${effMin}+ yrs` };
+  } else {
+    const gap = Math.round((effMin - candidateYears) * 10) / 10;
+    if (candidateYears === 0 && effMin >= 2) {
+      return { status: 'INELIGIBLE', gapYears: gap, reason: `Requires ${effMin}+ yrs mandatory experience (candidate has 0 yrs)` };
+    }
+    if (gap <= 1.0) {
+      return { status: 'NEEDS_VERIFICATION', gapYears: gap, reason: `Marginal gap of ${gap} yr; projects/coursework may verify` };
+    }
+    return { status: 'INELIGIBLE', gapYears: gap, reason: `Experience gap of ${gap} yrs (${candidateYears} yrs vs ${effMin}+ yrs)` };
+  }
+}
+
+function setDiscoveryView(view, btn) {
+  state.discoveryView = view;
+  document.querySelectorAll('.disc-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  updateFilterPreview();
+  persistFilterPreferences();
+  renderMatches();
+}
+
+function setExperienceFilter(exp, btn) {
+  state.selectedExperience = exp;
+  document.querySelectorAll('.exp-pill').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  updateFilterPreview();
+  persistFilterPreferences();
+  renderMatches();
+}
+
+function setEligibilityMode(mode) {
+  state.selectedEligibilityMode = mode;
+  updateFilterPreview();
+  persistFilterPreferences();
+  renderMatches();
+}
+
+function updateFilterPreview() {
+  const previewEl = document.getElementById('active-filter-preview-text');
+  if (!previewEl) return;
+
+  const expMap = {
+    'all': 'All experience levels',
+    'fresher': 'Fresher / Graduate / No experience',
+    '0-1': '0–1 years',
+    '0-2': '0–2 years',
+    '1-3': '1–3 years',
+    '3-5': '3–5 years',
+    '5-8': '5–8 years',
+    '8+': '8+ years',
+    'unspecified': 'Experience not specified'
+  };
+
+  const eligMap = {
+    'all': 'Show all matching jobs',
+    'eligible_only': 'Eligible only',
+    'eligible_and_needs_verification': 'Eligible + Needs Verification'
+  };
+
+  const viewMap = {
+    'all_jobs': 'All Opportunities',
+    'eligible_jobs': "Jobs I'm Eligible For"
+  };
+
+  const expLabel = expMap[state.selectedExperience] || state.selectedExperience;
+  const eligLabel = eligMap[state.selectedEligibilityMode] || state.selectedEligibilityMode;
+  const viewLabel = viewMap[state.discoveryView] || state.discoveryView;
+
+  previewEl.innerText = `Experience: ${expLabel} · Eligibility: ${eligLabel} · View: ${viewLabel}`;
+}
+
+function copyFilterSelection() {
+  const previewEl = document.getElementById('active-filter-preview-text');
+  const text = previewEl ? previewEl.innerText.trim() : '';
+  const btn = document.getElementById('copy-selection-btn');
+
+  const flashSuccess = () => {
+    if (btn) {
+      const origHtml = btn.innerHTML;
+      btn.innerHTML = '✓ Copied!';
+      btn.style.color = '#15803d';
+      setTimeout(() => {
+        btn.innerHTML = origHtml;
+        btn.style.color = '';
+      }, 2000);
+    }
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(flashSuccess).catch(() => fallbackCopyText(text, flashSuccess));
+  } else {
+    fallbackCopyText(text, flashSuccess);
+  }
+}
+
+function fallbackCopyText(text, callback) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    if (callback) callback();
+  } catch (err) {
+    console.warn('Clipboard copy failed:', err);
+  }
+  document.body.removeChild(ta);
+}
+
+function persistFilterPreferences() {
+  if (typeof fetch === 'function') {
+    fetch('/api/v1/users/filter-preferences', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        experienceRange: state.selectedExperience,
+        eligibilityMode: state.selectedEligibilityMode,
+        view: state.discoveryView,
+        category: state.selectedCategory,
+        ats: state.selectedAts,
+        region: state.selectedRegion
+      })
+    }).catch(() => {
+      // Background persistence failure ignored silently in offline/demo mode
+    });
+  }
+}
+
+// ==========================================================================
+// Multi-Currency & Category / ATS Handlers
 // ==========================================================================
 
 function getFormattedSalary(salary, currencyMode) {
@@ -821,6 +1039,7 @@ function setCategoryFilter(category, btn) {
   state.selectedCategory = category;
   document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
+  persistFilterPreferences();
   renderMatches();
 }
 
@@ -828,6 +1047,7 @@ function setAtsFilter(ats, btn) {
   state.selectedAts = ats;
   document.querySelectorAll('.ats-pill').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
+  persistFilterPreferences();
   renderMatches();
 }
 
@@ -835,6 +1055,7 @@ function setRegionFilter(region, btn) {
   state.selectedRegion = region;
   document.querySelectorAll('.region-pill').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
+  persistFilterPreferences();
   renderMatches();
 }
 
@@ -878,15 +1099,45 @@ function renderMatches() {
                     (job.requirements && job.requirements.some(r => r.toLowerCase().includes(q)));
       if (!match) return false;
     }
+    // 5. Experience Filter (Employer-required interval)
+    if (!isJobMatchingClientExperience(job, state.selectedExperience)) {
+      return false;
+    }
+    // 6. Candidate Eligibility Evaluation (FEAT-006)
+    const elig = evaluateClientCandidateEligibility(state.user, job);
+    job._clientEligibility = elig;
+
+    // View: 'Jobs I'm Eligible For' filters out ineligible roles
+    if (state.discoveryView === 'eligible_jobs') {
+      if (elig.status === 'INELIGIBLE') return false;
+    }
+
+    // Eligibility Dropdown Modes
+    if (state.selectedEligibilityMode === 'eligible_only') {
+      if (elig.status !== 'ELIGIBLE') return false;
+    } else if (state.selectedEligibilityMode === 'eligible_and_needs_verification') {
+      if (elig.status !== 'ELIGIBLE' && elig.status !== 'NEEDS_VERIFICATION') return false;
+    }
+
     return true;
   });
+
+  // Sorting: Fresher-friendly roles prioritized when searching fresher / 0-2 yrs
+  if (state.selectedExperience === 'fresher' || state.selectedExperience === '0-1' || state.discoveryView === 'eligible_jobs') {
+    filteredJobs.sort((a, b) => {
+      const aFresh = a.isFresherFriendly ? 1 : 0;
+      const bFresh = b.isFresherFriendly ? 1 : 0;
+      if (bFresh !== aFresh) return bFresh - aFresh;
+      return (b.matchScore || 0) - (a.matchScore || 0);
+    });
+  }
 
   if (filteredJobs.length === 0) {
     container.innerHTML = `
       <div style="grid-column: 1 / -1; text-align:center; padding:48px 24px; background:#fff; border-radius:20px; box-shadow:var(--clay-depth-sm); border:1px solid rgba(180,170,155,0.2);">
         <div style="font-size:36px; margin-bottom:10px;">🔍</div>
         <h3 style="font-size:18px; font-weight:800; color:#171d26;">No open roles match your current filter criteria</h3>
-        <p style="font-size:13px; color:#525d6d; margin-top:4px;">Try resetting ATS Engine, Region, or Employer Category to view all 1,358 global portals.</p>
+        <p style="font-size:13px; color:#525d6d; margin-top:4px;">Try selecting "All Experience Levels" or switching to "All Opportunities" to view the full pipeline.</p>
         <button class="clay-btn clay-btn-forest" style="margin-top:16px; padding:7px 20px; font-size:12px;" onclick="resetAllJobFilters()">Reset All Filters</button>
       </div>
     `;
@@ -895,11 +1146,32 @@ function renderMatches() {
   
   container.innerHTML = filteredJobs.map(job => {
     const salaryDisp = getFormattedSalary(job.salary, state.selectedCurrency);
-    
+    const elig = job._clientEligibility || evaluateClientCandidateEligibility(state.user, job);
+
     // Category Badge
     let catBadge = '🏢 Product Giant';
     if (job.category === 'startup') catBadge = '🦄 High-Growth Startup';
     if (job.category === 'service') catBadge = '💼 Enterprise Service';
+
+    // Experience Badge
+    let expBadgeHtml = '';
+    if (job.isFresherFriendly) {
+      expBadgeHtml = `<span class="clay-badge clay-badge-green" style="font-size:9.5px;" title="${job.experienceSourceText || 'Fresher-friendly opportunity explicitly welcomes 0–2 yrs'}">🎓 Fresher Friendly</span>`;
+    } else if (job.minExperienceYears !== null && job.minExperienceYears !== undefined || job.maxExperienceYears !== null && job.maxExperienceYears !== undefined) {
+      expBadgeHtml = `<span class="clay-badge clay-badge-blue" style="font-size:9.5px;" title="${job.experienceSourceText || 'Employer stated required experience'}">⏱️ ${formatExpInterval(job.minExperienceYears, job.maxExperienceYears)}</span>`;
+    } else {
+      expBadgeHtml = `<span class="clay-badge clay-badge-surface" style="font-size:9.5px; color:#525d6d;" title="Experience requirement not specified by employer">❓ Exp Unspecified</span>`;
+    }
+
+    // Eligibility Badge
+    let eligBadgeHtml = '';
+    if (elig.status === 'ELIGIBLE') {
+      eligBadgeHtml = `<span class="clay-badge clay-badge-green" style="font-size:9.5px;" title="${elig.reason}">✓ Eligible</span>`;
+    } else if (elig.status === 'NEEDS_VERIFICATION') {
+      eligBadgeHtml = `<span class="clay-badge clay-badge-orange" style="font-size:9.5px;" title="${elig.reason}">⚡ Needs Verification</span>`;
+    } else {
+      eligBadgeHtml = `<span class="clay-badge clay-badge-surface" style="font-size:9.5px; color:#b91c1c; border-color:rgba(185,28,28,0.3);" title="${elig.reason}">✗ ${elig.gapYears ? elig.gapYears + 'y Exp Gap' : 'Ineligible'}</span>`;
+    }
 
     return `
       <div class="ts-job-card">
@@ -916,6 +1188,8 @@ function renderMatches() {
                 <span class="clay-badge clay-badge-orange" style="font-size:9.5px;">
                   ${job.reqId}
                 </span>
+                ${expBadgeHtml}
+                ${eligBadgeHtml}
               </div>
               <div style="font-size:15.5px; font-weight:800; color:#171d26; line-height:1.3; margin-top:4px;">
                 ${job.title}
@@ -925,6 +1199,11 @@ function renderMatches() {
                 <span style="color:#8895a7;">· ${job.postedDate}</span>
                 <span class="clay-badge clay-badge-green" style="font-size:9px; padding:2px 7px;">${job.sponsorshipLabel || '✓ Global Remote Hire'}</span>
               </div>
+              ${job.experienceSourceText ? `
+                <div style="font-size:11px; color:#525d6d; margin-top:5px; font-style:italic; background:rgba(240,240,240,0.6); padding:2px 8px; border-radius:6px; display:inline-block;" title="Employer posting source evidence">
+                  📄 "${job.experienceSourceText.slice(0, 85)}${job.experienceSourceText.length > 85 ? '…' : ''}"
+                </div>
+              ` : ''}
               <div style="font-size:14px; font-weight:800; color:#e0601e; margin-top:8px;">
                 ${salaryDisp}
               </div>
@@ -966,14 +1245,25 @@ function resetAllJobFilters() {
   state.selectedCategory = 'all';
   state.selectedAts = 'all';
   state.selectedRegion = 'all';
+  state.selectedExperience = 'all';
+  state.selectedEligibilityMode = 'all';
+  state.discoveryView = 'all_jobs';
   state.searchQuery = '';
+
   const searchInput = document.getElementById('job-search-input');
   if (searchInput) searchInput.value = '';
+
+  const eligSelect = document.getElementById('eligibility-mode-select');
+  if (eligSelect) eligSelect.value = 'all';
 
   document.querySelectorAll('.cat-tab').forEach((b, i) => b.classList.toggle('active', i === 0));
   document.querySelectorAll('.ats-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
   document.querySelectorAll('.region-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
+  document.querySelectorAll('.exp-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
+  document.querySelectorAll('.disc-tab').forEach((b, i) => b.classList.toggle('active', i === 0));
 
+  updateFilterPreview();
+  persistFilterPreferences();
   renderMatches();
 }
 
@@ -2920,6 +3210,7 @@ async function syncFromBackend() {
 
 // Initialize on DOM load
 window.addEventListener('DOMContentLoaded', () => {
+  updateFilterPreview();
   renderMatches();
   renderApplicationsTable();
   initSSEListener();

@@ -17,6 +17,7 @@ const jobCrawler = require('./jobCrawler');
 const jobMatcher = require('./jobMatcher');
 const resumeOptimizer = require('./resumeOptimizer');
 const resumeWorkspace = require('./resumeWorkspace');
+const experienceEngine = require('./experienceEngine');
 
 const PORT = process.env.PORT || 3000;
 const STORE_PATH = path.join(__dirname, 'database', 'store.json');
@@ -266,37 +267,261 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    // GET /api/v1/jobs/recommendations (FEAT-005)
-    if (pathname === '/api/v1/jobs/recommendations' && method === 'GET') {
+    // GET /api/v1/jobs and GET /api/v1/jobs/recommendations (FEAT-005 & FEAT-006 Experience Filtering)
+    if ((pathname === '/api/v1/jobs' || pathname === '/api/v1/jobs/recommendations') && method === 'GET') {
       try {
-        const activeJobs = await prisma.job.findMany({
-          where: { status: 'ACTIVE' },
+        const q = parsedUrl.query || {};
+        const experienceRange = q.experienceRange || q.experience || 'all';
+        const category = q.category || 'all';
+        const atsFilter = q.ats || 'all';
+        const regionFilter = q.region || 'all';
+        const searchQuery = (q.search || q.q || '').trim().toLowerCase();
+        const eligibilityMode = q.eligibilityMode || 'all';
+        const view = q.view || 'all_jobs'; // 'all_jobs' vs 'eligible_jobs'
+        const page = parseInt(q.page, 10) || 1;
+        const limit = parseInt(q.limit, 10) || 50;
+
+        // Candidate context for eligibility evaluation
+        let candidateProfile = null;
+        if (q.candidateProfileId) {
+          candidateProfile = await prisma.candidateProfile.findUnique({
+            where: { id: q.candidateProfileId },
+            include: { user: true, facts: true }
+          });
+        }
+        if (!candidateProfile && db.user) {
+          candidateProfile = {
+            id: 'default-profile',
+            user: db.user,
+            yearsExp: db.user.yearsExp || 2,
+            education: db.user.education,
+            bachelors: db.user.bachelors,
+            skills: db.user.skills,
+            needsSponsorship: db.user.needsSponsorship,
+            preferredLocations: db.user.preferredLocations,
+            facts: [
+              {
+                factType: 'WORK_EXPERIENCE',
+                title: 'Python Developer Intern',
+                organization: 'Mantarang Edtech LLP',
+                startDate: '2023-01',
+                endDate: '2023-08',
+                verified: true
+              },
+              {
+                factType: 'EDUCATION',
+                title: 'M.Sc. Computer Science',
+                organization: 'Osmania University',
+                startDate: '2024-09',
+                endDate: '2026-08',
+                verified: true
+              }
+            ]
+          };
+        }
+
+        // Database-level filtering where possible
+        const whereClause = { status: 'ACTIVE' };
+        if (atsFilter !== 'all') {
+          whereClause.ats = atsFilter.toLowerCase();
+        }
+        if (q.fresherOnly === 'true' || q.fresherOnly === '1') {
+          whereClause.isFresherFriendly = true;
+        }
+
+        const allActiveJobs = await prisma.job.findMany({
+          where: whereClause,
           orderBy: { createdAt: 'desc' }
         });
-        if (activeJobs && activeJobs.length > 0) {
-          const formatted = activeJobs.map(j => ({
+
+        let jobsPool = allActiveJobs;
+        if (!jobsPool || jobsPool.length === 0) {
+          // Fallback to in-memory store
+          jobsPool = (db.jobs || []).map(j => ({
+            ...j,
+            requirements: JSON.stringify(j.requirements || [])
+          }));
+        }
+
+        // Apply in-memory filtering: Category, Region, Search Keyword, Experience Interval, Eligibility
+        const filtered = [];
+
+        for (const j of jobsPool) {
+          // 1. Employer Category
+          if (category !== 'all' && j.category && j.category !== category) {
+            continue;
+          }
+
+          // 2. ATS Filter
+          if (atsFilter !== 'all' && j.ats && j.ats.toLowerCase() !== atsFilter.toLowerCase()) {
+            continue;
+          }
+
+          // 3. Region Filter
+          if (regionFilter !== 'all' && j.region && j.region !== regionFilter && j.region !== 'global') {
+            continue;
+          }
+
+          // 4. Keyword Search
+          if (searchQuery) {
+            const textToMatch = `${j.company || ''} ${j.title || ''} ${j.location || ''} ${j.requirements || ''}`.toLowerCase();
+            if (!textToMatch.includes(searchQuery)) {
+              continue;
+            }
+          }
+
+          // 5. Experience Overlapping Range Filter
+          if (experienceRange !== 'all') {
+            if (!experienceEngine.isJobMatchingExperienceFilter(j, experienceRange)) {
+              continue;
+            }
+          }
+
+          // 6. Experience Eligibility Assessment
+          let eligibility = null;
+          if (candidateProfile) {
+            eligibility = experienceEngine.evaluateExperienceEligibility(candidateProfile, j);
+          }
+
+          // 7. View & Eligibility Mode Filter
+          if (view === 'eligible_jobs' || eligibilityMode === 'eligible_only') {
+            if (eligibility && eligibility.status !== 'ELIGIBLE') {
+              continue;
+            }
+          } else if (eligibilityMode === 'eligible_and_needs_verification') {
+            if (eligibility && eligibility.status === 'INELIGIBLE') {
+              continue;
+            }
+          }
+
+          filtered.push({
             id: j.id,
             company: j.company,
             title: j.title,
             url: j.url,
-            applyUrl: j.applyUrl,
+            applyUrl: j.applyUrl || j.url,
             ats: j.ats,
             atsName: j.atsName,
             location: j.location,
             jobType: j.jobType,
-            salary: j.salary.startsWith('{') ? JSON.parse(j.salary) : j.salary,
+            salary: typeof j.salary === 'string' && j.salary.startsWith('{') ? JSON.parse(j.salary) : (j.salary || '$120,000 - $160,000'),
             postedAt: j.postedAt,
-            requirements: j.requirements.startsWith('[') ? JSON.parse(j.requirements) : []
-          }));
-          res.writeHead(200);
-          res.end(JSON.stringify({ jobs: formatted }));
-          return;
+            requirements: typeof j.requirements === 'string' && j.requirements.startsWith('[') ? JSON.parse(j.requirements) : (j.requirements || []),
+            minExperienceYears: j.minExperienceYears,
+            maxExperienceYears: j.maxExperienceYears,
+            experienceCategory: j.experienceCategory || 'NOT_SPECIFIED',
+            experienceRequirementType: j.experienceRequirementType || 'UNSPECIFIED',
+            experienceSourceText: j.experienceSourceText,
+            experienceExtractionConfidence: j.experienceExtractionConfidence,
+            experienceVerificationStatus: j.experienceVerificationStatus || 'UNSPECIFIED',
+            isFresherFriendly: Boolean(j.isFresherFriendly),
+            acceptsInternships: j.acceptsInternships,
+            graduationYearRestrictions: j.graduationYearRestrictions,
+            eligibility: eligibility
+          });
         }
-      } catch (err) {}
-      // Fallback to in-memory store
-      res.writeHead(200);
-      res.end(JSON.stringify({ jobs: db.jobs }));
-      return;
+
+        // Pagination
+        const total = filtered.length;
+        const totalPages = Math.ceil(total / limit) || 1;
+        const startIndex = (page - 1) * limit;
+        const paginatedJobs = filtered.slice(startIndex, startIndex + limit);
+
+        res.writeHead(200);
+        res.end(JSON.stringify({
+          success: true,
+          total,
+          page,
+          totalPages,
+          hasMore: page < totalPages,
+          jobs: paginatedJobs
+        }));
+        return;
+      } catch (err) {
+        res.writeHead(500);
+        res.end(JSON.stringify({ success: false, error: err.message }));
+        return;
+      }
+    }
+
+    // GET /api/v1/jobs/experience-categories
+    if (pathname === '/api/v1/jobs/experience-categories' && method === 'GET') {
+      try {
+        const allJobs = await prisma.job.findMany({
+          where: { status: 'ACTIVE' },
+          select: {
+            minExperienceYears: true,
+            maxExperienceYears: true,
+            experienceCategory: true,
+            isFresherFriendly: true
+          }
+        });
+
+        const counts = {
+          all: allJobs.length,
+          fresher: 0,
+          '0-1': 0,
+          '0-2': 0,
+          '1-3': 0,
+          '3-5': 0,
+          '5-8': 0,
+          '8+': 0,
+          unspecified: 0
+        };
+
+        for (const j of allJobs) {
+          if (experienceEngine.isJobMatchingExperienceFilter(j, 'fresher')) counts.fresher++;
+          if (experienceEngine.isJobMatchingExperienceFilter(j, '0-1')) counts['0-1']++;
+          if (experienceEngine.isJobMatchingExperienceFilter(j, '0-2')) counts['0-2']++;
+          if (experienceEngine.isJobMatchingExperienceFilter(j, '1-3')) counts['1-3']++;
+          if (experienceEngine.isJobMatchingExperienceFilter(j, '3-5')) counts['3-5']++;
+          if (experienceEngine.isJobMatchingExperienceFilter(j, '5-8')) counts['5-8']++;
+          if (experienceEngine.isJobMatchingExperienceFilter(j, '8+')) counts['8+']++;
+          if (experienceEngine.isJobMatchingExperienceFilter(j, 'unspecified')) counts.unspecified++;
+        }
+
+        res.writeHead(200);
+        res.end(JSON.stringify({ success: true, counts }));
+        return;
+      } catch (err) {
+        res.writeHead(500);
+        res.end(JSON.stringify({ success: false, error: err.message }));
+        return;
+      }
+    }
+
+    // POST /api/v1/jobs/backfill-experience
+    if (pathname === '/api/v1/jobs/backfill-experience' && method === 'POST') {
+      try {
+        const report = await experienceEngine.backfillExistingJobs(prisma);
+        res.writeHead(200);
+        res.end(JSON.stringify({ success: true, report }));
+        return;
+      } catch (err) {
+        res.writeHead(500);
+        res.end(JSON.stringify({ success: false, error: err.message }));
+        return;
+      }
+    }
+
+    // POST & GET /api/v1/users/filter-preferences
+    if (pathname === '/api/v1/users/filter-preferences') {
+      if (method === 'POST') {
+        const body = await parseBody(req);
+        db.user.filterPreferences = {
+          ...(db.user.filterPreferences || {}),
+          ...body
+        };
+        saveDB();
+        res.writeHead(200);
+        res.end(JSON.stringify({ success: true, filterPreferences: db.user.filterPreferences }));
+        return;
+      }
+      if (method === 'GET') {
+        res.writeHead(200);
+        res.end(JSON.stringify({ success: true, filterPreferences: db.user.filterPreferences || {} }));
+        return;
+      }
     }
 
     // POST /api/v1/jobs/verify-live (FEAT-005 Continuous Freshness Scan)

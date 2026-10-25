@@ -3,6 +3,7 @@
 
 const crypto = require('node:crypto');
 const prisma = require('./db');
+const experienceEngine = require('./experienceEngine');
 
 /**
  * Normalizes URL and requisition attributes to produce deterministic SHA-256 hash
@@ -103,6 +104,8 @@ async function ingestJobs(rawJobs = []) {
         continue;
       }
 
+      const exp = experienceEngine.classifyJobExperience(raw);
+
       const newJob = await prisma.job.create({
         data: {
           company: raw.company.trim(),
@@ -118,6 +121,16 @@ async function ingestJobs(rawJobs = []) {
           requirements: JSON.stringify(raw.requirements || []),
           requisitionHash: reqHash,
           status: 'ACTIVE',
+          minExperienceYears: exp.minExperienceYears,
+          maxExperienceYears: exp.maxExperienceYears,
+          experienceCategory: exp.experienceCategory,
+          experienceRequirementType: exp.experienceRequirementType,
+          experienceSourceText: exp.experienceSourceText,
+          experienceExtractionConfidence: exp.experienceExtractionConfidence,
+          experienceVerificationStatus: exp.experienceVerificationStatus,
+          isFresherFriendly: exp.isFresherFriendly,
+          acceptsInternships: exp.acceptsInternships,
+          graduationYearRestrictions: exp.graduationYearRestrictions,
           lastCheckedAt: new Date()
         }
       });
@@ -411,5 +424,7 @@ module.exports = {
   ingestAtsFeed,
   ScheduledJobIngestionEngine,
   scheduledEngine,
-  ATS_SOURCE_CAPABILITIES
+  ATS_SOURCE_CAPABILITIES,
+  backfillExistingJobs: () => experienceEngine.backfillExistingJobs(prisma),
+  experienceEngine
 };

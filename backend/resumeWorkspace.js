@@ -766,10 +766,30 @@ async function persistWorkspaceSession(workspaceData) {
  */
 async function loadWorkspaceSession(workspaceId) {
   try {
-    // Check if any application diffData contains this workspaceId
+    // 1. Direct indexed/contains lookup in PostgreSQL
+    const directApp = await prisma.application.findFirst({
+      where: {
+        diffData: {
+          contains: workspaceId
+        }
+      }
+    });
+
+    if (directApp && directApp.diffData) {
+      try {
+        const parsed = JSON.parse(directApp.diffData);
+        if (parsed && parsed.workspaceId === workspaceId) {
+          workspaceVersionRegistry.set(workspaceId, parsed);
+          return parsed;
+        }
+      } catch {}
+    }
+
+    // 2. Fallback scan across recent applications
     const apps = await prisma.application.findMany({
       where: { diffData: { not: null } },
-      take: 50
+      orderBy: { updatedAt: 'desc' },
+      take: 200
     });
 
     for (const app of apps) {

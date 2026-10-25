@@ -182,15 +182,17 @@
           </div>
         </div>
 
-        <!-- Filter Bar: Category Tabs & Selectors -->
-        <div class="clay-card-flat" style="padding:14px 18px; margin-bottom:20px; display:flex; flex-direction:column; gap:12px;">
-          <!-- Row 1: Company Category Filter Tabs -->
+        <!-- Filter Bar: Experience-Aware Intelligence & Selectors -->
+        <div class="clay-card-flat" style="padding:16px 20px; margin-bottom:20px; display:flex; flex-direction:column; gap:14px; border:1px solid rgba(224,96,30,0.18); background:#ffffff;">
+          
+          <!-- Row 1: Discovery Views (All Jobs vs Jobs I'm Eligible For) & Search -->
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-            <div class="clay-tabs-pill">
-              <button class="clay-tab-item active cat-tab" onclick="setCategoryFilter('all', this)">🌐 All Employers (1,358)</button>
-              <button class="clay-tab-item cat-tab" onclick="setCategoryFilter('startup', this)">🦄 High-Growth Startups (434)</button>
-              <button class="clay-tab-item cat-tab" onclick="setCategoryFilter('product', this)">🏢 Product Giants (500)</button>
-              <button class="clay-tab-item cat-tab" onclick="setCategoryFilter('service', this)">💼 Enterprise Services (424)</button>
+            <div class="clay-tabs-pill" style="background:#f4efe6;">
+              <button id="view-tab-all" class="clay-tab-item active disc-tab" onclick="setDiscoveryView('all_jobs', this)">🌐 All Opportunities (1,358)</button>
+              <button id="view-tab-eligible" class="clay-tab-item disc-tab" onclick="setDiscoveryView('eligible_jobs', this)" style="display:inline-flex; align-items:center; gap:6px;">
+                <span>🎯 Jobs I'm Eligible For</span>
+                <span class="clay-badge clay-badge-orange" style="font-size:9.5px; padding:1px 6px;">M.Sc CS · 0–2 Yrs</span>
+              </button>
             </div>
 
             <!-- Search box -->
@@ -199,29 +201,88 @@
             </div>
           </div>
 
-          <!-- Row 2: Secondary Filters (ATS Engine & Region / Location) -->
-          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; border-top:1px solid rgba(180,170,155,0.25); padding-top:10px;">
-            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-              <span style="font-size:11.5px; font-weight:700; color:#525d6d;">ATS ENGINE:</span>
-              <div style="display:inline-flex; gap:6px;">
-                <button class="clay-btn clay-btn-surface ats-pill active" style="padding:4px 10px; font-size:11px;" onclick="setAtsFilter('all', this)">All ATS</button>
-                <button class="clay-btn clay-btn-surface ats-pill" style="padding:4px 10px; font-size:11px;" onclick="setAtsFilter('ashby', this)">⚡ Ashby</button>
-                <button class="clay-btn clay-btn-surface ats-pill" style="padding:4px 10px; font-size:11px;" onclick="setAtsFilter('workday', this)">🏢 Workday</button>
-                <button class="clay-btn clay-btn-surface ats-pill" style="padding:4px 10px; font-size:11px;" onclick="setAtsFilter('greenhouse', this)">🌱 Greenhouse</button>
+          <!-- Row 2: Employer-Required Experience Interval Filter -->
+          <div style="display:flex; flex-direction:column; gap:8px; border-top:1px solid rgba(180,170,155,0.22); padding-top:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:12px; font-weight:800; color:#171d26; text-transform:uppercase; letter-spacing:0.03em;">⏳ Experience Required (Employer Stated):</span>
+                <span style="font-size:11px; color:#525d6d;">(Overlapping ranges supported)</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:11.5px; font-weight:700; color:#525d6d;">ELIGIBILITY:</span>
+                <select id="eligibility-mode-select" class="clay-input" style="padding:4px 10px; font-size:11.5px; width:auto; height:32px; font-weight:700; background:#fff; cursor:pointer;" onchange="setEligibilityMode(this.value)">
+                  <option value="all">Show all matching jobs</option>
+                  <option value="eligible_only">✓ Eligible only</option>
+                  <option value="eligible_and_needs_verification">⚡ Eligible + Needs Verification</option>
+                </select>
               </div>
             </div>
 
-            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <!-- Experience Pills -->
+            <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+              <button class="clay-btn clay-btn-surface exp-pill active" style="padding:5px 12px; font-size:11.5px;" onclick="setExperienceFilter('all', this)">All Experience Levels</button>
+              <button class="clay-btn clay-btn-surface exp-pill" style="padding:5px 12px; font-size:11.5px;" onclick="setExperienceFilter('fresher', this)">🎓 Fresher / Graduate / No Experience</button>
+              <button class="clay-btn clay-btn-surface exp-pill" style="padding:5px 12px; font-size:11.5px;" onclick="setExperienceFilter('0-1', this)">0–1 years</button>
+              <button class="clay-btn clay-btn-surface exp-pill" style="padding:5px 12px; font-size:11.5px;" onclick="setExperienceFilter('0-2', this)">0–2 years</button>
+              <button class="clay-btn clay-btn-surface exp-pill" style="padding:5px 12px; font-size:11.5px;" onclick="setExperienceFilter('1-3', this)">1–3 years</button>
+              <button class="clay-btn clay-btn-surface exp-pill" style="padding:5px 12px; font-size:11.5px;" onclick="setExperienceFilter('3-5', this)">3–5 years</button>
+              <button class="clay-btn clay-btn-surface exp-pill" style="padding:5px 12px; font-size:11.5px;" onclick="setExperienceFilter('5-8', this)">5–8 years</button>
+              <button class="clay-btn clay-btn-surface exp-pill" style="padding:5px 12px; font-size:11.5px;" onclick="setExperienceFilter('8+', this)">8+ years</button>
+              <button class="clay-btn clay-btn-surface exp-pill" style="padding:5px 12px; font-size:11.5px;" onclick="setExperienceFilter('unspecified', this)">❓ Not Specified</button>
+            </div>
+          </div>
+
+          <!-- Row 3: Employer Category & Secondary ATS / Region Filters -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; border-top:1px solid rgba(180,170,155,0.22); padding-top:10px;">
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <span style="font-size:11.5px; font-weight:700; color:#525d6d;">EMPLOYER:</span>
+              <div class="clay-tabs-pill" style="padding:2px;">
+                <button class="clay-tab-item active cat-tab" style="padding:4px 10px; font-size:11px;" onclick="setCategoryFilter('all', this)">All</button>
+                <button class="clay-tab-item cat-tab" style="padding:4px 10px; font-size:11px;" onclick="setCategoryFilter('startup', this)">🦄 Startups</button>
+                <button class="clay-tab-item cat-tab" style="padding:4px 10px; font-size:11px;" onclick="setCategoryFilter('product', this)">🏢 Product</button>
+                <button class="clay-tab-item cat-tab" style="padding:4px 10px; font-size:11px;" onclick="setCategoryFilter('service', this)">💼 Services</button>
+              </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <span style="font-size:11.5px; font-weight:700; color:#525d6d;">ATS:</span>
+              <div style="display:inline-flex; gap:4px;">
+                <button class="clay-btn clay-btn-surface ats-pill active" style="padding:3px 8px; font-size:11px;" onclick="setAtsFilter('all', this)">All</button>
+                <button class="clay-btn clay-btn-surface ats-pill" style="padding:3px 8px; font-size:11px;" onclick="setAtsFilter('ashby', this)">Ashby</button>
+                <button class="clay-btn clay-btn-surface ats-pill" style="padding:3px 8px; font-size:11px;" onclick="setAtsFilter('workday', this)">Workday</button>
+                <button class="clay-btn clay-btn-surface ats-pill" style="padding:3px 8px; font-size:11px;" onclick="setAtsFilter('greenhouse', this)">Greenhouse</button>
+              </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
               <span style="font-size:11.5px; font-weight:700; color:#525d6d;">REGION:</span>
-              <div style="display:inline-flex; gap:6px;">
-                <button class="clay-btn clay-btn-surface region-pill active" style="padding:4px 10px; font-size:11px;" onclick="setRegionFilter('all', this)">All Regions</button>
-                <button class="clay-btn clay-btn-surface region-pill" style="padding:4px 10px; font-size:11px;" onclick="setRegionFilter('global', this)">🌍 Remote (Global)</button>
-                <button class="clay-btn clay-btn-surface region-pill" style="padding:4px 10px; font-size:11px;" onclick="setRegionFilter('us', this)">🇺🇸 US / Canada (Visa)</button>
-                <button class="clay-btn clay-btn-surface region-pill" style="padding:4px 10px; font-size:11px;" onclick="setRegionFilter('emea', this)">🇪🇺 Europe & UK</button>
-                <button class="clay-btn clay-btn-surface region-pill" style="padding:4px 10px; font-size:11px;" onclick="setRegionFilter('apac', this)">🇮🇳 India & APAC</button>
+              <div style="display:inline-flex; gap:4px;">
+                <button class="clay-btn clay-btn-surface region-pill active" style="padding:3px 8px; font-size:11px;" onclick="setRegionFilter('all', this)">All</button>
+                <button class="clay-btn clay-btn-surface region-pill" style="padding:3px 8px; font-size:11px;" onclick="setRegionFilter('global', this)">Remote</button>
+                <button class="clay-btn clay-btn-surface region-pill" style="padding:3px 8px; font-size:11px;" onclick="setRegionFilter('us', this)">US/Visa</button>
+                <button class="clay-btn clay-btn-surface region-pill" style="padding:3px 8px; font-size:11px;" onclick="setRegionFilter('apac', this)">India/APAC</button>
               </div>
             </div>
           </div>
+
+          <!-- Row 4: Example Active Filter Preview Bar with Copy Selection -->
+          <div id="filter-preview-bar" style="background:#faf7f2; border:1px solid rgba(224,96,30,0.25); border-radius:12px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <span class="clay-badge clay-badge-orange" style="font-size:10px; font-weight:800; padding:2px 7px;">PREVIEW</span>
+              <span id="active-filter-preview-text" style="font-size:12px; font-weight:700; color:#171d26;">
+                Experience: All experience levels · Eligibility: Show all matching jobs · View: All Opportunities
+              </span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button id="copy-selection-btn" class="clay-btn clay-btn-surface" style="padding:4px 12px; font-size:11px; display:inline-flex; align-items:center; gap:5px;" onclick="copyFilterSelection()">
+                📋 Copy selection
+              </button>
+              <button class="clay-btn clay-btn-surface" style="padding:4px 10px; font-size:11px; color:#b91c1c;" onclick="resetAllJobFilters()">
+                Reset
+              </button>
+            </div>
+          </div>
+
         </div>
 
         <div id="matches-grid" class="ts-matches-grid">

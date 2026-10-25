@@ -4,6 +4,7 @@
 // Enforces 3 distinct eligibility classifications: ELIGIBLE, INELIGIBLE, NEEDS_VERIFICATION.
 
 const prisma = require('./db');
+const experienceEngine = require('./experienceEngine');
 
 // Canonical skill keywords and aliases for robust extraction and comparison
 const CANONICAL_SKILL_KEYWORDS = [
@@ -75,37 +76,39 @@ function normalizeSkill(s) {
 function getDegreeRank(degreeStr) {
   if (!degreeStr || typeof degreeStr !== 'string') return 0;
   const lower = degreeStr.toLowerCase();
-  if (lower.includes('phd') || lower.includes('doctorate') || lower.includes('d.phil')) return 4;
-  if (lower.includes('master') || lower.includes('ms') || lower.includes('msc') || lower.includes('m.tech') || lower.includes('mba') || lower.includes('postgraduate')) return 3;
-  if (lower.includes('bachelor') || lower.includes('bs') || lower.includes('bsc') || lower.includes('b.tech') || lower.includes('b.e') || lower.includes('undergraduate') || lower.includes('degree in computer science')) return 2;
-  if (lower.includes('associate') || lower.includes('diploma') || lower.includes('bootcamp') || lower.includes('certificate')) return 1;
+  const clean = lower.replace(/\./g, '');
+  if (clean.includes('phd') || clean.includes('doctorate') || clean.includes('dphil')) return 4;
+  if (clean.includes('master') || clean.includes('msc') || clean.includes('mtech') || clean.includes('mba') || clean.includes('postgraduate') || /\bms\b/.test(clean)) return 3;
+  if (clean.includes('bachelor') || clean.includes('bsc') || clean.includes('btech') || clean.includes('be') || clean.includes('undergraduate') || clean.includes('degree in computer science') || /\bbs\b/.test(clean)) return 2;
+  if (clean.includes('associate') || clean.includes('diploma') || clean.includes('bootcamp') || clean.includes('certificate')) return 1;
   return 0;
 }
 
 /**
- * Determine estimated minimum years of experience from job title and requirements
+ * Determine verified minimum years of experience from job posting fields or experience classification engine.
+ * Never guesses from job titles (e.g. Associate Engineer, Analyst, SDE I) without source evidence.
  */
 function extractRequiredYears(job) {
+  if (typeof job.minExperienceYears === 'number') {
+    return job.minExperienceYears;
+  }
   if (typeof job.minYearsExperience === 'number') {
     return job.minYearsExperience;
   }
-
-  const textToScan = `${job.title || ''} ${(Array.isArray(job.requirements) ? job.requirements.join(' ') : job.requirements || '')}`;
-  
-  const yrMatch = textToScan.match(/(\d+)\+?\s*(?:-\s*\d+\s*)?years?(?:\s+of\s+experience)?/i);
-  if (yrMatch) {
-    return parseInt(yrMatch[1], 10);
+  if (job.isFresherFriendly) {
+    return 0;
   }
 
-  const titleLower = (job.title || '').toLowerCase();
-  if (titleLower.includes('principal') || titleLower.includes('architect') || titleLower.includes('director')) return 8;
-  if (titleLower.includes('staff')) return 8;
-  if (titleLower.includes('lead')) return 7;
-  if (titleLower.includes('senior') || titleLower.includes('sr.')) return 5;
-  if (titleLower.includes('mid') || titleLower.includes('intermediate')) return 3;
-  if (titleLower.includes('junior') || titleLower.includes('entry') || titleLower.includes('associate') || titleLower.includes('graduate')) return 0;
+  const exp = experienceEngine.classifyJobExperience(job);
+  if (typeof exp.minExperienceYears === 'number') {
+    return exp.minExperienceYears;
+  }
+  if (exp.isFresherFriendly) {
+    return 0;
+  }
 
-  return 2; // Default baseline for unspecified software engineering roles
+  // When experience is unspecified in the posting text, return null to avoid silent guessing
+  return null;
 }
 
 /**
@@ -254,32 +257,22 @@ function parseJobRequirements(job) {
 }
 
 /**
- * Calculate candidate's verifiable professional experience years from facts or profile
+ * Calculate candidate's verifiable professional experience years from facts or profile.
+ * Distinguishes full-time from internships, and preserves 0 years without fabricating 3.0 defaults.
  */
 function calculateCandidateYearsExperience(candidateProfile) {
+  if (typeof candidateProfile.yearsExp === 'number') {
+    return candidateProfile.yearsExp;
+  }
   if (typeof candidateProfile.yearsExperience === 'number') {
     return candidateProfile.yearsExperience;
   }
 
-  if (Array.isArray(candidateProfile.facts)) {
-    const workFacts = candidateProfile.facts.filter(f => f.factType === 'WORK_EXPERIENCE');
-    if (workFacts.length > 0) {
-      let totalMonths = 0;
-      for (const fact of workFacts) {
-        const start = fact.startDate ? new Date(fact.startDate) : null;
-        const end = (fact.endDate && fact.endDate.toLowerCase() !== 'present') ? new Date(fact.endDate) : new Date();
-        if (start && !isNaN(start.getTime()) && !isNaN(end.getTime())) {
-          const diffMonths = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
-          totalMonths += Math.max(diffMonths, 3);
-        } else {
-          totalMonths += 18; // 1.5 years estimated
-        }
-      }
-      return Math.round((totalMonths / 12) * 10) / 10;
-    }
-  }
+  const detailed = experienceEngine.calculateDetailedCandidateExperience(candidateProfile);
+  if (detailed.fullTimeYears > 0) return detailed.fullTimeYears;
+  if (detailed.internshipYears > 0) return detailed.internshipYears;
 
-  return 3.0; // Standard default
+  return 0; // Truth-grounded default when candidate has no verified work history
 }
 
 /**
@@ -414,54 +407,23 @@ function computeJobMatch(candidate, job) {
     }
   }
 
-  // 1C. Seniority & Experience Cutoff Evaluation
-  if (requiredYears >= 8) {
-    if (candidateYears < 2) {
-      eligibility.details.seniority = {
-        status: 'INELIGIBLE',
-        note: `Role requires Staff/Principal seniority (${requiredYears}+ years experience); candidate has ${candidateYears} years`
-      };
-      eligibility.reasons.push(eligibility.details.seniority.note);
-    } else if (candidateYears < 5) {
-      eligibility.details.seniority = {
-        status: 'NEEDS_VERIFICATION',
-        note: `Role requires Staff seniority (${requiredYears}+ years); candidate has ${candidateYears} years (domain depth may compensate)`
-      };
-      eligibility.reasons.push(eligibility.details.seniority.note);
-    } else {
-      eligibility.details.seniority = {
-        status: 'ELIGIBLE',
-        note: `Candidate experience (${candidateYears} yrs) aligns with Staff target (${requiredYears}+ yrs)`
-      };
-    }
-  } else if (requiredYears >= 5) {
-    if (candidateYears < 1) {
-      eligibility.details.seniority = {
-        status: 'INELIGIBLE',
-        note: `Role requires Senior seniority (${requiredYears}+ years); candidate has ${candidateYears} years`
-      };
-      eligibility.reasons.push(eligibility.details.seniority.note);
-    } else if (candidateYears < 3) {
-      eligibility.details.seniority = {
-        status: 'NEEDS_VERIFICATION',
-        note: `Role requires Senior seniority (${requiredYears}+ years); candidate has ${candidateYears} years (strong foundation)`
-      };
-      eligibility.reasons.push(eligibility.details.seniority.note);
-    } else {
-      eligibility.details.seniority = {
-        status: 'ELIGIBLE',
-        note: `Candidate experience (${candidateYears} yrs) aligns with Senior target (${requiredYears}+ yrs)`
-      };
-    }
-  } else {
-    eligibility.details.seniority = {
-      status: 'ELIGIBLE',
-      note: `Experience matches role requirements (${candidateYears} yrs vs ${requiredYears} required)`
-    };
+  // 1C. Seniority & Experience Cutoff Evaluation (FEAT-005/006 Integration)
+  const expEligibility = experienceEngine.evaluateExperienceEligibility(candidate, job);
+  eligibility.details.seniority = {
+    status: expEligibility.status,
+    note: expEligibility.reason,
+    gapYears: expEligibility.gapYears || 0,
+    sourceText: expEligibility.sourceText || null,
+    provenance: expEligibility.provenance || null
+  };
+  if (expEligibility.status === 'INELIGIBLE') {
+    eligibility.reasons.push(expEligibility.reason);
+  } else if (expEligibility.status === 'NEEDS_VERIFICATION') {
+    eligibility.reasons.push(expEligibility.reason);
   }
 
   // 1D. Degree Equivalence and Required Discipline Evaluation
-  const candEduStr = (candidate.education || candidate.bachelors || '').toLowerCase();
+  const candEduStr = `${candidate.education || ''} ${candidate.bachelors || ''}`.trim().toLowerCase();
   const candDegreeRank = getDegreeRank(candEduStr);
 
   if (requiredDegreeRank > 0) {
@@ -562,18 +524,15 @@ function computeJobMatch(candidate, job) {
 
   // Factor 3: Seniority & Experience Alignment (Weight: 25 points)
   let experienceScore = 0;
-  const expDiff = candidateYears - requiredYears;
-  if (expDiff >= 0) {
+  if (expEligibility.status === 'ELIGIBLE') {
     experienceScore = 25;
-  } else if (expDiff >= -1) {
-    experienceScore = 20;
-  } else if (expDiff >= -2) {
-    experienceScore = 14;
-  } else if (expDiff >= -3) {
-    experienceScore = 8;
+  } else if (expEligibility.status === 'NEEDS_VERIFICATION') {
+    experienceScore = (expEligibility.gapYears || 0) <= 1.0 ? 18 : 12;
   } else {
-    experienceScore = 3;
+    // Ineligible due to experience gap
+    experienceScore = 4;
   }
+  const expDiff = requiredYears !== null ? (candidateYears - requiredYears) : 0;
 
   // Factor 4: Domain & Education Alignment with Degree Equivalence (Weight: 15 points)
   let domainEducationScore = 0;
@@ -664,7 +623,9 @@ function computeJobMatch(candidate, job) {
         max: 25,
         candidateYears,
         requiredYears,
-        difference: expDiff
+        difference: expDiff,
+        status: expEligibility.status,
+        provenance: expEligibility.provenance
       },
       domainEducation: {
         score: domainEducationScore,
@@ -672,6 +633,16 @@ function computeJobMatch(candidate, job) {
         degreeRank: candDegreeRank,
         degreeEquivalenceSatisfied: candDegreeRank >= requiredDegreeRank
       }
+    },
+    experienceIntelligence: {
+      minExperienceYears: job.minExperienceYears !== undefined ? job.minExperienceYears : null,
+      maxExperienceYears: job.maxExperienceYears !== undefined ? job.maxExperienceYears : null,
+      experienceCategory: job.experienceCategory || 'NOT_SPECIFIED',
+      experienceRequirementType: job.experienceRequirementType || 'UNSPECIFIED',
+      isFresherFriendly: Boolean(job.isFresherFriendly),
+      experienceSourceText: job.experienceSourceText || null,
+      experienceVerificationStatus: job.experienceVerificationStatus || 'UNSPECIFIED',
+      eligibility: expEligibility
     },
     summaryReason
   };
@@ -710,7 +681,27 @@ async function matchCandidateAgainstJobs(candidateProfileId, options = {}) {
   const rankedOpportunities = [];
 
   for (const job of activeJobs) {
+    // 1. Experience Filter (supports overlapping intervals)
+    if (options.experienceFilter && options.experienceFilter !== 'all') {
+      if (!experienceEngine.isJobMatchingExperienceFilter(job, options.experienceFilter)) {
+        continue;
+      }
+    }
+
     const matchResult = computeJobMatch(candidate, job);
+
+    // 2. Eligibility Mode Filter
+    if (options.eligibilityMode === 'eligible_only') {
+      if (matchResult.eligibility.status !== 'ELIGIBLE') continue;
+    } else if (options.eligibilityMode === 'eligible_and_needs_verification') {
+      if (matchResult.eligibility.status === 'INELIGIBLE') continue;
+    }
+
+    // 3. View Filter (Discovery Views: "All Jobs" vs "Jobs I'm Eligible For")
+    if (options.view === 'eligible_jobs') {
+      if (matchResult.eligibility.status === 'INELIGIBLE') continue;
+    }
+
     if (matchResult.compositeScore >= minScore) {
       rankedOpportunities.push({
         job: {
@@ -720,15 +711,30 @@ async function matchCandidateAgainstJobs(candidateProfileId, options = {}) {
           ats: job.ats,
           url: job.url,
           location: job.location,
-          postedAt: job.postedAt
+          postedAt: job.postedAt,
+          minExperienceYears: job.minExperienceYears,
+          maxExperienceYears: job.maxExperienceYears,
+          experienceCategory: job.experienceCategory,
+          isFresherFriendly: job.isFresherFriendly,
+          experienceVerificationStatus: job.experienceVerificationStatus
         },
         ...matchResult
       });
     }
   }
 
-  // Sort by compositeScore descending
-  rankedOpportunities.sort((a, b) => b.compositeScore - a.compositeScore);
+  // Prioritize fresher-friendly roles if candidate has <= 1 yr experience or requested
+  const candYears = calculateCandidateYearsExperience(candidate);
+  if (candYears <= 1 || options.fresherPriority) {
+    rankedOpportunities.sort((a, b) => {
+      const aFresher = a.job.isFresherFriendly ? 1 : 0;
+      const bFresher = b.job.isFresherFriendly ? 1 : 0;
+      if (aFresher !== bFresher) return bFresher - aFresher;
+      return b.compositeScore - a.compositeScore;
+    });
+  } else {
+    rankedOpportunities.sort((a, b) => b.compositeScore - a.compositeScore);
+  }
 
   return rankedOpportunities.slice(0, limit);
 }

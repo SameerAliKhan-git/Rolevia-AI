@@ -141,6 +141,19 @@ model Job {
   requirements    String        // JSON array string
   requisitionHash String        @unique // SHA-256 of normalized URL + title + company for deduplication
   status          String        @default("ACTIVE") // ACTIVE, EXPIRED, ARCHIVED
+
+  // Experience Classification & Intelligence Fields (FEAT-005/006 Integration)
+  minExperienceYears             Float?
+  maxExperienceYears             Float?
+  experienceCategory             String?   // FRESHER, 0-1, 0-2, 1-3, 3-5, 5-8, 8+, NOT_SPECIFIED
+  experienceRequirementType      String    @default("UNSPECIFIED") // MANDATORY, PREFERRED, UNSPECIFIED
+  experienceSourceText           String?   // Original extracted source text
+  experienceExtractionConfidence  Float?    // 0.0 to 1.0 confidence score
+  experienceVerificationStatus   String    @default("UNSPECIFIED") // VERIFIED, NEEDS_VERIFICATION, UNSPECIFIED
+  isFresherFriendly              Boolean   @default(false)
+  acceptsInternships             Boolean?  @default(false)
+  graduationYearRestrictions     Json?     // Array of eligible graduation years e.g. ["2025", "2026"]
+
   lastCheckedAt   DateTime      @default(now())
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
@@ -148,6 +161,11 @@ model Job {
 
   @@index([status])
   @@index([requisitionHash])
+  @@index([minExperienceYears])
+  @@index([maxExperienceYears])
+  @@index([isFresherFriendly])
+  @@index([experienceCategory])
+  @@index([experienceVerificationStatus])
 }
 
 model Application {
