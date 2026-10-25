@@ -154,7 +154,7 @@ model Job {
   acceptsInternships             Boolean?  @default(false)
   graduationYearRestrictions     Json?     // Array of eligible graduation years e.g. ["2025", "2026"]
   skillSpecificExperience        Json?     // Disaggregated skill-specific experience requirements e.g. {"Python": 2}
-  sponsorshipAvailable           Boolean?  @default(true) // Whether employer offers visa sponsorship or accepts OPT/CPT
+  sponsorshipAvailable           Boolean?  // Three distinct states: true (available), false (restricted), null (unspecified / unknown)
 
   lastCheckedAt   DateTime      @default(now())
   createdAt       DateTime      @default(now())

@@ -41,6 +41,7 @@ function generateAccessToken(user) {
     tenantId: user.tenantId,
     email: user.email,
     name: user.name,
+    role: user.role || 'CANDIDATE',
     tokenType: 'access'
   };
   return jwt.sign(payload, JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRY });
@@ -377,6 +378,7 @@ module.exports = {
   rotateRefreshToken,
   revokeRefreshToken,
   verifyAccessToken,
+  extractAccessToken,
   authenticateRequest,
   registerUser,
   loginUser,

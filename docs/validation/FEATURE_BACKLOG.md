@@ -1,7 +1,7 @@
 # FEATURE BACKLOG: Rolevia AI Production Feature Inventory
 **Product**: Rolevia AI (Brand Identifier: `RoleviaAI`)  
-**Intended Domain**: `https://roleviaai.co.in` (with `rolevia.co.in` routing)  
-**Date**: October 24, 2026  
+**Intended Domain**: `https://roleviaai.co.in`  
+**Date**: October 25, 2026  
 **Auditor**: Principal Technical Program Manager & Product Lead  
 **Status**: Final Verified Production Feature Inventory  
 
@@ -18,7 +18,8 @@ Every feature is tracked with a permanent identifier (`FEAT-XXX`), component own
 | **FEAT-003** | **P0** | Dynamic PDF Resume Parser & Candidate Fact Store | Backend / AI | Release 0.1 | FEAT-001, FEAT-002 |
 | **FEAT-004** | **P0** | Cryptographic Razorpay HMAC & Credit Journal | Backend / Billing | Release 0.1 | FEAT-001, FEAT-002 |
 | **FEAT-005** | **P0** | Continuous Job Ingestion & Deduplication Crawler | Workers / Ingestion | Release 0.1 | FEAT-001 |
-| **FEAT-006** | **P1** | Explainable AI Job Matching & Hard Eligibility Engine | AI / Search | Release 0.2 | FEAT-003, FEAT-005 |
+| **FEAT-016** | **P0** | Experience-Aware Job Classification & Eligibility Engine | AI / Search | Release 0.1 | FEAT-001, FEAT-005 |
+| **FEAT-006** | **P1** | Explainable AI Job Matching & Hard Eligibility Engine | AI / Search | Release 0.2 | FEAT-003, FEAT-005, FEAT-016 |
 | **FEAT-007** | **P1** | Truth-Grounded Per-Job Resume & Cover Letter Optimizer | AI / Tailoring | Release 0.2 | FEAT-003, FEAT-006 |
 | **FEAT-008** | **P1** | Interactive Resume Diff Approval & Pre-Submit Review Modal | Frontend / UX | Release 0.2 | FEAT-007 |
 | **FEAT-009** | **P1** | Authorized Playwright ATS Runner (Greenhouse/Ashby/Workday) | Automation / Workers | Release 0.2 | FEAT-001, FEAT-004, FEAT-008 |
@@ -28,7 +29,6 @@ Every feature is tracked with a permanent identifier (`FEAT-XXX`), component own
 | **FEAT-013** | **P2** | Model Context Protocol (MCP) Server for Claude & Cursor | Backend / Agents | Release 0.3 | FEAT-002, FEAT-006, FEAT-009 |
 | **FEAT-014** | **P3** | Career Intelligence, Skill Gap Analysis & Interview Prep | AI / Analytics | Release 0.4 | FEAT-006, FEAT-010 |
 | **FEAT-015** | **P3** | Purchasing Power Parity (PPP) Multi-Currency Billing Engine | Billing / Growth | Release 0.4 | FEAT-004 |
-| **FEAT-016** | **P0** | Experience-Aware Job Classification & Eligibility Engine | AI / Search | Release 0.1 | FEAT-005, FEAT-006 |
 
 ---
 
@@ -145,12 +145,14 @@ Every feature is tracked with a permanent identifier (`FEAT-XXX`), component own
 
 ### FEAT-016: Experience-Aware Job Classification & Eligibility Engine
 - **Target**: Release 0.1 Foundation & Release 0.2 Matching Integration
-- **Prerequisites**: `FEAT-005`, `FEAT-006`
+- **Prerequisites**: `FEAT-001`, `FEAT-005` (Serves as prerequisite to `FEAT-006`)
 - **Development Requirements**:
   1. Truth-grounded experience extraction from job descriptions with interval parsing, provenance snippets, and confidence scoring.
   2. Disaggregation of overall career experience vs skill-specific experience requirements (e.g. 5+ yrs overall vs 2+ yrs Python).
   3. Fresher eligibility modeling, internship acceptance/exclusion detection, graduation batch filtering, and M.Sc degree equivalence.
   4. Tri-state eligibility evaluation (`ELIGIBLE`, `INELIGIBLE`, `NEEDS_VERIFICATION`) with missing requirements invariant (`NEEDS_VERIFICATION`, never assumed fresher).
   5. Dual discovery views (`view=all` vs `view=eligible`), clay-neumorphic filter bar, and secure backfill API with pagination and admin authentication.
-- **Completion Criteria**: 100% empirical precision & recall on benchmark fixture, 0% fresher FPR, and all automated engine tests passing.
+  6. Tri-state visa sponsorship modeling (`true`, `false`, `null`) without positive defaults.
+- **Completion Criteria**: 100% empirical precision & recall on benchmark fixture, 0% fresher FPR on 30-posting independent unseen dataset, and all 28 automated engine tests passing.
+
 

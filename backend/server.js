@@ -562,6 +562,13 @@ const server = http.createServer(async (req, res) => {
         let tenantId = 'default_tenant';
 
         const token = auth.extractAccessToken ? auth.extractAccessToken(req) : null;
+        if (!token && !req.headers['x-user-id']) {
+          res.writeHead(401);
+          res.end(JSON.stringify({ success: false, error: 'Authentication required: provide valid Bearer token or candidate identity header' }));
+          return;
+        }
+
+
         if (token) {
           const decoded = auth.verifyAccessToken ? auth.verifyAccessToken(token) : null;
           if (!decoded) {
@@ -575,6 +582,7 @@ const server = http.createServer(async (req, res) => {
           userId = req.headers['x-user-id'];
           tenantId = req.headers['x-tenant-id'] || 'default';
         }
+
 
         const scopedKey = `${tenantId}:${userId}`;
 

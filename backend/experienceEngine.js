@@ -87,7 +87,10 @@ const REGEX_PATTERNS = {
   internshipExcluded: /\b(?:full-time\s+(?:paid\s+)?(?:professional\s+)?experience\s+only|internships?(?:\s+experience)?\s+(?:do\s+not\s+count|not\s+considered|excluded|not\s+applicable))\b/i,
 
   // Work authorization / visa sponsorship restriction
-  workAuthRestricted: /\b(?:us\s+citizens?(?:\s+only)?|permanent\s+residents?(?:\s+only)?|no\s+(?:visa\s+)?sponsorship(?:\s+provided|\s+available)?|does\s+not\s+offer\s+sponsorship|must\s+be\s+authorized\s+to\s+work\s+in\s+the\s+u\.?s\.?(?:\s+without\s+sponsorship)?|itar(?:\s+compliance|\s+restricted)?|security\s+clearance\s+required|candidates\s+must\s+not\s+require\s+sponsorship)\b/i,
+  workAuthRestricted: /\b(?:us\s+citizens?(?:\s+only)?|permanent\s+residents?(?:\s+only)?|no\s+(?:visa\s+)?sponsorship(?:\s+provided|\s+available)?|does\s+not\s+offer\s+sponsorship|unable\s+to\s+sponsor|not\s+offering\s+sponsorship|cannot\s+(?:offer\s+|provide\s+)?sponsorship|must\s+be\s+authorized\s+to\s+work\s+in\s+the\s+u\.?s\.?(?:\s+without\s+(?:current\s+or\s+future\s+)?sponsorship)?|itar(?:\s+compliance|\s+restricted)?|security\s+clearance\s+required|candidates\s+must\s+not\s+require\s+sponsorship)\b/i,
+
+  // Visa sponsorship explicitly provided / available
+  sponsorshipProvided: /\b(?:visa\s+sponsorship\s+(?:is\s+)?(?:provided|available|offered|supported)|will\s+sponsor(?:\s+visas?|\s+work\s+visas?)?|open\s+to\s+sponsoring|h-?1b\s+(?:transfer\s+)?(?:welcome|accepted|supported|transfer\s+available)|opt\s*\/?\s*cpt\s+(?:accepted|eligible|supported)|sponsorship\s+available\b)/i,
 
   // Overall experience indicator (distinguishes total career years from individual tool years)
   overallExpKeywords: /\b(?:software\s+(?:development|engineering)|industry|professional|work|overall|total|commercial|relevant)\s*experience\b|\bexperience\s+(?:in\s+the\s+industry|in\s+software\s+development|as\s+a\s+software\s+engineer)\b/i
@@ -124,16 +127,20 @@ function classifyJobExperience(job = {}) {
   let status = VERIFICATION_STATUS.UNSPECIFIED;
   let conflictingStatements = [];
   let detectedSkillSpecific = {};
-  let sponsorshipAvailable = true;
+  let detectedSponsorshipRestricted = false;
+  let detectedSponsorshipProvided = false;
   let requiresWorkAuthorization = false;
 
   for (const item of items) {
     const text = item.text;
 
-    // Check work authorization / sponsorship restrictions
+    // Check work authorization / sponsorship restrictions & provisions
     if (REGEX_PATTERNS.workAuthRestricted.test(text)) {
-      sponsorshipAvailable = false;
-      requiresWorkAuthorization = true;
+      detectedSponsorshipRestricted = true;
+      if (!sourceText) sourceText = text;
+    }
+    if (REGEX_PATTERNS.sponsorshipProvided.test(text) && !/\b(?:no|not|cannot|does\s+not|without|unable\s+to)\b/i.test(text)) {
+      detectedSponsorshipProvided = true;
       if (!sourceText) sourceText = text;
     }
 
@@ -268,6 +275,22 @@ function classifyJobExperience(job = {}) {
   }
   if (detectedRange && detectedMin && Math.abs(detectedRange.min - detectedMin.min) >= 4) {
     conflictingStatements.push(`Range ${detectedRange.min}-${detectedRange.max} contradicts minimum ${detectedMin.min}`);
+  }
+
+  // Resolve Sponsorship & Work Authorization tri-state (true, false, null)
+  let sponsorshipAvailable = null;
+  if (detectedSponsorshipRestricted && detectedSponsorshipProvided) {
+    sponsorshipAvailable = null;
+    conflictingStatements.push('Job posting contains conflicting visa sponsorship statements (both restricted and offered)');
+  } else if (detectedSponsorshipRestricted) {
+    sponsorshipAvailable = false;
+    requiresWorkAuthorization = true;
+  } else if (detectedSponsorshipProvided) {
+    sponsorshipAvailable = true;
+    requiresWorkAuthorization = false;
+  } else {
+    sponsorshipAvailable = null; // Unspecified: employer has not stated policy
+    requiresWorkAuthorization = false;
   }
 
   // If no overall experience was stated but skill-specific experience was parsed:
@@ -541,6 +564,15 @@ function evaluateExperienceEligibility(candidate, job) {
         reason: 'Job requires independent work authorization or does not sponsor visas; candidate requires sponsorship.',
         sourceText: targetJob.experienceSourceText,
         provenance: 'SPONSORSHIP_RESTRICTED'
+      };
+    } else if (targetJob.sponsorshipAvailable === null || targetJob.sponsorshipAvailable === undefined) {
+      return {
+        status: 'NEEDS_VERIFICATION',
+        eligible: false,
+        gapYears: 0,
+        reason: 'Employer visa sponsorship policy is unstated; verification required before application as candidate requires sponsorship.',
+        sourceText: targetJob.experienceSourceText,
+        provenance: 'SPONSORSHIP_UNSPECIFIED'
       };
     }
   }

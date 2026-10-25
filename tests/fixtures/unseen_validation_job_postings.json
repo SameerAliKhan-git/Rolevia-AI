@@ -1,0 +1,680 @@
+[
+  {
+    "id": "UNSEEN-001",
+    "title": "Graduate Systems Engineer",
+    "company": "Siemens",
+    "description": "Join our industrial automation team as a Graduate Systems Engineer. Looking for 0-1 years of experience or fresh engineering graduates from 2025 or 2026 passout batches. Relevant internship experience in embedded C/C++ considered valid. Visa sponsorship is provided for qualified candidates.",
+    "requirements": [
+      "0-1 years of experience or fresh engineering graduate (2025/2026 batch)",
+      "Internship experience in C/C++ considered",
+      "Visa sponsorship is provided"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 1,
+      "experienceCategory": "0-1",
+      "acceptsInternships": true,
+      "sponsorshipAvailable": true,
+      "graduationYearRestrictions": ["2025", "2026"],
+      "candidateEligibilities": {
+        "fresher_2025_needs_sponsor": "ELIGIBLE",
+        "fresher_2023_needs_sponsor": "INELIGIBLE",
+        "junior_1yr_no_sponsor": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-002",
+    "title": "Senior Site Reliability Engineer",
+    "company": "Datadog",
+    "description": "Maintain reliability and scalability across distributed clusters. Minimum 6 years of production operations experience. Must have 3+ years of Kubernetes experience and 2+ years in Go. We are unable to provide visa sponsorship at this time.",
+    "requirements": [
+      "Minimum 6 years of production engineering experience",
+      "At least 3 years with Kubernetes",
+      "2+ years of programming in Go",
+      "No visa sponsorship provided; domestic candidates only"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 6,
+      "maxExperienceYears": null,
+      "experienceCategory": "5-8",
+      "sponsorshipAvailable": false,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "senior_6yr_needs_sponsor": "INELIGIBLE",
+        "senior_6yr_no_sponsor": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-003",
+    "title": "Junior Frontend Developer",
+    "company": "Canva",
+    "description": "Design delightful creative workflows. Looking for up to 2 years of frontend engineering experience with React. Freshers with strong GitHub portfolios welcome to apply.",
+    "requirements": [
+      "Up to 2 years of frontend engineering experience",
+      "Freshers welcome to apply",
+      "Proficiency with React and modern CSS"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 2,
+      "experienceCategory": "0-2",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr_no_sponsor": "ELIGIBLE",
+        "fresher_0yr_needs_sponsor": "NEEDS_VERIFICATION",
+        "senior_5yr": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-004",
+    "title": "Lead Distributed Systems Architect",
+    "company": "Snowflake",
+    "description": "Architect the next generation of our query execution engine. Requires 8+ years of total software engineering experience. US Citizens only due to federal defense customer requirements.",
+    "requirements": [
+      "8+ years of software development experience",
+      "US Citizens only",
+      "Deep expertise in distributed data stores"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 8,
+      "maxExperienceYears": null,
+      "experienceCategory": "8+",
+      "sponsorshipAvailable": false,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "mid_4yr": "INELIGIBLE",
+        "staff_9yr_needs_sponsor": "INELIGIBLE",
+        "staff_9yr_citizen": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-005",
+    "title": "Software Development Engineer I",
+    "company": "Amazon",
+    "description": "Build high-throughput customer-facing services. Bachelor's degree in Computer Science. Prior commercial experience is preferred but not mandatory; recent college graduates encouraged to apply.",
+    "requirements": [
+      "Bachelor's degree in CS or equivalent",
+      "Prior software engineering experience preferred but not mandatory",
+      "Recent graduates welcome"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 0,
+      "experienceCategory": "FRESHER",
+      "requirementType": "PREFERRED",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr_no_sponsor": "ELIGIBLE",
+        "fresher_0yr_needs_sponsor": "NEEDS_VERIFICATION"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-006",
+    "title": "Backend Engineer - Python",
+    "company": "Spotify",
+    "description": "Power audio discovery. Requires 2 to 4 years of software development experience with at least 2 years in Python. Full-time professional experience only; internships do not count toward this requirement.",
+    "requirements": [
+      "2 to 4 years of backend engineering experience",
+      "At least 2 years with Python",
+      "Full-time professional experience only; internships do not count"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 2,
+      "maxExperienceYears": 4,
+      "experienceCategory": "1-3",
+      "acceptsInternships": false,
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "intern_1yr_only": "INELIGIBLE",
+        "mid_3yr_with_python": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-007",
+    "title": "Associate Quality Assurance Engineer",
+    "company": "Infosys",
+    "description": "Join our test automation academy. Open exclusively to 2024 and 2025 engineering passouts. Zero experience required. Full comprehensive training provided.",
+    "requirements": [
+      "Exclusively for 2024 and 2025 batch passouts",
+      "Zero experience required",
+      "Basic understanding of Java or Python"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 0,
+      "experienceCategory": "FRESHER",
+      "graduationYearRestrictions": ["2024", "2025"],
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_2025_no_sponsor": "ELIGIBLE",
+        "fresher_2026_no_sponsor": "INELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-008",
+    "title": "Machine Learning Engineer",
+    "company": "OpenAI",
+    "description": "Develop and fine-tune large generative architectures. Requires 3+ years of software development experience with at least 2 years in PyTorch. Candidates holding an M.Sc in Computer Science satisfy requirements with reduced experience gap.",
+    "requirements": [
+      "3+ years of software engineering experience",
+      "2+ years hands-on with PyTorch",
+      "Bachelor's degree or Master's in Computer Science"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 3,
+      "maxExperienceYears": null,
+      "experienceCategory": "3-5",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "msc_cand_2yr_pytorch": "NEEDS_VERIFICATION",
+        "senior_4yr_pytorch": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-009",
+    "title": "Infrastructure Security Specialist",
+    "company": "CrowdStrike",
+    "description": "Protect critical infrastructure. Must be a US Citizen due to active government security requirements. We cannot offer visa sponsorship. Minimum 5 years of cybersecurity engineering experience.",
+    "requirements": [
+      "Minimum 5 years of cybersecurity engineering experience",
+      "Must be a US Citizen",
+      "No visa sponsorship provided"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 5,
+      "maxExperienceYears": null,
+      "experienceCategory": "5-8",
+      "sponsorshipAvailable": false,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "senior_5yr_needs_sponsor": "INELIGIBLE",
+        "senior_5yr_citizen": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-010",
+    "title": "Cloud Data Engineer",
+    "company": "Stripe",
+    "description": "Build petabyte-scale streaming pipelines. Requires 3 to 5 years of software development experience with at least 2 years in Apache Spark. Visa sponsorship is provided (H-1B transfer supported).",
+    "requirements": [
+      "3 to 5 years of software engineering experience",
+      "2+ years with Apache Spark or PySpark",
+      "Visa sponsorship is provided"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 3,
+      "maxExperienceYears": 5,
+      "experienceCategory": "3-5",
+      "sponsorshipAvailable": true,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "mid_3yr_needs_sponsor": "ELIGIBLE",
+        "mid_3yr_no_spark": "NEEDS_VERIFICATION"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-011",
+    "title": "Junior Web Developer (Unstated Experience)",
+    "company": "Local Agency",
+    "description": "Build high-converting landing pages using HTML, CSS, and modern JavaScript frameworks. Collaborative team mindset and willingness to learn.",
+    "requirements": [
+      "Fluent in HTML, CSS, and modern JavaScript",
+      "Responsive design experience",
+      "Portfolio of completed web projects"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": null,
+      "maxExperienceYears": null,
+      "experienceCategory": "NOT_SPECIFIED",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr": "NEEDS_VERIFICATION"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-012",
+    "title": "Engineering Team Lead (Contradictory Posting)",
+    "company": "Global Corp",
+    "description": "Entry level graduate position for fresh engineering talents. Candidate must have minimum 7 years of software development experience and proven leadership of engineering squads.",
+    "requirements": [
+      "Entry level graduate position",
+      "Minimum 7 years of software development experience",
+      "Track record leading agile engineering squads"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "verificationStatus": "NEEDS_VERIFICATION",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr": "NEEDS_VERIFICATION",
+        "senior_7yr": "NEEDS_VERIFICATION"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-013",
+    "title": "Mobile Engineer - React Native",
+    "company": "DoorDash",
+    "description": "Enhance consumer ordering apps. Requires 1 to 3 years of mobile application development experience. Relevant internship experience will be counted toward this requirement.",
+    "requirements": [
+      "1 to 3 years of mobile development experience",
+      "Relevant internship experience will be counted",
+      "Hands-on with React Native or iOS/Android native"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 1,
+      "maxExperienceYears": 3,
+      "experienceCategory": "1-3",
+      "acceptsInternships": true,
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr_no_intern": "NEEDS_VERIFICATION",
+        "fresher_with_1yr_intern": "ELIGIBLE",
+        "mid_2yr_mobile": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-014",
+    "title": "Enterprise Solutions Architect",
+    "company": "Oracle",
+    "description": "Design mission-critical cloud migrations for Fortune 500 banks. Requires 10+ years of total software engineering experience with at least 4 years in AWS cloud infrastructure.",
+    "requirements": [
+      "10+ years of software engineering experience",
+      "4+ years with AWS cloud architecture",
+      "Strong client-facing consulting background"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 10,
+      "maxExperienceYears": null,
+      "experienceCategory": "8+",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "senior_6yr": "INELIGIBLE",
+        "staff_11yr_aws": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-015",
+    "title": "Junior Full Stack Engineer",
+    "company": "Fintech Startup",
+    "description": "Help us build autonomous bookkeeping tools. Looking for 0-2 years of software engineering experience with Node.js and React. Visa sponsorship is provided for international graduates.",
+    "requirements": [
+      "0-2 years of software engineering experience",
+      "Proficiency in Node.js and React",
+      "Visa sponsorship is provided"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 2,
+      "experienceCategory": "0-2",
+      "sponsorshipAvailable": true,
+      "candidateEligibilities": {
+        "fresher_0yr_needs_sponsor": "ELIGIBLE",
+        "junior_1yr_needs_sponsor": "ELIGIBLE",
+        "junior_1yr_no_sponsor": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-016",
+    "title": "Staff Performance Engineer",
+    "company": "Netflix",
+    "description": "Optimize high-throughput video delivery systems. At least 8 years of software development experience required. Linux kernel performance tuning. We cannot offer visa sponsorship for this position.",
+    "requirements": [
+      "At least 8 years of software development experience",
+      "Deep Linux systems performance expertise",
+      "Cannot offer visa sponsorship"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 8,
+      "maxExperienceYears": null,
+      "experienceCategory": "8+",
+      "sponsorshipAvailable": false,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "staff_8yr_needs_sponsor": "INELIGIBLE",
+        "staff_8yr_citizen": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-017",
+    "title": "Research Scientist Intern",
+    "company": "DeepMind",
+    "description": "Explore frontier machine intelligence models. Currently enrolled in Master's or PhD program. No prior full-time industrial experience required; research publications welcome.",
+    "requirements": [
+      "Enrolled in Master's or PhD program",
+      "No prior experience required",
+      "Experience with PyTorch or JAX"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 0,
+      "experienceCategory": "FRESHER",
+      "acceptsInternships": true,
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr_no_sponsor": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-018",
+    "title": "DevOps Engineer",
+    "company": "Shopify",
+    "description": "Automate cloud infrastructure at global commerce scale. 4 to 6 years of software development experience. Demonstrated experience with Terraform and Kubernetes is preferred but personal homelab work also considered.",
+    "requirements": [
+      "4 to 6 years of software engineering experience",
+      "Experience with Kubernetes and Terraform preferred but not mandatory"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 4,
+      "maxExperienceYears": 6,
+      "experienceCategory": "3-5",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "mid_4yr_no_sponsor": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-019",
+    "title": "Embedded Firmware Developer",
+    "company": "Tesla",
+    "description": "Develop low-level firmware for battery management controllers. Must be authorized to work in the US without sponsorship. 2+ years of embedded C programming experience.",
+    "requirements": [
+      "2+ years of embedded software development experience",
+      "Proficient in C programming",
+      "Must be authorized to work in the US without sponsorship"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 2,
+      "maxExperienceYears": null,
+      "experienceCategory": "1-3",
+      "sponsorshipAvailable": false,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "mid_2yr_needs_sponsor": "INELIGIBLE",
+        "mid_2yr_citizen": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-020",
+    "title": "Graduate Trainee - Data Analytics",
+    "company": "Mu Sigma",
+    "description": "Join our analytics leadership development track. Campus placements exclusively for 2026 batch. Fresh graduates from B.Tech, B.Sc, or BCA. No prior work experience needed.",
+    "requirements": [
+      "2026 batch passouts only",
+      "No prior experience needed",
+      "Analytical aptitude and basic SQL skills"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 0,
+      "experienceCategory": "FRESHER",
+      "graduationYearRestrictions": ["2026"],
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_2026_no_sponsor": "ELIGIBLE",
+        "fresher_2024_no_sponsor": "INELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-021",
+    "title": "Senior Full Stack Engineer",
+    "company": "GitHub",
+    "description": "Build high-scale developer workflows. Requires 5+ years of software development experience with at least 2 years in TypeScript and 3+ years in Ruby.",
+    "requirements": [
+      "5+ years of software development experience",
+      "2+ years with TypeScript",
+      "3+ years with Ruby on Rails"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 5,
+      "maxExperienceYears": null,
+      "experienceCategory": "5-8",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "senior_5yr_no_sponsor": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-022",
+    "title": "Technical Support Engineer (Unstated Experience)",
+    "company": "SaaS Platform",
+    "description": "Diagnose customer API integration issues. Excellent verbal and written English communication skills. Basic SQL query skills.",
+    "requirements": [
+      "Excellent customer empathy and problem solving",
+      "Basic SQL query and REST API debugging skills"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": null,
+      "maxExperienceYears": null,
+      "experienceCategory": "NOT_SPECIFIED",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr": "NEEDS_VERIFICATION"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-023",
+    "title": "Frontend Engineer (Conflicting Sponsorship)",
+    "company": "GovTech Solutions",
+    "description": "Visa sponsorship is provided for international applicants. Note: Candidates must not require sponsorship due to government client restrictions. 3+ years React experience required.",
+    "requirements": [
+      "3+ years of React development experience",
+      "Visa sponsorship is provided",
+      "Candidates must not require sponsorship due to government rules"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 3,
+      "experienceCategory": "3-5",
+      "verificationStatus": "NEEDS_VERIFICATION",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "mid_3yr_needs_sponsor": "NEEDS_VERIFICATION"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-024",
+    "title": "Database Administrator (PostgreSQL)",
+    "company": "Fintech Platform",
+    "description": "Manage mission-critical transactional clusters. Requires at least 3 years of PostgreSQL database administration experience with 1 year of Redis caching experience.",
+    "requirements": [
+      "At least 3 years of PostgreSQL administration experience",
+      "1 year of Redis caching experience"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 3,
+      "maxExperienceYears": null,
+      "experienceCategory": "3-5",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "dba_3yr_no_sponsor": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-025",
+    "title": "Computer Vision Engineer",
+    "company": "Waymo",
+    "description": "Develop spatial rendering pipelines. Looking for candidates with 0-2 years of software engineering experience with WebGL/WebGPU or C++. M.Sc or Bachelor's degrees accepted.",
+    "requirements": [
+      "0-2 years of software engineering experience",
+      "Experience with WebGL or C++",
+      "B.Sc or M.Sc in Computer Science"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 2,
+      "experienceCategory": "0-2",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr_no_sponsor": "ELIGIBLE",
+        "fresher_0yr_needs_sponsor": "NEEDS_VERIFICATION"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-026",
+    "title": "Senior Cloud Architect",
+    "company": "IBM",
+    "description": "Guide hybrid cloud enterprise strategies. Minimum 7 years of software development experience required. Must have 3+ years with Docker containerization.",
+    "requirements": [
+      "Minimum 7 years of software engineering experience",
+      "3+ years with Docker",
+      "Client presentation skills"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 7,
+      "maxExperienceYears": null,
+      "experienceCategory": "5-8",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "senior_7yr_no_sponsor": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-027",
+    "title": "Associate Software Engineer",
+    "company": "Accenture",
+    "description": "Start your engineering journey in enterprise technology. Requires up to 1 year of software development experience. Freshers welcome to apply. 2025 batch preferred.",
+    "requirements": [
+      "Up to 1 year of programming experience",
+      "Freshers welcome to apply",
+      "2025 batch graduates preferred"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": true,
+      "minExperienceYears": 0,
+      "maxExperienceYears": 1,
+      "experienceCategory": "0-1",
+      "graduationYearRestrictions": ["2025"],
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_2025_no_sponsor": "ELIGIBLE",
+        "fresher_2023_no_sponsor": "INELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-028",
+    "title": "Staff Blockchain Engineer",
+    "company": "Consensys",
+    "description": "Build decentralized infrastructure protocols. 8+ years of total software engineering experience required. Deep cryptography background. Open to sponsoring work visas (H-1B, O-1).",
+    "requirements": [
+      "8+ years of software engineering experience",
+      "Cryptographic protocol engineering",
+      "Visa sponsorship is provided"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 8,
+      "maxExperienceYears": null,
+      "experienceCategory": "8+",
+      "sponsorshipAvailable": true,
+      "candidateEligibilities": {
+        "fresher_0yr": "INELIGIBLE",
+        "staff_8yr_needs_sponsor": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-029",
+    "title": "Junior QA Automation Engineer",
+    "company": "Atlassian",
+    "description": "Automate end-to-end browser workflows. Requires 1 to 2 years of automated testing experience with Playwright or Cypress. Prior QA internship experience considered.",
+    "requirements": [
+      "1 to 2 years of test automation experience",
+      "Hands-on with Playwright or Cypress",
+      "Internship experience considered"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": 1,
+      "maxExperienceYears": 2,
+      "experienceCategory": "0-2",
+      "acceptsInternships": true,
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr_no_intern": "NEEDS_VERIFICATION",
+        "fresher_with_1yr_intern": "ELIGIBLE",
+        "junior_1.5yr_no_sponsor": "ELIGIBLE"
+      }
+    }
+  },
+  {
+    "id": "UNSEEN-030",
+    "title": "Vice President of Engineering (Unstated Experience)",
+    "company": "Fintech Scaleup",
+    "description": "Lead and scale an organization of 150+ engineers across 4 business lines. Direct executive reporting to the CEO.",
+    "requirements": [
+      "Demonstrated track record scaling engineering organizations",
+      "Strategic hiring and budget management",
+      "Board-level presentation capabilities"
+    ],
+    "groundTruth": {
+      "isFresherFriendly": false,
+      "minExperienceYears": null,
+      "maxExperienceYears": null,
+      "experienceCategory": "NOT_SPECIFIED",
+      "sponsorshipAvailable": null,
+      "candidateEligibilities": {
+        "fresher_0yr": "NEEDS_VERIFICATION",
+        "staff_8yr": "NEEDS_VERIFICATION"
+      }
+    }
+  }
+]
