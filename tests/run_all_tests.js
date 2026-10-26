@@ -25,6 +25,7 @@ const { runLangGraphDurabilitySuite: testLangGraphDurabilitySuite } = require('.
 const { runWorkflowAtsIntegrationSuite: testWorkflowAtsIntegrationSuite } = require('./test_workflow_ats_integration_suite');
 const { runFaultInjectionIdempotencySuite: testFaultInjectionIdempotencySuite } = require('./test_fault_injection_idempotency_suite');
 const { runMultiProcessWorkerCrashSuite: testMultiProcessWorkerCrashSuite } = require('./test_multiprocess_worker_crash');
+const { runDatabaseMigrationIntegritySuite: testDatabaseMigrationIntegrity } = require('./test_database_migration_integrity');
 const prisma = require('../backend/db');
 
 async function runAllSuites() {
@@ -60,6 +61,7 @@ async function runAllSuites() {
     results.push(await testWorkflowAtsIntegrationSuite());
     results.push(await testFaultInjectionIdempotencySuite());
     results.push(await testMultiProcessWorkerCrashSuite());
+    results.push(await testDatabaseMigrationIntegrity());
     results.push(await testE2EUserJourney());
     results.push(await testNegativePaths());
 

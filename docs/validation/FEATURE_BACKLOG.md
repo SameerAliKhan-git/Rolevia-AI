@@ -155,6 +155,54 @@ Every feature is tracked with a permanent identifier (`FEAT-XXX`), component own
   4. Tri-state eligibility evaluation (`ELIGIBLE`, `INELIGIBLE`, `NEEDS_VERIFICATION`) with missing requirements invariant (`NEEDS_VERIFICATION`, never assumed fresher).
   5. Dual discovery views (`view=all` vs `view=eligible`), clay-neumorphic filter bar, and secure backfill API with pagination and admin authentication.
   6. Tri-state visa sponsorship modeling (`true`, `false`, `null`) without positive defaults.
-- **Completion Criteria**: 100% empirical precision & recall on benchmark fixture, 0% fresher FPR on 30-posting independent unseen dataset, and all 28 automated engine tests passing.
+---
+
+### FEAT-012: Manifest V3 Chrome Extension Companion
+- **Target**: Release 0.4
+- **Prerequisites**: `FEAT-002`, `FEAT-005`
+- **Development Requirements**:
+  1. Manifest V3 compliant extension with restricted host permissions (`activeTab`, verified ATS domains).
+  2. Scoped, revocable authentication tokens (`rolevia_ext_auth_*`) with zero raw JWT sharing.
+  3. Interactive DOM form field mapping overlay requiring explicit candidate confirmation before autofill.
+  4. Zero CAPTCHA / MFA bypass; escalates to candidate.
+  5. One-click job import extracting structured posting metadata to Rolevia backend.
+- **Completion Criteria**: Verified form autofill and job import with complete audit trail in PostgreSQL `ApplicationEvent`.
+
+---
+
+### FEAT-013: Model Context Protocol (MCP) Server for Claude & Cursor
+- **Target**: Release 0.4
+- **Prerequisites**: `FEAT-002`, `FEAT-006`, `FEAT-009`
+- **Development Requirements**:
+  1. Standardized MCP JSON-RPC protocol server exposing candidate FactStore resources.
+  2. Tools for querying eligible opportunities, inspecting tailored resume diffs, and checking application status.
+  3. Scoped bearer token authentication with tenant isolation.
+- **Completion Criteria**: Successful MCP handshake and tool execution in Claude Desktop and Cursor IDE.
+
+---
+
+### FEAT-017: LangGraph.js Agentic Orchestrator & State Checkpointer
+- **Target**: Release 0.3 Foundation & Release 0.4 Distributed Workers
+- **Prerequisites**: `FEAT-001`, `FEAT-009`
+- **Development Requirements**:
+  1. 10-node `StateGraph` orchestrating discovery, matching, optimization, approval, preparation, submission, and verification.
+  2. PostgreSQL durable checkpointer (`postgresSaver.js`) for persistent workflow state.
+  3. Dual human-in-the-loop review gates (Resume Approval and Submission Authorization).
+  4. Crash recovery across all execution boundaries without re-running completed AI operations.
+- **Completion Criteria**: 100% passing tests in `test_langgraph_durability_suite.js` (GATE-17 and GATE-19).
+
+---
+
+### FEAT-018: Multi-Model LLM Gateway & Anti-Hallucination Guardrails
+- **Target**: Release 0.3 Implementation & Release 0.4 Commercial Verification
+- **Prerequisites**: `FEAT-003`, `FEAT-007`
+- **Development Requirements**:
+  1. Unified multi-provider abstraction: Groq Cloud (Primary), Google Gemini 1.5 Pro (Secondary), OpenAI GPT-4o-mini (Emergency Fallback).
+  2. Circuit breakers with automated fallback on provider outages or rate limits.
+  3. Strict Zod JSON schema validation on all structured outputs.
+  4. Anti-hallucination fact mapping against verified candidate FactStore entities.
+  5. Explicit `MOCK`/`LIVE`/`UNAVAILABLE` modes with zero silent fallback.
+- **Completion Criteria**: Verified structured outputs, token cost tracking, and zero hallucinated claims.
+
 
 
