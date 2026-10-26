@@ -24,6 +24,8 @@
     "@langchain/langgraph": "^1.5.2",
     "@prisma/client": "^5.14.0",
     "bcryptjs": "^2.4.3",
+    "bullmq": "^6.4.2",
+    "ioredis": "^6.0.0",
     "jsonwebtoken": "^9.0.2",
     "pdf-lib": "^1.17.1",
     "pdf-parse": "^1.1.1",
