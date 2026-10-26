@@ -6,22 +6,34 @@
 **Current Release:** Release 0.3 — LangGraph Orchestration, Execution Reliability & Idempotency Hardening  
 **Reporting Date:** October 26, 2026  
 **Auditor:** Principal Software Architect & Senior Full-Stack Engineer (Google Antigravity)  
-**Status:** **EXECUTION RELIABILITY ACCEPTED · 235 / 235 PASSING (100%) · 23 TEST SUITES · ZERO REGRESSIONS**
+**Status:** **EXECUTION RELIABILITY ACCEPTED · 238 / 238 PASSING (100%) · 24 TEST SUITES · ZERO REGRESSIONS**
 
 ---
 
 ## 1. Executive Summary
 
-Rolevia AI has completed the durability hardening, crash-consistency audit, deterministic submission idempotency verification, live LLM benchmarking harness, and end-to-end browser execution testing across Desktop and Mobile viewports.
+Rolevia AI has completed the durability hardening, crash-consistency audit, deterministic submission idempotency verification, multi-process worker crash testing, live LLM benchmarking harness, and end-to-end browser execution testing across Desktop and Mobile viewports.
 
-Rolevia AI is built as an authentic, truth-grounded competitor to Tsenta AI (`https://tsenta.com`). The latest milestone achieves:
-1. **Deterministic Submission Idempotency:** Completely eliminated timestamps from ATS submission attempt keys (`backend/workflows/idempotency.js`). Retries reuse strictly deterministic identities: `${tenantId}:${userId}:${applicationId}:ats_attempt_${attemptNumber}:${documentHash.slice(0, 16)}`.
-2. **Pre-Dispatch Database Event Persistence:** `SUBMISSION_ATTEMPT_INITIALIZED` is persisted to PostgreSQL `ApplicationEvent` *before* Playwright or worker processes are launched, ensuring full crash audibility.
-3. **Candidate/Requisition Uniqueness Guard:** Enforces `generateCandidateRequisitionDuplicateKey` in `backend/atsAutomation.js` to block duplicate submissions to the same requisition even after resume revisions.
-4. **LangGraph Crash-Consistency Verified:** Audited all 4 irreversible state boundaries (Credit Hold, Application Submission, Verification, Credit Commit). In-memory state mutation is proven incapable of forging PostgreSQL status or receipts.
-5. **Live Multi-Model LLM Benchmark Harness:** Created `tests/test_live_llm_validation.js` covering structured Zod outputs, FactStore citation grounding, screening question Q&A, sensitive disclosure holdback, prompt injection defense, and rate-limit fallbacks. Proved that `LLMGateway` strictly rejects live calls with `PROVIDER_UNAVAILABLE` when keys are unconfigured (zero silent mock fallback).
-6. **Complete 12-Stage Browser E2E Journey:** Executed all 12 candidate lifecycle stages in real Chromium browser on Desktop (1440×900) and Mobile (375×812). Identified and fixed a mobile navigation CSS bug, restoring full responsive touch navigation. 11 proof screenshots captured in `evidence/screenshots/`.
-7. **Zero-Fraud Mandate Maintained:** Dry-run evidence is strictly quarantined as diagnostic output and never presented as authentic employer confirmation. Live employer applications and live payment capture remain disabled.
+### Major Milestone Achievements:
+1. **Reconciled Feature Backlog Identifiers:**
+   Restored the original authoritative feature numbering:
+   - `FEAT-012`: Manifest V3 Chrome Extension Companion (Release 0.4)
+   - `FEAT-013`: Model Context Protocol (MCP) Server for Claude & Cursor (Release 0.4)
+   - `FEAT-017`: LangGraph.js Agentic Orchestrator & PostgreSQL State Checkpointer (`backend/workflows/applicationGraph.js`, `backend/workflows/postgresCheckpointer.js`)
+   - `FEAT-018`: Multi-Model LLM Gateway & Anti-Hallucination Guardrails (`backend/ai/llmGateway.js`, `backend/ai/modelConfig.js`)
+2. **PostgreSQL Database-Level Uniqueness Lock:**
+   Engineered `acquireDatabaseSubmissionLock` in [`backend/atsAutomation.js`](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/backend/atsAutomation.js) backed by PostgreSQL's native `submission_attempt_locks` table with `CONSTRAINT unique_candidate_active_requisition UNIQUE (tenant_id, user_id, requisition_key)`. This replaces application-level `findFirst` checks with atomic database engine concurrency locks.
+3. **Multi-Process Worker Crash Recovery Verified:**
+   Created [`tests/test_multiprocess_worker_crash.js`](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/tests/test_multiprocess_worker_crash.js) proving that an abrupt process kill (`SIGKILL`) mid-execution preserves the PostgreSQL audit trail, allows a new separate Node.js process to resume execution cleanly, and strictly blocks competing worker processes from creating duplicate submissions.
+4. **Deterministic Submission Idempotency:**
+   Eliminated dynamic timestamps from [`backend/workflows/idempotency.js`](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/backend/workflows/idempotency.js). Attempt keys follow the deterministic format:
+   `${tenantId}:${userId}:${applicationId}:ats_attempt_${attemptNumber}:${documentHash.slice(0, 16)}`
+5. **Real LLM Integration Status Accurately Classified:**
+   Status is officially classified as **BLOCKED (Awaiting Live Credentials)**. The test harness [`tests/test_live_llm_validation.js`](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/tests/test_live_llm_validation.js) verifies structured Zod schemas, FactStore citation validation, and PII protection, while the safety invariant is proven: `LLMGateway` strictly throws `PROVIDER_UNAVAILABLE` rather than quietly falling back to mock output in production. Commercial pricing and candidate data privacy risks (Google Free API training hazard vs Paid Commercial privacy) have been comprehensively evaluated.
+6. **Complete 12-Stage Browser Journey Grounded in Event Traces:**
+   Executed all 12 candidate lifecycle stages in real Chromium browser on Desktop (1440×900) and Mobile (375×812). Identified and fixed a mobile navigation CSS bug in [`styles.css`](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/styles.css), restoring full responsive touch navigation. Mapped each lifecycle stage to its corresponding PostgreSQL model (`ApplicationEvent`, `FactStore`, `Job`, `CreditJournal`).
+7. **Zero-Fraud Mandate Maintained:**
+   Dry-run evidence is strictly quarantined as diagnostic output and never presented as authentic employer confirmation. Live employer applications and live payment capture remain disabled behind separate approval gates.
 
 ---
 
@@ -37,30 +49,26 @@ Rolevia AI is built as an authentic, truth-grounded competitor to Tsenta AI (`ht
 | **FEAT-006** | Explainable Job Matching | `backend/jobMatcher.js` | 3-state classification (`ELIGIBLE`, `INELIGIBLE`, `NEEDS_VERIFICATION`), skills/experience/education scoring, human-readable explanations. | **VERIFIED** |
 | **FEAT-007** | Truth-Grounded Resume Tailoring | `backend/resumeOptimizer.js` | Anti-hallucination fact mapping, source evidence citation IDs, diff generation, machine readability metrics. | **VERIFIED** |
 | **FEAT-008** | Interactive Workspace | `backend/resumeWorkspace.js`, `app.js` | Bullet-level accept/reject, inline editing, HMAC document approval, automatic approval invalidation upon editing. | **VERIFIED** |
-| **FEAT-009** | Modular ATS Automation Engine | `backend/atsAutomation.js` | Playwright browser automation for Greenhouse, Ashby, Lever; dual-mode execution (`DRY_RUN` vs `LIVE`); authentic receipt extraction; zero synthetic IDs; `OUTCOME_UNKNOWN` quarantine; deterministic attempt IDs. | **VERIFIED** |
+| **FEAT-009** | Modular ATS Automation Engine | `backend/atsAutomation.js` | Playwright browser automation for Greenhouse, Ashby, Lever; dual-mode execution (`DRY_RUN` vs `LIVE`); authentic receipt extraction; zero synthetic IDs; `OUTCOME_UNKNOWN` quarantine; deterministic attempt IDs; native PostgreSQL `submission_attempt_locks`. | **VERIFIED** |
 | **FEAT-010** | Application Tracker & Receipts | `backend/applicationTracker.js`, `app.js`, `index.html` | 5-column Kanban pipeline, 4-tier receipt taxonomy, full-text search, filter pills, SSE real-time streaming terminal, mobile-responsive UI. | **VERIFIED** |
 | **FEAT-011** | Recruiter Email Intelligence | `backend/recruiterEmailIntelligence.js` | Gmail/Outlook OAuth2, AES-256-GCM token encryption, recruiter heuristics, multi-class categorization (Interview, Assessment, Offer, Rejection). | **VERIFIED** |
-| **FEAT-012** | LangGraph.js Agentic Orchestrator | `backend/workflows/applicationGraph.js` | 10-stage `StateGraph`, PostgreSQL durable checkpointer (`PostgresDurableCheckpointer`), double human-in-the-loop gates, crash consistency across 4 boundaries. | **VERIFIED** |
-| **FEAT-013** | Multi-Model LLM Gateway | `backend/ai/llmGateway.js` | Google Gemini, Groq Free Tier (Llama 3.3 70B), OpenAI (GPT-4o), zero extra npm dependencies, explicit `MOCK`/`LIVE`/`UNAVAILABLE` modes, zero silent fallback. | **VERIFIED** |
+| **FEAT-012** | Manifest V3 Chrome Extension | `extension/` (Planned Release 0.4) | Scoped, revocable companion extension; non-intrusive LinkedIn overlay; zero raw JWT sharing. | **PLANNED** |
+| **FEAT-013** | Model Context Protocol (MCP) Server | `mcp/` (Planned Release 0.4) | Cursor & Claude desktop integrations for candidate career facts. | **PLANNED** |
 | **FEAT-016** | Experience-Aware Classification | `backend/experienceEngine.js`, `backend/jobCrawler.js` | Fresher, graduate, 0-1y, 1-3y, 3-5y, 5-8y, 8y+ detection; graduation year constraints; degree equivalence; database-level filtering. | **VERIFIED** |
-| **PHASE-1**  | Unsafe Workflow Defaults Elimination | `backend/workflows/applicationWorkflowTypes.js` | Defaults strictly `null`; `NEEDS_VERIFICATION` enforced on missing mandatory requirements. | **VERIFIED** |
-| **PHASE-2**  | LangGraph Durability & Recovery | `backend/workflows/postgresCheckpointer.js` | 10 crash/restart scenarios verified with PostgreSQL `ApplicationEvent` state storage. | **VERIFIED** |
-| **PHASE-3**  | 6-Tier Idempotency Architecture | `backend/workflows/idempotency.js` | Separation of Thread, Node, Attempt, Payment, ATS Submission, and Requisition identities; timestamp removed from attempt keys. | **VERIFIED** |
-| **PHASE-4**  | Fault-Injection Test Suite | `tests/test_fault_injection_idempotency_suite.js` | 7 fault-injection scenarios testing deterministic keys, pre-dispatch logs, candidate/requisition guards, and crash recovery. | **VERIFIED** |
-| **PHASE-5**  | Live LLM Validation Benchmark | `tests/test_live_llm_validation.js` | 8-stage benchmark testing structured schemas, citation validation, prompt injection defense, and credential protocol. | **VERIFIED** |
-| **PHASE-6**  | Full Browser E2E Candidate Journey | `tests/test_full_product_journey_browser.js` | 12-stage browser test on Desktop (1440×900) and Mobile (375×812) with 11 screenshot artifacts in `evidence/screenshots/`. | **VERIFIED** |
+| **FEAT-017** | LangGraph.js Agentic Orchestrator | `backend/workflows/applicationGraph.js` | 10-stage `StateGraph`, PostgreSQL durable checkpointer (`PostgresDurableCheckpointer`), double human-in-the-loop gates, crash consistency across 4 boundaries. | **VERIFIED** |
+| **FEAT-018** | Multi-Model LLM Gateway | `backend/ai/llmGateway.js` | Google Gemini, Groq Cloud, OpenAI; explicit `MOCK`/`LIVE`/`UNAVAILABLE` modes; zero silent fallback; privacy & cost evaluation. | **BLOCKED (Awaiting Live Keys)** |
 
 ---
 
 ## 3. Comprehensive Master Test Baseline
 
-The master test harness (`tests/run_all_tests.js`) authoritatively encompasses all foundation tests, feature regression suites, dedicated security audits, browser UI automation tests, and agentic workflows:
+The master test harness (`tests/run_all_tests.js`) authoritatively encompasses all foundation tests, feature regression suites, dedicated security audits, browser UI automation tests, and multi-process crash tests:
 
-- **Total Test Suites Executed:** 23 suites
-- **Total Test Assertions:** 235 assertions
-- **Test Pass Rate:** **100% (235 / 235 PASS)**
+- **Total Test Suites Executed:** 24 suites
+- **Total Test Assertions:** 238 assertions
+- **Test Pass Rate:** **100% (238 / 238 PASS)**
 - **Regression Failures:** 0
-- **Execution Time:** ~168 seconds
+- **Execution Time:** ~160 seconds
 
 ### Master Test Suite Breakdown:
 1. `FEAT-001`: PostgreSQL & Prisma Database Isolation (7 tests)
@@ -83,18 +91,34 @@ The master test harness (`tests/run_all_tests.js`) authoritatively encompasses a
 18. `GATE-18`: GATEWAY Multi-Model Hardening & Eval (15 tests)
 19. `GATE-19`: DURABILITY LangGraph Recovery & Idempotency (11 tests)
 20. `GATE-20`: Workflow-to-ATS Integration (6 tests)
-21. `GATE-21`: E2E Full Candidate User Journey (8 tests)
-22. `GATE-22`: Negative-Path & Edge-Case Integration (5 tests)
-23. `GATE-23`: Fault-Injection & Durable Idempotency Suite (7 tests)
+21. `GATE-21`: Fault-Injection & Durable Idempotency Suite (7 tests)
+22. `GATE-22`: Multi-Process Worker Crash & Competing Instance Suite (3 tests)
+23. `GATE-23`: E2E Full Candidate User Journey (8 tests)
+24. `GATE-24`: Negative-Path & Edge-Case Integration (5 tests)
 
 ---
 
 ## 4. Architectural Deliverables & Evidence Index
 
-All six required milestone deliverables are compiled and verified:
-1. **Real LLM Provider Validation:** [REAL_LLM_PROVIDER_VALIDATION_REPORT.md](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/docs/reports/REAL_LLM_PROVIDER_VALIDATION_REPORT.md)
-2. **ATS Submission Idempotency & Recovery:** [ATS_SUBMISSION_IDEMPOTENCY_RECOVERY_REPORT.md](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/docs/reports/ATS_SUBMISSION_IDEMPOTENCY_RECOVERY_REPORT.md)
-3. **LangGraph Crash-Consistency Report:** [LANGGRAPH_CRASH_CONSISTENCY_REPORT.md](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/docs/reports/LANGGRAPH_CRASH_CONSISTENCY_REPORT.md)
-4. **Browser User Journey E2E Report:** [BROWSER_USER_JOURNEY_E2E_REPORT.md](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/docs/reports/BROWSER_USER_JOURNEY_E2E_REPORT.md)
-5. **Tsenta Competitive Gap Assessment:** [TSENTA_COMPETITIVE_GAP_ASSESSMENT.md](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/docs/reports/TSENTA_COMPETITIVE_GAP_ASSESSMENT.md)
-6. **Release 0.4 Engineering Roadmap & Plan:** [NEXT_RELEASE_PLAN.md](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/docs/reports/NEXT_RELEASE_PLAN.md)
+All seven milestone reports have been updated and verified:
+1. **Real LLM Provider Validation & Commercial Evaluation:**  
+   [REAL_LLM_PROVIDER_VALIDATION_REPORT.md](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/docs/reports/REAL_LLM_PROVIDER_VALIDATION_REPORT.md)  
+   *Classified as BLOCKED (awaiting credentials); documents commercial pricing, SLAs, and candidate data privacy terms.*
+2. **ATS Submission Idempotency & Recovery Report:**  
+   [ATS_SUBMISSION_IDEMPOTENCY_RECOVERY_REPORT.md](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/docs/reports/ATS_SUBMISSION_IDEMPOTENCY_RECOVERY_REPORT.md)  
+   *Audits the 6 identity domains, deterministic attempt keys, pre-dispatch PostgreSQL logging, and PostgreSQL native `submission_attempt_locks`.*
+3. **LangGraph Crash-Consistency Report:**  
+   [LANGGRAPH_CRASH_CONSISTENCY_REPORT.md](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/docs/reports/LANGGRAPH_CRASH_CONSISTENCY_REPORT.md)  
+   *Evaluates the 4 irreversible state boundaries, side-effect isolation, and multi-process crash resumption.*
+4. **Browser User Journey E2E & Backend Trace Report:**  
+   [BROWSER_USER_JOURNEY_E2E_REPORT.md](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/docs/reports/BROWSER_USER_JOURNEY_E2E_REPORT.md)  
+   *Details the 12-stage candidate lifecycle across UI, API, and PostgreSQL event traces on Desktop and Mobile viewports.*
+5. **Tsenta Competitive Gap Assessment:**  
+   [TSENTA_COMPETITIVE_GAP_ASSESSMENT.md](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/docs/reports/TSENTA_COMPETITIVE_GAP_ASSESSMENT.md)  
+   *Authoritative 12-dimension matrix comparing Rolevia AI vs Tsenta AI with reconciled feature IDs and scoped extension security.*
+6. **Release 0.4 Dependency-Based Implementation Plan:**  
+   [NEXT_RELEASE_PLAN.md](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/docs/reports/NEXT_RELEASE_PLAN.md)  
+   *Corrected roadmap with commercial LLM unit economics, scoped extension security tokens, and decoupled commercial payment/submission gates.*
+7. **Corrected Feature Backlog:**  
+   [FEATURE_BACKLOG.md](file:///c:/Users/admin/OneDrive/Desktop/Tsenta%20Ai%20Clone/docs/validation/FEATURE_BACKLOG.md)  
+   *Reconciles `FEAT-012` and `FEAT-013`, officially assigning `FEAT-017` and `FEAT-018` to LangGraph and the LLM Gateway.*

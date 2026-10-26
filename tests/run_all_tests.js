@@ -24,6 +24,7 @@ const { runLLMHardeningTestSuite: testLLMHardeningSuite } = require('./test_llm_
 const { runLangGraphDurabilitySuite: testLangGraphDurabilitySuite } = require('./test_langgraph_durability_suite');
 const { runWorkflowAtsIntegrationSuite: testWorkflowAtsIntegrationSuite } = require('./test_workflow_ats_integration_suite');
 const { runFaultInjectionIdempotencySuite: testFaultInjectionIdempotencySuite } = require('./test_fault_injection_idempotency_suite');
+const { runMultiProcessWorkerCrashSuite: testMultiProcessWorkerCrashSuite } = require('./test_multiprocess_worker_crash');
 const prisma = require('../backend/db');
 
 async function runAllSuites() {
@@ -58,6 +59,7 @@ async function runAllSuites() {
     results.push(await testLangGraphDurabilitySuite());
     results.push(await testWorkflowAtsIntegrationSuite());
     results.push(await testFaultInjectionIdempotencySuite());
+    results.push(await testMultiProcessWorkerCrashSuite());
     results.push(await testE2EUserJourney());
     results.push(await testNegativePaths());
 

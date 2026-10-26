@@ -25,10 +25,12 @@ Every feature is tracked with a permanent identifier (`FEAT-XXX`), component own
 | **FEAT-009** | **P1** | Authorized Playwright ATS Runner (Greenhouse/Ashby/Workday) | Automation / Workers | Release 0.2 | FEAT-001, FEAT-004, FEAT-008 |
 | **FEAT-010** | **P1** | Persistent Application Kanban Tracker & Verified Receipts | Frontend / Backend | Release 0.2 | FEAT-001, FEAT-009 |
 | **FEAT-011** | **P2** | Recruiter Email Ingestion & Stage Classifier (Gmail OAuth2) | Backend / AI | Release 0.3 | FEAT-001, FEAT-010 |
-| **FEAT-012** | **P2** | Manifest V3 Chrome Extension (Job Queue Importer) | Frontend / Extension | Release 0.3 | FEAT-002, FEAT-005 |
-| **FEAT-013** | **P2** | Model Context Protocol (MCP) Server for Claude & Cursor | Backend / Agents | Release 0.3 | FEAT-002, FEAT-006, FEAT-009 |
+| **FEAT-012** | **P2** | Manifest V3 Chrome Extension (Job Queue Importer) | Frontend / Extension | Release 0.4 | FEAT-002, FEAT-005 |
+| **FEAT-013** | **P2** | Model Context Protocol (MCP) Server for Claude & Cursor | Backend / Agents | Release 0.4 | FEAT-002, FEAT-006, FEAT-009 |
 | **FEAT-014** | **P3** | Career Intelligence, Skill Gap Analysis & Interview Prep | AI / Analytics | Release 0.4 | FEAT-006, FEAT-010 |
 | **FEAT-015** | **P3** | Purchasing Power Parity (PPP) Multi-Currency Billing Engine | Billing / Growth | Release 0.4 | FEAT-004 |
+| **FEAT-017** | **P0** | LangGraph.js Agentic Orchestrator & State Checkpointer Durability Runtime | Backend / Orchestration | Release 0.3 | FEAT-001, FEAT-009 |
+| **FEAT-018** | **P0** | Multi-Model LLM Gateway & Anti-Hallucination Guardrails (Gemini, Groq, OpenAI) | Backend / AI | Release 0.3 | FEAT-003, FEAT-007 |
 
 ---
 

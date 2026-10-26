@@ -76,7 +76,7 @@ const VALID_TRANSITIONS = {
   ],
   [APPLICATION_STATES.OUTCOME_UNKNOWN]: [APPLICATION_STATES.SUBMITTED_CONFIRMED, APPLICATION_STATES.FAILED_CONFIRMED],
   [APPLICATION_STATES.SUBMITTED_CONFIRMED]: [],
-  [APPLICATION_STATES.FAILED_CONFIRMED]: [APPLICATION_STATES.QUEUED_RESERVED, APPLICATION_STATES.DRAFT],
+  [APPLICATION_STATES.FAILED_CONFIRMED]: [APPLICATION_STATES.QUEUED_RESERVED, APPLICATION_STATES.RUNNING_PRE_SUBMIT, APPLICATION_STATES.APPROVED, APPLICATION_STATES.DRAFT],
   [APPLICATION_STATES.SKIPPED]: [APPLICATION_STATES.DRAFT],
   EXECUTING: [APPLICATION_STATES.QUEUED_RESERVED, APPLICATION_STATES.RUNNING_PRE_SUBMIT, APPLICATION_STATES.FAILED_CONFIRMED],
   FAILED: [APPLICATION_STATES.FAILED_CONFIRMED]
@@ -863,6 +863,51 @@ function getChromiumLaunchOptions() {
 }
 
 /**
+ * Acquire database-level submission lock with PostgreSQL engine unique constraint
+ * Enforces atomic database-level protection against duplicate submissions and race conditions.
+ */
+async function acquireDatabaseSubmissionLock({ tenantId, userId, applicationId, attemptKey, requisitionKey }) {
+  await prisma.$executeRawUnsafe(`
+    CREATE TABLE IF NOT EXISTS submission_attempt_locks (
+      id TEXT PRIMARY KEY,
+      tenant_id TEXT NOT NULL,
+      user_id TEXT NOT NULL,
+      application_id TEXT NOT NULL,
+      attempt_key TEXT NOT NULL UNIQUE,
+      requisition_key TEXT NOT NULL,
+      status TEXT NOT NULL,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT unique_candidate_active_requisition UNIQUE (tenant_id, user_id, requisition_key)
+    );
+  `).catch(() => {});
+
+  try {
+    const rowsAffected = await prisma.$executeRawUnsafe(`
+      INSERT INTO submission_attempt_locks (id, tenant_id, user_id, application_id, attempt_key, requisition_key, status)
+      VALUES ($1, $2, $3, $4, $5, $6, 'IN_FLIGHT')
+      ON CONFLICT (tenant_id, user_id, requisition_key) 
+      DO UPDATE SET 
+        attempt_key = EXCLUDED.attempt_key,
+        updated_at = CURRENT_TIMESTAMP
+      WHERE submission_attempt_locks.application_id = EXCLUDED.application_id
+    `, crypto.randomUUID(), tenantId, userId, applicationId, attemptKey, requisitionKey);
+
+    if (rowsAffected === 0) {
+      throw new Error(`DUPLICATE_APPLICATION_PREVENTED: Database uniqueness constraint prevented concurrent or duplicate submission for requisition ${requisitionKey}.`);
+    }
+
+    return { acquired: true };
+  } catch (err) {
+    if (err.message && (err.message.includes('DUPLICATE_APPLICATION_PREVENTED') || err.message.includes('23505') || err.message.includes('unique_candidate_active_requisition'))) {
+      throw new Error(`DUPLICATE_APPLICATION_PREVENTED: Database uniqueness constraint prevented concurrent or duplicate submission for requisition ${requisitionKey}.`);
+    }
+    console.warn('Database submission lock warning:', err.message);
+    return { acquired: false, warning: err.message };
+  }
+}
+
+/**
  * Main Playwright Dry-Run & Staging Runner
  * Executes authorized application workflow in DRY_RUN mode.
  */
@@ -937,6 +982,15 @@ async function executeApplicationWorkflow(applicationId, options = {}) {
     applicationId: application.id,
     attemptNumber,
     documentHash: currentDocHash || 'unhashed_doc'
+  });
+
+  // Acquire database-level submission lock with PostgreSQL unique constraint
+  await acquireDatabaseSubmissionLock({
+    tenantId: application.tenantId,
+    userId: application.userId,
+    applicationId: application.id,
+    attemptKey: submissionAttemptKey,
+    requisitionKey: duplicateKey
   });
 
   // Persist attempt initialization in database audit log prior to browser dispatch

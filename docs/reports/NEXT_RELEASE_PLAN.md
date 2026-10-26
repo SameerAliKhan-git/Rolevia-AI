@@ -1,115 +1,122 @@
-# ROLEVIA AI — RELEASE 0.4 ENGINEERING ROADMAP & IMPLEMENTATION PLAN
+# ROLEVIA AI — RELEASE 0.4 DEPENDENCY-BASED IMPLEMENTATION PLAN & INTEGRITY GATES
 
 **Product:** Rolevia AI (`RoleviaAI`)  
 **Target Domain:** https://roleviaai.co.in  
 **Primary Brand Accent:** `#e0601e`  
-**Current Milestone State:** Release 0.3 Durability, Idempotency & E2E Validation Accepted (235/235 Tests Passing)  
-**Next Milestone:** Release 0.4 — Live Inference, Browser Companion & Commercial Launch Readiness  
+**Current Milestone State:** Release 0.3 Durability, Idempotency & E2E Validation Accepted (238/238 Tests Passing)  
+**Next Milestone:** Release 0.4 — Commercial Deployment, Paid Inference & Scoped Extension Companion  
 **Planning Date:** October 26, 2026  
 **Auditor & Architect:** Principal Software Architect & Full-Stack Systems Lead (Google Antigravity)  
-**Status:** **ENGINEERING ROADMAP APPROVED FOR EXECUTION**
+**Status:** **REVISED ENGINEERING PLAN APPROVED FOR STAGING IMPLEMENTATION**
 
 ---
 
-## 1. Executive Summary & Objectives
+## 1. Executive Summary & Critical Architectural Corrections
 
-With the completion of **Release 0.3** (LangGraph durability, crash consistency, deterministic ATS idempotency, and complete 12-stage browser-based E2E verification), Rolevia AI has established an authentic, zero-fraud automation foundation that prevents ghost applications, double billing, or fabricated candidate qualifications.
+In accordance with project integrity reviews, the **Release 0.4 Engineering Plan** has been corrected across three fundamental architectural dimensions:
 
-The objective of **Release 0.4** is advancing Rolevia AI from verified staging into **commercial production readiness**:
-1. **Live Free-Tier LLM Inference Deployment:** Activate zero-cost Groq (Llama 3.3 70B Versatile) and Google Gemini 1.5 Flash in production via the hardened Multi-Model Gateway.
-2. **Rolevia AI Chrome Browser Companion (Manifest V3):** Provide candidates with a lightweight browser extension companion for direct application discovery on LinkedIn, Indeed, and external career sites.
-3. **Long-Tail ATS Platform Expansion:** Expand beyond Greenhouse, Ashby, and Lever to include native adapters for BambooHR and SmartRecruiters, alongside an assisted-workflow helper for Workday portals.
-4. **Distributed Redis & BullMQ Worker Queue:** Decouple browser automation tasks from the main Node.js web server to enable scalable, fault-tolerant background execution.
-5. **Commercial Domain & Merchant Activation:** Deploy to `https://roleviaai.co.in` with live multi-currency Razorpay billing and verified production SSL certificates.
+1. **Commercial LLM Unit Economics & Privacy (Correction 1):**
+   Groq and Gemini free tiers are officially classified as **development and staging sandboxes**, not zero-cost production infrastructure. Commercial deployment requires sustainable paid-tier allocations (Groq On-Demand at $0.59 / $0.79 per 1M tokens; Gemini 1.5 Flash Paid at $0.075 / $0.30 per 1M tokens) to guarantee uptime SLAs and ensure that candidate resume data is **never used to train third-party foundation models**.
+2. **Scoped Extension Security Architecture (Correction 2):**
+   The Manifest V3 Chrome Extension (`FEAT-012`) is strictly forbidden from reading, storing, or sharing raw website JWT access tokens. Authentication will use a **scoped, revocable extension token** (`rolevia_ext_auth_*`) granting restricted permissions exclusively for job extraction and candidate-confirmed tab autofill.
+3. **Decoupled Commercial Authorization Gates (Correction 3):**
+   Neither Razorpay live payment capture nor live employer ATS submissions will be enabled as an automatic part of production deployment. Both remain **isolated, explicit approval gates** requiring separate project owner authorization.
 
 ---
 
-## 2. Priority Epic Breakdown & Technical Specifications
+## 2. Dependency-Based Implementation Sequence
 
 ```mermaid
 graph TD
-    subgraph Release_0_4_Epics [Release 0.4 Core Epics]
-        E1[Epic 1: Live LLM Inference & Cost Optimization]
-        E2[Epic 2: Chrome Companion Extension MV3]
-        E3[Epic 3: Long-Tail ATS Coverage & Assisted Workday]
-        E4[Epic 4: Distributed BullMQ / Redis Workers]
-        E5[Epic 5: Production Infrastructure & Secrets Vault]
+    subgraph Phase_1 [Phase 1: Intelligence & Provider Core]
+        P1[1. Live LLM Gateway Verification - FEAT-018]
     end
 
-    E1 --> Gate[Production Gate Review]
-    E2 --> Gate
-    E3 --> Gate
-    E4 --> Gate
-    E5 --> Gate
-    Gate --> Launch[Commercial Production Launch]
+    subgraph Phase_2 [Phase 2: Client Expansion]
+        P2[2. Scoped Manifest V3 Chrome Extension - FEAT-012]
+        P3[3. Long-Tail ATS Adapters - FEAT-009]
+    end
+
+    subgraph Phase_3 [Phase 3: Worker Scalability]
+        P4[4. Distributed Redis & BullMQ Workers]
+    end
+
+    subgraph Phase_4 [Phase 4: Production Infrastructure]
+        P5[5. Cloudflare DNS, SSL & Secret Vaulting]
+    end
+
+    subgraph Phase_5 [Phase 5: Gated Commercial Launch]
+        Gate1{Owner Live Payment Gate}
+        Gate2{Owner Live Submission Gate}
+        Launch[Commercial Operation]
+    end
+
+    P1 --> P2
+    P1 --> P3
+    P2 --> P4
+    P3 --> P4
+    P4 --> P5
+    P5 --> Gate1
+    P5 --> Gate2
+    Gate1 --> Launch
+    Gate2 --> Launch
 ```
 
-### Epic 1: Live Multi-Model LLM Inference & Cost Optimization (`FEAT-013`)
-- **Objective:** Enable high-speed, zero-cost commercial model execution in production while strictly preserving anti-hallucination guardrails.
-- **Implementation Strategy:**
-  1. **Primary Workhorse:** Groq Free Tier running `llama-3.3-70b-versatile` (up to 30 requests/min, sub-second latency, zero API cost).
-  2. **Secondary Fallback & Multimodal:** Google Gemini 1.5 Flash (15 RPM free tier, high context window, native JSON schema support).
-  3. **High-Accuracy Premium:** OpenAI `gpt-4o` as an opt-in power tier for complex resume restructuring.
-  4. **Telemetry & Metering:** Real-time token consumption, latency, and simulated cost accounting surfaced in the admin dashboard.
-  5. **Live Verification Harness:** Integration of `tests/test_live_llm_validation.js` into CI/CD deployment pipelines.
+### Phase 1: Live LLM Gateway Verification (`FEAT-018`)
+- **Prerequisites:** Valid paid commercial API keys injected in developer environment.
+- **Deliverables:**
+  1. Live network execution of `tests/test_live_llm_validation.js` against Groq On-Demand and Gemini 1.5 Flash Paid.
+  2. Latency, token usage, and simulated per-application cost metrics recorded in audit logs.
+  3. Automatic intra-provider fallback from Groq to Gemini under HTTP 429 rate limit conditions.
+  4. Enterprise data confidentiality compliance check (confirming model training exclusions).
 
-### Epic 2: Rolevia AI Chrome Browser Companion (Manifest V3)
-- **Objective:** Neutralize Tsenta AI's primary client-side acquisition channel by offering an official companion extension.
-- **Technical Specifications:**
-  1. **Manifest V3 Compliant:** Strict CSP, declarativeNetRequest for secure API communication, zero remote script injection.
-  2. **Session Bridge:** Seamlessly shares active JWT authentication state with `https://roleviaai.co.in`.
-  3. **In-Page Opportunity Overlay:** Non-intrusive floating card on LinkedIn/Indeed job postings displaying:
-     - Real-time match score and eligibility badge (`ELIGIBLE`, `INELIGIBLE`, `NEEDS_VERIFICATION`).
-     - Instant missing skill highlights.
-     - One-click "Optimize & Queue in Rolevia AI" button.
-  4. **Client-Side Form Assist:** Autofills ATS forms directly in the candidate's active browser tab for platforms enforcing Cloudflare Turnstile or strict anti-bot protections.
+### Phase 2: Scoped Manifest V3 Chrome Extension (`FEAT-012`)
+- **Prerequisites:** `FEAT-002` (Auth), `FEAT-005` (Job Ingestion).
+- **Security Invariant:** Zero access to raw website cookies or root JWT tokens.
+- **Deliverables:**
+  1. `/api/v1/auth/extension-token`: Endpoint issuing short-lived, revocable extension tokens with scoped permissions (`jobs:import`, `profile:autofill_read`).
+  2. In-page overlay widget on LinkedIn, Indeed, and Glassdoor displaying match score and missing skill warnings.
+  3. Client-side form autofill helper mapping FactStore fields into third-party ATS inputs with explicit candidate confirmation.
 
-### Epic 3: Long-Tail ATS Adapters & Assisted Navigation (`FEAT-009`)
-- **Objective:** Expand automated portal coverage from 68% to 85%+ of technology startup and enterprise job requisitions.
-- **Key Modules:**
-  1. **BambooHR Adapter:** Native Playwright automation for standard `*.bamboohr.com` application pages.
-  2. **SmartRecruiters Adapter:** Native Playwright adapter for `jobs.smartrecruiters.com` single-page forms.
-  3. **Workday Assisted-Workflow Modal:** For complex multi-step enterprise Workday portals requiring candidate account creation:
-     - Launches an embedded sandboxed browser instance.
-     - Automatically pastes candidate FactStore fields into the active form via clip-assist buttons.
-     - Hands over final CAPTCHA and submit verification to the candidate.
+### Phase 3: Long-Tail ATS Adapters & Assisted Navigation (`FEAT-009`)
+- **Prerequisites:** `FEAT-009` baseline runner, `FEAT-017` LangGraph checkpointer.
+- **Deliverables:**
+  1. BambooHR native adapter (`*.bamboohr.com`).
+  2. SmartRecruiters native adapter (`jobs.smartrecruiters.com`).
+  3. Workday assisted-navigation helper modal guiding candidate through account creation and CAPTCHA challenges without fragile DOM hacking.
 
-### Epic 4: Distributed Worker Architecture (Redis & BullMQ)
-- **Objective:** Ensure browser automation processes do not degrade web API responsiveness during high concurrency.
-- **Architectural Design:**
-  1. **Queue Partitioning:**
-     - `high-priority-resume-opt`: Fast LLM resume and cover letter tailoring jobs (< 3s).
-     - `standard-ats-dispatch`: Headless Playwright browser automation jobs (15s–45s).
-     - `background-email-sync`: Periodic recruiter inbox IMAP polling (every 15 min).
-  2. **Worker Durability:** LangGraph state checkpoints (`PostgresDurableCheckpointer`) coupled with BullMQ job retry policies guarantee that a worker crash automatically restarts execution from the exact step checkpoint without duplicate side effects.
+### Phase 4: Distributed Redis & BullMQ Worker Architecture
+- **Prerequisites:** `FEAT-017` PostgreSQL Durable Checkpointer.
+- **Deliverables:**
+  1. Decouple Playwright browser jobs from the Express web server process.
+  2. Dedicated BullMQ queues for high-priority resume optimization and background browser automation.
+  3. Redis worker heartbeat monitoring and automatic worker crash reclamation.
 
-### Epic 5: Production Infrastructure, Secrets & Billing Activation
-- **Objective:** Secure, hardened public deployment of `https://roleviaai.co.in`.
-- **Requirements:**
-  1. **Domain & DNS Setup:** Authoritative DNS routing for `roleviaai.co.in` via Cloudflare with strict SSL/TLS (HSTS, TLS 1.3).
-  2. **Secrets Management:** Cloud secret vaulting for JWT secrets, database connection strings, OAuth credentials, and Razorpay production keys.
-  3. **Razorpay Live Merchant Gate:** Replace test keys with verified production merchant keys supporting instant UPI, NetBanking, and international credit cards.
-  4. **Zero-Fraud Live Submission Toggle:** A secure, cryptographically signed administrative flag required to transition from `DRY_RUN` to `LIVE_SUBMISSIONS_ENABLED`.
+### Phase 5: Production Infrastructure & Monitoring
+- **Prerequisites:** Cloudflare account, domain control confirmation (`roleviaai.co.in`).
+- **Deliverables:**
+  1. Cloudflare DNS configuration with strict SSL (TLS 1.3, HSTS, HTTP/3).
+  2. Centralized secrets management (cloud vaulting for database connection strings and OAuth credentials).
+  3. Sentry error monitoring and OpenTelemetry performance tracing.
 
 ---
 
-## 3. Milestone Delivery Timeline
+## 3. Explicit Launch Blockers & Quality Acceptance Criteria
 
-| Sprint | Focus Area | Key Deliverables | Quality Gate |
-| :---: | :--- | :--- | :--- |
-| **Sprint 1** | Live LLM Deployment & Telemetry | Free-tier Groq & Gemini activation; token ledger; live benchmark verification. | `tests/test_live_llm_validation.js` passes with live credentials. |
-| **Sprint 2** | Chrome Extension Companion | MV3 extension codebase; LinkedIn DOM overlay; authenticated session sync. | Verified end-to-end apply flow from LinkedIn to Kanban board. |
-| **Sprint 3** | Long-Tail ATS Adapters | BambooHR and SmartRecruiters native adapters; Workday assisted helper. | Staging tests across 15 real-world portal fixtures. |
-| **Sprint 4** | Redis/BullMQ Worker Scaling | Redis cluster integration; BullMQ queue migration; worker fault-tolerance audit. | Simulated 50-worker concurrent load with zero orphaned jobs. |
-| **Sprint 5** | Production Cutover & Signoff | Cloudflare DNS, SSL, Razorpay live merchant keys, owner signoff. | Full staging-to-production deployment checklist signed off. |
+| Workstream | Launch Blocker Condition | Quality Acceptance Criteria |
+| :--- | :--- | :--- |
+| **LLM Gateway** (`FEAT-018`) | Live API keys absent or unverified in network tests. | `tests/test_live_llm_validation.js` passes with 100% schema compliance and zero unsupported candidate claims. |
+| **Data Privacy** | Model provider terms allow training on candidate resumes. | Commercial agreements verified ensuring zero prompt/resume retention for foundation model training. |
+| **Extension Security** (`FEAT-012`) | Extension reads or exposes raw website JWT access tokens. | Extension uses scoped, revocable tokens (`rolevia_ext_auth_*`); candidate can revoke extension access in 1 click. |
+| **Submission Idempotency** | Database race condition allows duplicate application submission. | PostgreSQL `submission_attempt_locks` table with unique constraint on `(tenant_id, user_id, requisition_key)` rejects competing workers. |
+| **Commercial Billing** | Live merchant activation executed automatically without owner signoff. | Formal written signoff from project owner; sandbox test suite passes all double-entry ledger invariants. |
+| **Employer Submissions** | Live applications dispatched without explicit candidate authorization. | High-friction candidate confirmation modal with SHA-256 document approval token enforced prior to any real submit dispatch. |
 
 ---
 
-## 4. Production Quality & Verification Invariants
+## 4. Rollback Strategy & Staging Boundaries
 
-Prior to production launch, all Release 0.4 deployments must satisfy these non-negotiable invariants:
-1. **Mathematical Ledger Invariant:** `Available + Reserved + Consumed = Total Granted` holds true across every billing transaction.
-2. **Deterministic Attempt Uniqueness:** No network retry or process restart may create a duplicate submission attempt key.
-3. **Candidate Consent Non-Bypassable:** Submission execution requires verified candidate HMAC approval of the exact tailored document hash.
-4. **Zero Simulated Authenticity:** Diagnostics and dry-runs must always be explicitly labeled as such in the candidate UI.
-5. **Full Test Suite Integrity:** Master test harness must maintain 100% pass rate across all 23+ test suites.
+1. **Staging Isolation:** All ATS adapters continue to execute in `DRY_RUN` mode by default (`ROLEVIA_AUTOMATION_MODE=DRY_RUN`).
+2. **Billing Isolation:** Razorpay operates under test credentials (`rzp_test_*`) with mock webhook verification.
+3. **Process Isolation:** Worker crashes are quarantined at the queue level without affecting web API responsiveness.
+4. **Instant Feature Toggles:** All new capabilities (Chrome Extension bridge, BambooHR adapter, SmartRecruiters adapter) are gated behind database feature flags.

@@ -189,6 +189,21 @@ async function runFaultInjectionIdempotencySuite() {
     // -------------------------------------------------------------------------
     try {
       const crashAppId = `app-crash-pre-${Date.now()}`;
+      const reqHashCrash = `req-hash-crash-${Date.now()}`;
+      const jobCrash = await prisma.job.create({
+        data: {
+          id: `job-crash-${Date.now()}`,
+          company: 'Resilience Corp Crash',
+          title: 'Reliability Engineer',
+          url: 'https://jobs.ashbyhq.com/resilience/102',
+          ats: 'ashby',
+          atsName: 'Ashby',
+          requirements: JSON.stringify(['Node.js']),
+          requisitionHash: reqHashCrash,
+          status: 'ACTIVE'
+        }
+      });
+
       const crashDiff = JSON.stringify({ bullet: 'Grounded skill' });
       const crashDocHash = crypto.createHash('sha256').update(crashDiff).digest('hex');
 
@@ -197,11 +212,11 @@ async function runFaultInjectionIdempotencySuite() {
           id: crashAppId,
           tenantId,
           userId,
-          jobId,
-          company: 'Resilience Corp',
+          jobId: jobCrash.id,
+          company: 'Resilience Corp Crash',
           position: 'Reliability Engineer',
           ats: 'ashby',
-          url: 'https://jobs.ashbyhq.com/resilience/101',
+          url: 'https://jobs.ashbyhq.com/resilience/102',
           status: APPLICATION_STATES.APPROVED,
           diffData: crashDiff,
           approvedContentHash: crashDocHash
@@ -212,7 +227,7 @@ async function runFaultInjectionIdempotencySuite() {
         userId,
         tenantId,
         applicationId: crashAppId,
-        jobRequisitionHash: requisitionHash,
+        jobRequisitionHash: reqHashCrash,
         documentHash: crashDocHash
       });
 
@@ -258,6 +273,21 @@ async function runFaultInjectionIdempotencySuite() {
     // -------------------------------------------------------------------------
     try {
       const unknownAppId = `app-unknown-${Date.now()}`;
+      const reqHashUnknown = `req-hash-unknown-${Date.now()}`;
+      const jobUnknown = await prisma.job.create({
+        data: {
+          id: `job-unknown-${Date.now()}`,
+          company: 'Resilience Corp Unknown',
+          title: 'Reliability Engineer',
+          url: 'https://jobs.ashbyhq.com/resilience/103',
+          ats: 'ashby',
+          atsName: 'Ashby',
+          requirements: JSON.stringify(['Node.js']),
+          requisitionHash: reqHashUnknown,
+          status: 'ACTIVE'
+        }
+      });
+
       const unknownDiff = JSON.stringify({ bullet: 'Grounded skill' });
       const unknownDocHash = crypto.createHash('sha256').update(unknownDiff).digest('hex');
 
@@ -266,11 +296,11 @@ async function runFaultInjectionIdempotencySuite() {
           id: unknownAppId,
           tenantId,
           userId,
-          jobId,
-          company: 'Resilience Corp',
+          jobId: jobUnknown.id,
+          company: 'Resilience Corp Unknown',
           position: 'Reliability Engineer',
           ats: 'ashby',
-          url: 'https://jobs.ashbyhq.com/resilience/101',
+          url: 'https://jobs.ashbyhq.com/resilience/103',
           status: APPLICATION_STATES.APPROVED,
           diffData: unknownDiff,
           approvedContentHash: unknownDocHash
@@ -281,7 +311,7 @@ async function runFaultInjectionIdempotencySuite() {
         userId,
         tenantId,
         applicationId: unknownAppId,
-        jobRequisitionHash: requisitionHash,
+        jobRequisitionHash: reqHashUnknown,
         documentHash: unknownDocHash
       });
 
