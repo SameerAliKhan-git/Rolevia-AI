@@ -13,11 +13,18 @@ const resumeOptimizer = require('../resumeOptimizer');
 const QUEUE_REDIS_URL = process.env.REDIS_QUEUE_URL || 'redis://127.0.0.1:6380';
 const DEFAULT_CONCURRENCY = parseInt(process.env.WORKER_CONCURRENCY || '5', 10);
 
-const workerConnection = new Redis(QUEUE_REDIS_URL, {
-  maxRetriesPerRequest: null,
-  enableReadyCheck: true,
-  connectTimeout: 5000
-});
+let workerConnection = null;
+
+function getWorkerConnection() {
+  if (!workerConnection || workerConnection.status === 'end') {
+    workerConnection = new Redis(QUEUE_REDIS_URL, {
+      maxRetriesPerRequest: null,
+      enableReadyCheck: true,
+      connectTimeout: 5000
+    });
+  }
+  return workerConnection;
+}
 
 let applicationWorker = null;
 let resumeWorker = null;
@@ -37,8 +44,10 @@ const workerTelemetry = {
  * Initialize and start the BullMQ Worker pools
  */
 function startWorkers(options = {}) {
+  isShuttingDown = false;
   const appConcurrency = options.appConcurrency || DEFAULT_CONCURRENCY;
   const resumeConcurrency = options.resumeConcurrency || (DEFAULT_CONCURRENCY * 2);
+  const conn = getWorkerConnection();
 
   // 1. Playwright ATS Automation Worker Pool
   applicationWorker = new Worker(
@@ -63,31 +72,66 @@ function startWorkers(options = {}) {
         workerTelemetry.applicationJobsFailed++;
         console.error(`[Worker:Playwright] Job ${job.id} failed: ${err.message}`);
 
+        // Check current application status in database
+        let currentStatus = null;
+        try {
+          const currentApp = await prisma.application.findUnique({
+            where: { id: applicationId },
+            select: { status: true }
+          });
+          currentStatus = currentApp?.status;
+        } catch (fetchErr) {
+          console.error('[Worker:Playwright] Failed to query application status:', fetchErr.message);
+        }
+
+        const isIrreversibleOrAmbiguous = (
+          currentStatus === atsAutomation.APPLICATION_STATES.SUBMISSION_IN_FLIGHT ||
+          currentStatus === atsAutomation.APPLICATION_STATES.OUTCOME_UNKNOWN ||
+          currentStatus === atsAutomation.APPLICATION_STATES.SUBMITTED_CONFIRMED ||
+          currentStatus === atsAutomation.APPLICATION_STATES.NEEDS_USER_ACTION
+        );
+
         // Record dead-letter / failure audit event in PostgreSQL
         try {
           await prisma.applicationEvent.create({
             data: {
               applicationId,
-              eventType: 'WORKER_EXECUTION_FAILURE',
-              details: JSON.stringify({
+              fromStatus: currentStatus,
+              toStatus: currentStatus || 'FAILED_CONFIRMED',
+              eventType: isIrreversibleOrAmbiguous ? 'WORKER_AMBIGUOUS_HALT_NO_RETRY' : 'WORKER_EXECUTION_FAILURE',
+              payload: {
                 error: err.message,
-                stack: err.stack,
+                statusAtFailure: currentStatus,
+                isIrreversibleOrAmbiguous,
                 attemptsMade: job.attemptsMade + 1,
                 jobId: job.id
-              })
+              }
             }
           });
         } catch (dbErr) {
           console.error('[Worker:Playwright] Failed to write failure audit to DB:', dbErr.message);
         }
 
-        throw err; // Re-throw to trigger BullMQ retry or move to DLQ
+        // SIDE-EFFECT BOUNDARY ENFORCEMENT:
+        // Post-submission ambiguous or in-flight states MUST NEVER trigger blind automatic queue retries!
+        if (isIrreversibleOrAmbiguous) {
+          console.warn(`[Worker:Playwright] Suppressing automatic BullMQ retry for app ${applicationId} (status: ${currentStatus}) to prevent duplicate employer submission.`);
+          job.opts.attempts = job.attemptsMade; // Clamp attempts to prevent BullMQ from rescheduling retry
+          return {
+            success: false,
+            status: currentStatus,
+            error: err.message,
+            retriesSuppressed: true
+          };
+        }
+
+        throw err; // Safe pre-submit transient errors may re-attempt up to default max attempts
       } finally {
         workerTelemetry.activeExecutions--;
       }
     },
     {
-      connection: workerConnection,
+      connection: conn,
       concurrency: appConcurrency,
       limiter: {
         max: 50,
@@ -126,7 +170,7 @@ function startWorkers(options = {}) {
       }
     },
     {
-      connection: workerConnection,
+      connection: conn,
       concurrency: resumeConcurrency
     }
   );
@@ -167,7 +211,10 @@ async function stopWorkers(timeoutMs = 15000) {
   const timeoutPromise = new Promise((resolve) => setTimeout(resolve, timeoutMs));
   await Promise.race([Promise.all(closePromises), timeoutPromise]);
 
-  await workerConnection.quit();
+  if (workerConnection && workerConnection.status !== 'end') {
+    await workerConnection.quit().catch(() => {});
+    workerConnection = null;
+  }
   console.log('[Worker] Worker pools stopped cleanly.');
 }
 

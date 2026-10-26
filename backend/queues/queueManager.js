@@ -70,8 +70,9 @@ const applicationEvents = new QueueEvents('rolevia-application-automation', { co
  */
 async function canAdmitJob(queueName = 'application', maxBacklog = 10000) {
   const queue = queueName === 'resume' ? resumeQueue : applicationQueue;
-  const waitingCount = await queue.getWaitingCount();
-  return waitingCount < maxBacklog;
+  const counts = await queue.getJobCounts('waiting', 'prioritized');
+  const backlog = (counts.waiting || 0) + (counts.prioritized || 0);
+  return backlog < maxBacklog;
 }
 
 /**

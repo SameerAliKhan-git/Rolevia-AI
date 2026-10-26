@@ -39,6 +39,47 @@ const DEFAULT_MODELS = {
 };
 
 /**
+ * Task-Specific Model Routing Matrix
+ * Reconciles cost vs capability across distinct agent tasks:
+ * - RESUME_TAILORING: Uses 'gemini-2.5-pro' for complex long-context career reasoning, with fallback to 'gemini-2.5-flash'.
+ * - SCREENING_QUESTIONS: Uses 'gemini-2.5-flash' for low-latency field mapping.
+ * - RECRUITER_EMAIL: Uses 'llama-3.3-70b-versatile' (Groq) or 'gemini-2.5-flash' for fast email intent classification.
+ */
+const TASK_MODEL_ROUTING = {
+  RESUME_TAILORING: {
+    primaryProvider: 'GEMINI',
+    primaryModel: 'gemini-2.5-pro',
+    fallbackModel: 'gemini-2.5-flash',
+    secondaryProvider: 'GROQ',
+    secondaryModel: 'llama-3.3-70b-versatile'
+  },
+  SCREENING_QUESTIONS: {
+    primaryProvider: 'GEMINI',
+    primaryModel: 'gemini-2.5-flash',
+    fallbackModel: 'gemini-2.5-flash',
+    secondaryProvider: 'OPENAI',
+    secondaryModel: 'gpt-4o-mini'
+  },
+  RECRUITER_EMAIL: {
+    primaryProvider: 'GROQ',
+    primaryModel: 'llama-3.3-70b-versatile',
+    fallbackModel: 'llama-3.1-8b-instant',
+    secondaryProvider: 'GEMINI',
+    secondaryModel: 'gemini-2.5-flash'
+  }
+};
+
+function getTaskRouting(taskType) {
+  return TASK_MODEL_ROUTING[taskType] || {
+    primaryProvider: 'GEMINI',
+    primaryModel: DEFAULT_MODELS.GEMINI,
+    fallbackModel: MODEL_FALLBACKS[DEFAULT_MODELS.GEMINI] || DEFAULT_MODELS.GEMINI,
+    secondaryProvider: 'GROQ',
+    secondaryModel: DEFAULT_MODELS.GROQ
+  };
+}
+
+/**
  * Intra-Provider Resiliency Fallback Directory
  */
 const MODEL_FALLBACKS = {
@@ -722,6 +763,8 @@ module.exports = {
   GATEWAY_MODES,
   SUPPORTED_PROVIDERS,
   DEFAULT_MODELS,
+  TASK_MODEL_ROUTING,
+  getTaskRouting,
   MODEL_FALLBACKS,
   MODEL_PRICING,
   ResumeTailoringOutputSchema,
