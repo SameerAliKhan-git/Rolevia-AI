@@ -29,10 +29,10 @@ const GATEWAY_MODES = {
 const SUPPORTED_PROVIDERS = ['MOCK', 'GEMINI', 'GROQ', 'OPENAI'];
 
 /**
- * Default Active Models per Provider (Obsolete models removed)
+ * Default Active Models per Provider (Updated for current active endpoints)
  */
 const DEFAULT_MODELS = {
-  GEMINI: 'gemini-1.5-flash',
+  GEMINI: 'gemini-2.5-flash',
   GROQ: 'llama-3.3-70b-versatile',
   OPENAI: 'gpt-4o-mini',
   MOCK: 'mock-model'
@@ -43,21 +43,25 @@ const DEFAULT_MODELS = {
  */
 const MODEL_FALLBACKS = {
   'llama-3.3-70b-versatile': 'llama-3.1-8b-instant',
+  'gemini-2.5-pro': 'gemini-2.5-flash',
   'gemini-1.5-pro': 'gemini-1.5-flash',
   'gpt-4o': 'gpt-4o-mini'
 };
 
 /**
  * Token Pricing Directory (Per 1k Tokens in USD)
- * Groq open-weights models are hosted on Groq Free Tier ($0.00).
+ * Commercial paid-tier pricing reflected for sustainable production FinOps.
  */
 const MODEL_PRICING = {
   'mock-model': { input: 0.0, output: 0.0, contextWindow: 32768 },
-  // Groq Free Tier
-  'llama-3.3-70b-versatile': { input: 0.0, output: 0.0, contextWindow: 128000 },
-  'llama-3.1-8b-instant': { input: 0.0, output: 0.0, contextWindow: 128000 },
-  'mixtral-8x7b-32768': { input: 0.0, output: 0.0, contextWindow: 32768 },
-  // Google Gemini
+  // Groq Cloud
+  'llama-3.3-70b-versatile': { input: 0.00059, output: 0.00079, contextWindow: 128000 },
+  'llama-3.1-8b-instant': { input: 0.00005, output: 0.00008, contextWindow: 128000 },
+  'mixtral-8x7b-32768': { input: 0.00024, output: 0.00024, contextWindow: 32768 },
+  // Google Gemini (Current Active Generation)
+  'gemini-2.5-flash': { input: 0.000075, output: 0.0003, contextWindow: 1048576 },
+  'gemini-2.5-pro': { input: 0.00125, output: 0.005, contextWindow: 2097152 },
+  // Backward-compatibility aliases
   'gemini-1.5-flash': { input: 0.000075, output: 0.0003, contextWindow: 1048576 },
   'gemini-1.5-pro': { input: 0.00125, output: 0.005, contextWindow: 2097152 },
   'gemini-2.0-flash': { input: 0.0001, output: 0.0004, contextWindow: 1048576 },

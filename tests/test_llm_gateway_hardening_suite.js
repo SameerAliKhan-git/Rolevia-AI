@@ -111,6 +111,7 @@ async function runLLMHardeningTestSuite() {
   // ---------------------------------------------------------------------------
   try {
     assert.strictEqual(MODEL_FALLBACKS['llama-3.3-70b-versatile'], 'llama-3.1-8b-instant');
+    assert.strictEqual(MODEL_FALLBACKS['gemini-2.5-pro'], 'gemini-2.5-flash');
     assert.strictEqual(MODEL_FALLBACKS['gemini-1.5-pro'], 'gemini-1.5-flash');
     assert.strictEqual(MODEL_FALLBACKS['gpt-4o'], 'gpt-4o-mini');
     recordPass('Intra-Provider Fallback: 70B/Pro flagship models map cleanly to high-throughput instant models');

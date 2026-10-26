@@ -1,0 +1,3 @@
+Rolevia AI Verified Resume
+Candidate: Resilient Worker Candidate
+{"bullet":"Engineered distributed fault-tolerant workers"}
