@@ -1,17 +1,17 @@
 # Graph Report - Tsenta Ai Clone  (2026-10-26)
 
 ## Corpus Check
-- 400 files · ~528,692 words
+- 400 files · ~530,778 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 18 file(s) not represented in the graph (top: .css 15, (none) 2, .prisma 1)
 
 ## Summary
-- 11326 nodes · 36141 edges · 288 communities (279 shown, 9 thin omitted)
-- Extraction: 87% EXTRACTED · 13% INFERRED · 0% AMBIGUOUS · INFERRED: 4690 edges (avg confidence: 0.85)
+- 11335 nodes · 36151 edges · 285 communities (279 shown, 6 thin omitted)
+- Extraction: 87% EXTRACTED · 13% INFERRED · 0% AMBIGUOUS · INFERRED: 4691 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f26a78eb`
+- Built from commit: `a3501afb`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -33,8 +33,8 @@
 - thread-DH0alfKc.js
 - h
 - sentry-DtAMeAKu.js
-- page--72sNO_I.js
-- p
+- page-De3ut4OG.js
+- use_tracker_board-Dvkp1hgU.js
 - select-CwrsSfej.js
 - motion-Yha3YIen.js
 - o
@@ -44,8 +44,8 @@
 - mobile_pick_swipe-3vmrIIhO.js
 - review-7GiCpxlY.js
 - job_details_modal-DYeb_rLk.js
-- r
-- a
+- o
+- n
 - page-BkxcYYwL.js
 - diff_context-DEJUYbzj.js
 - W
@@ -53,84 +53,84 @@
 - assistant_runtime_provider-B1X85XGd.js
 - page-BTQ15PpT.js
 - Oc
-- yc
+- dialog-Bu61Lt5x.js
 - #d
 - use_naukri_connect_controller-DyK2ABHn.js
 - setup
-- I
-- page--DqapHTB.js
+- t
+- n
 - api-CZ-WWetN.js
 - sidebar_chat-y3X-riuj.js
 - K
-- r
+- o
 - ROLEVIA AI vs TSENTA AI — COMPETITIVE FEATURE MATRIX & GAP AUDIT
 - package.json
-- hu
+- np
 - Kl
 - t
-- use_auth-DXwrZv99.js
-- live_fill_view-DXtCw8IL.js
-- form_body-DUneIJ0c.js
-- v
+- logger-D4klN9W3.js
+- r
+- portal-DdHwNoI3.js
+- pe
 - constructor
 - tour-_wquxK-6.js
 - t
-- page-CB0D6Vsq.js
-- applications_table-efGiw-PC.js
-- atsAutomation.js
+- n
+- Hr
+- db.js
 - page-CDc1Uk-q.js
 - moment-DeEWuACk.js
 - o
-- S
+- e
 - ROLEVIA AI · RELEASE 0.2 STAGING READINESS AUDIT & SIGNOFF
 - constructor
 - Au
 - atsAutomation.js
 - profile_field_inputs-CXlDML-q.js
 - O
-- p
+- C
 - loadIfEnabled
 - page-B9PpDlwu.js
 - missing_fields_content-BYztFpSG.js
 - 2. Priority Epic Breakdown
-- message_detail-CveWEwCR.js
+- page-hMKHNz0x.js
 - app.js
 - constructor
 - phone-iCWMVqK8.js
 - server.js
 - t
-- x
+- assistant-BuUKVg-O.js
 - t
-- gc
+- ui
 - s
 - package.json
 - Rc
 - 2. Priority Epic Breakdown
 - start
 - U
-- jr
+- r
 - getSurveys
 - _addCheck
 - add
 - L
 - workspace_modal--eQ694iE.js
 - r
-- check
+- ra
 - capture
 - _processEvent
 - update
 - t
-- filter_pill-hH4hysTi.js
-- #a
+- kr
+- remove
 - parse
 - import
 - ats--6qonFW9.js
 - T
-- Zs
+- gs
 - F
 - useTransmit-C7BJmYhX.js
 - i
-- t
+- inbox-Bxl-cU5q.js
 - I
 - page-B2FZwJbH.js
 - migrationManager.js
@@ -138,11 +138,11 @@
 - ROLEVIA AI — AGENTIC FRAMEWORK AUDIT & ARCHITECTURAL EVALUATION
 - mount
 - 1. Consolidated Work Item Scope
-- a
+- F
 - clone
 - mo
 - 2. Detailed Feature Specifications
-- page-BIjCOvf0.js
+- t
 - ROLEVIA AI — AGENTIC FRAMEWORK AUDIT & ARCHITECTURAL EVALUATION
 - constructor
 - i
@@ -157,8 +157,8 @@
 - 2. Revalidation of Critical & High Severity Issues Against Source Code
 - ROLEVIA AI · RELEASE 0.2 FEAT-006 VALIDATION REPORT
 - re
-- a
-- m
+- i
+- wd
 - serialize
 - Subscription blueprint for the proposed platform
 - a
@@ -168,11 +168,11 @@
 - N
 - zn
 - applicationGraph.js
-- #k
+- render
 - wl
 - get
 - readKeyframes
-- auth.js
+- test_feat011_recruiter_email.js
 - upgrade_plan_options-BRw4UtI-.js
 - qn
 - resumeOptimizer.js
@@ -183,57 +183,58 @@
 - vr
 - ROLEVIA AI · APPLICATION TRACKER & VERIFIED RECEIPTS E2E VALIDATION
 - 2. Automated Test Suite Specifications
-- We
-- button-CW0nRO_l.js
-- i
+- tracker-D_fqftl6.js
+- page-DfFJZACF.js
+- m
 - Rolevia AI · Release 0.1 Verification Report
 - Rolevia AI — Chrome Extension Security Architecture (FEAT-012)
 - t
 - P
-- page-HcBTWrFj.js
+- account_suspension-CxhRv-Kn.js
 - 2. Exhaustive Feature Inventory by Category
 - hu
 - Tsenta public workflows and cross-surface evidence
-- n
+- highlightSelection
 - h
 - e
 - renderMatches
 - 2. Product Assessment Summary
 - dt
-- 2. Dependency-Based Implementation Sequence
+- auto-apply-form-ZGl0lczh.js
 - onEvent
 - 2. Detailed Milestone Breakdown
 - page-BlP9C9XB.js
 - recordFutureForcedDependency
 - H
 - i
-- G
+- onFeatureFlags
 - ROLEVIA_AI_MASTER_CONTEXT.md
 - H
-- jobCrawler.js
+- Rolevia AI · Release 0.1 Production Readiness Assessment & Audit Report
 - 2. Test Suite Breakdown
-- _onStorageEvent
+- _withRetries
 - 2. Core Functional Capabilities Breakdown
 - ho
 - b
 - brand.config.js
 - s
-- F
+- p
+- country_eligibility_editor-C_PWEgeq.js
 - da
 - .oxlintrc.json
 - REPORT 1 — Executive Audit Summary
 - Ponytail, lazy senior dev mode
 - Ponytail, lazy senior dev mode
 - ci
-- ROLEVIA AI · RELEASE 0.2 FEAT-007 & FEAT-008 VALIDATION AND IMPLEMENTATION REPORT
-- L
+- nr
+- coerce
 - React + Vite
 - 8. CORE AI-AGENT ECOSYSTEM TO BUILD
-- be
+- mn
 - qi
 - xc
 - REPORT 7 — Production Architecture Proposal
-- _t
+- message_detail-CveWEwCR.js
 - cn
 - applicationTracker.js
 - processResponseStream
@@ -243,8 +244,8 @@
 - renderProfile
 - ge
 - ROLEVIA AI · RELEASE 0.2 STAGING READINESS AUDIT & SIGNOFF
-- ROLEVIA AI — FULL PRODUCT JOURNEY BROWSER E2E EVALUATION REPORT
-- save
+- atsAutomation.js
+- auth.js
 - getItemById
 - 6. IMPLEMENTATION HISTORY AND CURRENT REPORTED FEATURES
 - experienceEngine.js
@@ -255,17 +256,17 @@
 - ROLEVIA AI · AGENT WORKFLOW STATE CONTRACT
 - 11. ADDITIONAL ROADMAP FEATURES
 - ROLEVIA AI · AGENT WORKFLOW STATE CONTRACT
-- ja
+- be
 - ROLEVIA AI · MULTI-MODEL LLM PROVIDER INTEGRATION
 - 13. CRITICAL ENGINEERING AND SECURITY PRINCIPLES
-- Yt
+- co
 - 16. DEVELOPMENT PROCESS
 - 5. EXISTING TECHNICAL ARCHITECTURE
 - ROLEVIA AI · MULTI-MODEL LLM PROVIDER INTEGRATION
 - 9. FEAT-009 — NEXT MAJOR MILESTONE: ATS APPLICATION AUTOMATION
 - dist-Gol7icTb.js
 - _addPart
-- fr
+- wallet_card-DaQ46y8r.js
 - ft
 - C
 - lt
@@ -277,32 +278,29 @@
 - ROLEVIA AI — LANGGRAPH CHECKPOINT RECOVERY & DURABILITY AUDIT REPORT
 - renderBilling
 - Rolevia AI — Enterprise System Architecture Specification
-- Xt
+- w
 - 2. Automated Self-Healing Runbooks
 - 2. Test Execution Profiles
 - Rolevia AI — Real LLM Provider Validation & Commercial Privacy Audit
 - rt
 - sp
-- h
+- St
 - Rolevia AI — Observability Architecture, Telemetry & SLO Framework
-- md
-- ROLEVIA AI vs TSENTA AI — COMPETITIVE FEATURE MATRIX & GAP AUDIT
-- to
-- pr
+- t
+- it
+- vl
+- t
 - ADR-001: Modular Monolith API with Asynchronous Dedicated Worker Pools
 - ADR-003: LangGraph.js Agentic Orchestration with PostgreSQL State Checkpointing
 - ADR-004: Multi-Model LLM Gateway with Anti-Hallucination Guardrails
 - ADR-005: BullMQ Job Queues and Admission Control Backpressure
 - Rolevia AI — Hyperscale Capacity Planning & Workload Models (10k to 1M Scale)
-- In
-- i
-- Rolevia AI — Hyperscale Load Testing Strategy & Quality Gates
-- f
-- va
+- getAll
+- ADR-002: PostgreSQL-Enforced Submission Locks and Idempotency Invariants
+- 2. Progressive Load Testing Phases & Acceptance Gates
+- n
+- o
 - Rolevia AI — Hyperscale Scaling Bottleneck Register
-- tt
-- ea
-- __internal_bindMethods
 
 ## God Nodes (most connected - your core abstractions)
 1. `a()` - 393 edges
@@ -331,131 +329,131 @@
 ## Import Cycles
 - None detected.
 
-## Communities (288 total, 9 thin omitted)
+## Communities (285 total, 6 thin omitted)
 
 ### Community 0 - "pdf_viewer-BV4Sip6-.js"
 Cohesion: 0.00
-Nodes (66): Aa(), addChangedExistingAnnotation(), addDeletedAnnotationElement(), addHighlightArea(), altTextFinish(), beginMarkedContentProps(), CMYK_HTML(), CMYK_RGB() (+58 more)
+Nodes (52): Aa(), addChangedExistingAnnotation(), addDeletedAnnotationElement(), addHighlightArea(), altTextFinish(), beginMarkedContentProps(), CMYK_HTML(), CMYK_RGB() (+44 more)
 
 ### Community 1 - "markdown-text-cUy1KtGC.js"
 Cohesion: 0.01
-Nodes (185): Bf(), Gf(), Tf(), Vf(), _a(), Aa(), ac(), Ad() (+177 more)
+Nodes (205): _a(), Aa(), ac(), Ad(), af(), ai(), Al(), t() (+197 more)
 
 ### Community 2 - "turn_queue_provider-BYJ-Cll1.js"
 Cohesion: 0.01
-Nodes (31): beginEdit(), dd(), flatten(), forEach(), formErrors(), getModelConfig(), getModelContext(), importExternalState() (+23 more)
+Nodes (32): beginEdit(), dd(), flatten(), forEach(), formErrors(), getModelConfig(), getModelContext(), importExternalState() (+24 more)
 
 ### Community 3 - "uiApi-B-MLE5mC.js"
-Cohesion: 0.04
-Nodes (47): ce(), de(), p(), Dt(), bi(), bn(), br(), ci() (+39 more)
+Cohesion: 0.03
+Nodes (71): o(), f(), Aa(), ba(), bi(), bn(), br(), Ca() (+63 more)
 
 ### Community 4 - "index-BzA-r5bo.js"
 Cohesion: 0.02
-Nodes (186): ue(), p(), Ae(), b(), C(), S(), w(), x() (+178 more)
+Nodes (158): ue(), Ae(), de(), H(), pe(), ue(), _a(), Ac() (+150 more)
 
 ### Community 5 - "n"
 Cohesion: 0.02
-Nodes (111): add(), am(), r(), s(), r(), cp(), cs(), i() (+103 more)
+Nodes (179): add(), am(), r(), i(), o(), r(), s(), as() (+171 more)
 
 ### Community 6 - "schemas-B-MmcwHE.js"
-Cohesion: 0.03
-Nodes (59): ac(), and(), array(), bn(), Bt(), C(), ce(), da() (+51 more)
+Cohesion: 0.02
+Nodes (209): a(), a(), c(), d(), aa(), ac(), ae(), Ai() (+201 more)
 
 ### Community 7 - "posthog-D_KOSIrT.js"
 Cohesion: 0.01
-Nodes (97): add(), af(), applyModifiers(), ar(), arm(), armNoEarlierThan(), au(), Bs() (+89 more)
+Nodes (69): add(), applyModifiers(), ar(), arm(), armNoEarlierThan(), au(), Bs(), captureBufferedConsoleLog() (+61 more)
 
 ### Community 8 - "react-vendor-BJfRIYtH.js"
 Cohesion: 0.05
-Nodes (72): if(), nh(), sh(), ad(), an(), Ao(), ba(), Bt() (+64 more)
+Nodes (82): sh(), ac(), Ao(), as(), ba(), bn(), Bo(), bs() (+74 more)
 
 ### Community 9 - "download_filename-BdJ7OUVI.js"
-Cohesion: 0.06
-Nodes (168): A(), aa(), Ae(), An(), ar(), at(), ba(), be() (+160 more)
+Cohesion: 0.08
+Nodes (83): A(), aa(), ar(), ba(), bi(), br(), C(), ca() (+75 more)
 
 ### Community 10 - "layout-CNoEvXXJ.js"
-Cohesion: 0.03
-Nodes (162): c(), i(), u(), fe(), o(), f(), p(), d() (+154 more)
+Cohesion: 0.04
+Nodes (96): fe(), p(), Xs(), Ae(), An(), ar(), Bn(), br() (+88 more)
 
 ### Community 11 - "page-3eWDpiPM.js"
 Cohesion: 0.02
-Nodes (76): i(), s(), k(), ai(), ar(), as(), Bo(), bs() (+68 more)
+Nodes (109): ae(), B(), be(), de(), _e(), fe(), ge(), he() (+101 more)
 
 ### Community 12 - "md-CmGIAhDw.js"
 Cohesion: 0.09
-Nodes (73): a(), i(), d(), f(), l(), p(), u(), ae() (+65 more)
+Nodes (71): a(), i(), f(), p(), ae(), at(), be(), ce() (+63 more)
 
 ### Community 13 - "render"
-Cohesion: 0.03
-Nodes (133): e(), t(), addContainer(), ao(), v(), beginImageData(), beginInlineImage(), bezierBoundingBox() (+125 more)
+Cohesion: 0.04
+Nodes (93): addHCMFilter(), ao(), v(), bezierBoundingBox(), Ce(), clone(), compressSignature(), createDrawingOptions() (+85 more)
 
 ### Community 14 - "thread-DH0alfKc.js"
 Cohesion: 0.02
-Nodes (98): xe(), L(), kn(), Mn(), _n(), _s(), Ut(), after() (+90 more)
+Nodes (103): xe(), L(), kn(), Mn(), _n(), _s(), Ut(), w_() (+95 more)
 
 ### Community 15 - "h"
-Cohesion: 0.04
-Nodes (115): g(), m(), i(), n(), r(), t(), a(), ae() (+107 more)
+Cohesion: 0.03
+Nodes (156): g(), m(), E(), i(), te(), x(), n(), r() (+148 more)
 
 ### Community 16 - "sentry-DtAMeAKu.js"
+Cohesion: 0.02
+Nodes (93): Ad(), addBreadcrumb(), addEvent(), addIntegration(), Bn(), ci(), clear(), clearBreadcrumbs() (+85 more)
+
+### Community 17 - "page-De3ut4OG.js"
 Cohesion: 0.03
-Nodes (86): a(), Ad(), addEvent(), addIntegration(), An(), captureSession(), clear(), clearBreadcrumbs() (+78 more)
+Nodes (101): p(), he(), te(), c(), Fc(), On(), b(), k() (+93 more)
 
-### Community 17 - "page--72sNO_I.js"
-Cohesion: 0.06
-Nodes (39): he(), On(), k(), q(), ve(), ed(), f(), u() (+31 more)
-
-### Community 18 - "p"
-Cohesion: 0.06
-Nodes (67): e(), n(), t(), Re(), hr(), a(), o(), s() (+59 more)
+### Community 18 - "use_tracker_board-Dvkp1hgU.js"
+Cohesion: 0.11
+Nodes (31): e(), n(), t(), hr(), C(), d(), ee(), F() (+23 more)
 
 ### Community 19 - "select-CwrsSfej.js"
-Cohesion: 0.04
-Nodes (200): 1. Core Engineering Principles (SOLID, DRY, KISS), e(), o(), s(), t(), $i(), D(), 2() (+192 more)
+Cohesion: 0.07
+Nodes (75): D(), constructor(), ct(), De(), et(), Ge(), ht(), ot() (+67 more)
 
 ### Community 20 - "motion-Yha3YIen.js"
 Cohesion: 0.02
-Nodes (44): addVariantChild(), ao(), co(), componentDidMount(), componentDidUpdate(), Ds(), dt(), fl() (+36 more)
+Nodes (45): addVariantChild(), ao(), co(), componentDidMount(), componentDidUpdate(), Ds(), dt(), fl() (+37 more)
 
 ### Community 21 - "o"
-Cohesion: 0.11
-Nodes (67): rc(), K(), L(), ae(), d(), f(), m(), p() (+59 more)
+Cohesion: 0.15
+Nodes (46): ae(), d(), f(), m(), p(), u(), bi(), ce() (+38 more)
 
 ### Community 22 - "floating-DPos8Xox.js"
 Cohesion: 0.06
-Nodes (98): Ue(), We(), ae(), an(), at(), B(), be(), bn() (+90 more)
+Nodes (100): Ue(), We(), fe(), ae(), an(), at(), B(), be() (+92 more)
 
 ### Community 23 - "firebase-BCao27W1.js"
 Cohesion: 0.03
-Nodes (54): A(), addComponent(), _addListener(), addOrOverwriteComponent(), attachListener(), automaticDataCollectionEnabled(), c(), checkDestroyed() (+46 more)
+Nodes (48): addComponent(), _addListener(), addOrOverwriteComponent(), attachListener(), automaticDataCollectionEnabled(), checkDestroyed(), close(), complete() (+40 more)
 
 ### Community 24 - "detail-D9JVJ7Rd.js"
-Cohesion: 0.09
-Nodes (26): a(), l(), o(), G(), Be(), Fe(), Ge(), He() (+18 more)
+Cohesion: 0.04
+Nodes (94): a(), c(), i(), l(), o(), u(), o(), f() (+86 more)
 
 ### Community 25 - "mobile_pick_swipe-3vmrIIhO.js"
 Cohesion: 0.05
-Nodes (74): s(), u(), R(), o(), bs(), Ks(), ys(), G() (+66 more)
+Nodes (103): u(), A(), ae(), b(), C(), ce(), de(), E() (+95 more)
 
 ### Community 26 - "review-7GiCpxlY.js"
-Cohesion: 0.03
-Nodes (115): S(), g(), m(), _t(), de(), fe(), J(), ke() (+107 more)
+Cohesion: 0.06
+Nodes (81): _t(), de(), fe(), G(), J(), ke(), le(), ue() (+73 more)
 
 ### Community 27 - "job_details_modal-DYeb_rLk.js"
+Cohesion: 0.07
+Nodes (63): a(), f(), i(), n(), p(), r(), t(), u() (+55 more)
+
+### Community 28 - "o"
+Cohesion: 0.04
+Nodes (83): p(), ap(), a(), c(), d(), u(), bf(), u() (+75 more)
+
+### Community 29 - "n"
 Cohesion: 0.08
-Nodes (56): a(), f(), i(), n(), o(), p(), r(), t() (+48 more)
-
-### Community 28 - "r"
-Cohesion: 0.03
-Nodes (143): ap(), a(), c(), d(), i(), l(), r(), u() (+135 more)
-
-### Community 29 - "a"
-Cohesion: 0.13
-Nodes (31): be(), cc(), co(), Da(), Do(), eo(), fc(), ff() (+23 more)
+Nodes (59): rc(), aa(), bc(), be(), Bt(), ca(), cc(), co() (+51 more)
 
 ### Community 30 - "page-BkxcYYwL.js"
-Cohesion: 0.03
-Nodes (97): ce(), de(), H(), K(), me(), oe(), pe(), q() (+89 more)
+Cohesion: 0.08
+Nodes (31): s(), a(), An(), bn(), bt(), En(), Ft(), gt() (+23 more)
 
 ### Community 31 - "diff_context-DEJUYbzj.js"
 Cohesion: 0.06
@@ -463,151 +461,151 @@ Nodes (74): addToPath(), ae(), applyPatches(), at(), b(), be(), buildValues(), C
 
 ### Community 32 - "W"
 Cohesion: 0.04
-Nodes (75): An(), applyTransferMapsToBitmap(), applyTransferMapsToCanvas(), beginAnnotation(), beginDrawing(), beginGroup(), beginSMaskMode(), checkSMaskState() (+67 more)
+Nodes (79): An(), applyTransferMapsToBitmap(), applyTransferMapsToCanvas(), beginAnnotation(), beginDrawing(), beginGroup(), beginSMaskMode(), checkSMaskState() (+71 more)
 
 ### Community 33 - "L"
-Cohesion: 0.06
-Nodes (65): At(), Bd(), Cd(), Dd(), Ed(), ensureFlagsLoaded(), _execute_array(), f() (+57 more)
+Cohesion: 0.05
+Nodes (69): Ad(), addExceptionStep(), At(), Bd(), Bt(), captureException(), Cd(), cf() (+61 more)
 
 ### Community 34 - "assistant_runtime_provider-B1X85XGd.js"
 Cohesion: 0.06
-Nodes (68): A(), at(), B(), bt(), ct(), De(), $e(), Ee() (+60 more)
+Nodes (64): A(), at(), B(), bt(), ct(), De(), $e(), Ee() (+56 more)
 
 ### Community 35 - "page-BTQ15PpT.js"
-Cohesion: 0.04
-Nodes (91): B(), W(), h(), m(), C(), e(), n(), t() (+83 more)
+Cohesion: 0.02
+Nodes (170): B(), ne(), R(), W(), o(), s(), h(), m() (+162 more)
 
 ### Community 36 - "Oc"
-Cohesion: 0.04
-Nodes (54): p(), cancelPendingOpen(), ch(), Eh(), n(), d(), t(), f() (+46 more)
+Cohesion: 0.03
+Nodes (100): A(), ae(), ce(), d(), E(), ee(), F(), G() (+92 more)
 
-### Community 37 - "yc"
-Cohesion: 0.17
-Nodes (12): bc(), Dc(), Fu(), Nc(), n(), Sc(), i(), yc() (+4 more)
+### Community 37 - "dialog-Bu61Lt5x.js"
+Cohesion: 0.08
+Nodes (78): e(), o(), s(), t(), it(), pt(), o(), be() (+70 more)
 
 ### Community 38 - "#d"
-Cohesion: 0.07
-Nodes (36): addAlphaFilter(), addFilter(), addHCMFilter(), addHighlightHCMFilter(), addLuminosityFilter(), _addOutlines(), addSignature(), black() (+28 more)
+Cohesion: 0.12
+Nodes (19): addAlphaFilter(), addLuminosityFilter(), black(), bold(), build(), #c(), #d(), disableFontFace() (+11 more)
 
 ### Community 39 - "use_naukri_connect_controller-DyK2ABHn.js"
-Cohesion: 0.08
-Nodes (44): he(), xe(), Ge(), ae(), be(), be(), _e(), Ee() (+36 more)
+Cohesion: 0.06
+Nodes (56): c(), ge(), he(), w(), xe(), l(), Fi(), gi() (+48 more)
 
 ### Community 40 - "setup"
 Cohesion: 0.07
-Nodes (44): Af(), b(), bc(), bs(), cf(), df(), _e(), ff() (+36 more)
+Nodes (41): Af(), An(), b(), bc(), bs(), cf(), df(), Dn() (+33 more)
 
-### Community 41 - "I"
-Cohesion: 0.08
-Nodes (41): bi(), Bn(), ci(), _convertSpanToTransaction(), cr(), Dr(), ei(), end() (+33 more)
+### Community 41 - "t"
+Cohesion: 0.09
+Nodes (46): a(), bi(), ca(), da(), Dr(), ea(), en(), fa() (+38 more)
 
-### Community 42 - "page--DqapHTB.js"
-Cohesion: 0.06
-Nodes (68): d(), v(), vt(), zr(), Ae(), at(), Be(), ct() (+60 more)
+### Community 42 - "n"
+Cohesion: 0.03
+Nodes (166): f(), p(), q(), Se(), W(), xe(), b(), c() (+158 more)
 
 ### Community 43 - "api-CZ-WWetN.js"
-Cohesion: 0.04
-Nodes (90): V(), An(), applyPatches(), ar(), at(), bt(), g(), constructor() (+82 more)
+Cohesion: 0.07
+Nodes (45): ai(), applyPatches(), at(), B(), bt(), constructor(), createDraft(), Ct() (+37 more)
 
 ### Community 44 - "sidebar_chat-y3X-riuj.js"
 Cohesion: 0.05
-Nodes (32): _c(), p(), i(), _m(), t(), G(), H(), Ie() (+24 more)
+Nodes (31): _c(), p(), i(), _m(), t(), G(), Ie(), J() (+23 more)
 
 ### Community 45 - "K"
-Cohesion: 0.06
-Nodes (54): ah(), b_(), co(), a(), i(), o(), E_(), h() (+46 more)
+Cohesion: 0.05
+Nodes (58): y(), ah(), b_(), cs(), i(), E_(), k(), K() (+50 more)
 
-### Community 46 - "r"
-Cohesion: 0.07
-Nodes (46): Hf(), wf(), Tu(), am(), r(), ba(), br(), i() (+38 more)
+### Community 46 - "o"
+Cohesion: 0.08
+Nodes (34): a(), aa(), br(), i(), co(), eo(), o(), Fr() (+26 more)
 
 ### Community 47 - "ROLEVIA AI vs TSENTA AI — COMPETITIVE FEATURE MATRIX & GAP AUDIT"
-Cohesion: 0.22
-Nodes (8): 1. Methodology & Evidence Classification Framework, 2. Comprehensive 11-Dimension Feature Matrix, 3. Resume Tailoring Mode Comparison, 4. Prioritized Feature Gap Roadmap (Release 0.3), ROLEVIA AI vs TSENTA AI — COMPETITIVE FEATURE MATRIX & GAP AUDIT, C. Resume & Cover Letter Optimization, 3. Comprehensive 12-Dimension Competitive Matrix, off()
+Cohesion: 0.13
+Nodes (13): 1. Methodology & Evidence Classification Framework, 2. Comprehensive 11-Dimension Feature Matrix, 3. Resume Tailoring Mode Comparison, 4. Prioritized Feature Gap Roadmap (Release 0.3), ROLEVIA AI vs TSENTA AI — COMPETITIVE FEATURE MATRIX & GAP AUDIT, 1. Methodology & Evidence Classification Framework, 2. Comprehensive 11-Dimension Feature Matrix, 3. Resume Tailoring Mode Comparison (+5 more)
 
 ### Community 48 - "package.json"
 Cohesion: 0.07
-Nodes (35): author, dependencies, bcryptjs@^2.4.3, jsonwebtoken@^9.0.2, @langchain/core@^1.3.0, @langchain/langgraph@^1.5.2, pdf-lib@^1.17.1, pdf-parse@^1.1.1 (+27 more)
+Nodes (34): author, dependencies, bcryptjs@^2.4.3, jsonwebtoken@^9.0.2, @langchain/core@^1.3.0, @langchain/langgraph@^1.5.2, pdf-lib@^1.17.1, pdf-parse@^1.1.1 (+26 more)
 
-### Community 49 - "hu"
-Cohesion: 0.06
-Nodes (57): eo(), to(), Pu(), gp(), Oa(), vp(), ac(), ap() (+49 more)
+### Community 49 - "np"
+Cohesion: 0.17
+Nodes (14): to(), Pu(), gp(), vp(), ap(), dp(), ip(), kp() (+6 more)
 
 ### Community 50 - "Kl"
-Cohesion: 0.10
-Nodes (52): Ao(), Ba(), bo(), calculateEventProperties(), co(), Dv(), _e(), Eo() (+44 more)
+Cohesion: 0.07
+Nodes (70): Ao(), ap(), Ba(), bo(), calculateEventProperties(), captureLog(), co(), count() (+62 more)
 
 ### Community 51 - "t"
-Cohesion: 0.07
-Nodes (84): x(), ai(), br(), d(), ce(), ci(), d(), dispatch() (+76 more)
+Cohesion: 0.12
+Nodes (45): x(), dispatch(), ei(), i(), f(), fi(), a(), c() (+37 more)
 
-### Community 52 - "use_auth-DXwrZv99.js"
-Cohesion: 0.04
-Nodes (52): fe(), g(), h(), I(), J(), K(), L(), me() (+44 more)
+### Community 52 - "logger-D4klN9W3.js"
+Cohesion: 0.15
+Nodes (20): a(), apiCall(), business(), captureException(), debug(), error(), f(), g() (+12 more)
 
-### Community 53 - "live_fill_view-DXtCw8IL.js"
+### Community 53 - "r"
+Cohesion: 0.05
+Nodes (58): l(), cg(), co(), a(), i(), o(), r(), dm() (+50 more)
+
+### Community 54 - "portal-DdHwNoI3.js"
+Cohesion: 0.06
+Nodes (38): 1. Core Engineering Principles (SOLID, DRY, KISS), 2(), Xe(), wi(), bt(), ce(), constructor(), detect() (+30 more)
+
+### Community 55 - "pe"
 Cohesion: 0.14
-Nodes (31): q(), Se(), xe(), c(), E(), f(), h(), m() (+23 more)
-
-### Community 54 - "form_body-DUneIJ0c.js"
-Cohesion: 0.10
-Nodes (45): f(), p(), b(), l(), o(), u(), a(), Ae() (+37 more)
-
-### Community 55 - "v"
-Cohesion: 0.18
-Nodes (14): d(), di(), dr(), E(), et(), fe(), hi(), li() (+6 more)
+Nodes (51): Ae(), at(), be(), bt(), ct(), D(), de(), dt() (+43 more)
 
 ### Community 56 - "constructor"
-Cohesion: 0.07
-Nodes (35): _addCaptureHook(), addFeatureFlagsHandler(), an(), bl(), clientRateLimitContext(), cn(), consent(), constructor() (+27 more)
+Cohesion: 0.06
+Nodes (45): _addCaptureHook(), an(), ca(), clear(), clientRateLimitContext(), cn(), constructor(), _d() (+37 more)
 
 ### Community 57 - "tour-_wquxK-6.js"
 Cohesion: 0.10
 Nodes (44): t(), a(), ae(), b(), c(), d(), E(), ee() (+36 more)
 
 ### Community 58 - "t"
-Cohesion: 0.05
-Nodes (52): Af(), Ai(), _connect(), convertMessages(), describe(), Dn(), emit(), en() (+44 more)
-
-### Community 59 - "page-CB0D6Vsq.js"
 Cohesion: 0.06
-Nodes (64): h(), m(), ne(), V(), be(), f(), i(), y() (+56 more)
+Nodes (42): _connect(), convertMessages(), describe(), Dn(), emit(), en(), Fi(), format() (+34 more)
 
-### Community 60 - "applications_table-efGiw-PC.js"
-Cohesion: 0.09
-Nodes (46): ae(), B(), be(), de(), _e(), fe(), ge(), he() (+38 more)
+### Community 59 - "n"
+Cohesion: 0.18
+Nodes (9): br(), Jr(), Ki(), lr(), n(), on(), vr(), yr() (+1 more)
 
-### Community 61 - "atsAutomation.js"
-Cohesion: 0.05
-Nodes (44): acquireDatabaseSubmissionLock(), APPLICATION_STATES, detectAtsPlatform(), EVIDENCE_DIR, executeApplicationWorkflow(), generateReceiptHash(), getAtsAdapter(), getChromiumLaunchOptions() (+36 more)
+### Community 60 - "Hr"
+Cohesion: 0.47
+Nodes (6): ar(), h(), Hr(), nr(), Wr(), gr()
+
+### Community 61 - "db.js"
+Cohesion: 0.04
+Nodes (47): extractTextFromPdf(), parseAndSyncResume(), parseResumeText(), computeRequisitionHash(), seed(), jsonwebtoken, pdf-lib, pdf-parse (+39 more)
 
 ### Community 62 - "page-CDc1Uk-q.js"
-Cohesion: 0.07
-Nodes (66): f(), i(), Al(), bl(), Xn(), ee(), l(), Ae() (+58 more)
+Cohesion: 0.06
+Nodes (89): _e(), I(), d(), i(), l(), u(), Al(), bl() (+81 more)
 
 ### Community 63 - "moment-DeEWuACk.js"
-Cohesion: 0.05
-Nodes (20): ar(), b(), Ba(), bo(), ci(), Jr(), Ki(), on() (+12 more)
+Cohesion: 0.04
+Nodes (63): ar(), b(), Ba(), bi(), bo(), ca(), ce(), ci() (+55 more)
 
 ### Community 64 - "o"
-Cohesion: 0.13
-Nodes (25): aa(), At(), c(), ea(), ei(), ft(), ii(), l() (+17 more)
+Cohesion: 0.07
+Nodes (40): aa(), At(), be(), bt(), cn(), dt(), ea(), ei() (+32 more)
 
-### Community 65 - "S"
-Cohesion: 0.13
-Nodes (29): lt(), at(), ct(), dp(), f(), ft(), He(), it() (+21 more)
+### Community 65 - "e"
+Cohesion: 0.11
+Nodes (39): an(), at(), bu(), cn(), ct(), De(), f(), fd() (+31 more)
 
 ### Community 66 - "ROLEVIA AI · RELEASE 0.2 STAGING READINESS AUDIT & SIGNOFF"
 Cohesion: 0.18
 Nodes (10): 1. Executive Summary & Audit Baseline, 2. Feature Capability & Readiness Scorecard, 4.1 Master Test Harness (`node tests/run_all_tests.js`), 4.2 Integrated FEAT-009 / FEAT-010 Security & Recovery Audit Suite (`tests/test_feat009_feat010_audit.js`), 4.3 Integrated Browser UI Playwright Suite (`tests/verify_tracker_ui.js`), 4. Test Harness Execution Summary, 5. Mandatory Gates Required Before Live Employer Submissions, 6. Consolidated Release 0.2 Acceptance Decision (+2 more)
 
 ### Community 67 - "constructor"
-Cohesion: 0.08
-Nodes (29): cancel(), _close(), constructor(), _createQuadrilaterals(), er(), _error(), getFullReader(), getHash() (+21 more)
+Cohesion: 0.09
+Nodes (25): cancel(), _close(), _commonActions(), constructor(), _createContainer(), _createQuadrilaterals(), er(), _error() (+17 more)
 
 ### Community 68 - "Au"
-Cohesion: 0.27
-Nodes (16): Au(), bd(), cd(), ci(), Eu(), gu(), id(), ku() (+8 more)
+Cohesion: 0.09
+Nodes (39): lt(), Au(), bd(), cd(), ci(), cp(), Cu(), di() (+31 more)
 
 ### Community 69 - "atsAutomation.js"
 Cohesion: 0.04
@@ -615,35 +613,35 @@ Nodes (29): 3.1 External LLM Provider Integrations, 3.3 Current Orchestration Me
 
 ### Community 70 - "profile_field_inputs-CXlDML-q.js"
 Cohesion: 0.08
-Nodes (40): ac(), ar(), B(), cc(), cr(), cs(), er(), Gt() (+32 more)
+Nodes (42): ac(), ar(), B(), cc(), cs(), da(), er(), fa() (+34 more)
 
 ### Community 71 - "O"
-Cohesion: 0.10
-Nodes (43): ae(), bt(), ce(), constructor(), Ct(), D(), de(), dt() (+35 more)
+Cohesion: 0.12
+Nodes (40): ae(), bt(), ce(), constructor(), D(), de(), dt(), _e() (+32 more)
 
-### Community 72 - "p"
-Cohesion: 0.05
-Nodes (57): f(), ne(), te(), S(), hs(), ns(), Ps(), _s() (+49 more)
+### Community 72 - "C"
+Cohesion: 0.22
+Nodes (11): b(), C(), n(), e(), newRequest(), S(), d(), S() (+3 more)
 
 ### Community 73 - "loadIfEnabled"
-Cohesion: 0.04
-Nodes (71): Ad(), av(), bp(), bv(), checkAndGetSessionAndWindowId(), clearCache(), destroy(), dispose() (+63 more)
+Cohesion: 0.05
+Nodes (62): av(), bp(), bv(), checkAndGetSessionAndWindowId(), clearCache(), dispose(), eu(), ff() (+54 more)
 
 ### Community 74 - "page-B9PpDlwu.js"
-Cohesion: 0.09
-Nodes (42): a(), n(), d(), f(), h(), p(), Ae(), be() (+34 more)
+Cohesion: 0.08
+Nodes (52): U(), l(), n(), d(), f(), h(), p(), Ae() (+44 more)
 
 ### Community 75 - "missing_fields_content-BYztFpSG.js"
-Cohesion: 0.09
-Nodes (36): b(), d(), ae(), B(), be(), ce(), de(), _e() (+28 more)
+Cohesion: 0.08
+Nodes (43): ae(), B(), be(), ce(), de(), _e(), fe(), G() (+35 more)
 
 ### Community 76 - "2. Priority Epic Breakdown"
 Cohesion: 0.22
 Nodes (8): 1. Release 0.3 Objective & Strategic Focus, 2. Priority Epic Breakdown, 3. Production Launch Prerequisites (Gated), Epic 1: Recruiter Email Ingestion & Autonomous AI Inbox (`AGENT-011`), Epic 2: Rolevia AI Chrome Browser Companion (Manifest V3), Epic 3: Dynamic LLM Screening Question Agent (`AGENT-006`), Epic 4: Expanded ATS Platform Coverage, ROLEVIA AI — NEXT ENGINEERING MILESTONE (RELEASE 0.3)
 
-### Community 77 - "message_detail-CveWEwCR.js"
-Cohesion: 0.04
-Nodes (117): B(), m(), n(), f(), ne(), ue(), v(), Ar() (+109 more)
+### Community 77 - "page-hMKHNz0x.js"
+Cohesion: 0.07
+Nodes (31): fr(), pr(), qt(), _r(), vr(), wn(), xr(), Ae() (+23 more)
 
 ### Community 78 - "app.js"
 Cohesion: 0.13
@@ -651,35 +649,35 @@ Nodes (18): cancelInlineEdit(), copyFilterSelection(), escapeHtml(), fallbackCop
 
 ### Community 79 - "constructor"
 Cohesion: 0.07
-Nodes (40): Ar(), complete(), constructor(), Cr(), dirty(), dr(), end(), eu() (+32 more)
+Nodes (39): Ar(), attachTimeline(), cancel(), complete(), constructor(), Cr(), dirty(), dn() (+31 more)
 
 ### Community 80 - "phone-iCWMVqK8.js"
 Cohesion: 0.08
-Nodes (31): Ae(), br(), ci(), en(), er(), et(), gt(), ht() (+23 more)
+Nodes (35): Ae(), ci(), en(), er(), et(), gr(), gt(), hr() (+27 more)
 
 ### Community 81 - "server.js"
 Cohesion: 0.09
 Nodes (22): BRAND_CONFIG, ATS_PATH, atsEngines, broadcastSSE(), db, MIME_TYPES, parseBody(), saveDB() (+14 more)
 
 ### Community 82 - "t"
-Cohesion: 0.05
-Nodes (79): ac(), i(), at(), au(), bd(), bp(), bu(), catch() (+71 more)
+Cohesion: 0.07
+Nodes (63): Tu(), ac(), r(), i(), au(), bd(), bu(), catch() (+55 more)
 
-### Community 83 - "x"
-Cohesion: 0.05
-Nodes (55): Ai(), apply(), base64url(), bi(), compile(), cuid2(), date(), Di() (+47 more)
+### Community 83 - "assistant-BuUKVg-O.js"
+Cohesion: 0.09
+Nodes (22): ce(), de(), H(), K(), me(), oe(), pe(), q() (+14 more)
 
 ### Community 84 - "t"
-Cohesion: 0.09
-Nodes (44): A(), ao(), At(), be(), co(), Do(), dr(), ds() (+36 more)
+Cohesion: 0.07
+Nodes (53): A(), as(), At(), be(), Bn(), bo(), Ct(), ds() (+45 more)
 
-### Community 85 - "gc"
-Cohesion: 0.03
-Nodes (132): ui(), b(), m(), y(), o(), d(), Bn(), c() (+124 more)
+### Community 85 - "ui"
+Cohesion: 0.05
+Nodes (54): ui(), b(), m(), cancelPendingOpen(), delay(), fn(), fo(), a() (+46 more)
 
 ### Community 86 - "s"
-Cohesion: 0.11
-Nodes (34): ae(), afterAllSetup(), Ai(), ae(), ie(), ne(), oe(), re() (+26 more)
+Cohesion: 0.08
+Nodes (41): Jf(), qf(), Xf(), Yf(), Zf(), ae(), afterAllSetup(), Ai() (+33 more)
 
 ### Community 87 - "package.json"
 Cohesion: 0.07
@@ -687,75 +685,75 @@ Nodes (28): dependencies, lucide-react@^1.61.0, react@^19.3.1, react-dom@^19.3.1
 
 ### Community 88 - "Rc"
 Cohesion: 0.10
-Nodes (34): ac(), bc(), _c(), Dc(), ec(), Et(), fc(), gc() (+26 more)
+Nodes (33): ac(), bc(), Dc(), ec(), Et(), fc(), gc(), getActivatedIds() (+25 more)
 
 ### Community 89 - "2. Priority Epic Breakdown"
 Cohesion: 0.22
 Nodes (8): 1. Release 0.3 Objective & Strategic Focus, 2. Priority Epic Breakdown, 3. Production Launch Prerequisites (Gated), Epic 1: Recruiter Email Ingestion & Autonomous AI Inbox (`AGENT-011`), Epic 2: Rolevia AI Chrome Browser Companion (Manifest V3), Epic 3: Dynamic LLM Screening Question Agent (`AGENT-006`), Epic 4: Expanded ATS Platform Coverage, ROLEVIA AI — NEXT ENGINEERING MILESTONE (RELEASE 0.3)
 
 ### Community 90 - "start"
-Cohesion: 0.13
-Nodes (32): addListeners(), cancel(), ci(), clearAnimation(), clearListeners(), commitStyles(), cu(), da() (+24 more)
+Cohesion: 0.12
+Nodes (33): addListeners(), ci(), clearAnimation(), clearListeners(), commitStyles(), cu(), da(), destroy() (+25 more)
 
 ### Community 91 - "U"
-Cohesion: 0.16
-Nodes (30): ai(), bi(), br(), di(), ei(), fi(), fn(), Gi() (+22 more)
+Cohesion: 0.14
+Nodes (34): ai(), bi(), br(), cr(), di(), ei(), fi(), fn() (+26 more)
 
-### Community 92 - "jr"
-Cohesion: 0.29
-Nodes (8): be(), fetch(), Fr(), It(), jr(), kr(), po(), wi()
+### Community 92 - "r"
+Cohesion: 0.10
+Nodes (32): V(), d(), u(), et(), a(), c(), d(), e() (+24 more)
 
 ### Community 93 - "getSurveys"
 Cohesion: 0.16
-Nodes (16): ul(), ah(), canRenderSurvey(), canRenderSurveyAsync(), dh(), displaySurvey(), getActiveMatchingSurveys(), getSurveys() (+8 more)
+Nodes (17): ul(), canRenderSurvey(), canRenderSurveyAsync(), dh(), displaySurvey(), getActiveMatchingSurveys(), getSurveys(), hh() (+9 more)
 
 ### Community 94 - "_addCheck"
 Cohesion: 0.06
 Nodes (32): _addCheck(), base64(), base64url(), cidr(), cuid(), cuid2(), date(), datetime() (+24 more)
 
 ### Community 95 - "add"
-Cohesion: 0.05
-Nodes (44): add(), addEditListeners(), addNewEditor(), addNewEditorFromKeyboard(), addOrRebuild(), #ae(), attach(), changeParent() (+36 more)
+Cohesion: 0.07
+Nodes (33): add(), addNewEditor(), addNewEditorFromKeyboard(), addOrRebuild(), attach(), changeParent(), createAndAddNewEditor(), defaultSVGProperties() (+25 more)
 
 ### Community 96 - "L"
-Cohesion: 0.05
-Nodes (37): annotationStorage(), Be(), _colors(), commentForegroundColor(), _commonActions(), convert(), _createContainer(), _defaultBorderStyle() (+29 more)
+Cohesion: 0.06
+Nodes (33): addEditor(), addToAnnotationStorage(), annotationStorage(), _colors(), _defaultBorderStyle(), _defaultLineColor(), direction(), fe() (+25 more)
 
 ### Community 97 - "workspace_modal--eQ694iE.js"
 Cohesion: 0.08
-Nodes (25): E(), u(), w(), Le(), c(), l(), s(), u() (+17 more)
+Nodes (22): u(), Le(), c(), l(), s(), u(), Ae(), De() (+14 more)
 
 ### Community 98 - "r"
-Cohesion: 0.06
-Nodes (40): add(), authStateReady(), br(), decodeString(), decodeStringToByteArray(), encodeByteArray(), encodeString(), Fa() (+32 more)
+Cohesion: 0.08
+Nodes (35): addScope(), br(), constructor(), decodeString(), decodeStringToByteArray(), detachListener(), Fa(), forAllChangedKeys() (+27 more)
 
-### Community 99 - "check"
-Cohesion: 0.05
-Nodes (46): aa(), base64(), ca(), check(), cidrv4(), cidrv6(), cuid(), datetime() (+38 more)
+### Community 99 - "ra"
+Cohesion: 0.14
+Nodes (34): An(), bn(), ea(), En(), F(), fa(), Ft(), gt() (+26 more)
 
 ### Community 100 - "capture"
-Cohesion: 0.06
-Nodes (67): w_(), _a(), alias(), bh(), bu(), capture(), captureTraceFeedback(), captureTraceMetric() (+59 more)
+Cohesion: 0.05
+Nodes (77): _a(), ah(), alias(), bh(), bu(), _c(), capture(), captureTraceFeedback() (+69 more)
 
 ### Community 101 - "_processEvent"
-Cohesion: 0.08
-Nodes (36): ar(), Bo(), captureEvent(), captureException(), captureMessage(), close(), De(), emit() (+28 more)
+Cohesion: 0.09
+Nodes (32): ar(), Bo(), captureEvent(), captureException(), close(), De(), emit(), flush() (+24 more)
 
 ### Community 102 - "update"
 Cohesion: 0.07
 Nodes (33): 1. Release 0.2 Scope & Executive Architecture, 2. Feature Backlog & Specifications, 3. Immediate Milestone: FEAT-006 Implementation, FEAT-006: Explainable AI Job Matching, FEAT-007: Truth-Grounded Resume and Cover Letter Optimization, FEAT-008: Interactive Resume Diff and Approval, FEAT-009: Authorized Playwright ATS Application Runner, FEAT-010: Persistent Application Tracker and Verified Receipts (+25 more)
 
 ### Community 103 - "t"
-Cohesion: 0.06
-Nodes (47): addEditor(), addToAnnotationStorage(), create(), _createCanvas(), createElement(), _createSVG(), Ea(), ee() (+39 more)
-
-### Community 104 - "filter_pill-hH4hysTi.js"
-Cohesion: 0.12
-Nodes (38): E(), A(), ae(), b(), C(), ce(), de(), E() (+30 more)
-
-### Community 105 - "#a"
 Cohesion: 0.04
-Nodes (60): #a(), _abortOperatorList(), addCommands(), addUndoableEditor(), #B(), cleanup(), commentSelection(), commentText() (+52 more)
+Nodes (89): #a(), addCommands(), addContainer(), addFilter(), addHighlightHCMFilter(), _addOutlines(), addSignature(), addUndoableEditor() (+81 more)
+
+### Community 104 - "kr"
+Cohesion: 0.11
+Nodes (31): m(), f(), v(), br(), Ct(), di(), j(), gi() (+23 more)
+
+### Community 105 - "remove"
+Cohesion: 0.07
+Nodes (33): _abortOperatorList(), center(), cleanup(), commentText(), commit(), commitOrRemove(), copy(), createOrUpdatePopup() (+25 more)
 
 ### Community 106 - "parse"
 Cohesion: 0.09
@@ -770,44 +768,44 @@ Cohesion: 0.11
 Nodes (25): be(), ce(), D(), Ee(), f(), fe(), Ge(), h() (+17 more)
 
 ### Community 109 - "T"
-Cohesion: 0.10
-Nodes (25): Jf(), qf(), Xf(), Yf(), Zf(), bf(), bt(), dt() (+17 more)
+Cohesion: 0.18
+Nodes (16): bf(), bt(), gc(), Kf(), nd(), Ne(), Pe(), qf() (+8 more)
 
-### Community 110 - "Zs"
-Cohesion: 0.10
-Nodes (26): ap(), As(), captureLog(), count(), Ds(), flush(), Fs(), gauge() (+18 more)
+### Community 110 - "gs"
+Cohesion: 0.17
+Nodes (15): As(), bl(), flush(), Fs(), getAndClearBuffer(), gs(), Hs(), Ls() (+7 more)
 
 ### Community 111 - "F"
-Cohesion: 0.08
-Nodes (28): addAuthTokenListener(), ai(), assertAuthConfigured(), assertedPersistence(), _assign(), ca(), close(), complete() (+20 more)
+Cohesion: 0.09
+Nodes (28): addAuthTokenListener(), ai(), An(), assertAuthConfigured(), assertedPersistence(), _assign(), ca(), credentialWithLink() (+20 more)
 
 ### Community 112 - "useTransmit-C7BJmYhX.js"
 Cohesion: 0.08
-Nodes (19): be(), close(), create(), createRequest(), delete(), forceCreate(), G(), ge() (+11 more)
+Nodes (26): j(), be(), Ce(), close(), create(), createRequest(), de(), fe() (+18 more)
 
 ### Community 113 - "i"
-Cohesion: 0.13
-Nodes (20): add(), au(), bu(), i(), ee(), iu(), jl(), Kl() (+12 more)
-
-### Community 114 - "t"
 Cohesion: 0.11
-Nodes (35): a(), c(), d(), ae(), attach(), b(), ci(), de() (+27 more)
+Nodes (24): au(), Bt(), bu(), i(), ee(), g(), iu(), jl() (+16 more)
+
+### Community 114 - "inbox-Bxl-cU5q.js"
+Cohesion: 0.13
+Nodes (23): t(), B(), F(), I(), L(), H(), M(), O() (+15 more)
 
 ### Community 115 - "I"
-Cohesion: 0.15
-Nodes (17): _buildIdpRequest(), buildRequest(), _clone(), cn(), _copy(), _getIdTokenResponse(), _getReauthenticationResolver(), H() (+9 more)
+Cohesion: 0.13
+Nodes (19): be(), _buildIdpRequest(), buildRequest(), _clone(), cn(), _copy(), fetch(), _getIdTokenResponse() (+11 more)
 
 ### Community 116 - "page-B2FZwJbH.js"
-Cohesion: 0.07
-Nodes (46): ae(), be(), ce(), de(), _e(), ee(), G(), ge() (+38 more)
+Cohesion: 0.10
+Nodes (34): f(), ae(), be(), ce(), de(), _e(), ee(), G() (+26 more)
 
 ### Community 117 - "migrationManager.js"
-Cohesion: 0.05
-Nodes (42): applyPendingMigrations(), ensureMigrationTable(), MIGRATIONS_DIR, reconcileOrphanedSubmissionLocks(), rollbackMigration(), splitSqlStatements(), ADR-002: PostgreSQL-Enforced Submission Locks and Idempotency Invariants, Consequences (+34 more)
+Cohesion: 0.04
+Nodes (50): applyPendingMigrations(), ensureMigrationTable(), MIGRATIONS_DIR, reconcileOrphanedSubmissionLocks(), rollbackMigration(), splitSqlStatements(), 1.1 Direct Marginal Cost per Application:, 1.2 Fully Loaded Application Unit Economics: (+42 more)
 
 ### Community 118 - "resume_html_preview-p9-TRbSQ.js"
 Cohesion: 0.16
-Nodes (26): r(), ct(), st(), yt(), h(), A(), ae(), C() (+18 more)
+Nodes (26): r(), ct(), st(), yt(), S(), A(), ae(), C() (+18 more)
 
 ### Community 119 - "ROLEVIA AI — AGENTIC FRAMEWORK AUDIT & ARCHITECTURAL EVALUATION"
 Cohesion: 0.12
@@ -821,53 +819,53 @@ Nodes (22): addValue(), bindToMotionValue(), createPanHandlers(), getGeneratorVe
 Cohesion: 0.14
 Nodes (13): 1. Consolidated Work Item Scope, 2. Release-by-Release Execution Schedule, 3. Milestone Deliverables & Exit Criteria, 4. Phase 7: Mandatory Approval Gate, A. What Will Be BUILT (New Production Foundations), B. What Will Be REPAIRED (Defective / Prototype Logic Replaced), C. What Will Be RETAINED (Preserving Existing Proven Strengths), D. What Will Be DEFERRED (Explicitly Out of Immediate Scope) (+5 more)
 
-### Community 122 - "a"
-Cohesion: 0.10
-Nodes (37): ou(), T(), a(), aa(), componentDidCatch(), dc(), di(), Du() (+29 more)
+### Community 122 - "F"
+Cohesion: 0.07
+Nodes (30): addCommentButton(), addCommentButtonInToolbar(), addEditToolbar(), beginImageData(), beginInlineImage(), box(), copyCanvas(), create() (+22 more)
 
 ### Community 123 - "clone"
 Cohesion: 0.10
 Nodes (21): catchall(), clone(), describe(), Is(), loose(), meta(), passthrough(), qi() (+13 more)
 
 ### Community 124 - "mo"
-Cohesion: 0.11
-Nodes (22): Ao(), append(), bo(), co(), Do(), Eo(), ho(), ia() (+14 more)
+Cohesion: 0.09
+Nodes (28): ct(), Af(), Ao(), append(), bo(), co(), Do(), Eo() (+20 more)
 
 ### Community 125 - "2. Detailed Feature Specifications"
 Cohesion: 0.11
 Nodes (18): 1. Feature Backlog Overview & Strict Dependency Matrix, 2. Detailed Feature Specifications, FEAT-001: PostgreSQL & Prisma ORM Relational Migration, FEAT-002: Multi-Tenant JWT Authentication & Session Security, FEAT-003: Dynamic PDF Resume Parser & Candidate Fact Store, FEAT-004: Cryptographic Razorpay HMAC & Transactional Credit Journal, FEAT-005: Continuous Job Ingestion & Deduplication Crawler, FEAT-006: Explainable AI Job Matching & Hard Eligibility Engine (+10 more)
 
-### Community 126 - "page-BIjCOvf0.js"
-Cohesion: 0.15
-Nodes (19): f(), p(), l(), u(), A(), b(), C(), D() (+11 more)
+### Community 126 - "t"
+Cohesion: 0.14
+Nodes (29): br(), d(), de(), dn(), ee(), t(), fe(), fn() (+21 more)
 
 ### Community 127 - "ROLEVIA AI — AGENTIC FRAMEWORK AUDIT & ARCHITECTURAL EVALUATION"
 Cohesion: 0.12
 Nodes (16): 1. Executive Verdict & Core Findings, 2.1 Package Manifests Inspection, 2.2 Source Code Symbol Search, 2. Exhaustive Dependency & Import Audit, 4. Current End-to-End Workflow Mapping, 5. Classification of Deterministic Services vs AI Agents, 6.1 Architectural Advantages, 6.2 Risks, Constraints & Costs (+8 more)
 
 ### Community 128 - "constructor"
-Cohesion: 0.07
-Nodes (41): pl(), af(), Al(), bl(), cf(), cl(), dl(), el() (+33 more)
+Cohesion: 0.09
+Nodes (34): pl(), Oa(), af(), Al(), bl(), cf(), dl(), el() (+26 more)
 
 ### Community 129 - "i"
-Cohesion: 0.11
-Nodes (23): bd(), Bn(), cd(), _d(), dd(), en(), fd(), gd() (+15 more)
+Cohesion: 0.09
+Nodes (27): add(), bd(), Bn(), cd(), _d(), dd(), en(), fd() (+19 more)
 
 ### Community 130 - "t"
-Cohesion: 0.13
-Nodes (20): A(), bt(), ce(), dr(), it(), j(), n(), Jt() (+12 more)
+Cohesion: 0.14
+Nodes (14): br(), ce(), dr(), j(), n(), Jt(), lr(), M() (+6 more)
 
 ### Community 131 - "jobCrawler.js"
-Cohesion: 0.08
-Nodes (25): ATS_SOURCE_CAPABILITIES, computeRequisitionHash(), ingestAtsFeed(), ingestJobs(), isJobUrlLive(), normalizeAshbyJob(), normalizeGreenhouseJob(), normalizeLeverJob() (+17 more)
+Cohesion: 0.05
+Nodes (46): InsufficientCreditsError, quarantineOutcomeUnknown(), reserveCreditForApplication(), ATS_SOURCE_CAPABILITIES, computeRequisitionHash(), ingestAtsFeed(), ingestJobs(), isJobUrlLive() (+38 more)
 
 ### Community 132 - "payments-BWTokwJY.js"
 Cohesion: 0.25
 Nodes (19): a(), D(), e(), F(), g(), h(), i(), j() (+11 more)
 
 ### Community 133 - "D"
-Cohesion: 0.08
-Nodes (44): An(), b(), ba(), ci(), D(), da(), delete(), directlySetCurrentUser() (+36 more)
+Cohesion: 0.07
+Nodes (51): b(), ba(), ci(), create(), D(), da(), de(), directlySetCurrentUser() (+43 more)
 
 ### Community 134 - "ROLEVIA AI — AGENTIC SECURITY & INTEGRITY EVALUATION"
 Cohesion: 0.15
@@ -897,13 +895,13 @@ Nodes (15): 1. Authoritative Test Manifest & Reconciliation, 2. Resume Benchmark
 Cohesion: 0.19
 Nodes (19): ng(), C(), ce(), De(), E(), Ee(), fe(), he() (+11 more)
 
-### Community 141 - "a"
-Cohesion: 0.10
-Nodes (24): aa(), addBreadcrumb(), ao(), a(), ca(), da(), ea(), en() (+16 more)
+### Community 141 - "i"
+Cohesion: 0.12
+Nodes (15): wf(), am(), ao(), ba(), componentDidCatch(), i(), Gf(), hs() (+7 more)
 
-### Community 142 - "m"
-Cohesion: 0.18
-Nodes (17): ca(), cr(), ee(), er(), e(), jn(), lr(), m() (+9 more)
+### Community 142 - "wd"
+Cohesion: 0.11
+Nodes (29): nh(), ad(), cl(), Cr(), Ed(), fr(), Gd(), gn() (+21 more)
 
 ### Community 143 - "serialize"
 Cohesion: 0.12
@@ -914,8 +912,8 @@ Cohesion: 0.11
 Nodes (17): isActive(), pending(), subscription(), Application quota and asynchronous execution, Billing interval versus quota interval, Lifecycle rules, Minimal data model, Observed Tsenta subscription surface (+9 more)
 
 ### Community 145 - "a"
-Cohesion: 0.03
-Nodes (106): ne(), g(), m(), W(), a(), o(), S(), v() (+98 more)
+Cohesion: 0.04
+Nodes (102): ne(), f(), g(), m(), g(), m(), f(), p() (+94 more)
 
 ### Community 146 - "2. Technical Remediation Implementations"
 Cohesion: 0.18
@@ -934,16 +932,16 @@ Cohesion: 0.20
 Nodes (16): cancel(), cleanUp(), execute(), getIdpTask(), L(), loadJS(), mo(), N() (+8 more)
 
 ### Community 150 - "zn"
-Cohesion: 0.08
-Nodes (32): ar(), Bn(), cr(), create(), de(), er(), ga(), getCurrentUser() (+24 more)
+Cohesion: 0.12
+Nodes (22): ar(), Bn(), cr(), er(), ga(), ir(), J(), Mr() (+14 more)
 
 ### Community 151 - "applicationGraph.js"
 Cohesion: 0.03
-Nodes (79): 1. Executive Summary & Objective, 2. Capability Verification Matrix, 3.1 Unsafe Defaults Removal, 3.2 10-Stage Workflow Routing, 3. Workflow State Contract & Architecture Details, 4. Master Automated Test Suite Execution, 5. Acceptance Criteria Verification, ROLEVIA AI — AGENTIC ARCHITECTURE & LANGGRAPH.JS HARDENING REPORT (+71 more)
+Nodes (78): 1. Executive Summary & Objective, 2. Capability Verification Matrix, 3.1 Unsafe Defaults Removal, 3.2 10-Stage Workflow Routing, 3. Workflow State Contract & Architecture Details, 4. Master Automated Test Suite Execution, 5. Acceptance Criteria Verification, ROLEVIA AI — AGENTIC ARCHITECTURE & LANGGRAPH.JS HARDENING REPORT (+70 more)
 
-### Community 152 - "#k"
-Cohesion: 0.13
-Nodes (15): addCommentButton(), addCommentButtonInToolbar(), addEditToolbar(), addStandaloneCommentButton(), comment(), commentButtonColor(), description(), getNonHCMColor() (+7 more)
+### Community 152 - "render"
+Cohesion: 0.07
+Nodes (28): addStandaloneCommentButton(), _bindJSAction(), _bindLink(), _bindNamedAction(), comment(), commentButtonColor(), createAltText(), _dispatchEventFromSandbox() (+20 more)
 
 ### Community 154 - "get"
 Cohesion: 0.22
@@ -953,21 +951,21 @@ Nodes (14): ae(), get(), getImmediate(), getOrInitializeService(), hn(), initAnd
 Cohesion: 0.14
 Nodes (14): animation(), er(), kn(), measure(), measureEndState(), measureInitialState(), Ne(), Qn() (+6 more)
 
-### Community 156 - "auth.js"
-Cohesion: 0.06
-Nodes (43): authenticateRequest(), comparePassword(), createRefreshToken(), extractAccessToken(), generateAccessToken(), hashPassword(), loginUser(), registerUser() (+35 more)
+### Community 156 - "test_feat011_recruiter_email.js"
+Cohesion: 0.28
+Nodes (12): classifyRecruiterMessage(), decryptToken(), disconnectMailbox(), draftCandidateReply(), ENCRYPTION_KEY, encryptToken(), getOAuthAuthorizationUrl(), isRecruiterEmail() (+4 more)
 
 ### Community 157 - "upgrade_plan_options-BRw4UtI-.js"
 Cohesion: 0.39
 Nodes (8): Hi(), f(), g(), h(), l(), m(), p(), u()
 
 ### Community 158 - "qn"
-Cohesion: 0.17
-Nodes (29): r(), j(), ye(), z(), f(), ar(), er(), Jn() (+21 more)
+Cohesion: 0.16
+Nodes (33): R(), S(), j(), z(), ai(), ar(), ci(), di() (+25 more)
 
 ### Community 159 - "resumeOptimizer.js"
-Cohesion: 0.05
-Nodes (65): 3.2 Prompts & Generation Mechanisms, calculateCandidateYearsExperience(), CANONICAL_SKILL_KEYWORDS, computeJobMatch(), extractCandidateSkills(), extractRequiredYears(), getDegreeRank(), matchCandidateAgainstJobs() (+57 more)
+Cohesion: 0.04
+Nodes (80): 3.2 Prompts & Generation Mechanisms, calculateCandidateYearsExperience(), CANONICAL_SKILL_KEYWORDS, computeJobMatch(), extractCandidateSkills(), extractRequiredYears(), getDegreeRank(), matchCandidateAgainstJobs() (+72 more)
 
 ### Community 160 - "ROLEVIA AI — REAL LLM PROVIDER VALIDATION & COMMERCIAL EVALUATION REPORT"
 Cohesion: 0.18
@@ -978,8 +976,8 @@ Cohesion: 0.12
 Nodes (17): ct(), Do(), ei(), El(), Eo(), getBaseTarget(), getBaseTargetFromProps(), Ko() (+9 more)
 
 ### Community 162 - "LLMGateway"
-Cohesion: 0.13
-Nodes (16): DEFAULT_MODELS, GATEWAY_MODES, LLMExecutionError, LLMGateway, MODEL_FALLBACKS, RecruiterEmailOutputSchema, ResumeTailoringOutputSchema, sanitizeForLogging() (+8 more)
+Cohesion: 0.12
+Nodes (17): DEFAULT_MODELS, GATEWAY_MODES, LLMExecutionError, LLMGateway, MODEL_FALLBACKS, MODEL_PRICING, RecruiterEmailOutputSchema, ResumeTailoringOutputSchema (+9 more)
 
 ### Community 163 - "IMPLEMENTATION DEPENDENCIES & TECHNICAL DAG"
 Cohesion: 0.22
@@ -987,7 +985,7 @@ Nodes (8): 1. Technical Dependency DAG (Directed Acyclic Graph), 2. Critical Pat
 
 ### Community 164 - "vr"
 Cohesion: 0.29
-Nodes (12): bn(), d(), f(), l(), n(), Ne(), o(), pe() (+4 more)
+Nodes (12): bn(), c(), d(), f(), l(), Ne(), o(), pe() (+4 more)
 
 ### Community 165 - "ROLEVIA AI · APPLICATION TRACKER & VERIFIED RECEIPTS E2E VALIDATION"
 Cohesion: 0.14
@@ -997,17 +995,17 @@ Nodes (13): 1. Executive Summary, 2. Kanban Board Architecture & State Bucket Ma
 Cohesion: 0.22
 Nodes (8): 1. Quality Gates & Release Gate Criteria, 2.1 Unit Test Suite (`npm run test:unit`), 2.2 Integration Test Suite (`npm run test:integration`), 2.3 Headless ATS Automation Test Suite (`npm run test:automation`), 2.4 AI Factual Grounding Evaluation Suite (`npm run test:ai-eval`), 2.5 Security & Penetration Testing (`npm run test:security`), 2. Automated Test Suite Specifications, TESTING & ACCEPTANCE CRITERIA: Measurable Release Gates
 
-### Community 167 - "We"
-Cohesion: 0.11
-Nodes (21): be(), bt(), gt(), ht(), It(), jt(), mt(), nt() (+13 more)
-
-### Community 168 - "button-CW0nRO_l.js"
+### Community 167 - "tracker-D_fqftl6.js"
 Cohesion: 0.06
-Nodes (55): A(), ae(), b(), ce(), d(), E(), ee(), F() (+47 more)
+Nodes (67): ee(), pe(), y(), We(), H(), a(), o(), s() (+59 more)
 
-### Community 169 - "i"
-Cohesion: 0.18
-Nodes (21): a(), bi(), br(), cn(), dt(), f(), fr(), h() (+13 more)
+### Community 168 - "page-DfFJZACF.js"
+Cohesion: 0.14
+Nodes (17): fe(), J(), en(), getHeartbeatsHeader(), o(), _r(), Rt(), $t() (+9 more)
+
+### Community 169 - "m"
+Cohesion: 0.14
+Nodes (33): a(), c(), cr(), d(), dr(), er(), f(), fe() (+25 more)
 
 ### Community 170 - "Rolevia AI · Release 0.1 Verification Report"
 Cohesion: 0.06
@@ -1018,40 +1016,40 @@ Cohesion: 0.09
 Nodes (21): 1. Executive Summary & Design Principles, 2. Manifest V3 Configuration & Permission Scoping, 3. Extension Authentication & Pairing Protocol, 4. In-Browser Form Field Mapping & Candidate Consent Flow, 5. Job Import Capability, 6. Security Guarantees & Milestones, Core Security Invariants:, Permission Justification: (+13 more)
 
 ### Community 172 - "t"
-Cohesion: 0.12
-Nodes (24): G(), n(), ge(), Gs(), t(), hr(), ia(), jt() (+16 more)
+Cohesion: 0.10
+Nodes (35): ao(), co(), Do(), dr(), eo(), fr(), G(), n() (+27 more)
 
 ### Community 173 - "P"
-Cohesion: 0.09
-Nodes (25): addEventListener(), addNativeFontFace(), bind(), _bindResetFormAction(), _getElementsByName(), getPathGenerator(), getRenderingIntent(), insertRule() (+17 more)
+Cohesion: 0.07
+Nodes (34): addEventListener(), addNativeFontFace(), Be(), bind(), commentForegroundColor(), convert(), getFullReader(), getPathGenerator() (+26 more)
 
-### Community 174 - "page-HcBTWrFj.js"
-Cohesion: 0.16
-Nodes (19): q(), ee(), ne(), te(), v(), ae(), C(), oe() (+11 more)
+### Community 174 - "account_suspension-CxhRv-Kn.js"
+Cohesion: 0.08
+Nodes (34): g(), h(), I(), K(), L(), me(), N(), O() (+26 more)
 
 ### Community 175 - "2. Exhaustive Feature Inventory by Category"
 Cohesion: 0.17
 Nodes (11): 1. Classification Methodology, 2. Exhaustive Feature Inventory by Category, CATEGORY 10: SECURITY & PRODUCTION OPERATIONS, CATEGORY 1: PLATFORM FOUNDATION, CATEGORY 3: AI JOB MATCHING & EXPLAINABILITY, CATEGORY 4: ADVANCED RESUME OPTIMIZATION, CATEGORY 5: AI JOB APPLICATION AGENT, CATEGORY 7: AI & MULTI-AGENT ORCHESTRATION (+3 more)
 
 ### Community 176 - "hu"
-Cohesion: 0.15
-Nodes (18): y(), bu(), Cu(), gu(), hl(), hu(), ml(), mu() (+10 more)
+Cohesion: 0.12
+Nodes (21): y(), bu(), Cu(), gu(), hl(), hu(), ml(), mu() (+13 more)
 
 ### Community 177 - "Tsenta public workflows and cross-surface evidence"
 Cohesion: 0.20
 Nodes (9): Browser extension, Discrepancies to preserve in any reconstruction specification, MCP / agent clients, Messaging, Mobile, Public discovery and job details, Review controls and AI functions, Tsenta public workflows and cross-surface evidence (+1 more)
 
-### Community 178 - "n"
-Cohesion: 0.12
-Nodes (24): da(), dn(), fa(), fi(), fn(), ha(), ir(), ja() (+16 more)
+### Community 178 - "highlightSelection"
+Cohesion: 0.11
+Nodes (21): addEditListeners(), #ae(), combinedSignal(), commentSelection(), disableUserSelect(), endDragSession(), getSelectionBoxes(), highlightSelection() (+13 more)
 
 ### Community 179 - "h"
-Cohesion: 0.14
-Nodes (21): he(), we(), Xe(), Ye(), df(), ef(), gf(), Hf() (+13 more)
+Cohesion: 0.25
+Nodes (11): ef(), gf(), Hf(), If(), jf(), kf(), Lf(), Mf() (+3 more)
 
 ### Community 180 - "e"
-Cohesion: 0.14
-Nodes (14): ai(), c(), ct(), e(), ei(), fr(), ii(), In() (+6 more)
+Cohesion: 0.15
+Nodes (13): ai(), ct(), e(), ei(), fr(), ii(), In(), ni() (+5 more)
 
 ### Community 181 - "renderMatches"
 Cohesion: 0.22
@@ -1065,9 +1063,9 @@ Nodes (11): 1. Executive Summary & Audit Completion, 2. Product Assessment Summa
 Cohesion: 0.22
 Nodes (10): at(), dt(), ft(), k(), kt(), lt(), Mt(), ot() (+2 more)
 
-### Community 184 - "2. Dependency-Based Implementation Sequence"
-Cohesion: 0.18
-Nodes (10): 1. Executive Summary & Critical Architectural Corrections, 2. Dependency-Based Implementation Sequence, 3. Explicit Launch Blockers & Quality Acceptance Criteria, 4. Rollback Strategy & Staging Boundaries, Phase 1: Live LLM Gateway Verification (`FEAT-018`), Phase 2: Scoped Manifest V3 Chrome Extension (`FEAT-012`), Phase 3: Long-Tail ATS Adapters & Assisted Navigation (`FEAT-009`), Phase 4: Distributed Redis & BullMQ Worker Architecture (+2 more)
+### Community 184 - "auto-apply-form-ZGl0lczh.js"
+Cohesion: 0.19
+Nodes (15): a(), c(), d(), i(), l(), o(), u(), c() (+7 more)
 
 ### Community 185 - "onEvent"
 Cohesion: 0.36
@@ -1078,8 +1076,8 @@ Cohesion: 0.17
 Nodes (11): 1. Prioritized Implementation Roadmap, 2. Detailed Milestone Breakdown, 3. Architecture Decision Records (ADRs), ADR-001: Database Migration: Flat JSON File to PostgreSQL + Prisma ORM, ADR-002: Browser Automation: Playwright Worker Pool vs Simulated Submissions, ADR-003: Payment Security: Mandatory Server-Side HMAC-SHA256 Verification, Milestone 1: P0 — Critical Foundation (Days 1–8), Milestone 2: P1 — Core Product Parity (Days 9–18) (+3 more)
 
 ### Community 187 - "page-BlP9C9XB.js"
-Cohesion: 0.06
-Nodes (53): ee(), he(), fe(), o(), oe(), ae(), be(), ce() (+45 more)
+Cohesion: 0.12
+Nodes (34): ee(), he(), o(), oe(), ae(), be(), ce(), de() (+26 more)
 
 ### Community 188 - "recordFutureForcedDependency"
 Cohesion: 0.25
@@ -1093,9 +1091,9 @@ Nodes (8): dn(), fn(), H(), hn(), jn(), mn(), nn(), pn()
 Cohesion: 0.27
 Nodes (10): gn(), he(), i(), ie(), me(), sn(), v(), vn() (+2 more)
 
-### Community 191 - "G"
-Cohesion: 0.14
-Nodes (20): s(), Io(), lo(), hs(), ae(), G(), ie(), J() (+12 more)
+### Community 191 - "onFeatureFlags"
+Cohesion: 0.12
+Nodes (18): addFeatureFlagsHandler(), af(), consent(), Du(), getWebExperiments(), hf(), _is_bot(), jo() (+10 more)
 
 ### Community 192 - "ROLEVIA_AI_MASTER_CONTEXT.md"
 Cohesion: 0.12
@@ -1105,17 +1103,17 @@ Nodes (15): 10. FEAT-010 — APPLICATION TRACKER AND VERIFIED RECEIPTS, 12. REQU
 Cohesion: 0.25
 Nodes (8): brand(), catch(), create(), default(), H(), keyof(), Pc(), transform()
 
-### Community 194 - "jobCrawler.js"
-Cohesion: 0.05
-Nodes (34): InsufficientCreditsError, quarantineOutcomeUnknown(), reserveCreditForApplication(), 1. Executive Summary & Verification Outcomes, 2. Resolution of Key Concerns, 3. End-to-End Candidate User Journey Verification, 4. Negative-Path & Adversarial Resistance Testing, 5. Master Test Harness Results (+26 more)
+### Community 194 - "Rolevia AI · Release 0.1 Production Readiness Assessment & Audit Report"
+Cohesion: 0.14
+Nodes (13): 1. Executive Summary, 2.1 Database Container Topology, 2.2 Relational Entity Schema, 2. Infrastructure & System Telemetry, 4. Test Categorization & Execution Evidence, 5. Security & PII Protection Audit, 6.1 PostgreSQL Lifecycle Operations, 6.2 Database Backup & Point-in-Time Recovery (+5 more)
 
 ### Community 195 - "2. Test Suite Breakdown"
 Cohesion: 0.20
 Nodes (9): 1. Quality Engineering Overview, 2.1 Unit Testing (Vitest / Jest), 2.2 Integration & API Contract Testing (Supertest), 2.3 Browser Automation & ATS Adapter Testing (Playwright), 2.4 AI Evaluation & Zero-Hallucination Benchmarks, 2.5 Security Audits & Vulnerability Testing, 2. Test Suite Breakdown, 3. Production Quality Metrics & SLAs (+1 more)
 
-### Community 196 - "_onStorageEvent"
-Cohesion: 0.08
-Nodes (31): addScope(), Bi(), ce(), constructor(), detachListener(), dn(), forAllChangedKeys(), initializeReceiver() (+23 more)
+### Community 196 - "_withRetries"
+Cohesion: 0.12
+Nodes (19): Bi(), initializeReceiver(), initializeSender(), initializeServiceWorkerMessaging(), _isAvailable(), Ji(), notifyListeners(), notifyServiceWorker() (+11 more)
 
 ### Community 197 - "2. Core Functional Capabilities Breakdown"
 Cohesion: 0.20
@@ -1133,13 +1131,17 @@ Nodes (9): b(), be(), de(), fe(), ge(), le(), ue(), x() (+1 more)
 Cohesion: 0.07
 Nodes (38): _a(), ad(), ai(), as(), c(), s(), build(), Ce() (+30 more)
 
-### Community 202 - "F"
-Cohesion: 0.14
-Nodes (20): as(), Bn(), bo(), F(), fo(), io(), je(), ke() (+12 more)
+### Community 202 - "p"
+Cohesion: 0.16
+Nodes (17): at(), bp(), cc(), cs(), es(), hn(), hp(), mn() (+9 more)
+
+### Community 203 - "country_eligibility_editor-C_PWEgeq.js"
+Cohesion: 0.06
+Nodes (15): ae(), G(), ge(), J(), e(), le(), me(), pe() (+7 more)
 
 ### Community 204 - "da"
-Cohesion: 0.08
-Nodes (41): ba(), Cc(), Gs(), Io(), ka(), kc(), Ms(), or() (+33 more)
+Cohesion: 0.06
+Nodes (50): Cc(), Gs(), kc(), Ms(), or(), qs(), add(), Ai() (+42 more)
 
 ### Community 205 - ".oxlintrc.json"
 Cohesion: 0.33
@@ -1158,16 +1160,16 @@ Cohesion: 0.50
 Nodes (3): Before you write, Ponytail, lazy senior dev mode, The smallest complete change
 
 ### Community 209 - "ci"
-Cohesion: 0.36
-Nodes (8): ci(), fi(), ii(), li(), ni(), ri(), ti(), Zr()
+Cohesion: 0.29
+Nodes (10): ci(), fi(), ii(), jr(), li(), ni(), qr(), ri() (+2 more)
 
-### Community 210 - "ROLEVIA AI · RELEASE 0.2 FEAT-007 & FEAT-008 VALIDATION AND IMPLEMENTATION REPORT"
-Cohesion: 0.11
-Nodes (18): 1. Executive Summary & Quality Gate Audit, 2. Master Automated Test Suite Manifest (87 / 87 Passed), 3. Detailed Verification of FEAT-007 Quality Hardening, 4. FEAT-008 Interactive Workspace Implementation, 5. Live Verification Probe Logs, 6. Scope Boundaries & Remaining Tasks, 7. Quality Gate Approval, A. Claim-Level Evidence Lineage (`evidenceLedger`) (+10 more)
+### Community 210 - "nr"
+Cohesion: 0.22
+Nodes (16): Ar(), cr(), dr(), er(), Gr(), In(), Jt(), lr() (+8 more)
 
-### Community 211 - "L"
+### Community 211 - "coerce"
 Cohesion: 0.09
-Nodes (27): addExceptionStep(), applyChunkIds(), applyCoercers(), Bt(), buildCoercingContext(), buildFromUnknown(), buildParsingContext(), captureException() (+19 more)
+Nodes (29): applyChunkIds(), applyCoercers(), buildCoercingContext(), buildFromUnknown(), buildParsingContext(), ce(), coerce(), coerceFallback() (+21 more)
 
 ### Community 212 - "React + Vite"
 Cohesion: 0.50
@@ -1177,17 +1179,17 @@ Nodes (3): Expanding the Oxlint configuration, React Compiler, React + Vite
 Cohesion: 0.14
 Nodes (14): 8. CORE AI-AGENT ECOSYSTEM TO BUILD, AGENT-001 — Candidate Intelligence Agent, AGENT-002 — Job Discovery Agent, AGENT-003 — Eligibility and Matching Agent, AGENT-004 — Resume Tailoring Agent, AGENT-005 — Cover Letter Agent, AGENT-006 — Screening Question Agent, AGENT-007 — ATS Navigation Agent (+6 more)
 
-### Community 214 - "be"
-Cohesion: 0.53
-Nodes (6): de(), fe(), he(), me(), ue(), Z()
+### Community 214 - "mn"
+Cohesion: 0.15
+Nodes (15): ne(), oe(), dn(), Et(), fn(), In(), Ln(), mn() (+7 more)
 
 ### Community 217 - "REPORT 7 — Production Architecture Proposal"
 Cohesion: 0.33
 Nodes (5): 1. Target Production Architecture Topology, 2. Production Database Schema Design (Prisma / PostgreSQL), 3. Headless Browser Automation Architecture (Playwright Pool), 4. Truth-Grounded LLM Prompting Contract, REPORT 7 — Production Architecture Proposal
 
-### Community 218 - "_t"
-Cohesion: 0.19
-Nodes (17): Be(), bt(), dn(), dt(), Et(), ft(), gt(), ht() (+9 more)
+### Community 218 - "message_detail-CveWEwCR.js"
+Cohesion: 0.11
+Nodes (31): Be(), ne(), ue(), bt(), cn(), dn(), dt(), Et() (+23 more)
 
 ### Community 219 - "cn"
 Cohesion: 0.25
@@ -1210,8 +1212,8 @@ Cohesion: 0.33
 Nodes (6): addBlacklist(), renderInbox(), renderKanban(), renderSettings(), switchNav(), CATEGORY 6: APPLICATION MANAGEMENT & TRACKER
 
 ### Community 224 - "G"
-Cohesion: 0.19
-Nodes (17): bn(), dr(), E(), fe(), G(), gn(), hn(), K() (+9 more)
+Cohesion: 0.25
+Nodes (14): bn(), G(), gn(), hn(), j(), K(), mn(), N() (+6 more)
 
 ### Community 225 - "renderProfile"
 Cohesion: 0.29
@@ -1225,13 +1227,13 @@ Nodes (13): ba(), ca(), Ea(), fa(), ga(), ha(), K(), ma() (+5 more)
 Cohesion: 0.18
 Nodes (10): 1. Executive Summary & Audit Baseline, 2. Feature Capability & Readiness Scorecard, 4.1 Master Test Harness (`node tests/run_all_tests.js`), 4.2 Integrated FEAT-009 / FEAT-010 Security & Recovery Audit Suite (`tests/test_feat009_feat010_audit.js`), 4.3 Integrated Browser UI Playwright Suite (`tests/verify_tracker_ui.js`), 4. Test Harness Execution Summary, 5. Mandatory Gates Required Before Live Employer Submissions, 6. Consolidated Release 0.2 Acceptance Decision (+2 more)
 
-### Community 228 - "ROLEVIA AI — FULL PRODUCT JOURNEY BROWSER E2E EVALUATION REPORT"
-Cohesion: 0.29
-Nodes (6): 1. Executive Summary & Evaluation Methodology, 2. Comprehensive 12-Stage Lifecycle Verification & Event Trace Matrix, 3. UI/UX and Mobile Usability Hardening, 4. Security & Safety Invariants Verified, Defect Identified: Mobile Navigation Suppression, ROLEVIA AI — FULL PRODUCT JOURNEY BROWSER E2E & BACKEND EVENT VERIFICATION REPORT
+### Community 228 - "atsAutomation.js"
+Cohesion: 0.09
+Nodes (28): acquireDatabaseSubmissionLock(), APPLICATION_STATES, detectAtsPlatform(), EVIDENCE_DIR, executeApplicationWorkflow(), generateReceiptHash(), getAtsAdapter(), getChromiumLaunchOptions() (+20 more)
 
-### Community 229 - "save"
-Cohesion: 0.16
-Nodes (17): ca(), clear(), Ea(), ja(), ma(), markCrossTabFeatureFlagChanges(), nextUint32(), Pa() (+9 more)
+### Community 229 - "auth.js"
+Cohesion: 0.24
+Nodes (10): authenticateRequest(), comparePassword(), createRefreshToken(), extractAccessToken(), generateAccessToken(), hashPassword(), loginUser(), registerUser() (+2 more)
 
 ### Community 230 - "getItemById"
 Cohesion: 0.23
@@ -1251,7 +1253,7 @@ Nodes (11): Aa(), Ea(), eo(), fe(), fn(), ka(), _openPopup(), _openRedirect() (+
 
 ### Community 234 - "e"
 Cohesion: 0.09
-Nodes (27): credential(), _forOperation(), e(), _fromEmailAndCode(), _fromEmailAndPassword(), _fromErrorAndOperation(), _fromIdTokenResponse(), fromJSON() (+19 more)
+Nodes (24): authStateReady(), ce(), credential(), _forOperation(), e(), _fromEmailAndCode(), _fromEmailAndPassword(), _fromErrorAndOperation() (+16 more)
 
 ### Community 235 - "Rolevia AI · Experience-Aware Job Classification & Eligibility Engine (FEAT-016)"
 Cohesion: 0.10
@@ -1273,9 +1275,9 @@ Nodes (7): 11. ADDITIONAL ROADMAP FEATURES, FEAT-011 — Recruiter Email Integra
 Cohesion: 0.20
 Nodes (9): 1. Overview & Invariants, 2.1 Workflow Stages, 2.2 Workflow Statuses, 2.3 Execution Mode, 2. Enums and Types, 3. Zod State Schema Definition, 4. State Transition Matrix & Edge Routing, Fundamental System Invariants: (+1 more)
 
-### Community 240 - "ja"
-Cohesion: 0.14
-Nodes (17): Aa(), ba(), Ca(), Ea(), Ga(), Ia(), ja(), ka() (+9 more)
+### Community 240 - "be"
+Cohesion: 0.17
+Nodes (13): r(), n(), Ce(), Ee(), Te(), we(), ve(), nn() (+5 more)
 
 ### Community 241 - "ROLEVIA AI · MULTI-MODEL LLM PROVIDER INTEGRATION"
 Cohesion: 0.20
@@ -1285,9 +1287,9 @@ Nodes (9): 1. Multi-Model Architecture Overview, 2. Supported Models & Token Pri
 Cohesion: 0.33
 Nodes (6): 13. CRITICAL ENGINEERING AND SECURITY PRINCIPLES, AI Reliability, Application Automation, Candidate Data, Payments, Reliability
 
-### Community 243 - "Yt"
-Cohesion: 0.15
-Nodes (16): ft(), attachTimeline(), Bt(), dn(), g(), initAnimation(), Jt(), Nt() (+8 more)
+### Community 243 - "co"
+Cohesion: 0.17
+Nodes (12): A(), co(), dn(), _getFrameworks(), _logFramework(), lr(), m(), re() (+4 more)
 
 ### Community 244 - "16. DEVELOPMENT PROCESS"
 Cohesion: 0.33
@@ -1313,17 +1315,17 @@ Nodes (5): c(), h(), l(), s(), u()
 Cohesion: 0.25
 Nodes (8): _addPart(), addReasoningPart(), addTextPart(), addToolCallPart(), appendFile(), appendReasoning(), appendSource(), appendText()
 
-### Community 250 - "fr"
-Cohesion: 0.14
-Nodes (16): me(), Ne(), pe(), dr(), fr(), lr(), mr(), pr() (+8 more)
+### Community 250 - "wallet_card-DaQ46y8r.js"
+Cohesion: 0.12
+Nodes (13): G(), I(), k(), L(), le(), M(), N(), oe() (+5 more)
 
 ### Community 251 - "ft"
-Cohesion: 0.14
-Nodes (15): Mp(), ap(), cp(), dp(), ep(), fp(), fs(), ft() (+7 more)
+Cohesion: 0.08
+Nodes (25): Mp(), ap(), captureMessage(), cp(), dp(), ds(), ep(), eventFromException() (+17 more)
 
 ### Community 252 - "C"
 Cohesion: 0.11
-Nodes (24): C(), dc(), et(), Fe(), Ge(), id(), je(), Kc() (+16 more)
+Nodes (21): C(), dt(), et(), Fe(), Ge(), id(), je(), Le() (+13 more)
 
 ### Community 253 - "lt"
 Cohesion: 0.29
@@ -1359,11 +1361,11 @@ Nodes (6): initiateRazorpayCheckout(), initSSEListener(), renderBilling(), setBi
 
 ### Community 261 - "Rolevia AI — Enterprise System Architecture Specification"
 Cohesion: 0.18
-Nodes (10): 1. Architectural Vision & Enterprise Standards, 2. High-Level System Architecture Diagram, 3.1 Domain Layer (`backend/domain/`), 3.2 Application / Use Case Layer (`backend/workflows/`, `backend/services/`), 3.3 Infrastructure Layer (`backend/db/`, `backend/ai/`, `backend/queue/`), 3.4 Interface & Presentation Layer (`backend/server.js`, `frontend/`), 3. Clean Architecture & Separation of Concerns, 4. Workload Decoupling & Bulkhead Isolation (+2 more)
+Nodes (10): 1. Architectural Vision & Revised Scalability Strategy, 2. High-Level System Architecture Diagram, 3.1 Domain Layer (`backend/domain/`), 3.2 Application / Use Case Layer (`backend/workflows/`, `backend/services/`), 3.3 Infrastructure Layer (`backend/db/`, `backend/ai/`, `backend/queue/`), 3.4 Interface & Presentation Layer (`backend/server.js`, `frontend/`), 3. Clean Architecture & Separation of Concerns, 4. Workload Decoupling & Bulkhead Sizing (+2 more)
 
-### Community 262 - "Xt"
-Cohesion: 0.25
-Nodes (11): Gt(), Ht(), Jt(), Kt(), qt(), Ut(), Vt(), Wt() (+3 more)
+### Community 262 - "w"
+Cohesion: 0.23
+Nodes (12): add(), Ge(), Gt(), Je(), Ke(), Kt(), overwrite(), read() (+4 more)
 
 ### Community 263 - "2. Automated Self-Healing Runbooks"
 Cohesion: 0.20
@@ -1371,43 +1373,39 @@ Nodes (9): 1. Incident Severity Definitions, 2. Automated Self-Healing Runbooks,
 
 ### Community 264 - "2. Test Execution Profiles"
 Cohesion: 0.20
-Nodes (9): 1. Load Testing Objectives & Quality Gates, 2. Test Execution Profiles, 3. Distributed k6 Benchmark Script Specification (`tests/load/k6_hyperscale_suite.js`), 4. Current Staging vs. Target Milestones, Profile A: Ramp-Up to 10k Stage (Milestone 1 Validation), Profile B: Stress & Breaking Point Analysis, Profile C: Soak Testing (Memory Leak Detection), Profile D: Chaos & Fault-Injection Suite (+1 more)
+Nodes (9): 1. Load Testing Objectives & Distinction of Units, 2. Test Execution Profiles, 3. Distributed k6 Benchmark Script Specification (`tests/load/k6_hyperscale_suite.js`), 4. Current Staging vs. Target Milestones, Profile A: 10,000 Connected User Benchmark (Launch Gate — 250 RPS), Profile B: Stress & Breaking Point Analysis, Profile C: Soak Testing (Memory Leak Detection), Profile D: Chaos & Fault-Injection Suite (+1 more)
 
 ### Community 265 - "Rolevia AI — Real LLM Provider Validation & Commercial Privacy Audit"
 Cohesion: 0.20
 Nodes (9): 1. Executive Summary & Status Classification, 2.1 Provider Specification & Pricing Matrix, 2. Official Provider Documentation & Commercial Term Audit, 3.1 Candidate Resume Privacy Hazard: Free Tier Warning, 3.2 Commercial Paid API Guarantees, 3. Critical Privacy & Data Retention Analysis, 4. Multi-Model Architecture & Fallback Tiering (`llmGateway.js`), 5. Exit Criteria for Unblocking Live Execution (+1 more)
 
 ### Community 266 - "rt"
-Cohesion: 0.29
-Nodes (10): cr(), hr(), ir(), or(), rr(), sr(), nt(), R() (+2 more)
+Cohesion: 0.23
+Nodes (12): l(), l(), cr(), hr(), ir(), or(), rr(), sr() (+4 more)
 
 ### Community 267 - "sp"
 Cohesion: 0.31
 Nodes (9): ap(), cp(), ip(), op(), rp(), sp(), da(), la() (+1 more)
 
-### Community 268 - "h"
-Cohesion: 0.29
-Nodes (8): da(), fa(), h(), g(), ma(), na(), pa(), ua()
+### Community 268 - "St"
+Cohesion: 0.24
+Nodes (10): captureSession(), ct(), setUser(), St(), Ta(), _updateSessionFromEvent(), wt(), xt() (+2 more)
 
 ### Community 269 - "Rolevia AI — Observability Architecture, Telemetry & SLO Framework"
 Cohesion: 0.29
-Nodes (6): 1. Service Level Objectives (SLOs) & Error Budgets, 2. OpenTelemetry (OTel) Distributed Tracing Architecture, 3. Metrics & Prometheus Instrumentations, 4. Structured JSON Logging Standard, Rolevia AI — Observability Architecture, Telemetry & SLO Framework, Trace Span Attributes:
+Nodes (6): 1. Service Level Objectives (SLOs) & Error Budgets, 2. OpenTelemetry (OTel) Distributed Tracing Architecture, 3. Metrics & Prometheus Instrumentation, 4. Structured JSON Logging Standard, Rolevia AI — Observability Architecture, Telemetry & SLO Framework, Trace Span Attributes:
 
-### Community 270 - "md"
-Cohesion: 0.38
-Nodes (7): fd(), gd(), hd(), Id(), jd(), md(), pd()
+### Community 270 - "t"
+Cohesion: 0.31
+Nodes (9): A(), bt(), it(), P(), pi(), t(), tt(), vt() (+1 more)
 
-### Community 271 - "ROLEVIA AI vs TSENTA AI — COMPETITIVE FEATURE MATRIX & GAP AUDIT"
-Cohesion: 0.33
-Nodes (5): 1. Methodology & Evidence Classification Framework, 2. Comprehensive 11-Dimension Feature Matrix, 3. Resume Tailoring Mode Comparison, 4. Prioritized Feature Gap Roadmap (Release 0.3), ROLEVIA AI vs TSENTA AI — COMPETITIVE FEATURE MATRIX & GAP AUDIT
+### Community 271 - "it"
+Cohesion: 0.25
+Nodes (8): d(), ct(), dt(), it(), lt(), ot(), rt(), st()
 
-### Community 272 - "to"
-Cohesion: 0.40
-Nodes (6): Do(), eo(), no(), to(), xo(), Za()
-
-### Community 273 - "pr"
-Cohesion: 0.40
-Nodes (6): gr(), hr(), Ir(), mr(), pr(), q()
+### Community 272 - "vl"
+Cohesion: 0.32
+Nodes (8): cl(), dl(), enable(), enqueue(), fl(), ph(), unload(), vl()
 
 ### Community 274 - "ADR-001: Modular Monolith API with Asynchronous Dedicated Worker Pools"
 Cohesion: 0.40
@@ -1419,53 +1417,53 @@ Nodes (4): ADR-003: LangGraph.js Agentic Orchestration with PostgreSQL State Che
 
 ### Community 276 - "ADR-004: Multi-Model LLM Gateway with Anti-Hallucination Guardrails"
 Cohesion: 0.40
-Nodes (4): ADR-004: Multi-Model LLM Gateway with Anti-Hallucination Guardrails, Consequences, Decision, Rationale
+Nodes (4): ADR-004: Multi-Model LLM Gateway with Anti-Hallucination Guardrails, Current Operational Status, Decision, Rationale
 
 ### Community 277 - "ADR-005: BullMQ Job Queues and Admission Control Backpressure"
 Cohesion: 0.40
-Nodes (4): ADR-005: BullMQ Job Queues and Admission Control Backpressure, Consequences, Decision, Rationale
+Nodes (4): ADR-005: BullMQ Job Queues, Redis Isolation and Admission Control Backpressure, Consequences, Decision, Rationale
 
 ### Community 278 - "Rolevia AI — Hyperscale Capacity Planning & Workload Models (10k to 1M Scale)"
 Cohesion: 0.40
-Nodes (4): 1. Workload Modeling Assumptions, 2. Multi-Stage Workload Capacity Matrix, 3. Bottleneck Analysis & Scale-Up Triggers, Rolevia AI — Hyperscale Capacity Planning & Workload Models (10k to 1M Scale)
+Nodes (4): 1. Workload Modeling Assumptions & Queueing Mathematics, 2. Multi-Stage Workload Capacity Matrix, 3. Bottleneck Analysis & Scale-Up Triggers, Rolevia AI — Capacity Planning, Workload Modeling & Sizing Strategy (10k to 1M Scale)
 
-### Community 279 - "In"
+### Community 279 - "getAll"
 Cohesion: 0.40
-Nodes (5): ce(), g(), In(), ue(), Xr()
+Nodes (6): getAll(), setAll(), speed(), startTime(), state(), time()
 
-### Community 280 - "i"
+### Community 280 - "ADR-002: PostgreSQL-Enforced Submission Locks and Idempotency Invariants"
 Cohesion: 0.40
-Nodes (5): i(), ot(), sa(), startsWith(), xa()
+Nodes (4): ADR-002: PostgreSQL-Enforced Submission Locks and Idempotency Invariants, Consequences, Decision, Rationale
 
-### Community 281 - "Rolevia AI — Hyperscale Load Testing Strategy & Quality Gates"
-Cohesion: 0.50
-Nodes (3): 1. Load Testing Phases & Concurrency Targets, 2. Mandatory Quality Acceptance Gates, Rolevia AI — Hyperscale Load Testing Strategy & Quality Gates
+### Community 281 - "2. Progressive Load Testing Phases & Acceptance Gates"
+Cohesion: 0.18
+Nodes (10): 1. Core Testing Philosophy, 2. Progressive Load Testing Phases & Acceptance Gates, 3. Mandatory Quality Acceptance Gates, Phase 1: 10,000 Concurrency (250 RPS) — PRIMARY LAUNCH GATE, Phase 2: 50,000 Concurrency (1,250 RPS) — Growth Stage, Phase 3: 100,000 Concurrency (2,500 RPS) — Expansion Stage, Phase 4: 250,000 Concurrency (6,250 RPS) — Scale Stage, Phase 5: 500,000 Concurrency (12,500 RPS) — High-Scale Stage (+2 more)
 
-### Community 282 - "f"
-Cohesion: 0.50
-Nodes (4): d(), f(), ii(), we()
+### Community 282 - "n"
+Cohesion: 0.14
+Nodes (22): ce(), ci(), d(), f(), g(), dr(), hi(), Ht() (+14 more)
 
-### Community 283 - "va"
-Cohesion: 0.50
-Nodes (4): dc(), default(), va(), ya()
+### Community 283 - "o"
+Cohesion: 0.40
+Nodes (4): An(), E(), o(), nt()
 
 ## Knowledge Gaps
-- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `finally()` connect `t` to `sentry-DtAMeAKu.js`, `atsAutomation.js`, `atsAutomation.js`?**
-  _High betweenness centrality (0.119) - this node is a cross-community bridge._
+- **Why does `finally()` connect `t` to `sentry-DtAMeAKu.js`, `t`, `atsAutomation.js`, `atsAutomation.js`?**
+  _High betweenness centrality (0.116) - this node is a cross-community bridge._
 - **Are the 57 inferred relationships involving `a()` (e.g. with `f()` and `o()`) actually correct?**
   _`a()` has 57 INFERRED edges - model-reasoned connections that need verification._
 - **Should `pdf_viewer-BV4Sip6-.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.004516033228221277 - nodes in this community are weakly interconnected._
-- **Why does `x()` connect `a` to `pdf_viewer-BV4Sip6-.js`, `markdown-text-cUy1KtGC.js`, `i`, `turn_queue_provider-BYJ-Cll1.js`, `index-BzA-r5bo.js`, `uiApi-B-MLE5mC.js`, `posthog-D_KOSIrT.js`, `react-vendor-BJfRIYtH.js`, `download_filename-BdJ7OUVI.js`, `layout-CNoEvXXJ.js`, `page-3eWDpiPM.js`, `md-CmGIAhDw.js`, `render`, `thread-DH0alfKc.js`, `h`, `sentry-DtAMeAKu.js`, `page--72sNO_I.js`, `p`, `select-CwrsSfej.js`, `motion-Yha3YIen.js`, `o`, `floating-DPos8Xox.js`, `detail-D9JVJ7Rd.js`, `mobile_pick_swipe-3vmrIIhO.js`, `review-7GiCpxlY.js`, `job_details_modal-DYeb_rLk.js`, `page-BkxcYYwL.js`, `diff_context-DEJUYbzj.js`, `assistant_runtime_provider-B1X85XGd.js`, `page-BTQ15PpT.js`, `use_naukri_connect_controller-DyK2ABHn.js`, `button-CW0nRO_l.js`, `page--DqapHTB.js`, `api-CZ-WWetN.js`, `sidebar_chat-y3X-riuj.js`, `page-HcBTWrFj.js`, `use_auth-DXwrZv99.js`, `live_fill_view-DXtCw8IL.js`, `page-CB0D6Vsq.js`, `applications_table-efGiw-PC.js`, `page-CDc1Uk-q.js`, `profile_field_inputs-CXlDML-q.js`, `p`, `page-B9PpDlwu.js`, `missing_fields_content-BYztFpSG.js`, `message_detail-CveWEwCR.js`, `constructor`, `t`, `mount`, `workspace_modal--eQ694iE.js`, `t`, `filter_pill-hH4hysTi.js`, `useTransmit-C7BJmYhX.js`, `i`, `Yt`, `page-B2FZwJbH.js`, `resume_html_preview-p9-TRbSQ.js`, `dist-Gol7icTb.js`, `page-BIjCOvf0.js`?**
-  _High betweenness centrality (0.082) - this node is a cross-community bridge._
+  _Cohesion score 0.004579162031887282 - nodes in this community are weakly interconnected._
+- **Why does `x()` connect `a` to `pdf_viewer-BV4Sip6-.js`, `markdown-text-cUy1KtGC.js`, `i`, `turn_queue_provider-BYJ-Cll1.js`, `index-BzA-r5bo.js`, `uiApi-B-MLE5mC.js`, `posthog-D_KOSIrT.js`, `react-vendor-BJfRIYtH.js`, `download_filename-BdJ7OUVI.js`, `layout-CNoEvXXJ.js`, `page-3eWDpiPM.js`, `md-CmGIAhDw.js`, `render`, `thread-DH0alfKc.js`, `h`, `sentry-DtAMeAKu.js`, `page-De3ut4OG.js`, `use_tracker_board-Dvkp1hgU.js`, `select-CwrsSfej.js`, `motion-Yha3YIen.js`, `o`, `floating-DPos8Xox.js`, `getAll`, `detail-D9JVJ7Rd.js`, `mobile_pick_swipe-3vmrIIhO.js`, `review-7GiCpxlY.js`, `job_details_modal-DYeb_rLk.js`, `n`, `page-BkxcYYwL.js`, `diff_context-DEJUYbzj.js`, `assistant_runtime_provider-B1X85XGd.js`, `page-BTQ15PpT.js`, `Oc`, `dialog-Bu61Lt5x.js`, `tracker-D_fqftl6.js`, `page-DfFJZACF.js`, `use_naukri_connect_controller-DyK2ABHn.js`, `n`, `api-CZ-WWetN.js`, `sidebar_chat-y3X-riuj.js`, `account_suspension-CxhRv-Kn.js`, `portal-DdHwNoI3.js`, `pe`, `page-CDc1Uk-q.js`, `e`, `profile_field_inputs-CXlDML-q.js`, `page-B9PpDlwu.js`, `country_eligibility_editor-C_PWEgeq.js`, `missing_fields_content-BYztFpSG.js`, `page-hMKHNz0x.js`, `nr`, `assistant-BuUKVg-O.js`, `t`, `message_detail-CveWEwCR.js`, `mount`, `workspace_modal--eQ694iE.js`, `useTransmit-C7BJmYhX.js`, `i`, `inbox-Bxl-cU5q.js`, `page-B2FZwJbH.js`, `resume_html_preview-p9-TRbSQ.js`, `dist-Gol7icTb.js`, `wallet_card-DaQ46y8r.js`?**
+  _High betweenness centrality (0.079) - this node is a cross-community bridge._
 - **Are the 26 inferred relationships involving `r()` (e.g. with `bd()` and `cc()`) actually correct?**
   _`r()` has 26 INFERRED edges - model-reasoned connections that need verification._
 - **Should `markdown-text-cUy1KtGC.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.01303049497783006 - nodes in this community are weakly interconnected._
-- **Why does `r()` connect `a` to `pdf_viewer-BV4Sip6-.js`, `markdown-text-cUy1KtGC.js`, `turn_queue_provider-BYJ-Cll1.js`, `uiApi-B-MLE5mC.js`, `index-BzA-r5bo.js`, `n`, `react-vendor-BJfRIYtH.js`, `download_filename-BdJ7OUVI.js`, `layout-CNoEvXXJ.js`, `page-3eWDpiPM.js`, `md-CmGIAhDw.js`, `render`, `thread-DH0alfKc.js`, `h`, `page--72sNO_I.js`, `p`, `select-CwrsSfej.js`, `motion-Yha3YIen.js`, `o`, `detail-D9JVJ7Rd.js`, `mobile_pick_swipe-3vmrIIhO.js`, `review-7GiCpxlY.js`, `job_details_modal-DYeb_rLk.js`, `r`, `a`, `page-BkxcYYwL.js`, `diff_context-DEJUYbzj.js`, `assistant_runtime_provider-B1X85XGd.js`, `page-BTQ15PpT.js`, `Oc`, `use_naukri_connect_controller-DyK2ABHn.js`, `page--DqapHTB.js`, `sidebar_chat-y3X-riuj.js`, `K`, `hu`, `use_auth-DXwrZv99.js`, `live_fill_view-DXtCw8IL.js`, `form_body-DUneIJ0c.js`, `t`, `page-CB0D6Vsq.js`, `applications_table-efGiw-PC.js`, `page-CDc1Uk-q.js`, `S`, `Au`, `profile_field_inputs-CXlDML-q.js`, `O`, `p`, `page-B9PpDlwu.js`, `missing_fields_content-BYztFpSG.js`, `message_detail-CveWEwCR.js`, `constructor`, `gc`, `start`, `workspace_modal--eQ694iE.js`, `filter_pill-hH4hysTi.js`, `i`, `page-B2FZwJbH.js`, `resume_html_preview-p9-TRbSQ.js`, `a`, `page-BIjCOvf0.js`, `constructor`, `i`, `re`, `sc`, `ti`, `readKeyframes`, `upgrade_plan_options-BRw4UtI-.js`, `qn`, `ti`, `button-CW0nRO_l.js`, `t`, `page-HcBTWrFj.js`, `h`, `page-BlP9C9XB.js`, `G`, `s`, `da`, `ge`, `ja`, `lt`?**
-  _High betweenness centrality (0.054) - this node is a cross-community bridge._
+  _Cohesion score 0.011981566820276499 - nodes in this community are weakly interconnected._
+- **Why does `r()` connect `a` to `pdf_viewer-BV4Sip6-.js`, `markdown-text-cUy1KtGC.js`, `turn_queue_provider-BYJ-Cll1.js`, `uiApi-B-MLE5mC.js`, `index-BzA-r5bo.js`, `n`, `react-vendor-BJfRIYtH.js`, `download_filename-BdJ7OUVI.js`, `layout-CNoEvXXJ.js`, `page-3eWDpiPM.js`, `md-CmGIAhDw.js`, `render`, `thread-DH0alfKc.js`, `h`, `page-De3ut4OG.js`, `use_tracker_board-Dvkp1hgU.js`, `select-CwrsSfej.js`, `motion-Yha3YIen.js`, `o`, `detail-D9JVJ7Rd.js`, `mobile_pick_swipe-3vmrIIhO.js`, `review-7GiCpxlY.js`, `job_details_modal-DYeb_rLk.js`, `o`, `n`, `page-BkxcYYwL.js`, `diff_context-DEJUYbzj.js`, `assistant_runtime_provider-B1X85XGd.js`, `page-BTQ15PpT.js`, `Oc`, `use_naukri_connect_controller-DyK2ABHn.js`, `n`, `sidebar_chat-y3X-riuj.js`, `K`, `r`, `t`, `page-CDc1Uk-q.js`, `e`, `Au`, `profile_field_inputs-CXlDML-q.js`, `O`, `page-B9PpDlwu.js`, `missing_fields_content-BYztFpSG.js`, `page-hMKHNz0x.js`, `constructor`, `assistant-BuUKVg-O.js`, `ui`, `start`, `workspace_modal--eQ694iE.js`, `kr`, `inbox-Bxl-cU5q.js`, `page-B2FZwJbH.js`, `resume_html_preview-p9-TRbSQ.js`, `constructor`, `i`, `re`, `wd`, `sc`, `ti`, `readKeyframes`, `upgrade_plan_options-BRw4UtI-.js`, `qn`, `ti`, `tracker-D_fqftl6.js`, `page-DfFJZACF.js`, `t`, `account_suspension-CxhRv-Kn.js`, `page-BlP9C9XB.js`, `s`, `country_eligibility_editor-C_PWEgeq.js`, `da`, `nr`, `mn`, `message_detail-CveWEwCR.js`, `ge`, `be`, `wallet_card-DaQ46y8r.js`, `lt`?**
+  _High betweenness centrality (0.052) - this node is a cross-community bridge._

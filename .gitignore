@@ -44,3 +44,6 @@ Thumbs.db
 .tempmediaStorage/
 scratch/
 graphify-out/cache/
+evidence/screenshots/ats_*
+evidence/screenshots/resume_*
+

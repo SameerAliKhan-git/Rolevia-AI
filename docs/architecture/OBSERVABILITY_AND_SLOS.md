@@ -1,26 +1,27 @@
 # Rolevia AI — Observability Architecture, Telemetry & SLO Framework
 
 **Product:** Rolevia AI ([roleviaai.co.in](https://roleviaai.co.in))  
-**Observability Standard:** OpenTelemetry (OTel) Distributed Tracing & Metrics  
+**Observability Standard:** OpenTelemetry (OTel) Distributed Tracing & Prometheus Metrics  
 **Target Availability:** 99.95% Monthly Uptime (Error Budget: 21.9 minutes/month)  
-**Scale Target:** 1,000,000 Simultaneously Connected Users  
+**Initial Launch Scale:** 10,000 Simultaneously Connected Users (~250 RPS)  
+**Hyperscale Horizon:** Headroom to 1,000,000 Simultaneously Connected Users  
 **Date:** October 26, 2026  
 
 ---
 
 ## 1. Service Level Objectives (SLOs) & Error Budgets
 
-To ensure high availability and predictable user experience at scale, Rolevia AI establishes formal, measurable SLOs:
+To ensure high availability and predictable user experience at launch, Rolevia AI establishes formal, measurable SLOs:
 
-| Service Boundary | Service Level Indicator (SLI) | Target SLO | Monthly Error Budget | Alerting Threshold |
+| Service Boundary | Service Level Indicator (SLI) | Target SLO (10k Launch) | Monthly Error Budget | Alerting Threshold |
 | :--- | :--- | :--- | :--- | :--- |
 | **API Availability** | Percentage of non-5xx HTTP requests | **99.95%** | 21.9 min downtime | 2% error budget burn in 1 hour |
-| **Lightweight API Latency** | Time to respond to `GET /api/v1/jobs` | **p95 < 300 ms** | 5% of requests > 300ms | p95 > 400 ms for 5 min |
-| **Interactive API Latency** | Time to respond to `GET /api/v1/resumes/diff` | **p95 < 800 ms** | 5% of requests > 800ms | p95 > 1,200 ms for 5 min |
+| **Lightweight API Latency** | Time to respond to `GET /api/v1/jobs` | **p95 < 180 ms** (< 300ms max) | 5% of requests > 180ms | p95 > 250 ms for 5 min |
+| **Interactive API Latency** | Time to respond to `GET /api/v1/resumes/diff` | **p95 < 500 ms** (< 800ms max) | 5% of requests > 500ms | p95 > 800 ms for 5 min |
 | **Application Integrity** | Duplicate confirmed employer applications | **0 (Zero)** | 0 (Zero tolerance) | **Any duplicate immediately trips SEV-1** |
 | **Payment Ledger Integrity** | Unreconciled balance discrepancies | **0 (Zero)** | 0 (Zero tolerance) | **Any mismatch immediately trips SEV-1** |
-| **Database Pool Health** | PgBouncer client connection queue wait time | **p99 < 50 ms** | 1% of queries > 50ms wait | Wait time > 100 ms for 3 min |
-| **Queue Health** | BullMQ submission job processing delay | **p95 < 8.0s** | 5% delayed > 8.0s | Queue lag > 30s or depth > 5,000 |
+| **Database Pool Health** | PgBouncer client connection queue wait time | **p99 < 25 ms** (< 50ms max) | 1% of queries > 25ms wait | Wait time > 50 ms for 3 min |
+| **Queue Health** | BullMQ submission job processing delay | **p95 < 2.0s** (< 8.0s max) | 5% delayed > 2.0s | Queue lag > 15s or depth > 500 |
 
 ---
 
@@ -56,12 +57,12 @@ Every user action carries a unique W3C trace context (`traceparent` header) prop
 
 ---
 
-## 3. Metrics & Prometheus Instrumentations
+## 3. Metrics & Prometheus Instrumentation
 
 The system exposes a Prometheus scrape endpoint (`GET /metrics` on internal port 9090):
 
-1. **HTTP Metrics**:
-   - `rolevia_http_requests_total{method, route, status, tenant}`
+1. **HTTP Metrics (Bounded Low Cardinality)**:
+   - `rolevia_http_requests_total{method, route, status}`
    - `rolevia_http_request_duration_seconds{route, le}`
 2. **Database & Connection Pool Metrics**:
    - `rolevia_pg_pool_active_connections`
@@ -83,6 +84,9 @@ The system exposes a Prometheus scrape endpoint (`GET /metrics` on internal port
    - `rolevia_duplicate_prevented_total`
    - `rolevia_orphaned_locks_reconciled_total`
    - `rolevia_credit_ledger_mismatches_total` (Must stay 0)
+
+> [!IMPORTANT]
+> **High-Cardinality Governance Rule**: Never include high-cardinality identifiers such as `tenant_id`, `user_id`, or `application_id` as Prometheus metric dimensions/labels. Uncontrolled label cardinality causes exponential timeseries growth, degraded scraper performance, and high monitoring storage costs. High-cardinality metadata belongs strictly inside OpenTelemetry trace span attributes and structured JSON log lines.
 
 ---
 

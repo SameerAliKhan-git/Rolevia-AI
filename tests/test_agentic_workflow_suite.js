@@ -159,8 +159,8 @@ async function runAgenticWorkflowSuite() {
     assert.ok(metrics.totalCompletionTokens > 0);
   });
 
-  // 6a. Multi-Model: Groq Free LLM Configuration & Zero-Cost Accounting
-  await testAsync('Multi-Model: Groq Free LLM Gateway config, zero-cost accounting, and resilient dispatch', async () => {
+  // 6a. Multi-Model: Groq LLM Configuration & Commercial Token Accounting
+  await testAsync('Multi-Model: Groq LLM Gateway config, commercial cost accounting, and resilient dispatch', async () => {
     const groqGateway = new LLMGateway({
       provider: 'GROQ',
       model: 'llama-3.3-70b-versatile',
@@ -169,16 +169,17 @@ async function runAgenticWorkflowSuite() {
 
     assert.strictEqual(groqGateway.provider, 'GROQ');
     assert.strictEqual(groqGateway.model, 'llama-3.3-70b-versatile');
-    assert.strictEqual(MODEL_PRICING['llama-3.3-70b-versatile'].input, 0.0);
-    assert.strictEqual(MODEL_PRICING['llama-3.3-70b-versatile'].output, 0.0);
+    assert.strictEqual(MODEL_PRICING['mock-model'].input, 0.0);
+    assert.ok(MODEL_PRICING['llama-3.3-70b-versatile'].input > 0);
+    assert.ok(MODEL_PRICING['llama-3.3-70b-versatile'].output > 0);
 
     const cost = groqGateway.calculateCost('llama-3.3-70b-versatile', 2500, 1000);
-    assert.strictEqual(cost, 0.0, 'Groq free tier models must be accounted at $0.00 cost');
+    // (2.5 * 0.00059) + (1.0 * 0.00079) = 0.001475 + 0.00079 = 0.002265
+    assert.strictEqual(cost, 0.002265, 'Groq commercial on-demand models are accounted at $0.002265');
 
     const res = await groqGateway.completeChat('Analyze this job posting requirements.');
     assert.ok(res.content);
     assert.ok(res.usage);
-    assert.strictEqual(res.usage.costUsd, 0.0);
   });
 
   // 6b. Multi-Model: Google Gemini LLM Configuration & Token Pricing
