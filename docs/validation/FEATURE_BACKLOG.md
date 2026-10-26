@@ -186,7 +186,7 @@ Every feature is tracked with a permanent identifier (`FEAT-XXX`), component own
 - **Prerequisites**: `FEAT-001`, `FEAT-009`
 - **Development Requirements**:
   1. 10-node `StateGraph` orchestrating discovery, matching, optimization, approval, preparation, submission, and verification.
-  2. PostgreSQL durable checkpointer (`postgresSaver.js`) for persistent workflow state.
+  2. PostgreSQL durable checkpointer (`backend/workflows/postgresCheckpointer.js`) for persistent workflow state.
   3. Dual human-in-the-loop review gates (Resume Approval and Submission Authorization).
   4. Crash recovery across all execution boundaries without re-running completed AI operations.
 - **Completion Criteria**: 100% passing tests in `test_langgraph_durability_suite.js` (GATE-17 and GATE-19).
