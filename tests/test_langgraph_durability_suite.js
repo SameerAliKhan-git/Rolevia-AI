@@ -428,12 +428,15 @@ async function runLangGraphDurabilitySuite() {
       const k2 = generateNodeExecutionKey({ tenantId: tenantA, userId: userIdA, applicationId: appIdA, nodeName: 'node_submit', executionAttempt: 1 });
       const k3 = generateWorkflowAttemptKey({ tenantId: tenantA, userId: userIdA, applicationId: appIdA, workflowAttempt: 2 });
       const k4 = generatePaymentOperationKey({ tenantId: tenantA, userId: userIdA, applicationId: appIdA, operationType: 'HOLD', referenceId: 'req-1' });
-      const k5 = generateAtsSubmissionAttemptKey({ tenantId: tenantA, userId: userIdA, applicationId: appIdA, attemptNumber: 1, documentHash: 'hash-abc', timestamp: 12345678 });
+      const k5 = generateAtsSubmissionAttemptKey({ tenantId: tenantA, userId: userIdA, applicationId: appIdA, attemptNumber: 1, documentHash: 'hash-abc' });
+      const k5_retry = generateAtsSubmissionAttemptKey({ tenantId: tenantA, userId: userIdA, applicationId: appIdA, attemptNumber: 1, documentHash: 'hash-abc' });
+      assert.strictEqual(k5, k5_retry, 'ATS submission key must be deterministic across retries without dynamic timestamp');
       const k6 = generateCandidateRequisitionDuplicateKey({ tenantId: tenantA, userId: userIdA, jobRequisitionHash: 'req-hash-abc' });
 
       assert(k1 !== k2 && k2 !== k3 && k3 !== k4 && k4 !== k5 && k5 !== k6);
       assert(k4.includes('credit_HOLD'));
       assert(k5.includes('ats_attempt_1'));
+      assert(!k5.includes('undefined'));
       assert(k6.includes('req-hash-abc'));
       recordPass('Idempotency Architecture: All 6 distinct orthogonal execution identities generated and partitioned');
     } catch (err) {

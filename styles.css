@@ -1013,6 +1013,11 @@ body {
 }
 
 @media (max-width: 768px) {
+  .ts-header-inner {
+    flex-wrap: wrap;
+    padding: 10px 14px;
+    gap: 8px;
+  }
   .ts-metrics-deck {
     grid-template-columns: 1fr;
   }
@@ -1023,6 +1028,16 @@ body {
     grid-template-columns: 1fr;
   }
   .ts-nav-pill-group {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    gap: 4px;
+    padding: 6px 4px;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .ts-nav-pill-group::-webkit-scrollbar {
     display: none;
   }
 }

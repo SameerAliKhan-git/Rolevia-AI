@@ -49,14 +49,14 @@ function generatePaymentOperationKey({ tenantId, userId, applicationId, operatio
 
 /**
  * 5. ATS Submission Attempt Identity
- * Identifies each browser automation run, bound to the candidate-approved document hash and timestamp.
+ * Deterministically identifies a browser automation run, bound to the candidate-approved document hash and attempt number.
+ * Note: Strictly deterministic and durable across retries; does NOT include dynamic timestamps.
  */
-function generateAtsSubmissionAttemptKey({ tenantId, userId, applicationId, attemptNumber = 1, documentHash, timestamp }) {
+function generateAtsSubmissionAttemptKey({ tenantId, userId, applicationId, attemptNumber = 1, documentHash }) {
   if (!tenantId || !userId || !applicationId || !documentHash) {
     throw new Error('tenantId, userId, applicationId, and documentHash are required for ATS submission key');
   }
-  const ts = timestamp || Date.now();
-  return `${tenantId}:${userId}:${applicationId}:ats_attempt_${attemptNumber}:${documentHash.slice(0, 16)}:${ts}`;
+  return `${tenantId}:${userId}:${applicationId}:ats_attempt_${attemptNumber}:${documentHash.slice(0, 16)}`;
 }
 
 /**

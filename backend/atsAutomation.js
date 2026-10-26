@@ -9,6 +9,10 @@ const path = require('node:path');
 const { chromium } = require('playwright');
 const prisma = require('./db');
 const billing = require('./billing');
+const {
+  generateAtsSubmissionAttemptKey,
+  generateCandidateRequisitionDuplicateKey
+} = require('./workflows/idempotency');
 
 const EVIDENCE_DIR = path.join(__dirname, '..', 'evidence', 'screenshots');
 if (!fs.existsSync(EVIDENCE_DIR)) {
@@ -210,7 +214,7 @@ function createSubmissionAuthorization({
  * 2. Editing document or changing target job invalidates authorization.
  * 3. Expired or revoked authorization is rejected.
  */
-function verifySubmissionAuthorization(application, candidateSecret = 'rolevia_ai_super_secret_jwt_key_2026_production_ready', expectedRequisitionHash = null, expectedDocContentHash = null) {
+function verifySubmissionAuthorization(application, candidateSecret = (process.env.JWT_SECRET || 'rolevia_ai_super_secret_jwt_key_2026_production_ready'), expectedRequisitionHash = null, expectedDocContentHash = null) {
   if (!application) {
     throw new Error('Application record required for authorization check');
   }
@@ -898,8 +902,63 @@ async function executeApplicationWorkflow(applicationId, options = {}) {
   // 2. Cryptographic Authorization Check
   // In LIVE mode: Candidate must explicitly authorize submission
   // In DRY_RUN mode: Verification is executed if candidate has authorized, or validated for readiness
+  // 2. Cryptographic Authorization Check
+  // In LIVE mode: Candidate must explicitly authorize submission
+  // In DRY_RUN mode: Verification is executed if candidate has authorized, or validated for readiness
   const currentDocHash = application.diffData ? crypto.createHash('sha256').update(application.diffData).digest('hex') : application.approvedContentHash;
   const currentReqHash = (application.job && application.job.requisitionHash) || application.jobId || application.id;
+
+  // Invariant 3: Candidate-Employer-Requisition duplicate identity guard
+  const duplicateKey = generateCandidateRequisitionDuplicateKey({
+    tenantId: application.tenantId,
+    userId: application.userId,
+    jobRequisitionHash: currentReqHash
+  });
+
+  const existingDuplicate = await prisma.application.findFirst({
+    where: {
+      tenantId: application.tenantId,
+      userId: application.userId,
+      id: { not: applicationId },
+      job: { requisitionHash: currentReqHash },
+      status: { in: [APPLICATION_STATES.SUBMITTED_CONFIRMED, APPLICATION_STATES.SUBMISSION_IN_FLIGHT] }
+    }
+  });
+
+  if (existingDuplicate) {
+    throw new Error(`DUPLICATE_APPLICATION_PREVENTED: Application for requisition ${currentReqHash} already submitted or in flight (${existingDuplicate.id}).`);
+  }
+
+  // Invariant 4: Persistent Deterministic Submission Attempt Identity (Idempotency Domain 5)
+  const attemptNumber = (application.executionAttempts || 0) + 1;
+  const submissionAttemptKey = generateAtsSubmissionAttemptKey({
+    tenantId: application.tenantId,
+    userId: application.userId,
+    applicationId: application.id,
+    attemptNumber,
+    documentHash: currentDocHash || 'unhashed_doc'
+  });
+
+  // Persist attempt initialization in database audit log prior to browser dispatch
+  await prisma.applicationEvent.create({
+    data: {
+      applicationId: application.id,
+      eventType: 'SUBMISSION_ATTEMPT_INITIALIZED',
+      fromStatus: application.status,
+      toStatus: application.status,
+      payload: {
+        actor: `worker-${process.pid}`,
+        submissionAttemptKey,
+        attemptNumber,
+        duplicateKey,
+        mode,
+        initializedAt: new Date().toISOString()
+      }
+    }
+  }).catch((err) => {
+    console.error('Failed to log SUBMISSION_ATTEMPT_INITIALIZED event:', err.message);
+  });
+
   const authGate = verifySubmissionAuthorization(application, candidateSecret, currentReqHash, currentDocHash);
   if (mode === 'LIVE' && !authGate.authorized) {
     await transitionApplicationState(
@@ -946,12 +1005,18 @@ async function executeApplicationWorkflow(applicationId, options = {}) {
   let screenshotPath = path.join(EVIDENCE_DIR, screenshotFilename);
 
   try {
-    // 4. Transition to RUNNING_PRE_SUBMIT
+    // 4. Transition to RUNNING_PRE_SUBMIT with persisted deterministic attempt key
     await transitionApplicationState(
       applicationId,
       APPLICATION_STATES.RUNNING_PRE_SUBMIT,
       'WORKER_DISPATCHED',
-      { mode, workerId: `worker-${process.pid}` }
+      {
+        mode,
+        workerId: `worker-${process.pid}`,
+        submissionAttemptKey,
+        attemptNumber,
+        duplicateKey
+      }
     );
 
     if (options.simulatePreSubmitInterruption) {

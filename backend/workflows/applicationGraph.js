@@ -57,7 +57,7 @@ async function nodeDiscover(state) {
         fromStage: state.currentStage,
         toStage: 'DISCOVER',
         eventType: 'REQUISITION_DISCOVERED',
-        details: { company: state.jobData.company, position: state.jobData.position }
+        details: { company: (state.jobData && state.jobData.company) || 'Unknown', position: (state.jobData && state.jobData.position) || 'Unknown' }
       }
     ]
   };
@@ -189,15 +189,15 @@ async function nodeOptimize(state) {
   const optimized = optimizeResumeForJob(
     {
       name: 'Candidate',
-      skills: state.candidateProfile.skills || [],
-      yearsExp: state.candidateProfile.experienceYears || 0,
+      skills: (state.candidateProfile && state.candidateProfile.skills) || [],
+      yearsExp: (state.candidateProfile && state.candidateProfile.experienceYears) || 0,
       facts
     },
     {
       id: state.jobId || 'job-1',
-      company: state.jobData.company,
-      title: state.jobData.position,
-      requirements: state.jobData.requiredSkills || []
+      company: (state.jobData && state.jobData.company) || 'Target Company',
+      title: (state.jobData && state.jobData.position) || 'Target Role',
+      requirements: (state.jobData && state.jobData.requiredSkills) || []
     }
   );
 
@@ -406,7 +406,7 @@ async function nodePrepareApplication(state) {
   }
 
   // Check for Workday or unsupported conditions
-  const isWorkday = (state.jobData.ats || '').toLowerCase().includes('workday');
+  const isWorkday = (((state.jobData && state.jobData.ats) || '')).toLowerCase().includes('workday');
   if (isWorkday) {
     // Release credit immediately on unsupported portal
     if (creditHeld) {
@@ -535,13 +535,38 @@ async function nodeSubmit(state) {
         tenantId: state.tenantId,
         mode: state.executionMode === 'LIVE' ? 'LIVE' : 'DRY_RUN',
         candidateSecret: process.env.JWT_SECRET || 'rolevia_ai_super_secret_jwt_key_2026_production_ready',
-        customJobUrl: state.jobData.applyUrl || state.jobData.url
+        customJobUrl: (state.jobData && (state.jobData.applyUrl || state.jobData.url)) || undefined
       });
     } else {
       executionResult = {
         confirmed: true,
         confirmationNumber: `DRY-RUN-${Date.now().toString().slice(-6)}`,
         receiptType: 'DRY_RUN_DIAGNOSTIC'
+      };
+    }
+
+    if (executionResult && executionResult.status === 'OUTCOME_UNKNOWN') {
+      return {
+        currentStage: 'SUBMIT',
+        status: 'OUTCOME_UNKNOWN_QUARANTINE',
+        receipt: {
+          confirmed: false,
+          receiptType: 'OUTCOME_UNKNOWN',
+          verifiedAt: timestamp
+        },
+        execution: {
+          ...state.execution,
+          lastError: executionResult.error || 'Submission interrupted or ambiguous outcome'
+        },
+        events: [
+          {
+            timestamp,
+            fromStage: 'PREPARE_APPLICATION',
+            toStage: 'SUBMIT',
+            eventType: 'SUBMISSION_OUTCOME_UNKNOWN_QUARANTINED',
+            details: { reason: executionResult.error || 'Ambiguous outcome' }
+          }
+        ]
       };
     }
 
@@ -590,6 +615,19 @@ async function nodeSubmit(state) {
       ]
     };
   }
+}
+
+/**
+ * Conditional Edge: Check Submit Result
+ */
+function routeAfterSubmit(state) {
+  if (state.status === 'OUTCOME_UNKNOWN_QUARANTINE') {
+    return 'quarantine';
+  }
+  if (state.status === 'FAILED_CONFIRMED') {
+    return 'failed';
+  }
+  return 'verify';
 }
 
 /**
@@ -678,6 +716,19 @@ async function nodeTrack(state) {
 }
 
 /**
+ * Conditional Edge: Check Verification Result
+ */
+function routeAfterVerify(state) {
+  if (state.status === 'OUTCOME_UNKNOWN_QUARANTINE') {
+    return 'quarantine';
+  }
+  if (state.status === 'FAILED_CONFIRMED') {
+    return 'failed';
+  }
+  return 'track';
+}
+
+/**
  * Build and Compile the Application LangGraph Workflow
  */
 function createApplicationWorkflowGraph(checkpointer = new MemorySaver()) {
@@ -721,8 +772,16 @@ function createApplicationWorkflowGraph(checkpointer = new MemorySaver()) {
       resume_prepare: 'node_prepare_application',
       paused: END
     })
-    .addEdge('node_submit', 'node_verify')
-    .addEdge('node_verify', 'node_track')
+    .addConditionalEdges('node_submit', routeAfterSubmit, {
+      verify: 'node_verify',
+      quarantine: END,
+      failed: END
+    })
+    .addConditionalEdges('node_verify', routeAfterVerify, {
+      track: 'node_track',
+      quarantine: END,
+      failed: END
+    })
     .addEdge('node_track', END);
 
   return workflow.compile({ checkpointer });
@@ -745,5 +804,7 @@ module.exports = {
   routeAfterDocumentReview,
   routeAfterAuthorization,
   routeAfterPreparation,
-  routeAfterHumanReview
+  routeAfterHumanReview,
+  routeAfterSubmit,
+  routeAfterVerify
 };
